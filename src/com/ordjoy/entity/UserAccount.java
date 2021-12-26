@@ -2,7 +2,7 @@ package com.ordjoy.entity;
 
 public class UserAccount implements Entity {
 
-    private int id;
+    private Long id;
     private String email;
     private String login;
     private String password;
@@ -23,7 +23,7 @@ public class UserAccount implements Entity {
 
         UserAccount that = (UserAccount) o;
 
-        if (id != that.id) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (email != null ? !email.equals(that.email) : that.email != null) return false;
         if (login != null ? !login.equals(that.login) : that.login != null) return false;
         if (password != null ? !password.equals(that.password) : that.password != null) return false;
@@ -33,7 +33,7 @@ public class UserAccount implements Entity {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (login != null ? login.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
@@ -54,11 +54,11 @@ public class UserAccount implements Entity {
                '}';
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

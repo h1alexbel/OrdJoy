@@ -54,8 +54,6 @@ public class Track implements Entity {
                ", title='" + title + '\'' +
                ", genre=" + genre +
                ", artists=" + artists +
-               ", album=" + album +
-               ", mixes=" + mixes +
                '}';
     }
 

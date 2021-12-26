@@ -4,7 +4,7 @@ import java.util.Set;
 
 public class Mix implements Entity {
 
-    private int id;
+    private Long id;
     private String name;
     private String description;
     private Genre genre;
@@ -21,7 +21,7 @@ public class Mix implements Entity {
 
         Mix mix = (Mix) o;
 
-        if (id != mix.id) return false;
+        if (id != null ? !id.equals(mix.id) : mix.id != null) return false;
         if (name != null ? !name.equals(mix.name) : mix.name != null) return false;
         if (description != null ? !description.equals(mix.description) : mix.description != null) return false;
         if (genre != null ? !genre.equals(mix.genre) : mix.genre != null) return false;
@@ -30,7 +30,7 @@ public class Mix implements Entity {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (genre != null ? genre.hashCode() : 0);
@@ -49,11 +49,11 @@ public class Mix implements Entity {
                '}';
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

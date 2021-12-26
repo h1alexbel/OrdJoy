@@ -2,7 +2,7 @@ package com.ordjoy.entity;
 
 public class Genre implements Entity {
 
-    private int id;
+    private Long id;
     private String name;
 
     public Genre(String name) {
@@ -16,13 +16,13 @@ public class Genre implements Entity {
 
         Genre genre = (Genre) o;
 
-        if (id != genre.id) return false;
+        if (id != null ? !id.equals(genre.id) : genre.id != null) return false;
         return name != null ? name.equals(genre.name) : genre.name == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
@@ -35,11 +35,11 @@ public class Genre implements Entity {
                '}';
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -4,7 +4,7 @@ import java.util.Set;
 
 public class Album implements Entity {
 
-    private int id;
+    private Long id;
     private String title;
     private Genre genre;
     private Set<Track> tracks;
@@ -20,7 +20,7 @@ public class Album implements Entity {
 
         Album album = (Album) o;
 
-        if (id != album.id) return false;
+        if (id != null ? !id.equals(album.id) : album.id != null) return false;
         if (title != null ? !title.equals(album.title) : album.title != null) return false;
         if (genre != null ? !genre.equals(album.genre) : album.genre != null) return false;
         return tracks != null ? tracks.equals(album.tracks) : album.tracks == null;
@@ -28,7 +28,7 @@ public class Album implements Entity {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (genre != null ? genre.hashCode() : 0);
         result = 31 * result + (tracks != null ? tracks.hashCode() : 0);
@@ -45,11 +45,11 @@ public class Album implements Entity {
                '}';
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

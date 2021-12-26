@@ -4,7 +4,7 @@ import java.util.Set;
 
 public class Artist implements Entity {
 
-    private int id;
+    private Long id;
     private String name;
     private Set<Track> tracks;
 
@@ -19,14 +19,14 @@ public class Artist implements Entity {
 
         Artist artist = (Artist) o;
 
-        if (id != artist.id) return false;
+        if (id != null ? !id.equals(artist.id) : artist.id != null) return false;
         if (name != null ? !name.equals(artist.name) : artist.name != null) return false;
         return tracks != null ? tracks.equals(artist.tracks) : artist.tracks == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (tracks != null ? tracks.hashCode() : 0);
         return result;
@@ -37,15 +37,14 @@ public class Artist implements Entity {
         return "Artist{" +
                "id=" + id +
                ", name='" + name + '\'' +
-               ", tracks=" + tracks +
                '}';
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

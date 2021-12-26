@@ -2,7 +2,7 @@ package com.ordjoy.entity;
 
 public class UserAccountData implements Entity {
 
-    private int id;
+    private Long id;
     private String firstName;
     private String lastName;
     private int age;
@@ -21,8 +21,8 @@ public class UserAccountData implements Entity {
 
         UserAccountData that = (UserAccountData) o;
 
-        if (id != that.id) return false;
         if (age != that.age) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
         if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
         return userAccount != null ? userAccount.equals(that.userAccount) : that.userAccount == null;
@@ -30,7 +30,7 @@ public class UserAccountData implements Entity {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + age;
@@ -45,15 +45,14 @@ public class UserAccountData implements Entity {
                ", firstName='" + firstName + '\'' +
                ", lastName='" + lastName + '\'' +
                ", age=" + age +
-               ", userAccount=" + userAccount +
                '}';
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

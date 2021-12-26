@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Order implements Entity {
 
-    private int id;
+    private Long id;
     private BigDecimal price;
     private Long cardNumber;
     private UserAccount userAccount;
@@ -25,7 +25,7 @@ public class Order implements Entity {
 
         Order order = (Order) o;
 
-        if (id != order.id) return false;
+        if (id != null ? !id.equals(order.id) : order.id != null) return false;
         if (price != null ? !price.equals(order.price) : order.price != null) return false;
         if (cardNumber != null ? !cardNumber.equals(order.cardNumber) : order.cardNumber != null) return false;
         if (userAccount != null ? !userAccount.equals(order.userAccount) : order.userAccount != null) return false;
@@ -34,7 +34,7 @@ public class Order implements Entity {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (price != null ? price.hashCode() : 0);
         result = 31 * result + (cardNumber != null ? cardNumber.hashCode() : 0);
         result = 31 * result + (userAccount != null ? userAccount.hashCode() : 0);
@@ -53,11 +53,11 @@ public class Order implements Entity {
                '}';
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
