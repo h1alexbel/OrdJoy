@@ -2,7 +2,7 @@ package com.ordjoy.entity;
 
 import java.util.Set;
 
-public class Mix {
+public class Mix implements Entity {
 
     private int id;
     private String name;

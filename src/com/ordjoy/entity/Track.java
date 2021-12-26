@@ -3,7 +3,7 @@ package com.ordjoy.entity;
 import java.util.List;
 import java.util.Set;
 
-public class Track {
+public class Track implements Entity {
 
     private int id;
     private String songUrl;

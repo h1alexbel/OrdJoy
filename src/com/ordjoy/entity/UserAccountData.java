@@ -1,6 +1,6 @@
 package com.ordjoy.entity;
 
-public class UserAccountData {
+public class UserAccountData implements Entity {
 
     private int id;
     private String firstName;

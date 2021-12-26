@@ -3,7 +3,7 @@ package com.ordjoy.entity;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class Order {
+public class Order implements Entity {
 
     private int id;
     private BigDecimal price;

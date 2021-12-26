@@ -2,7 +2,7 @@ package com.ordjoy.entity;
 
 import java.util.Set;
 
-public class Album {
+public class Album implements Entity {
 
     private int id;
     private String title;

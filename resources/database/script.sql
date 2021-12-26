@@ -7,10 +7,10 @@ CREATE SCHEMA audio_tracks_storage;
 CREATE TABLE user_storage.user_account
 (
     id       SERIAL PRIMARY KEY,
-    email    CHARACTER VARYING(64) UNIQUE                                                                     NOT NULL,
-    login    CHARACTER VARYING(128)                                                                           NOT NULL UNIQUE,
-    password CHARACTER VARYING(128)                                                                           NOT NULL,
-    role     CHARACTER VARYING CHECK (role = 'Admin' OR role = 'Client' OR role = 'admin' OR role = 'client') NOT NULL
+    email    CHARACTER VARYING(64) UNIQUE NOT NULL,
+    login    CHARACTER VARYING(128)       NOT NULL UNIQUE,
+    password CHARACTER VARYING(128)       NOT NULL,
+    role     CHARACTER VARYING            NOT NULL
 );
 
 CREATE TABLE user_storage.user_data
@@ -52,8 +52,7 @@ CREATE TABLE audio_tracks_storage.track
     song_url TEXT NOT NULL UNIQUE,
     title    TEXT NOT NULL,
     genre_id INT REFERENCES audio_tracks_storage.genre (id),
-    album_id INT REFERENCES audio_tracks_storage.album (id),
-    mix_id   INT REFERENCES audio_tracks_storage.mix (id)
+    album_id INT REFERENCES audio_tracks_storage.album (id)
 );
 
 CREATE TABLE user_storage.order

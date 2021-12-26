@@ -1,6 +1,6 @@
 package com.ordjoy.entity;
 
-public class Genre {
+public class Genre implements Entity {
 
     private int id;
     private String name;
