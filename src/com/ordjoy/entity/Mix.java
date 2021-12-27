@@ -14,6 +14,9 @@ public class Mix implements Entity {
         this.name = name;
     }
 
+    public Mix() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -16,6 +16,17 @@ public class UserAccount implements Entity {
         this.userRole = userRole;
     }
 
+    public UserAccount() {
+    }
+
+    public UserAccount(Long id, String email, String login, String password, UserRole userRole) {
+        this.id = id;
+        this.email = email;
+        this.login = login;
+        this.password = password;
+        this.userRole = userRole;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

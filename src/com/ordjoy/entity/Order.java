@@ -18,6 +18,9 @@ public class Order implements Entity {
         this.tracks = tracks;
     }
 
+    public Order() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

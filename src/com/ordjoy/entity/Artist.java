@@ -12,6 +12,9 @@ public class Artist implements Entity {
         this.name = name;
     }
 
+    public Artist() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

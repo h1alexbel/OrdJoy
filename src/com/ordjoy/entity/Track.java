@@ -18,6 +18,9 @@ public class Track implements Entity {
         this.title = title;
     }
 
+    public Track() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

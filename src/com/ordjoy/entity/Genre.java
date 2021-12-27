@@ -9,6 +9,9 @@ public class Genre implements Entity {
         this.name = name;
     }
 
+    public Genre() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
