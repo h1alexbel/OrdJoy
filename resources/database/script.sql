@@ -15,15 +15,13 @@ CREATE TABLE user_storage.user_account
 
 CREATE TABLE user_storage.user_data
 (
-    id              BIGSERIAL PRIMARY KEY,
+
     first_name      CHARACTER VARYING(64) NOT NULL,
     last_name       CHARACTER VARYING(64) NOT NULL,
     age             INT                   NOT NULL,
-    user_account_id BIGINT REFERENCES user_storage.user_account (id)
+    user_account_id BIGINT REFERENCES user_storage.user_account (id),
+    PRIMARY KEY (user_account_id)
 );
-
-ALTER TABLE user_storage.user_account
-    ADD CONSTRAINT user_data_id FOREIGN KEY (id) REFERENCES user_storage.user_data;
 
 CREATE TABLE audio_tracks_storage.genre
 (
