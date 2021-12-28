@@ -56,6 +56,7 @@ public class UserAccountData implements Entity {
                ", firstName='" + firstName + '\'' +
                ", lastName='" + lastName + '\'' +
                ", age=" + age +
+               ", userAccount=" + userAccount +
                '}';
     }
 

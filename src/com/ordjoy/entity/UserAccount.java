@@ -7,7 +7,6 @@ public class UserAccount implements Entity {
     private String login;
     private String password;
     private UserRole userRole;
-    private UserAccountData userAccountData;
 
     public UserAccount(String email, String login, String password, UserRole userRole) {
         this.email = email;
@@ -38,8 +37,7 @@ public class UserAccount implements Entity {
         if (email != null ? !email.equals(that.email) : that.email != null) return false;
         if (login != null ? !login.equals(that.login) : that.login != null) return false;
         if (password != null ? !password.equals(that.password) : that.password != null) return false;
-        if (userRole != that.userRole) return false;
-        return userAccountData != null ? userAccountData.equals(that.userAccountData) : that.userAccountData == null;
+        return userRole == that.userRole;
     }
 
     @Override
@@ -49,7 +47,6 @@ public class UserAccount implements Entity {
         result = 31 * result + (login != null ? login.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (userRole != null ? userRole.hashCode() : 0);
-        result = 31 * result + (userAccountData != null ? userAccountData.hashCode() : 0);
         return result;
     }
 
@@ -61,7 +58,6 @@ public class UserAccount implements Entity {
                ", login='" + login + '\'' +
                ", password='" + password + '\'' +
                ", userRole=" + userRole +
-               ", userAccountData=" + userAccountData +
                '}';
     }
 
@@ -103,13 +99,5 @@ public class UserAccount implements Entity {
 
     public void setUserRole(UserRole userRole) {
         this.userRole = userRole;
-    }
-
-    public UserAccountData getUserAccountData() {
-        return userAccountData;
-    }
-
-    public void setUserAccountData(UserAccountData userAccountData) {
-        this.userAccountData = userAccountData;
     }
 }
