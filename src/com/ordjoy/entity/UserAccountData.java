@@ -2,20 +2,12 @@ package com.ordjoy.entity;
 
 public class UserAccountData implements Entity {
 
-    private Long id;
     private String firstName;
     private String lastName;
     private int age;
     private UserAccount userAccount;
 
-    public UserAccountData(String firstName, String lastName, int age) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.age = age;
-    }
-
-    public UserAccountData(Long id, String firstName, String lastName, int age, UserAccount userAccount) {
-        this.id = id;
+    public UserAccountData(String firstName, String lastName, int age, UserAccount userAccount) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -33,7 +25,6 @@ public class UserAccountData implements Entity {
         UserAccountData that = (UserAccountData) o;
 
         if (age != that.age) return false;
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
         if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
         return userAccount != null ? userAccount.equals(that.userAccount) : that.userAccount == null;
@@ -41,8 +32,7 @@ public class UserAccountData implements Entity {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        int result = firstName != null ? firstName.hashCode() : 0;
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + age;
         result = 31 * result + (userAccount != null ? userAccount.hashCode() : 0);
@@ -52,20 +42,11 @@ public class UserAccountData implements Entity {
     @Override
     public String toString() {
         return "UserAccountData{" +
-               "id=" + id +
-               ", firstName='" + firstName + '\'' +
+               "firstName='" + firstName + '\'' +
                ", lastName='" + lastName + '\'' +
                ", age=" + age +
                ", userAccount=" + userAccount +
                '}';
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getFirstName() {
