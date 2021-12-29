@@ -4,13 +4,13 @@ import com.ordjoy.entity.Entity;
 
 import java.util.Optional;
 
-public interface GenericDao<T extends Entity> {
+public interface GenericDao<K, E extends Entity> {
 
-    Optional<T> findById(Long id);
+    Optional<E> findById(K id);
 
-    Optional<T> findByName(String name);
+    Optional<E> findByName(String name);
 
-    void update(T entity);
+    void update(E entity);
 
-    boolean deleteById(Long id);
+    boolean deleteById(K id);
 }

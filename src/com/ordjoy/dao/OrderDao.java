@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-public interface OrderDao extends GenericDao<Order> {
+public interface OrderDao extends GenericDao<Long, Order> {
 
     Order saveOrder(Order order);
 
