@@ -14,6 +14,12 @@ public class UserAccountData implements Entity {
         this.userAccount = userAccount;
     }
 
+    public UserAccountData(String firstName, String lastName, int age) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+    }
+
     public UserAccountData() {
     }
 
