@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+import static com.ordjoy.utils.ExceptionMessageUtils.*;
+
 public final class ConnectionManager {
 
     private static final String URL_KEY = "db.url";
@@ -34,7 +36,7 @@ public final class ConnectionManager {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            throw new DBException(e);
+            throw new DBException(DATABASE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 
@@ -42,7 +44,7 @@ public final class ConnectionManager {
         try {
             return pool.take();
         } catch (InterruptedException e) {
-            throw new DBException(e);
+            throw new DBException(DATABASE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 
@@ -68,7 +70,7 @@ public final class ConnectionManager {
             try {
                 sourceConnection.close();
             } catch (SQLException e) {
-                throw new DBException(e);
+                throw new DBException(DATABASE_LAYER_EXCEPTION_MESSAGE, e);
             }
         }
     }
@@ -81,7 +83,7 @@ public final class ConnectionManager {
                     PropertiesManager.getPropertyByKey(PASSWORD_KEY)
             );
         } catch (SQLException e) {
-            throw new DBException(e);
+            throw new DBException(DATABASE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 }

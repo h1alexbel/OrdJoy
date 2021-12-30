@@ -20,7 +20,7 @@ public interface OrderDao extends GenericDao<Long, Order> {
 
     Optional<List<Order>> findOrdersByUserAccountId(Long userId, OrderFilter filter);
 
-    Order saveOrderWithUserAccount(Order order, UserAccount userAccount);
-
     List<Order> findAll(OrderFilter filter);
+
+    Order saveOrderWithUserAccount(Order order, UserAccount userAccount);
 }

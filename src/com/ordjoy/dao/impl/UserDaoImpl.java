@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.ordjoy.utils.ExceptionMessageUtils.*;
 import static java.util.stream.Collectors.*;
 
 public class UserDaoImpl implements UserDao {
@@ -112,7 +113,7 @@ public class UserDaoImpl implements UserDao {
             }
             return userAccount;
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 
@@ -128,7 +129,7 @@ public class UserDaoImpl implements UserDao {
             }
             return Optional.ofNullable(userAccount);
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 
@@ -143,7 +144,7 @@ public class UserDaoImpl implements UserDao {
             updateStatement.setLong(5, userAccount.getId());
             updateStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 
@@ -154,7 +155,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setLong(1, id);
             return preparedStatement.executeUpdate() == 1;
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 
@@ -170,7 +171,7 @@ public class UserDaoImpl implements UserDao {
             }
             return Optional.ofNullable(userAccount);
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 
@@ -186,7 +187,7 @@ public class UserDaoImpl implements UserDao {
             }
             return Optional.ofNullable(userAccount);
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 
@@ -219,7 +220,7 @@ public class UserDaoImpl implements UserDao {
             }
             return accounts;
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 
@@ -264,7 +265,7 @@ public class UserDaoImpl implements UserDao {
             try {
                 connection.rollback();
             } catch (SQLException throwables) {
-                throw new DaoException(throwables);
+                throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, throwables);
             }
             throw new DaoException(e);
         } finally {
@@ -286,7 +287,7 @@ public class UserDaoImpl implements UserDao {
             updateDataStatement.setLong(5, userAccountData.getUserAccount().getId());
             updateDataStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 
@@ -302,7 +303,7 @@ public class UserDaoImpl implements UserDao {
             }
             return Optional.ofNullable(accountData);
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 
