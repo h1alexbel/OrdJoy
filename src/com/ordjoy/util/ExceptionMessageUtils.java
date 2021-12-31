@@ -1,4 +1,4 @@
-package com.ordjoy.utils;
+package com.ordjoy.util;
 
 public final class ExceptionMessageUtils {
 

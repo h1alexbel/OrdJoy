@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.ordjoy.utils.ExceptionMessageUtils.*;
+import static com.ordjoy.util.ExceptionMessageUtils.*;
 import static java.util.stream.Collectors.*;
 
 public class UserDaoImpl implements UserDao {

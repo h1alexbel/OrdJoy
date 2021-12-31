@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import static com.ordjoy.utils.ExceptionMessageUtils.*;
+import static com.ordjoy.util.ExceptionMessageUtils.*;
 
 public final class ConnectionManager {
 
