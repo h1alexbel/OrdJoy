@@ -1,6 +1,6 @@
 package com.ordjoy.dao;
 
-import com.ordjoy.dto.TrackFilter;
+import com.ordjoy.filter.TrackFilter;
 import com.ordjoy.entity.*;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.ordjoy.dto;
+package com.ordjoy.filter;
 
 import java.math.BigDecimal;
 

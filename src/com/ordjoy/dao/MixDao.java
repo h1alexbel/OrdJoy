@@ -1,6 +1,6 @@
 package com.ordjoy.dao;
 
-import com.ordjoy.dto.MixFilter;
+import com.ordjoy.filter.MixFilter;
 import com.ordjoy.entity.Mix;
 import com.ordjoy.entity.Track;
 

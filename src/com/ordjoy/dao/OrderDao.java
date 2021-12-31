@@ -1,6 +1,6 @@
 package com.ordjoy.dao;
 
-import com.ordjoy.dto.OrderFilter;
+import com.ordjoy.filter.OrderFilter;
 import com.ordjoy.entity.Order;
 import com.ordjoy.entity.UserAccount;
 

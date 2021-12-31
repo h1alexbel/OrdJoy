@@ -1,6 +1,6 @@
 package com.ordjoy.dao;
 
-import com.ordjoy.dto.AlbumFilter;
+import com.ordjoy.filter.AlbumFilter;
 import com.ordjoy.entity.Album;
 import com.ordjoy.entity.Track;
 

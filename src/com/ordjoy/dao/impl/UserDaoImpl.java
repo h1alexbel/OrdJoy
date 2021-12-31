@@ -2,7 +2,7 @@ package com.ordjoy.dao.impl;
 
 import com.ordjoy.dao.UserDao;
 import com.ordjoy.dbconnection.ConnectionManager;
-import com.ordjoy.dto.UserAccountFilter;
+import com.ordjoy.filter.UserAccountFilter;
 import com.ordjoy.entity.UserAccount;
 import com.ordjoy.entity.UserAccountData;
 import com.ordjoy.entity.UserRole;
