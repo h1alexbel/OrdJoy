@@ -31,23 +31,14 @@ public class UserAccount implements Entity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UserAccount that = (UserAccount) o;
+        UserAccount account = (UserAccount) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (email != null ? !email.equals(that.email) : that.email != null) return false;
-        if (login != null ? !login.equals(that.login) : that.login != null) return false;
-        if (password != null ? !password.equals(that.password) : that.password != null) return false;
-        return userRole == that.userRole;
+        return id != null ? id.equals(account.id) : account.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (login != null ? login.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (userRole != null ? userRole.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 
     @Override

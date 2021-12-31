@@ -19,15 +19,12 @@ public class Genre implements Entity {
 
         Genre genre = (Genre) o;
 
-        if (id != null ? !id.equals(genre.id) : genre.id != null) return false;
-        return name != null ? name.equals(genre.name) : genre.name == null;
+        return id != null ? id.equals(genre.id) : genre.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 
     @Override

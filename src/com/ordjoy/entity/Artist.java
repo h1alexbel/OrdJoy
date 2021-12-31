@@ -22,17 +22,12 @@ public class Artist implements Entity {
 
         Artist artist = (Artist) o;
 
-        if (id != null ? !id.equals(artist.id) : artist.id != null) return false;
-        if (name != null ? !name.equals(artist.name) : artist.name != null) return false;
-        return tracks != null ? tracks.equals(artist.tracks) : artist.tracks == null;
+        return id != null ? id.equals(artist.id) : artist.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (tracks != null ? tracks.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 
     @Override

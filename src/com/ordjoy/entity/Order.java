@@ -28,21 +28,12 @@ public class Order implements Entity {
 
         Order order = (Order) o;
 
-        if (id != null ? !id.equals(order.id) : order.id != null) return false;
-        if (price != null ? !price.equals(order.price) : order.price != null) return false;
-        if (cardNumber != null ? !cardNumber.equals(order.cardNumber) : order.cardNumber != null) return false;
-        if (userAccount != null ? !userAccount.equals(order.userAccount) : order.userAccount != null) return false;
-        return tracks != null ? tracks.equals(order.tracks) : order.tracks == null;
+        return id != null ? id.equals(order.id) : order.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (price != null ? price.hashCode() : 0);
-        result = 31 * result + (cardNumber != null ? cardNumber.hashCode() : 0);
-        result = 31 * result + (userAccount != null ? userAccount.hashCode() : 0);
-        result = 31 * result + (tracks != null ? tracks.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 
     @Override

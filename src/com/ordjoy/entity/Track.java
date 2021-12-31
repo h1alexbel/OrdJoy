@@ -28,25 +28,12 @@ public class Track implements Entity {
 
         Track track = (Track) o;
 
-        if (id != track.id) return false;
-        if (songUrl != null ? !songUrl.equals(track.songUrl) : track.songUrl != null) return false;
-        if (title != null ? !title.equals(track.title) : track.title != null) return false;
-        if (genre != null ? !genre.equals(track.genre) : track.genre != null) return false;
-        if (artists != null ? !artists.equals(track.artists) : track.artists != null) return false;
-        if (album != null ? !album.equals(track.album) : track.album != null) return false;
-        return mixes != null ? mixes.equals(track.mixes) : track.mixes == null;
+        return id == track.id;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (songUrl != null ? songUrl.hashCode() : 0);
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (genre != null ? genre.hashCode() : 0);
-        result = 31 * result + (artists != null ? artists.hashCode() : 0);
-        result = 31 * result + (album != null ? album.hashCode() : 0);
-        result = 31 * result + (mixes != null ? mixes.hashCode() : 0);
-        return result;
+        return id;
     }
 
     @Override

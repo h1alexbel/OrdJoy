@@ -24,21 +24,12 @@ public class Mix implements Entity {
 
         Mix mix = (Mix) o;
 
-        if (id != null ? !id.equals(mix.id) : mix.id != null) return false;
-        if (name != null ? !name.equals(mix.name) : mix.name != null) return false;
-        if (description != null ? !description.equals(mix.description) : mix.description != null) return false;
-        if (genre != null ? !genre.equals(mix.genre) : mix.genre != null) return false;
-        return tracks != null ? tracks.equals(mix.tracks) : mix.tracks == null;
+        return id != null ? id.equals(mix.id) : mix.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (genre != null ? genre.hashCode() : 0);
-        result = 31 * result + (tracks != null ? tracks.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 
     @Override

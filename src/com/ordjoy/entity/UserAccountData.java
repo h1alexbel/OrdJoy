@@ -30,19 +30,12 @@ public class UserAccountData implements Entity {
 
         UserAccountData that = (UserAccountData) o;
 
-        if (age != that.age) return false;
-        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
-        return userAccount != null ? userAccount.equals(that.userAccount) : that.userAccount == null;
+        return firstName != null ? firstName.equals(that.firstName) : that.firstName == null;
     }
 
     @Override
     public int hashCode() {
-        int result = firstName != null ? firstName.hashCode() : 0;
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + age;
-        result = 31 * result + (userAccount != null ? userAccount.hashCode() : 0);
-        return result;
+        return firstName != null ? firstName.hashCode() : 0;
     }
 
     @Override

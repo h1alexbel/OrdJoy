@@ -23,19 +23,12 @@ public class Album implements Entity {
 
         Album album = (Album) o;
 
-        if (id != null ? !id.equals(album.id) : album.id != null) return false;
-        if (title != null ? !title.equals(album.title) : album.title != null) return false;
-        if (genre != null ? !genre.equals(album.genre) : album.genre != null) return false;
-        return tracks != null ? tracks.equals(album.tracks) : album.tracks == null;
+        return id != null ? id.equals(album.id) : album.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (genre != null ? genre.hashCode() : 0);
-        result = 31 * result + (tracks != null ? tracks.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 
     @Override
