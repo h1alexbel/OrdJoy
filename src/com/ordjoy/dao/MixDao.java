@@ -1,5 +1,6 @@
 package com.ordjoy.dao;
 
+import com.ordjoy.entity.Genre;
 import com.ordjoy.filter.MixFilter;
 import com.ordjoy.entity.Mix;
 import com.ordjoy.entity.Track;
@@ -10,6 +11,8 @@ import java.util.Optional;
 public interface MixDao extends GenericDao<Long, Track> {
 
     Mix saveMix(Mix mix);
+
+    Genre saveGenre(Genre genre);
 
     Mix saveMixWithTracks(Mix mix, List<Track> tracks);
 

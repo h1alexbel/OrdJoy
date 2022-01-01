@@ -10,6 +10,19 @@ public class Mix implements Entity {
     private Genre genre;
     private Set<Track> tracks;
 
+    public Mix(Long id, String name, String description, Genre genre) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.genre = genre;
+    }
+
+    public Mix(String name, String description, Genre genre) {
+        this.name = name;
+        this.description = description;
+        this.genre = genre;
+    }
+
     public Mix(String name) {
         this.name = name;
     }
