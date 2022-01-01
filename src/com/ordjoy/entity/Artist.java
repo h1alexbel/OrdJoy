@@ -8,6 +8,17 @@ public class Artist implements Entity {
     private String name;
     private Set<Track> tracks;
 
+    public Artist(Long id, String name, Set<Track> tracks) {
+        this.id = id;
+        this.name = name;
+        this.tracks = tracks;
+    }
+
+    public Artist(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Artist(String name) {
         this.name = name;
     }
