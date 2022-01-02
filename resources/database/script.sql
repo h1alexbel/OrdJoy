@@ -82,3 +82,20 @@ CREATE TABLE audio_tracks_storage.track_mixes
     mix_id   BIGINT REFERENCES audio_tracks_storage.mix (id),
     PRIMARY KEY (track_id, mix_id)
 );
+
+INSERT INTO audio_tracks_storage.genre (name)
+VALUES ('Pop'),
+       ('Dance/Electronic'),
+       ('Hip-Hop and Rap'),
+       ('R&B'),
+       ('Latin'),
+       ('Rock'),
+       ('Metal'),
+       ('Country'),
+       ('Folk/Acoustic'),
+       ('Jazz'),
+       ('Classical'),
+       ('New Age'),
+       ('Blues'),
+       ('World/Traditional'),
+       ('Easy Listening');
