@@ -3,9 +3,9 @@ package com.ordjoy.entity;
 public class Genre implements Entity {
 
     private Long id;
-    private String name;
+    private GenreList name;
 
-    public Genre(String name) {
+    public Genre(GenreList name) {
         this.name = name;
     }
 
@@ -43,11 +43,11 @@ public class Genre implements Entity {
         this.id = id;
     }
 
-    public String getName() {
+    public GenreList getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(GenreList name) {
         this.name = name;
     }
 }
