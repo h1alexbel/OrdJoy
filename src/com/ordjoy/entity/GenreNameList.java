@@ -1,6 +1,6 @@
 package com.ordjoy.entity;
 
-public enum GenreList {
+public enum GenreNameList {
 
     POP("Pop"),
     DANCE_ELECTRONIC("Dance/Electronic"),
@@ -20,7 +20,7 @@ public enum GenreList {
 
     private final String genreName;
 
-    GenreList(String genreName) {
+    GenreNameList(String genreName) {
         this.genreName = genreName;
     }
 
