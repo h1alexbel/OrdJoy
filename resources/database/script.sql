@@ -26,7 +26,7 @@ CREATE TABLE user_storage.user_data
 CREATE TABLE audio_tracks_storage.genre
 (
     id   BIGSERIAL PRIMARY KEY,
-    name CHARACTER VARYING(64) NOT NULL
+    name CHARACTER VARYING(64) UNIQUE
 );
 
 CREATE TABLE audio_tracks_storage.album
