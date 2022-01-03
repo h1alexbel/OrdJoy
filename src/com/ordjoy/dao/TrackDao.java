@@ -13,6 +13,8 @@ public interface TrackDao extends GenericDao<Long, Track> {
 
     Track saveTrackWithArtists(Track track, List<Artist> artists);
 
+    Mix saveTrackInMix(Mix mix, Track track, Album album);
+
     List<Track> findAll(TrackFilter filter);
 
     Optional<List<Track>> findTracksByGenreId(Long genreId, TrackFilter filter);

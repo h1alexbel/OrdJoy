@@ -84,18 +84,18 @@ CREATE TABLE audio_tracks_storage.track_mixes
 );
 
 INSERT INTO audio_tracks_storage.genre (name)
-VALUES ('Pop'),
-       ('Dance/Electronic'),
-       ('Hip-Hop and Rap'),
-       ('R&B'),
-       ('Latin'),
-       ('Rock'),
-       ('Metal'),
-       ('Country'),
-       ('Folk/Acoustic'),
-       ('Jazz'),
-       ('Classical'),
-       ('New Age'),
-       ('Blues'),
-       ('World/Traditional'),
-       ('Easy Listening');
+VALUES ('POP'),
+       ('ELECTRONIC'),
+       ('RAP'),
+       ('RB'),
+       ('LATIN'),
+       ('ROCK'),
+       ('METAL'),
+       ('COUNTRY'),
+       ('FOLK'),
+       ('JAZZ'),
+       ('CLASSICAL'),
+       ('NEW_AGE'),
+       ('BLUES'),
+       ('TRADITIONAL'),
+       ('EASY_LISTENING');

@@ -3,13 +3,15 @@ package com.ordjoy.entity;
 public class Genre implements Entity {
 
     private Long id;
-    private GenreNameList name;
+    private GenreType name;
 
-    public Genre(GenreNameList name) {
+    public Genre(GenreType name) {
         this.name = name;
     }
 
-    public Genre() {
+    public Genre(Long id, GenreType name) {
+        this.id = id;
+        this.name = name;
     }
 
     @Override
@@ -43,11 +45,11 @@ public class Genre implements Entity {
         this.id = id;
     }
 
-    public GenreNameList getName() {
+    public GenreType getName() {
         return name;
     }
 
-    public void setName(GenreNameList name) {
+    public void setName(GenreType name) {
         this.name = name;
     }
 }

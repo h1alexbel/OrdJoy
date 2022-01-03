@@ -1,9 +1,8 @@
 package com.ordjoy.filter;
 
-import com.ordjoy.entity.Genre;
+import com.ordjoy.entity.GenreType;
 
 public record MixFilter(int limit,
                         int offset,
-                        Genre genre,
-                        String description) {
+                        GenreType genreType) {
 }
