@@ -1,7 +1,7 @@
 package com.ordjoy.dao.impl;
 
 import com.ordjoy.dao.ArtistDao;
-import com.ordjoy.dbconnection.ConnectionManager;
+import com.ordjoy.util.ConnectionManager;
 import com.ordjoy.exception.DaoException;
 import com.ordjoy.filter.ArtistFilter;
 import com.ordjoy.entity.Artist;
