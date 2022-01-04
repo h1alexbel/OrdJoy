@@ -101,7 +101,7 @@ public class MixDaoImpl implements MixDao {
             """;
 
     @Override
-    public Mix saveMix(Mix mix) {
+    public Mix save(Mix mix) {
         try (Connection connection = ConnectionManager.get();
              PreparedStatement saveMixStatement = connection.prepareStatement(SQL_SAVE_MIX, Statement.RETURN_GENERATED_KEYS);
              PreparedStatement selectIdStatement = connection.prepareStatement(SQL_FIND_GENRE_ID)) {

@@ -9,8 +9,6 @@ import java.util.Set;
 
 public interface TrackDao extends GenericDao<Long, Track> {
 
-    Track saveOrder(Track track);
-
     Track saveTrackWithArtists(Track track, List<Artist> artists);
 
     Mix saveTrackInMix(Mix mix, Track track, Album album);

@@ -99,7 +99,7 @@ public class UserDaoImpl implements UserDao {
             """;
 
     @Override
-    public UserAccount saveUser(UserAccount userAccount) {
+    public UserAccount save(UserAccount userAccount) {
         try (Connection connection = ConnectionManager.get();
              PreparedStatement saveUserStatement = connection.prepareStatement(SQL_SAVE_USER, Statement.RETURN_GENERATED_KEYS)) {
             saveUserStatement.setString(1, userAccount.getEmail());

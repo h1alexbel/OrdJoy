@@ -13,4 +13,6 @@ public interface GenericDao<K, E extends Entity> {
     void update(E entity);
 
     boolean deleteById(K id);
+
+    E save(E entity);
 }

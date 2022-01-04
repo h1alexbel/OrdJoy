@@ -60,7 +60,7 @@ public class ArtistDaoImpl implements ArtistDao {
             """;
 
     @Override
-    public Artist saveArtist(Artist artist) {
+    public Artist save(Artist artist) {
         try (Connection connection = ConnectionManager.get();
              PreparedStatement saveArtistStatement = connection.prepareStatement(SQL_SAVE_ARTIST, Statement.RETURN_GENERATED_KEYS)) {
             saveArtistStatement.setString(1, artist.getName());

@@ -29,11 +29,18 @@ CREATE TABLE audio_tracks_storage.genre
     name CHARACTER VARYING(64) UNIQUE
 );
 
+CREATE TABLE audio_tracks_storage.artist
+(
+    id   BIGSERIAL PRIMARY KEY,
+    name CHARACTER VARYING(64) UNIQUE NOT NULL
+);
+
 CREATE TABLE audio_tracks_storage.album
 (
-    id       BIGSERIAL PRIMARY KEY,
-    title    CHARACTER VARYING(128) NOT NULL,
-    genre_id BIGINT REFERENCES audio_tracks_storage.genre (id)
+    id        BIGSERIAL PRIMARY KEY,
+    title     CHARACTER VARYING(128) NOT NULL,
+    genre_id  BIGINT REFERENCES audio_tracks_storage.genre (id),
+    artist_id BIGINT REFERENCES audio_tracks_storage.artist (id)
 );
 
 CREATE TABLE audio_tracks_storage.mix
@@ -61,12 +68,6 @@ CREATE TABLE user_storage.order
     card_number     BIGINT  NOT NULL,
     user_account_id BIGINT REFERENCES user_storage.user_account (id),
     track_id        BIGINT REFERENCES audio_tracks_storage.track (id)
-);
-
-CREATE TABLE audio_tracks_storage.artist
-(
-    id   BIGSERIAL PRIMARY KEY,
-    name CHARACTER VARYING(64) UNIQUE NOT NULL
 );
 
 CREATE TABLE audio_tracks_storage.artist_tracks

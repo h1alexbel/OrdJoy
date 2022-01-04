@@ -10,8 +10,6 @@ import java.util.Optional;
 
 public interface OrderDao extends GenericDao<Long, Order> {
 
-    Order saveOrder(Order order);
-
     Optional<List<Order>> findOrdersByPrice(BigDecimal price, OrderFilter filter);
 
     Optional<List<Order>> findOrdersByTrackId(Long trackId, OrderFilter filter);

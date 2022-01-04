@@ -7,10 +7,29 @@ public class Album implements Entity {
     private Long id;
     private String title;
     private Genre genre;
+    private Artist artist;
     private Set<Track> tracks;
 
     public Album(String title) {
         this.title = title;
+    }
+
+    public Album(String title, Genre genre) {
+        this.title = title;
+        this.genre = genre;
+    }
+
+    public Album(String title, Genre genre, Artist artist) {
+        this.title = title;
+        this.genre = genre;
+        this.artist = artist;
+    }
+
+    public Album(String title, Genre genre, Set<Track> tracks, Artist artist) {
+        this.title = title;
+        this.genre = genre;
+        this.tracks = tracks;
+        this.artist = artist;
     }
 
     public Album() {
@@ -38,7 +57,16 @@ public class Album implements Entity {
                ", title='" + title + '\'' +
                ", genre=" + genre +
                ", tracks=" + tracks +
+               ", artist=" + artist +
                '}';
+    }
+
+    public Artist getArtist() {
+        return artist;
+    }
+
+    public void setArtist(Artist artist) {
+        this.artist = artist;
     }
 
     public Long getId() {
