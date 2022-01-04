@@ -57,7 +57,7 @@ CREATE TABLE audio_tracks_storage.track
     song_url TEXT NOT NULL UNIQUE,
     title    TEXT NOT NULL,
     genre_id BIGINT REFERENCES audio_tracks_storage.genre (id),
-    album_id BIGINT REFERENCES audio_tracks_storage.album (id)
+    album_id BIGINT REFERENCES audio_tracks_storage.album (id) ON DELETE CASCADE
 );
 
 CREATE TABLE user_storage.order
