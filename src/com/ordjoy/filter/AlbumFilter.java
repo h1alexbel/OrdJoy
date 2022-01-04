@@ -1,8 +1,9 @@
 package com.ordjoy.filter;
 
-import com.ordjoy.entity.Genre;
+import com.ordjoy.entity.GenreType;
 
 public record AlbumFilter(int limit,
                           int offset,
-                          Genre genre) {
+                          GenreType genreType,
+                          String artistName) {
 }
