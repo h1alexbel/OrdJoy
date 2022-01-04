@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class Track implements Entity {
 
-    private int id;
+    private Long id;
     private String songUrl;
     private String title;
     private Genre genre;
@@ -28,12 +28,12 @@ public class Track implements Entity {
 
         Track track = (Track) o;
 
-        return id == track.id;
+        return id != null ? id.equals(track.id) : track.id == null;
     }
 
     @Override
     public int hashCode() {
-        return id;
+        return id != null ? id.hashCode() : 0;
     }
 
     @Override
@@ -47,11 +47,11 @@ public class Track implements Entity {
                '}';
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
