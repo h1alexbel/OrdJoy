@@ -56,7 +56,7 @@ CREATE TABLE audio_tracks_storage.track
     id       BIGSERIAL PRIMARY KEY,
     song_url TEXT NOT NULL UNIQUE,
     title    TEXT NOT NULL,
-    genre_id BIGINT REFERENCES audio_tracks_storage.genre (id),
+    genre_id BIGINT REFERENCES audio_tracks_storage.genre (id) ON DELETE CASCADE,
     album_id BIGINT REFERENCES audio_tracks_storage.album (id) ON DELETE CASCADE
 );
 
@@ -72,15 +72,15 @@ CREATE TABLE user_storage.order
 
 CREATE TABLE audio_tracks_storage.artist_tracks
 (
-    artist_id BIGINT REFERENCES audio_tracks_storage.artist (id),
-    track_id  BIGINT REFERENCES audio_tracks_storage.track (id),
+    artist_id BIGINT REFERENCES audio_tracks_storage.artist (id) ON DELETE CASCADE,
+    track_id  BIGINT REFERENCES audio_tracks_storage.track (id) ON DELETE CASCADE,
     PRIMARY KEY (artist_id, track_id)
 );
 
 CREATE TABLE audio_tracks_storage.track_mixes
 (
-    track_id BIGINT REFERENCES audio_tracks_storage.track (id),
-    mix_id   BIGINT REFERENCES audio_tracks_storage.mix (id),
+    track_id BIGINT REFERENCES audio_tracks_storage.track (id) ON DELETE CASCADE,
+    mix_id   BIGINT REFERENCES audio_tracks_storage.mix (id) ON DELETE CASCADE,
     PRIMARY KEY (track_id, mix_id)
 );
 
