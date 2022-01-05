@@ -10,11 +10,9 @@ import java.util.Set;
 
 public interface TrackDao extends GenericDao<Long, Track> {
 
-    Track saveTrack(Track trackToSave, Album albumThatExists, Artist artistThatExists);
+    Track saveTrackInExistingAlbum(Track trackToSave, Album albumThatExists, Artist artistThatExists);
 
-    Album saveTrackInAlbum(Track trackToSave, Album albumThatExists, Artist artistThatExists);
-
-    Mix saveTrackInMix(Track trackToSave, Album trackAlbumToSave, Mix mixThatExists, Artist artistThatExists);
+    Mix saveTrackInExistingMix(Track trackToSave, Album trackAlbumToSave, Mix mixThatExists, Artist artistThatExists);
 
     List<Track> findAll(TrackFilter filter);
 
