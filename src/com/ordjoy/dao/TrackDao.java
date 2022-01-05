@@ -1,5 +1,6 @@
 package com.ordjoy.dao;
 
+import com.ordjoy.filter.DefaultFilter;
 import com.ordjoy.filter.TrackFilter;
 import com.ordjoy.entity.*;
 
@@ -9,23 +10,23 @@ import java.util.Set;
 
 public interface TrackDao extends GenericDao<Long, Track> {
 
-    Track saveTrackWithArtists(Track track, List<Artist> artists);
+    Track saveTrack(Track trackToSave, Album albumThatExists, Artist artistThatExists);
 
-    Mix saveTrackInMix(Mix mix, Track track, Album album);
+    Album saveTrackInAlbum(Track trackToSave, Album albumThatExists, Artist artistThatExists);
 
-    Album saveTrackInAlbum(Album album, Track track);
+    Mix saveTrackInMix(Track trackToSave, Album trackAlbumToSave, Mix mixThatExists, Artist artistThatExists);
 
     List<Track> findAll(TrackFilter filter);
 
-    Optional<List<Track>> findTracksByGenreId(Long genreId, TrackFilter filter);
+    Optional<List<Track>> findTracksByGenreId(Long genreId, DefaultFilter filter);
 
-    Optional<List<Track>> findTracksByGenreName(String genreName, TrackFilter filter);
+    Optional<List<Track>> findTracksByGenreName(String genreName, DefaultFilter filter);
 
-    Optional<Set<Track>> findTracksByAlbumId(Long albumId, TrackFilter filter);
+    Optional<Set<Track>> findTracksByAlbumId(Long albumId, DefaultFilter filter);
 
-    Optional<Set<Track>> findTracksByAlbumName(String albumName, TrackFilter filter);
+    Optional<Set<Track>> findTracksByAlbumName(String albumName, DefaultFilter filter);
 
-    Optional<List<Track>> findTracksByArtistId(Long artistId, TrackFilter filter);
+    Optional<List<Track>> findTracksByArtistId(Long artistId, DefaultFilter filter);
 
-    Optional<List<Track>> findTracksByArtistName(String artistName, TrackFilter filter);
+    Optional<List<Track>> findTracksByArtistName(String artistName, DefaultFilter filter);
 }

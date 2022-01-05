@@ -9,6 +9,8 @@ import java.util.Optional;
 
 public interface UserDao extends GenericDao<Long, UserAccount> {
 
+    UserAccount saveUserAccount(UserAccount userAccount);
+
     UserAccount saveUserWithAccountData(UserAccount userAccount, UserAccountData userAccountData);
 
     void updateData(UserAccountData userAccountData);

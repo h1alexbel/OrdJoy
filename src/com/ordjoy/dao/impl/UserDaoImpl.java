@@ -99,7 +99,7 @@ public class UserDaoImpl implements UserDao {
             """;
 
     @Override
-    public UserAccount save(UserAccount userAccount) {
+    public UserAccount saveUserAccount(UserAccount userAccount) {
         try (Connection connection = ConnectionManager.get();
              PreparedStatement saveUserStatement = connection.prepareStatement(SQL_SAVE_USER, Statement.RETURN_GENERATED_KEYS)) {
             saveUserStatement.setString(1, userAccount.getEmail());
@@ -224,16 +224,6 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    private UserAccount buildAccount(ResultSet resultSet) throws SQLException {
-        return new UserAccount(
-                resultSet.getLong("id"),
-                resultSet.getString("email"),
-                resultSet.getString("login"),
-                resultSet.getString("password"),
-                UserRole.valueOf(resultSet.getString("role"))
-        );
-    }
-
     @Override
     public UserAccount saveUserWithAccountData(UserAccount userAccount, UserAccountData userAccountData) {
         Connection connection = null;
@@ -305,6 +295,16 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
         }
+    }
+
+    private UserAccount buildAccount(ResultSet resultSet) throws SQLException {
+        return new UserAccount(
+                resultSet.getLong("id"),
+                resultSet.getString("email"),
+                resultSet.getString("login"),
+                resultSet.getString("password"),
+                UserRole.valueOf(resultSet.getString("role"))
+        );
     }
 
     private UserAccountData buildUserData(ResultSet resultSet) throws SQLException {

@@ -9,6 +9,8 @@ import java.util.Optional;
 
 public interface MixDao extends GenericDao<Long, Mix> {
 
+    Mix saveMix(Mix mix);
+
     List<Mix> findAll(MixFilter filter);
 
     Optional<List<Mix>> findMixesByGenreName(String genreName, DefaultFilter filter);

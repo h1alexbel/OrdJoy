@@ -137,7 +137,7 @@ public class AlbumDaoImpl implements AlbumDao {
             """;
 
     @Override
-    public Album save(Album album) {
+    public Album saveAlbumWithExistingArtist(Album album) {
         try (Connection connection = ConnectionManager.get();
              PreparedStatement saveAlbumStatement = connection.prepareStatement(SQL_SAVE_ALBUM, Statement.RETURN_GENERATED_KEYS);
              PreparedStatement findGenreIdStatement = connection.prepareStatement(SQL_FIND_GENRE_ID);

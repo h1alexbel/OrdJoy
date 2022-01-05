@@ -9,6 +9,8 @@ import java.util.Optional;
 
 public interface AlbumDao extends GenericDao<Long, Album> {
 
+    Album saveAlbumWithExistingArtist(Album album);
+
     Album uploadNewAlbumWithData(Album album);
 
     List<Album> findAll(AlbumFilter filter);
@@ -18,4 +20,5 @@ public interface AlbumDao extends GenericDao<Long, Album> {
     Optional<List<Album>> findAlbumsByGenreId(Long genreId, DefaultFilter filter);
 
     Optional<List<Album>> findAlbumsByArtistName(String artistName, DefaultFilter filter);
+
 }
