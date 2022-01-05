@@ -14,11 +14,6 @@ public class Album implements Entity {
         this.title = title;
     }
 
-    public Album(String title, Genre genre) {
-        this.title = title;
-        this.genre = genre;
-    }
-
     public Album(Long id, String title, Genre genre, Artist artist) {
         this.id = id;
         this.title = title;

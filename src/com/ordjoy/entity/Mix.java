@@ -23,10 +23,6 @@ public class Mix implements Entity {
         this.genre = genre;
     }
 
-    public Mix(String name) {
-        this.name = name;
-    }
-
     public Mix() {
     }
 
