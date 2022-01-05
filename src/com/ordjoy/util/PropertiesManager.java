@@ -1,6 +1,6 @@
 package com.ordjoy.util;
 
-import com.ordjoy.exception.DBException;
+import com.ordjoy.exception.DataBaseException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +25,7 @@ public final class PropertiesManager {
                 .getResourceAsStream(ROOT)) {
             PROPERTIES.load(stream);
         } catch (IOException e) {
-            throw new DBException(e);
+            throw new DataBaseException(e);
         }
     }
 

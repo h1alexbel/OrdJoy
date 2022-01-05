@@ -1,6 +1,6 @@
 package com.ordjoy.util;
 
-import com.ordjoy.exception.DBException;
+import com.ordjoy.exception.DataBaseException;
 
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
@@ -36,7 +36,7 @@ public final class ConnectionManager {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            throw new DBException(DATABASE_LAYER_EXCEPTION_MESSAGE, e);
+            throw new DataBaseException(DATABASE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 
@@ -44,7 +44,7 @@ public final class ConnectionManager {
         try {
             return pool.take();
         } catch (InterruptedException e) {
-            throw new DBException(DATABASE_LAYER_EXCEPTION_MESSAGE, e);
+            throw new DataBaseException(DATABASE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 
@@ -70,7 +70,7 @@ public final class ConnectionManager {
             try {
                 sourceConnection.close();
             } catch (SQLException e) {
-                throw new DBException(DATABASE_LAYER_EXCEPTION_MESSAGE, e);
+                throw new DataBaseException(DATABASE_LAYER_EXCEPTION_MESSAGE, e);
             }
         }
     }
@@ -83,7 +83,7 @@ public final class ConnectionManager {
                     PropertiesManager.getPropertyByKey(PASSWORD_KEY)
             );
         } catch (SQLException e) {
-            throw new DBException(DATABASE_LAYER_EXCEPTION_MESSAGE, e);
+            throw new DataBaseException(DATABASE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 }
