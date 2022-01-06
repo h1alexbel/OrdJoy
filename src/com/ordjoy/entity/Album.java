@@ -10,6 +10,10 @@ public class Album implements Entity {
     private Artist artist;
     private Set<Track> tracks;
 
+    public Album(Long id) {
+        this.id = id;
+    }
+
     public Album(String title) {
         this.title = title;
     }

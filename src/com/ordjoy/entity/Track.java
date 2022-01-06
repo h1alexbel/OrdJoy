@@ -9,13 +9,28 @@ public class Track implements Entity {
     private String songUrl;
     private String title;
     private Genre genre;
-    private Set<Artist> artists;
     private Album album;
+    private Set<Artist> artists;
     private List<Mix> mixes;
+
+    public Track(String songUrl, String title, Genre genre, Album album) {
+        this.songUrl = songUrl;
+        this.title = title;
+        this.genre = genre;
+        this.album = album;
+    }
 
     public Track(String songUrl, String title) {
         this.songUrl = songUrl;
         this.title = title;
+    }
+
+    public Track(Long id, String songUrl, String title, Genre genre, Album album) {
+        this.id = id;
+        this.songUrl = songUrl;
+        this.title = title;
+        this.genre = genre;
+        this.album = album;
     }
 
     public Track() {

@@ -12,7 +12,7 @@ public interface TrackDao extends GenericDao<Long, Track> {
 
     Track saveTrackInExistingAlbum(Track trackToSave, Album albumThatExists, Artist artistThatExists);
 
-    Mix saveTrackInExistingMix(Track trackToSave, Album trackAlbumToSave, Mix mixThatExists, Artist artistThatExists);
+    boolean addExistingTrackToMix(Mix mixThatExists, Track trackThatExists);
 
     List<Track> findAll(TrackFilter filter);
 
