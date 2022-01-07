@@ -25,6 +25,11 @@ public class TrackDaoImpl implements TrackDao {
         return INSTANCE;
     }
 
+    private static final String LIMIT_OFFSET = """
+            LIMIT ?
+            OFFSET ?
+            """;
+
     private static final String SQL_FIND_TRACK_BY_ID = """
             SELECT tr.title    AS title,
                    tr.id       AS id,
@@ -412,10 +417,7 @@ public class TrackDaoImpl implements TrackDao {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
-        String sql = SQL_FIND_TRACK_BY_GENRE_ID + """
-                LIMIT ?
-                OFFSET ?
-                """;
+        String sql = SQL_FIND_TRACK_BY_GENRE_ID + LIMIT_OFFSET;
         try (Connection connection = ConnectionManager.get();
              PreparedStatement findByGenreIdStatement = connection.prepareStatement(sql)) {
             findByGenreIdStatement.setLong(1, genreId);
@@ -442,10 +444,7 @@ public class TrackDaoImpl implements TrackDao {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
-        String sql = SQL_FIND_TRACK_BY_GENRE_NAME + """
-                LIMIT ?
-                OFFSET ?
-                """;
+        String sql = SQL_FIND_TRACK_BY_GENRE_NAME + LIMIT_OFFSET;
         try (Connection connection = ConnectionManager.get();
              PreparedStatement findByGenreIdStatement = connection.prepareStatement(sql)) {
             findByGenreIdStatement.setString(1, genreName);
@@ -472,10 +471,7 @@ public class TrackDaoImpl implements TrackDao {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
-        String sql = SQL_FIND_TRACK_BY_ALBUM_ID + """
-                LIMIT ?
-                OFFSET ?
-                """;
+        String sql = SQL_FIND_TRACK_BY_ALBUM_ID + LIMIT_OFFSET;
         try (Connection connection = ConnectionManager.get();
              PreparedStatement findByGenreIdStatement = connection.prepareStatement(sql)) {
             findByGenreIdStatement.setLong(1, albumId);
@@ -502,10 +498,7 @@ public class TrackDaoImpl implements TrackDao {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
-        String sql = SQL_FIND_TRACK_BY_ALBUM_NAME + """
-                LIMIT ?
-                OFFSET ?
-                """;
+        String sql = SQL_FIND_TRACK_BY_ALBUM_NAME + LIMIT_OFFSET;
         try (Connection connection = ConnectionManager.get();
              PreparedStatement findByGenreIdStatement = connection.prepareStatement(sql)) {
             findByGenreIdStatement.setString(1, albumName);
@@ -532,10 +525,7 @@ public class TrackDaoImpl implements TrackDao {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
-        String sql = SQL_FIND_TRACK_BY_ARTIST_ID + """
-                LIMIT ?
-                OFFSET ?
-                """;
+        String sql = SQL_FIND_TRACK_BY_ARTIST_ID + LIMIT_OFFSET;
         try (Connection connection = ConnectionManager.get();
              PreparedStatement findByGenreIdStatement = connection.prepareStatement(sql)) {
             findByGenreIdStatement.setLong(1, artistId);
@@ -562,10 +552,7 @@ public class TrackDaoImpl implements TrackDao {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
-        String sql = SQL_FIND_TRACK_BY_ARTIST_NAME + """
-                LIMIT ?
-                OFFSET ?
-                """;
+        String sql = SQL_FIND_TRACK_BY_ARTIST_NAME + LIMIT_OFFSET;
         try (Connection connection = ConnectionManager.get();
              PreparedStatement findByGenreIdStatement = connection.prepareStatement(sql)) {
             findByGenreIdStatement.setString(1, artistName);
