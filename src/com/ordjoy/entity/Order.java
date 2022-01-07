@@ -7,11 +7,19 @@ public class Order implements Entity {
 
     private Long id;
     private BigDecimal price;
-    private Long cardNumber;
+    private String cardNumber;
     private UserAccount userAccount;
     private List<Track> tracks;
 
-    public Order(BigDecimal price, Long cardNumber, UserAccount userAccount, List<Track> tracks) {
+    public Order(Long id, BigDecimal price, String cardNumber, UserAccount userAccount, List<Track> tracks) {
+        this.id = id;
+        this.price = price;
+        this.cardNumber = cardNumber;
+        this.userAccount = userAccount;
+        this.tracks = tracks;
+    }
+
+    public Order(BigDecimal price, String cardNumber, UserAccount userAccount, List<Track> tracks) {
         this.price = price;
         this.cardNumber = cardNumber;
         this.userAccount = userAccount;
@@ -63,11 +71,11 @@ public class Order implements Entity {
         this.price = price;
     }
 
-    public Long getCardNumber() {
+    public String getCardNumber() {
         return cardNumber;
     }
 
-    public void setCardNumber(Long cardNumber) {
+    public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
     }
 

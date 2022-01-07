@@ -20,6 +20,10 @@ public class Track implements Entity {
         this.album = album;
     }
 
+    public Track(String title) {
+        this.title = title;
+    }
+
     public Track(String songUrl, String title) {
         this.songUrl = songUrl;
         this.title = title;
