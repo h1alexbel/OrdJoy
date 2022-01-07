@@ -69,13 +69,13 @@ public class UserDaoImpl implements UserDao {
     private static final String SQL_FIND_USER_BY_NAME = """
             SELECT id, email, login, password, role
             FROM user_storage.user_account
-            WHERE login = ?
+            WHERE login LIKE ?
             """;
 
     private static final String SQL_FIND_USER_BY_EMAIL = """
             SELECT id, email, login, password, role
             FROM user_storage.user_account
-            WHERE email = ?
+            WHERE email LIKE ?
             """;
 
     private static final String SQL_FIND_USER_DATA_BY_USER_ID = """

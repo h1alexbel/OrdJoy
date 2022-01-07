@@ -25,6 +25,11 @@ public class AlbumDaoImpl implements AlbumDao {
         return INSTANCE;
     }
 
+    private static final String LIMIT_OFFSET = """
+            LIMIT ?
+            OFFSET ?
+            """;
+
     private static final String SQL_SAVE_ALBUM = """
             INSERT INTO audio_tracks_storage.album (title, genre_id, artist_id)
             VALUES (?, (SELECT id FROM audio_tracks_storage.genre WHERE name = ?),
@@ -33,7 +38,7 @@ public class AlbumDaoImpl implements AlbumDao {
 
     private static final String SQL_FIND_GENRE_ID = """
             SELECT id FROM audio_tracks_storage.genre
-            WHERE name = ?
+            WHERE name LIKE ?
             """;
 
     private static final String SQL_SAVE_ARTIST = """
@@ -43,7 +48,7 @@ public class AlbumDaoImpl implements AlbumDao {
 
     private static final String SQL_FIND_ARTIST_ID = """
             SELECT id FROM audio_tracks_storage.artist
-            WHERE name = ?
+            WHERE name LIKE ?
             """;
 
     private static final String SQL_FIND_ALBUM_BY_GENRE_ID = """
@@ -69,7 +74,7 @@ public class AlbumDaoImpl implements AlbumDao {
             FROM audio_tracks_storage.album album
                      JOIN audio_tracks_storage.genre g ON g.id = album.genre_id
                      JOIN audio_tracks_storage.artist a ON album.artist_id = a.id
-            WHERE g.name = ?
+            WHERE g.name LIKE ?
             """;
 
     private static final String SQL_FIND_ALBUM_BY_ARTIST_NAME = """
@@ -82,7 +87,7 @@ public class AlbumDaoImpl implements AlbumDao {
             FROM audio_tracks_storage.album album
                      JOIN audio_tracks_storage.genre g ON g.id = album.genre_id
                      JOIN audio_tracks_storage.artist a ON album.artist_id = a.id
-            WHERE a.name = ?
+            WHERE a.name LIKE ?
             """;
 
     private static final String SQL_FIND_ALBUM_BY_ID = """
@@ -108,7 +113,7 @@ public class AlbumDaoImpl implements AlbumDao {
             FROM audio_tracks_storage.album album
                      LEFT JOIN audio_tracks_storage.genre g ON g.id = album.genre_id
                      LEFT JOIN audio_tracks_storage.artist a ON album.artist_id = a.id
-            WHERE album.title = ?
+            WHERE album.title LIKE ?
             """;
 
     private static final String SQL_DELETE_ALBUM_BY_ID = """
@@ -255,10 +260,7 @@ public class AlbumDaoImpl implements AlbumDao {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
-        String sql = SQL_FIND_ALBUM_BY_GENRE_NAME + """
-                LIMIT ?
-                OFFSET ?
-                """;
+        String sql = SQL_FIND_ALBUM_BY_GENRE_NAME + LIMIT_OFFSET;
         try (Connection connection = ConnectionManager.get();
              PreparedStatement findAlbumsByGenreNamedStatement = connection.prepareStatement(sql)) {
             findAlbumsByGenreNamedStatement.setString(1, genreName);
@@ -280,10 +282,7 @@ public class AlbumDaoImpl implements AlbumDao {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
-        String sql = SQL_FIND_ALBUM_BY_GENRE_ID + """
-                LIMIT ?
-                OFFSET ?
-                """;
+        String sql = SQL_FIND_ALBUM_BY_GENRE_ID + LIMIT_OFFSET;
         try (Connection connection = ConnectionManager.get();
              PreparedStatement findAlbumsByGenreIdStatement = connection.prepareStatement(sql)) {
             findAlbumsByGenreIdStatement.setLong(1, genreId);
@@ -305,10 +304,7 @@ public class AlbumDaoImpl implements AlbumDao {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
-        String sql = SQL_FIND_ALBUM_BY_ARTIST_NAME + """
-                LIMIT ?
-                OFFSET ?
-                """;
+        String sql = SQL_FIND_ALBUM_BY_ARTIST_NAME + LIMIT_OFFSET;
         try (Connection connection = ConnectionManager.get();
              PreparedStatement findAlbumByArtistName = connection.prepareStatement(sql)) {
             findAlbumByArtistName.setString(1, artistName);

@@ -21,6 +21,11 @@ public class ArtistDaoImpl implements ArtistDao {
 
     }
 
+    private static final String LIMIT_OFFSET = """
+            LIMIT ?
+            OFFSET ?
+            """;
+
     public static ArtistDaoImpl getInstance() {
         return INSTANCE;
     }
@@ -44,7 +49,7 @@ public class ArtistDaoImpl implements ArtistDao {
     private static final String SQL_FIND_BY_NAME = """
             SELECT id, name
             FROM audio_tracks_storage.artist
-            WHERE name = ?
+            WHERE name LIKE ?
             """;
 
     private static final String SQL_UPDATE_ARTIST = """
@@ -82,10 +87,7 @@ public class ArtistDaoImpl implements ArtistDao {
         parameters.add(filter.limit());
         parameters.add(filter.offset());
 
-        String sql = SQL_FIND_ALL_ARTISTS + """
-                LIMIT ?
-                OFFSET ?
-                """;
+        String sql = SQL_FIND_ALL_ARTISTS + LIMIT_OFFSET;
         try (Connection connection = ConnectionManager.get();
              PreparedStatement findAllStatement = connection.prepareStatement(sql)) {
             for (int i = 0; i < parameters.size(); i++) {

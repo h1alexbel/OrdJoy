@@ -61,7 +61,7 @@ public class TrackDaoImpl implements TrackDao {
                      INNER JOIN audio_tracks_storage.album a ON a.id = tr.album_id
                      INNER JOIN audio_tracks_storage.artist art ON art.id = a.artist_id
                      INNER JOIN audio_tracks_storage.genre g ON g.id = a.genre_id
-            WHERE tr.title = ?
+            WHERE tr.title LIKE ?
             """;
 
     private static final String SQL_UPDATE_TRACK = """
@@ -88,12 +88,12 @@ public class TrackDaoImpl implements TrackDao {
     private static final String SQL_FIND_ALBUM_ID = """
             SELECT id
             FROM audio_tracks_storage.album
-            WHERE title = ?
+            WHERE title LIKE ?
             """;
 
     private static final String SQL_FIND_GENRE_ID = """
             SELECT id FROM audio_tracks_storage.genre
-            WHERE name = ?
+            WHERE name LIKE ?
             """;
 
     private static final String SQL_SAVE_TRACK_WITH_ARTIST_IN_MUTUAL_TABLE = """
@@ -105,7 +105,7 @@ public class TrackDaoImpl implements TrackDao {
     private static final String SQL_FIND_ARTIST_ID = """
             SELECT id
             FROM audio_tracks_storage.artist
-            WHERE name = ?
+            WHERE name LIKE ?
             """;
 
     private static final String SQL_FIND_ALL_TRACKS = """
@@ -161,7 +161,7 @@ public class TrackDaoImpl implements TrackDao {
                      INNER JOIN audio_tracks_storage.album a ON a.id = tr.album_id
                      INNER JOIN audio_tracks_storage.artist art ON art.id = a.artist_id
                      INNER JOIN audio_tracks_storage.genre g ON g.id = a.genre_id
-            WHERE g.name = ?
+            WHERE g.name LIKE ?
             """;
 
     private static final String SQL_FIND_TRACK_BY_ALBUM_ID = """
@@ -195,7 +195,7 @@ public class TrackDaoImpl implements TrackDao {
                      INNER JOIN audio_tracks_storage.album a ON a.id = tr.album_id
                      INNER JOIN audio_tracks_storage.artist art ON art.id = a.artist_id
                      INNER JOIN audio_tracks_storage.genre g ON g.id = a.genre_id
-            WHERE a.title = ?
+            WHERE a.title LIKE ?
             """;
 
     private static final String SQL_FIND_TRACK_BY_ARTIST_ID = """
@@ -229,7 +229,7 @@ public class TrackDaoImpl implements TrackDao {
                      INNER JOIN audio_tracks_storage.album a ON a.id = tr.album_id
                      INNER JOIN audio_tracks_storage.artist art ON art.id = a.artist_id
                      INNER JOIN audio_tracks_storage.genre g ON g.id = a.genre_id
-            WHERE art.name = ?
+            WHERE art.name LIKE ?
             """;
 
     @Override

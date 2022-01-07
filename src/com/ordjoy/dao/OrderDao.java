@@ -1,6 +1,5 @@
 package com.ordjoy.dao;
 
-import com.ordjoy.entity.Track;
 import com.ordjoy.filter.DefaultFilter;
 import com.ordjoy.filter.OrderFilter;
 import com.ordjoy.entity.Order;
@@ -11,7 +10,7 @@ import java.util.Optional;
 
 public interface OrderDao {
 
-    Order saveOrder(Order order, Track orderedTrack);
+    Order saveOrder(Order order);
 
     Optional<Order> findById(Long id);
 

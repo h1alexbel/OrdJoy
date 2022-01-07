@@ -27,6 +27,11 @@ public class MixDaoImpl implements MixDao {
         return INSTANCE;
     }
 
+    private static final String LIMIT_OFFSET = """
+            LIMIT ?
+            OFFSET ?
+            """;
+
     private static final String SQL_SAVE_MIX = """
             INSERT INTO audio_tracks_storage.mix (name, description, genre_id)
             VALUES (?,?,(SELECT id FROM audio_tracks_storage.genre WHERE genre.name = ?));
@@ -34,7 +39,7 @@ public class MixDaoImpl implements MixDao {
 
     private static final String SQL_FIND_GENRE_ID = """
             SELECT id FROM audio_tracks_storage.genre
-            WHERE name = ?
+            WHERE name LIKE ?
             """;
 
     private static final String SQL_FIND_MIX_BY_ID = """
@@ -56,7 +61,7 @@ public class MixDaoImpl implements MixDao {
                    g.name          AS genre_name
             FROM audio_tracks_storage.mix mix
                      JOIN audio_tracks_storage.genre g ON g.id = mix.genre_id
-            WHERE mix.name = ?
+            WHERE mix.name LIKE ?
             """;
 
     private static final String SQL_DELETE_BY_ID = """
@@ -91,7 +96,7 @@ public class MixDaoImpl implements MixDao {
                    g.name          AS genre_name
             FROM audio_tracks_storage.mix mix
                      JOIN audio_tracks_storage.genre g ON g.id = mix.genre_id
-            WHERE g.name = ?
+            WHERE g.name LIKE ?
             """;
 
     private static final String SQL_FIND_ALL_MIXES = """
@@ -160,10 +165,7 @@ public class MixDaoImpl implements MixDao {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
-        String sql = SQL_FIND_MIX_BY_GENRE_NAME + """
-                LIMIT ?
-                OFFSET ?
-                """;
+        String sql = SQL_FIND_MIX_BY_GENRE_NAME + LIMIT_OFFSET;
         try (Connection connection = ConnectionManager.get();
              PreparedStatement findMixByGenreName = connection.prepareStatement(sql)) {
             findMixByGenreName.setString(1, genreName);
@@ -185,10 +187,7 @@ public class MixDaoImpl implements MixDao {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
-        String sql = SQL_FIND_MIX_BY_GENRE_ID + """
-                LIMIT ?
-                OFFSET ?
-                """;
+        String sql = SQL_FIND_MIX_BY_GENRE_ID + LIMIT_OFFSET;
         try (Connection connection = ConnectionManager.get();
              PreparedStatement findMixByGenreName = connection.prepareStatement(sql)) {
             findMixByGenreName.setLong(1, genreId);

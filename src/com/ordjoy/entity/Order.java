@@ -1,7 +1,6 @@
 package com.ordjoy.entity;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 public class Order implements Entity {
 
@@ -9,21 +8,21 @@ public class Order implements Entity {
     private BigDecimal price;
     private String cardNumber;
     private UserAccount userAccount;
-    private List<Track> tracks;
+    private Track track;
 
-    public Order(Long id, BigDecimal price, String cardNumber, UserAccount userAccount, List<Track> tracks) {
+    public Order(Long id, BigDecimal price, String cardNumber, UserAccount userAccount, Track track) {
         this.id = id;
         this.price = price;
         this.cardNumber = cardNumber;
         this.userAccount = userAccount;
-        this.tracks = tracks;
+        this.track = track;
     }
 
-    public Order(BigDecimal price, String cardNumber, UserAccount userAccount, List<Track> tracks) {
+    public Order(BigDecimal price, String cardNumber, UserAccount userAccount, Track track) {
         this.price = price;
         this.cardNumber = cardNumber;
         this.userAccount = userAccount;
-        this.tracks = tracks;
+        this.track = track;
     }
 
     public Order() {
@@ -51,7 +50,7 @@ public class Order implements Entity {
                ", price=" + price +
                ", cardNumber=" + cardNumber +
                ", userAccount=" + userAccount +
-               ", tracks=" + tracks +
+               ", track=" + track +
                '}';
     }
 
@@ -87,11 +86,11 @@ public class Order implements Entity {
         this.userAccount = userAccount;
     }
 
-    public List<Track> getTracks() {
-        return tracks;
+    public Track getTrack() {
+        return track;
     }
 
-    public void setTracks(List<Track> tracks) {
-        this.tracks = tracks;
+    public void setTrack(Track tracks) {
+        this.track = tracks;
     }
 }
