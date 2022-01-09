@@ -1,7 +1,5 @@
 package com.ordjoy.entity;
 
-import java.util.Set;
-
 public class UserAccount implements Entity {
 
     private Long id;
@@ -10,28 +8,28 @@ public class UserAccount implements Entity {
     private String password;
     private Integer discountPercentageLevel;
     private UserData userData;
-    private Set<Review> reviews;
+    private UserReviewData userReviewData;
 
     public UserAccount() {
     }
 
-    public UserAccount(Long id, String email, String login, String password, Integer discountPercentageLevel, UserData userData, Set<Review> reviews) {
+    public UserAccount(Long id, String email, String login, String password, Integer discountPercentageLevel, UserData userData, UserReviewData userReviewData) {
         this.id = id;
         this.email = email;
         this.login = login;
         this.password = password;
         this.discountPercentageLevel = discountPercentageLevel;
         this.userData = userData;
-        this.reviews = reviews;
+        this.userReviewData = userReviewData;
     }
 
-    public UserAccount(String email, String login, String password, Integer discountPercentageLevel, UserData userData, Set<Review> reviews) {
+    public UserAccount(String email, String login, String password, Integer discountPercentageLevel, UserData userData, UserReviewData userReviewData) {
         this.email = email;
         this.login = login;
         this.password = password;
         this.discountPercentageLevel = discountPercentageLevel;
         this.userData = userData;
-        this.reviews = reviews;
+        this.userReviewData = userReviewData;
     }
 
     public UserAccount(String email, String login, String password, Integer discountPercentageLevel, UserData userData) {
@@ -90,12 +88,12 @@ public class UserAccount implements Entity {
         this.userData = userData;
     }
 
-    public Set<Review> getReviews() {
-        return reviews;
+    public UserReviewData getUserReviewData() {
+        return userReviewData;
     }
 
-    public void setReviews(Set<Review> reviews) {
-        this.reviews = reviews;
+    public void setUserReviewData(UserReviewData userReviewData) {
+        this.userReviewData = userReviewData;
     }
 
     @Override
@@ -122,7 +120,7 @@ public class UserAccount implements Entity {
                ", password='" + password + '\'' +
                ", discountPercentageLevel=" + discountPercentageLevel +
                ", userData=" + userData +
-               ", reviews=" + reviews +
+               ", userReviewData=" + userReviewData +
                '}';
     }
 }
