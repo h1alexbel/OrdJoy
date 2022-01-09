@@ -1,6 +1,6 @@
 package com.ordjoy.entity;
 
-public enum UserRole implements Entity {
+public enum UserRole {
 
     CLIENT_ROLE("Client"),
     ADMIN_ROLE("Admin");

@@ -6,39 +6,55 @@ public class Album implements Entity {
 
     private Long id;
     private String title;
-    private Genre genre;
-    private Artist artist;
     private Set<Track> tracks;
-
-    public Album(Long id) {
-        this.id = id;
-    }
-
-    public Album(String title) {
-        this.title = title;
-    }
-
-    public Album(Long id, String title, Genre genre, Artist artist) {
-        this.id = id;
-        this.title = title;
-        this.genre = genre;
-        this.artist = artist;
-    }
-
-    public Album(String title, Genre genre, Artist artist) {
-        this.title = title;
-        this.genre = genre;
-        this.artist = artist;
-    }
-
-    public Album(String title, Genre genre, Set<Track> tracks, Artist artist) {
-        this.title = title;
-        this.genre = genre;
-        this.tracks = tracks;
-        this.artist = artist;
-    }
+    private Set<AlbumReview> reviews;
 
     public Album() {
+    }
+
+    public Album(Long id, String title, Set<Track> tracks, Set<AlbumReview> reviews) {
+        this.id = id;
+        this.title = title;
+        this.tracks = tracks;
+        this.reviews = reviews;
+    }
+
+    public Album(String title, Set<Track> tracks, Set<AlbumReview> reviews) {
+        this.title = title;
+        this.tracks = tracks;
+        this.reviews = reviews;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Set<Track> getTracks() {
+        return tracks;
+    }
+
+    public void setTracks(Set<Track> tracks) {
+        this.tracks = tracks;
+    }
+
+    public Set<AlbumReview> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<AlbumReview> reviews) {
+        this.reviews = reviews;
     }
 
     @Override
@@ -61,49 +77,7 @@ public class Album implements Entity {
         return "Album{" +
                "id=" + id +
                ", title='" + title + '\'' +
-               ", genre=" + genre +
-               ", tracks=" + tracks +
-               ", artist=" + artist +
+               ", reviews=" + reviews +
                '}';
-    }
-
-    public Artist getArtist() {
-        return artist;
-    }
-
-    public void setArtist(Artist artist) {
-        this.artist = artist;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Genre getGenre() {
-        return genre;
-    }
-
-    public void setGenre(Genre genre) {
-        this.genre = genre;
-    }
-
-    public Set<Track> getTracks() {
-        return tracks;
-    }
-
-    public void setTracks(Set<Track> tracks) {
-        this.tracks = tracks;
     }
 }

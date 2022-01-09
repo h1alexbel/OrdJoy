@@ -8,20 +8,18 @@ public class Track implements Entity {
     private Long id;
     private String songUrl;
     private String title;
-    private Genre genre;
     private Album album;
-    private Set<Artist> artists;
     private List<Mix> mixes;
+    private Set<TrackReview> reviews;
 
-    public Track(String songUrl, String title, Genre genre, Album album) {
-        this.songUrl = songUrl;
-        this.title = title;
-        this.genre = genre;
-        this.album = album;
+    public Track() {
     }
 
-    public Track(String title) {
+    public Track(String songUrl, String title, Album album, Set<TrackReview> reviews) {
+        this.songUrl = songUrl;
         this.title = title;
+        this.album = album;
+        this.reviews = reviews;
     }
 
     public Track(String songUrl, String title) {
@@ -29,41 +27,12 @@ public class Track implements Entity {
         this.title = title;
     }
 
-    public Track(Long id, String songUrl, String title, Genre genre, Album album) {
+    public Track(Long id, String songUrl, String title, Album album, Set<TrackReview> reviews) {
         this.id = id;
         this.songUrl = songUrl;
         this.title = title;
-        this.genre = genre;
         this.album = album;
-    }
-
-    public Track() {
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Track track = (Track) o;
-
-        return id != null ? id.equals(track.id) : track.id == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
-
-    @Override
-    public String toString() {
-        return "Track{" +
-               "id=" + id +
-               ", songUrl='" + songUrl + '\'' +
-               ", title='" + title + '\'' +
-               ", genre=" + genre +
-               ", artists=" + artists +
-               '}';
+        this.reviews = reviews;
     }
 
     public Long getId() {
@@ -90,22 +59,6 @@ public class Track implements Entity {
         this.title = title;
     }
 
-    public Genre getGenre() {
-        return genre;
-    }
-
-    public void setGenre(Genre genre) {
-        this.genre = genre;
-    }
-
-    public Set<Artist> getArtists() {
-        return artists;
-    }
-
-    public void setArtists(Set<Artist> artists) {
-        this.artists = artists;
-    }
-
     public Album getAlbum() {
         return album;
     }
@@ -120,5 +73,38 @@ public class Track implements Entity {
 
     public void setMixes(List<Mix> mixes) {
         this.mixes = mixes;
+    }
+
+    public Set<TrackReview> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<TrackReview> reviews) {
+        this.reviews = reviews;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Track track = (Track) o;
+
+        return id != null ? id.equals(track.id) : track.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Track{" +
+               "id=" + id +
+               ", songUrl='" + songUrl + '\'' +
+               ", title='" + title + '\'' +
+               ", reviews=" + reviews +
+               '}';
     }
 }

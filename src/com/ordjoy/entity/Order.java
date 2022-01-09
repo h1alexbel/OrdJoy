@@ -6,26 +6,66 @@ public class Order implements Entity {
 
     private Long id;
     private BigDecimal price;
-    private String cardNumber;
     private UserAccount userAccount;
+    private OrderStatus orderStatus;
     private Track track;
 
-    public Order(Long id, BigDecimal price, String cardNumber, UserAccount userAccount, Track track) {
+    public Order() {
+    }
+
+    public Order(Long id, BigDecimal price, UserAccount userAccount, OrderStatus orderStatus, Track track) {
         this.id = id;
         this.price = price;
-        this.cardNumber = cardNumber;
         this.userAccount = userAccount;
+        this.orderStatus = orderStatus;
         this.track = track;
     }
 
-    public Order(BigDecimal price, String cardNumber, UserAccount userAccount, Track track) {
+    public Order(BigDecimal price, UserAccount userAccount, OrderStatus orderStatus, Track track) {
         this.price = price;
-        this.cardNumber = cardNumber;
         this.userAccount = userAccount;
+        this.orderStatus = orderStatus;
         this.track = track;
     }
 
-    public Order() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public UserAccount getUserAccount() {
+        return userAccount;
+    }
+
+    public void setUserAccount(UserAccount userAccount) {
+        this.userAccount = userAccount;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public Track getTrack() {
+        return track;
+    }
+
+    public void setTrack(Track track) {
+        this.track = track;
     }
 
     @Override
@@ -48,49 +88,9 @@ public class Order implements Entity {
         return "Order{" +
                "id=" + id +
                ", price=" + price +
-               ", cardNumber=" + cardNumber +
                ", userAccount=" + userAccount +
+               ", orderStatus=" + orderStatus +
                ", track=" + track +
                '}';
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public String getCardNumber() {
-        return cardNumber;
-    }
-
-    public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
-    }
-
-    public UserAccount getUserAccount() {
-        return userAccount;
-    }
-
-    public void setUserAccount(UserAccount userAccount) {
-        this.userAccount = userAccount;
-    }
-
-    public Track getTrack() {
-        return track;
-    }
-
-    public void setTrack(Track tracks) {
-        this.track = tracks;
     }
 }
