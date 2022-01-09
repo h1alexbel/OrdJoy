@@ -1,6 +1,6 @@
 package com.ordjoy.entity;
 
-public class TrackReview implements Review {
+public class TrackReview implements Entity {
 
     private Long id;
     private String reviewText;
