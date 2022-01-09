@@ -4,6 +4,8 @@ CREATE SCHEMA user_storage;
 
 CREATE SCHEMA audio_tracks_storage;
 
+CREATE SCHEMA review_storage;
+
 CREATE TABLE user_storage.user_account_data
 (
     id                        BIGSERIAL PRIMARY KEY,
@@ -18,12 +20,6 @@ CREATE TABLE user_storage.user_account_data
     card_number               CHARACTER VARYING(32)         NOT NULL
 );
 
-CREATE TABLE audio_tracks_storage.artist
-(
-    id   BIGSERIAL PRIMARY KEY,
-    name CHARACTER VARYING(64) UNIQUE NOT NULL
-);
-
 CREATE TABLE audio_tracks_storage.mix
 (
     id          BIGSERIAL PRIMARY KEY,
@@ -33,9 +29,8 @@ CREATE TABLE audio_tracks_storage.mix
 
 CREATE TABLE audio_tracks_storage.album
 (
-    id        BIGSERIAL PRIMARY KEY,
-    title     CHARACTER VARYING(128) NOT NULL,
-    artist_id BIGINT REFERENCES audio_tracks_storage.artist (id)
+    id    BIGSERIAL PRIMARY KEY,
+    title CHARACTER VARYING(128) NOT NULL
 );
 
 CREATE TABLE audio_tracks_storage.track
@@ -56,7 +51,14 @@ CREATE TABLE user_storage.order
     track_id        BIGINT REFERENCES audio_tracks_storage.track (id)
 );
 
-CREATE TABLE user_storage.review
+CREATE TABLE audio_tracks_storage.track_mixes
+(
+    track_id BIGINT REFERENCES audio_tracks_storage.track (id),
+    mix_id   BIGINT REFERENCES audio_tracks_storage.mix (id),
+    PRIMARY KEY (track_id, mix_id)
+);
+
+CREATE TABLE review_storage.review_about_track
 (
     id              BIGSERIAL PRIMARY KEY,
     review_text     CHARACTER VARYING(512) NOT NULL,
@@ -64,9 +66,18 @@ CREATE TABLE user_storage.review
     track_id        BIGINT REFERENCES audio_tracks_storage.track (id)
 );
 
-CREATE TABLE audio_tracks_storage.track_mixes
+CREATE TABLE review_storage.review_about_album
 (
-    track_id BIGINT REFERENCES audio_tracks_storage.track (id),
-    mix_id   BIGINT REFERENCES audio_tracks_storage.mix (id),
-    PRIMARY KEY (track_id, mix_id)
+    id              BIGSERIAL PRIMARY KEY,
+    review_text     CHARACTER VARYING(512) NOT NULL,
+    user_account_id BIGINT REFERENCES user_storage.user_account_data (id),
+    album_id        BIGINT REFERENCES audio_tracks_storage.album (id)
+);
+
+CREATE TABLE review_storage.review_about_mix
+(
+    id              BIGSERIAL PRIMARY KEY,
+    review_text     CHARACTER VARYING(512) NOT NULL,
+    user_account_id BIGINT REFERENCES user_storage.user_account_data (id),
+    mix_id          BIGINT REFERENCES audio_tracks_storage.mix (id)
 );
