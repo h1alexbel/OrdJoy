@@ -1,4 +1,4 @@
-package com.ordjoy.util;
+package com.ordjoy.dbmanager;
 
 import com.ordjoy.exception.DataBaseException;
 

@@ -1,7 +1,7 @@
 package com.ordjoy.dao.impl;
 
 import com.ordjoy.dao.MixDao;
-import com.ordjoy.util.ConnectionManager;
+import com.ordjoy.dbmanager.ConnectionManager;
 import com.ordjoy.entity.*;
 import com.ordjoy.exception.DaoException;
 import com.ordjoy.filter.DefaultFilter;

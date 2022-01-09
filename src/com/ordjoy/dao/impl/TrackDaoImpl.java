@@ -5,7 +5,7 @@ import com.ordjoy.entity.*;
 import com.ordjoy.exception.DaoException;
 import com.ordjoy.filter.DefaultFilter;
 import com.ordjoy.filter.TrackFilter;
-import com.ordjoy.util.ConnectionManager;
+import com.ordjoy.dbmanager.ConnectionManager;
 
 import java.sql.*;
 import java.util.*;

@@ -5,7 +5,7 @@ import com.ordjoy.entity.*;
 import com.ordjoy.exception.DaoException;
 import com.ordjoy.filter.DefaultFilter;
 import com.ordjoy.filter.OrderFilter;
-import com.ordjoy.util.ConnectionManager;
+import com.ordjoy.dbmanager.ConnectionManager;
 
 import java.math.BigDecimal;
 import java.sql.*;
