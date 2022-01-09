@@ -50,8 +50,9 @@ CREATE TABLE user_storage.order
 (
 
     id              BIGSERIAL PRIMARY KEY,
-    price           NUMERIC NOT NULL,
+    price           NUMERIC               NOT NULL,
     user_account_id BIGINT REFERENCES user_storage.user_account_data (id),
+    order_status    CHARACTER VARYING(32) NOT NULL,
     track_id        BIGINT REFERENCES audio_tracks_storage.track (id)
 );
 
