@@ -117,7 +117,6 @@ public class UserAccount implements Entity {
                "id=" + id +
                ", email='" + email + '\'' +
                ", login='" + login + '\'' +
-               ", password='" + password + '\'' +
                ", discountPercentageLevel=" + discountPercentageLevel +
                ", userData=" + userData +
                ", userReviewData=" + userReviewData +
