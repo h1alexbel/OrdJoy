@@ -1,23 +1,24 @@
 package com.ordjoy.dao;
 
+import com.ordjoy.entity.UserReviewData;
 import com.ordjoy.filter.UserAccountFilter;
 import com.ordjoy.entity.UserAccount;
-import com.ordjoy.entity.UserAccountData;
 
-import java.util.List;
 import java.util.Optional;
 
-public interface UserDao extends GenericDao<Long, UserAccount> {
+public interface UserDao extends GenericDao<Long, UserAccount, UserAccountFilter> {
 
-    UserAccount saveUserAccount(UserAccount userAccount);
+    Optional<UserReviewData> findUserReviewDataByUserId(Long userId);
 
-    UserAccount saveUserWithAccountData(UserAccount userAccount, UserAccountData userAccountData);
+    Optional<UserReviewData> findUserReviewDataByLogin(String login);
 
-    void updateData(UserAccountData userAccountData);
+    void addDiscountPercentageLevel(Integer discountPercentageLevel, String userEmail);
 
-    Optional<UserAccountData> findUserDataByUserId(Long userId);
+    Optional<Integer> findDiscountPercentageLevelByUserId(Long userId);
+
+    Optional<Integer> findDiscountPercentageLevelByEmail(String email);
+
+    Optional<UserAccount> findUserByLogin(String login);
 
     Optional<UserAccount> findUserByEmail(String email);
-
-    List<UserAccount> findAll(UserAccountFilter filter);
 }

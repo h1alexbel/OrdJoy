@@ -77,6 +77,7 @@ public class Album implements Entity {
         return "Album{" +
                "id=" + id +
                ", title='" + title + '\'' +
+               ", tracks=" + tracks +
                ", reviews=" + reviews +
                '}';
     }

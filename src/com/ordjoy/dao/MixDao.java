@@ -1,19 +1,18 @@
 package com.ordjoy.dao;
 
+import com.ordjoy.entity.MixReview;
 import com.ordjoy.filter.DefaultFilter;
 import com.ordjoy.filter.MixFilter;
 import com.ordjoy.entity.Mix;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
-public interface MixDao extends GenericDao<Long, Mix> {
+public interface MixDao extends GenericDao<Long, Mix, MixFilter> {
 
-    Mix saveMix(Mix mix);
+    Optional<Mix> findMixByMixName(String mixName);
 
-    List<Mix> findAll(MixFilter filter);
+    Set<MixReview> findMixReviewByMixName(String mixName, DefaultFilter filter);
 
-    Optional<List<Mix>> findMixesByGenreName(String genreName, DefaultFilter filter);
-
-    Optional<List<Mix>> findMixesByGenreId(Long genreId, DefaultFilter filter);
+    Set<MixReview> findMixReviewsByMixId(Long mixId, DefaultFilter filter);
 }
