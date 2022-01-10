@@ -16,8 +16,8 @@ public class ConnectionPool {
     private static final String DRIVER_KEY = "db.postgres.driver";
     private static final String POOL_SIZE_KEY = "db.pool.size";
     private static ConnectionPool instance = new ConnectionPool();
-    private static final Lock LOCK = new ReentrantLock();
-    private static AtomicBoolean isInstanced;
+    private static Lock lock = new ReentrantLock();
+    private static AtomicBoolean isInstanced = new AtomicBoolean(false);
     private static BlockingQueue<ProxyConnection> connections;
 
     private ConnectionPool() {
@@ -26,13 +26,13 @@ public class ConnectionPool {
     public static ConnectionPool getInstance() {
         if (!isInstanced.get()) {
             try {
-                LOCK.lock();
+                lock.lock();
                 if (instance == null) {
                     instance = new ConnectionPool();
                     isInstanced.set(true);
                 }
             } finally {
-                LOCK.unlock();
+                lock.unlock();
             }
         }
         return instance;
