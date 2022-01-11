@@ -12,7 +12,7 @@ CREATE TABLE user_storage.user_account_data
     email                     CHARACTER VARYING(64) UNIQUE  NOT NULL,
     login                     CHARACTER VARYING(128) UNIQUE NOT NULL,
     password                  CHARACTER VARYING(128)        NOT NULL,
-    discount_percentage_level INT                           NOT NULL,
+    discount_percentage_level INT,
     role                      CHARACTER VARYING(16)         NOT NULL,
     first_name                CHARACTER VARYING(64)         NOT NULL,
     last_name                 CHARACTER VARYING(64)         NOT NULL,
