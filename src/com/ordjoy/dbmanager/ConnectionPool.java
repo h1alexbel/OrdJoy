@@ -59,8 +59,12 @@ public class ConnectionPool {
         }
     }
 
-    public ProxyConnection getConnection() throws InterruptedException {
-        return connections.take();
+    public ProxyConnection getConnection() {
+        try {
+            return connections.take();
+        } catch (InterruptedException e) {
+            throw new DataBaseException(e);
+        }
     }
 
     public void releaseConnection(ProxyConnection proxyConnection) {
