@@ -260,7 +260,7 @@ public class AlbumDaoImpl implements AlbumDao {
     }
 
     private AlbumReview buildAlbumReview(ResultSet resultSet) throws SQLException {
-        UserAccount userAccount = buidUserAccount(resultSet);
+        UserAccount userAccount = buildUserAccount(resultSet);
         Album album = buildAlbum(resultSet);
         return new AlbumReview(
                 resultSet.getLong("ra_id"),
@@ -270,7 +270,7 @@ public class AlbumDaoImpl implements AlbumDao {
         );
     }
 
-    private UserAccount buidUserAccount(ResultSet resultSet) throws SQLException {
+    private UserAccount buildUserAccount(ResultSet resultSet) throws SQLException {
         UserData data = buildUserData(resultSet);
         return new UserAccount(
                 resultSet.getLong("user_id"),
