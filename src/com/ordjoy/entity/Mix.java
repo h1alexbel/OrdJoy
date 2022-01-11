@@ -86,8 +86,6 @@ public class Mix implements Entity {
                "id=" + id +
                ", name='" + name + '\'' +
                ", description='" + description + '\'' +
-               ", tracks=" + tracks +
-               ", reviews=" + reviews +
                '}';
     }
 }

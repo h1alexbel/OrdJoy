@@ -17,6 +17,10 @@ public interface TrackDao extends GenericDao<Long, Track, TrackFilter> {
 
     Set<Track> findTracksByAlbumName(String albumName, DefaultFilter filter);
 
+    Set<Track> findTracksByMixId(Long mixId, DefaultFilter filter);
+
+    Set<Track> findTracksByMixName(String mixName, DefaultFilter filter);
+
     Set<TrackReview> findTrackReviewsByTrackId(Long trackId, DefaultFilter filter);
 
     Set<TrackReview> findTrackReviewsByTrackTitle(String title, DefaultFilter filter);

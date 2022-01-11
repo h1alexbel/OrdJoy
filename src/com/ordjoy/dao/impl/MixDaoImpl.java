@@ -1,19 +1,17 @@
 package com.ordjoy.dao.impl;
 
 import com.ordjoy.dao.MixDao;
-import com.ordjoy.dbmanager.ConnectionManager;
+import com.ordjoy.dbmanager.ConnectionPool;
+import com.ordjoy.dbmanager.ProxyConnection;
 import com.ordjoy.entity.*;
 import com.ordjoy.exception.DaoException;
 import com.ordjoy.filter.DefaultFilter;
 import com.ordjoy.filter.MixFilter;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static com.ordjoy.util.ExceptionMessageUtils.*;
-import static java.util.stream.Collectors.joining;
 
 public class MixDaoImpl implements MixDao {
 
@@ -33,97 +31,99 @@ public class MixDaoImpl implements MixDao {
             """;
 
     private static final String SQL_SAVE_MIX = """
-            INSERT INTO audio_tracks_storage.mix (name, description, genre_id)
-            VALUES (?,?,(SELECT id FROM audio_tracks_storage.genre WHERE genre.name = ?));
-            """;
-
-    private static final String SQL_FIND_GENRE_ID = """
-            SELECT id FROM audio_tracks_storage.genre
-            WHERE name LIKE ?
+            INSERT INTO audio_tracks_storage.mix(name, description)
+            VALUES (?, ?);
             """;
 
     private static final String SQL_FIND_MIX_BY_ID = """
-            SELECT mix.id          AS mix_id,
-                   mix.name        AS mix_name,
-                   mix.description AS mix_description,
-                   g.id            AS g_id,
-                   g.name          AS genre_name
-            FROM audio_tracks_storage.mix mix
-                     JOIN audio_tracks_storage.genre g ON g.id = mix.genre_id
-            WHERE mix.id = ?
+            SELECT id, name, description
+            FROM audio_tracks_storage.mix
+            WHERE id = ?
             """;
 
-    private static final String SQL_FIND_MIX_BY_NAME = """
-            SELECT mix.id          AS mix_id,
-                   mix.name        AS mix_name,
-                   mix.description AS mix_description,
-                   g.id            AS g_id,
-                   g.name          AS genre_name
-            FROM audio_tracks_storage.mix mix
-                     JOIN audio_tracks_storage.genre g ON g.id = mix.genre_id
-            WHERE mix.name LIKE ?
+    private static final String SQL_FIND_ALL = """
+            SELECT id, name, description
+            FROM audio_tracks_storage.mix
             """;
 
-    private static final String SQL_DELETE_BY_ID = """
-            DELETE FROM audio_tracks_storage.mix
+    private static final String SQL_DELETE_MIX_BY_ID = """
+            DELETE
+            FROM audio_tracks_storage.mix
             WHERE id = ?
             """;
 
     private static final String SQL_UPDATE_MIX = """
             UPDATE audio_tracks_storage.mix
-            SET name = ?,
-                description = ?,
-                genre_id = ?
+            SET name        = ?,
+                description = ?
             WHERE id = ?
             """;
 
-    private static final String SQL_FIND_MIX_BY_GENRE_ID = """
-            SELECT mix.id          AS mix_id,
-                   mix.name        AS mix_name,
-                   mix.description AS mix_description,
-                   g.id            AS g_id,
-                   g.name          AS genre_name
-            FROM audio_tracks_storage.mix mix
-                     JOIN audio_tracks_storage.genre g ON g.id = mix.genre_id
-            WHERE g.id = ?
+    private static final String SQL_FIND_MIX_BY_NAME = """
+            SELECT id, name, description
+            FROM audio_tracks_storage.mix
+            WHERE name = ?
             """;
 
-    private static final String SQL_FIND_MIX_BY_GENRE_NAME = """
-            SELECT mix.id          AS mix_id,
-                   mix.name        AS mix_name,
-                   mix.description AS mix_description,
-                   g.id            AS g_id,
-                   g.name          AS genre_name
+    private static final String SQL_FIND_REVIEWS_BY_MIX_ID = """
+            SELECT mix.id                         AS id,
+                   mix.name                       AS name,
+                   mix.description                AS description,
+                   rm.id                          AS rm_id,
+                   rm.review_text                 AS rm_review_text,
+                   rm.user_account_id             AS rm_user_account_id,
+                   rm.mix_id                      AS rm_mix_id,
+                   data.id                        AS user_id,
+                   data.email                     AS email,
+                   data.login                     AS login,
+                   data.password                  AS password,
+                   data.discount_percentage_level AS discount_percentage_level,
+                   data.role                      AS role,
+                   data.first_name                AS first_name,
+                   data.last_name                 AS last_name,
+                   data.age                       AS age,
+                   data.card_number               AS card_number
             FROM audio_tracks_storage.mix mix
-                     JOIN audio_tracks_storage.genre g ON g.id = mix.genre_id
-            WHERE g.name LIKE ?
+                     JOIN review_storage.review_about_mix rm ON mix.id = rm.mix_id
+                     JOIN user_storage.user_account_data data ON data.id = rm.user_account_id
+            WHERE mix.id = ?            
             """;
 
-    private static final String SQL_FIND_ALL_MIXES = """
-            SELECT mix.id AS mix_id, mix.name AS mix_name, mix.description AS mix_description, g.id AS g_id, g.name AS genre_name
+    private static final String SQL_FIND_REVIEWS_BY_MIX_NAME = """
+            SELECT mix.id                         AS id,
+                   mix.name                       AS name,
+                   mix.description                AS description,
+                   rm.id                          AS rm_id,
+                   rm.review_text                 AS rm_review_text,
+                   rm.user_account_id             AS rm_user_account_id,
+                   rm.mix_id                      AS rm_mix_id,
+                   data.id                        AS user_id,
+                   data.email                     AS email,
+                   data.login                     AS login,
+                   data.password                  AS password,
+                   data.discount_percentage_level AS discount_percentage_level,
+                   data.role                      AS role,
+                   data.first_name                AS first_name,
+                   data.last_name                 AS last_name,
+                   data.age                       AS age,
+                   data.card_number               AS card_number
             FROM audio_tracks_storage.mix mix
-                    LEFT JOIN audio_tracks_storage.genre g ON g.id = mix.genre_id
+                     JOIN review_storage.review_about_mix rm ON mix.id = rm.mix_id
+                     JOIN user_storage.user_account_data data ON data.id = rm.user_account_id
+            WHERE mix.name = ?      
             """;
 
     @Override
-    public Mix saveMix(Mix mix) {
-        try (Connection connection = ConnectionManager.get();
-             PreparedStatement saveMixStatement = connection.prepareStatement(SQL_SAVE_MIX, Statement.RETURN_GENERATED_KEYS);
-             PreparedStatement selectIdStatement = connection.prepareStatement(SQL_FIND_GENRE_ID)) {
-            selectIdStatement.setString(1, mix.getGenre().getName().getGenreName());
-            ResultSet resultSet = selectIdStatement.executeQuery();
-            if (resultSet.next()) {
-                long genreId = resultSet.getLong("id");
-                mix.getGenre().setId(genreId);
-                saveMixStatement.setString(1, mix.getName());
-                saveMixStatement.setString(2, mix.getDescription());
-                saveMixStatement.setString(3, mix.getGenre().getName().getGenreName());
-                saveMixStatement.executeUpdate();
-                ResultSet generatedKeys = saveMixStatement.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    long id = generatedKeys.getLong("id");
-                    mix.setId(id);
-                }
+    public Mix save(Mix mix) {
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement saveMixStatement = connection.prepareStatement(SQL_SAVE_MIX, Statement.RETURN_GENERATED_KEYS)) {
+            saveMixStatement.setString(1, mix.getName());
+            saveMixStatement.setString(2, mix.getDescription());
+            saveMixStatement.executeUpdate();
+            ResultSet generatedKeys = saveMixStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                long mixId = generatedKeys.getLong("id");
+                mix.setId(mixId);
             }
             return mix;
         } catch (SQLException e) {
@@ -132,19 +132,28 @@ public class MixDaoImpl implements MixDao {
     }
 
     @Override
+    public Optional<Mix> findById(Long id) {
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement findByIdStatement = connection.prepareStatement(SQL_FIND_MIX_BY_ID)) {
+            findByIdStatement.setLong(1, id);
+            ResultSet resultSet = findByIdStatement.executeQuery();
+            Mix mix = null;
+            if (resultSet.next()) {
+                mix = buildMix(resultSet);
+            }
+            return Optional.ofNullable(mix);
+        } catch (SQLException e) {
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    @Override
     public List<Mix> findAll(MixFilter filter) {
         List<Object> parameters = new ArrayList<>();
-        List<String> whereSql = new ArrayList<>();
-        if (filter.genreType() != null) {
-            whereSql.add("g.name LIKE ?");
-            parameters.add("%" + filter.genreType() + "%");
-        }
         parameters.add(filter.limit());
         parameters.add(filter.offset());
-        String where = whereSql.stream()
-                .collect(joining(" AND ", " WHERE ", " LIMIT ?  OFFSET ? "));
-        String sql = SQL_FIND_ALL_MIXES + where;
-        try (Connection connection = ConnectionManager.get();
+        String sql = SQL_FIND_ALL + LIMIT_OFFSET;
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findAllStatement = connection.prepareStatement(sql)) {
             for (int i = 0; i < parameters.size(); i++) {
                 findAllStatement.setObject(i + 1, parameters.get(i));
@@ -161,54 +170,34 @@ public class MixDaoImpl implements MixDao {
     }
 
     @Override
-    public Optional<List<Mix>> findMixesByGenreName(String genreName, DefaultFilter filter) {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(filter.limit());
-        parameters.add(filter.offset());
-        String sql = SQL_FIND_MIX_BY_GENRE_NAME + LIMIT_OFFSET;
-        try (Connection connection = ConnectionManager.get();
-             PreparedStatement findMixByGenreName = connection.prepareStatement(sql)) {
-            findMixByGenreName.setString(1, genreName);
-            findMixByGenreName.setObject(2, (filter.limit()));
-            findMixByGenreName.setObject(3, filter.offset());
-            ResultSet resultSet = findMixByGenreName.executeQuery();
-            List<Mix> mixes = new ArrayList<>();
-            while (resultSet.next()) {
-                mixes.add(buildMix(resultSet));
-            }
-            return Optional.of(mixes);
+    public void update(Mix mix) {
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement updateStatement = connection.prepareStatement(SQL_UPDATE_MIX)) {
+            updateStatement.setString(1, mix.getName());
+            updateStatement.setString(2, mix.getDescription());
+            updateStatement.setLong(3, mix.getId());
+            updateStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 
     @Override
-    public Optional<List<Mix>> findMixesByGenreId(Long genreId, DefaultFilter filter) {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(filter.limit());
-        parameters.add(filter.offset());
-        String sql = SQL_FIND_MIX_BY_GENRE_ID + LIMIT_OFFSET;
-        try (Connection connection = ConnectionManager.get();
-             PreparedStatement findMixByGenreName = connection.prepareStatement(sql)) {
-            findMixByGenreName.setLong(1, genreId);
-            findMixByGenreName.setObject(2, (filter.limit()));
-            findMixByGenreName.setObject(3, filter.offset());
-            ResultSet resultSet = findMixByGenreName.executeQuery();
-            List<Mix> mixes = new ArrayList<>();
-            while (resultSet.next()) {
-                mixes.add(buildMix(resultSet));
-            }
-            return Optional.of(mixes);
+    public boolean deleteById(Long id) {
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement deleteMixById = connection.prepareStatement(SQL_DELETE_MIX_BY_ID)) {
+            deleteMixById.setLong(1, id);
+            return deleteMixById.executeUpdate() == 1;
         } catch (SQLException e) {
             throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 
     @Override
-    public Optional<Mix> findById(Long id) {
-        try (Connection connection = ConnectionManager.get();
-             PreparedStatement findByIdStatement = connection.prepareStatement(SQL_FIND_MIX_BY_ID)) {
-            findByIdStatement.setLong(1, id);
+    public Optional<Mix> findMixByMixName(String mixName) {
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement findByIdStatement = connection.prepareStatement(SQL_FIND_MIX_BY_NAME)) {
+            findByIdStatement.setString(1, mixName);
             ResultSet resultSet = findByIdStatement.executeQuery();
             Mix mix = null;
             if (resultSet.next()) {
@@ -221,60 +210,91 @@ public class MixDaoImpl implements MixDao {
     }
 
     @Override
-    public Optional<Mix> findByName(String name) {
-        try (Connection connection = ConnectionManager.get();
-             PreparedStatement findByNameStatement = connection.prepareStatement(SQL_FIND_MIX_BY_NAME)) {
-            findByNameStatement.setString(1, name);
-            ResultSet resultSet = findByNameStatement.executeQuery();
-            Mix mix = null;
-            if (resultSet.next()) {
-                mix = buildMix(resultSet);
+    public Set<MixReview> findMixReviewByMixName(String mixName, DefaultFilter filter) {
+        List<Object> parameters = new ArrayList<>();
+        parameters.add(filter.limit());
+        parameters.add(filter.offset());
+        String sql = SQL_FIND_REVIEWS_BY_MIX_NAME + LIMIT_OFFSET;
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement findReviewsByMixName = connection.prepareStatement(sql)) {
+            findReviewsByMixName.setString(1, mixName);
+            findReviewsByMixName.setObject(2, filter.limit());
+            findReviewsByMixName.setObject(3, filter.offset());
+            ResultSet resultSet = findReviewsByMixName.executeQuery();
+            Set<MixReview> mixReviews = new HashSet<>();
+            MixReview mixReview = null;
+            while (resultSet.next()) {
+                mixReview = buildMixReview(resultSet);
+                mixReviews.add(mixReview);
             }
-            return Optional.ofNullable(mix);
+            return mixReviews;
         } catch (SQLException e) {
             throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 
     @Override
-    public void update(Mix mix) {
-        try (Connection connection = ConnectionManager.get();
-             PreparedStatement updateMixStatement = connection.prepareStatement(SQL_UPDATE_MIX)) {
-            updateMixStatement.setString(1, mix.getName());
-            updateMixStatement.setString(2, mix.getDescription());
-            updateMixStatement.setLong(3, mix.getGenre().getId());
-            updateMixStatement.setLong(4, mix.getId());
-            updateMixStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
-        }
-    }
-
-    @Override
-    public boolean deleteById(Long id) {
-        try (Connection connection = ConnectionManager.get();
-             PreparedStatement deleteByIdStatement = connection.prepareStatement(SQL_DELETE_BY_ID)) {
-            deleteByIdStatement.setLong(1, id);
-            return deleteByIdStatement.executeUpdate() == 1;
+    public Set<MixReview> findMixReviewsByMixId(Long mixId, DefaultFilter filter) {
+        List<Object> parameters = new ArrayList<>();
+        parameters.add(filter.limit());
+        parameters.add(filter.offset());
+        String sql = SQL_FIND_REVIEWS_BY_MIX_ID + LIMIT_OFFSET;
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement findReviewsByMixName = connection.prepareStatement(sql)) {
+            findReviewsByMixName.setLong(1, mixId);
+            findReviewsByMixName.setObject(2, filter.limit());
+            findReviewsByMixName.setObject(3, filter.offset());
+            ResultSet resultSet = findReviewsByMixName.executeQuery();
+            Set<MixReview> mixReviews = new HashSet<>();
+            MixReview mixReview = null;
+            while (resultSet.next()) {
+                mixReview = buildMixReview(resultSet);
+                mixReviews.add(mixReview);
+            }
+            return mixReviews;
         } catch (SQLException e) {
             throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 
     private Mix buildMix(ResultSet resultSet) throws SQLException {
-        Genre genre = buildGenre(resultSet);
         return new Mix(
-                resultSet.getLong("mix_id"),
-                resultSet.getString("mix_name"),
-                resultSet.getString("mix_description"),
-                genre
+                resultSet.getLong("id"),
+                resultSet.getString("name"),
+                resultSet.getString("description")
         );
     }
 
-    private Genre buildGenre(ResultSet resultSet) throws SQLException {
-        return new Genre(
-                resultSet.getLong("g_id"),
-                GenreType.valueOf(resultSet.getString("genre_name"))
+    private MixReview buildMixReview(ResultSet resultSet) throws SQLException {
+        UserAccount account = buildUserAccount(resultSet);
+        Mix mix = buildMix(resultSet);
+        return new MixReview(
+                resultSet.getLong("rm_id"),
+                resultSet.getString("rm_review_text"),
+                account,
+                mix
+        );
+    }
+
+    private UserAccount buildUserAccount(ResultSet resultSet) throws SQLException {
+        UserData data = buildUserData(resultSet);
+        return new UserAccount(
+                resultSet.getLong("user_id"),
+                resultSet.getString("email"),
+                resultSet.getString("login"),
+                resultSet.getString("password"),
+                resultSet.getInt("discount_percentage_level"),
+                data
+        );
+    }
+
+    private UserData buildUserData(ResultSet resultSet) throws SQLException {
+        return new UserData(
+                UserRole.valueOf(resultSet.getString("role")),
+                resultSet.getString("first_name"),
+                resultSet.getString("last_name"),
+                resultSet.getInt("age"),
+                resultSet.getString("card_number")
         );
     }
 }
