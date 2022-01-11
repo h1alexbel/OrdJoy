@@ -88,7 +88,7 @@ public class UserDaoImpl implements UserDao {
                    age,
                    card_number
             FROM user_storage.user_account_data
-            WHERE login = ?
+            WHERE login LIKE ?
             """;
 
     private static final String SQL_FIND_USER_BY_EMAIL = """
@@ -103,7 +103,7 @@ public class UserDaoImpl implements UserDao {
                    age,
                    card_number
             FROM user_storage.user_account_data
-            WHERE email = ?
+            WHERE email LIKE ?
             """;
 
     private static final String SQL_FIND_DISCOUNT_LEVEL_BY_USER_ID = """
@@ -115,13 +115,13 @@ public class UserDaoImpl implements UserDao {
     private static final String SQL_FIND_DISCOUNT_LEVEL_BY_USER_EMAIL = """
             SELECT discount_percentage_level
             FROM user_storage.user_account_data
-            WHERE email = ?
+            WHERE email LIKE ?
             """;
 
     private static final String SQL_ADD_DISCOUNT_PERCENTAGE_LEVEL = """
             UPDATE user_storage.user_account_data
             SET discount_percentage_level = ?
-            WHERE email = ?
+            WHERE email LIKE ?
             """;
 
     private static final String SQL_FIND_ALL = """

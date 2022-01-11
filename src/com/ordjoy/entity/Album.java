@@ -19,6 +19,11 @@ public class Album implements Entity {
         this.reviews = reviews;
     }
 
+    public Album(Long id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+
     public Album(String title, Set<Track> tracks, Set<AlbumReview> reviews) {
         this.title = title;
         this.tracks = tracks;
@@ -77,8 +82,6 @@ public class Album implements Entity {
         return "Album{" +
                "id=" + id +
                ", title='" + title + '\'' +
-               ", tracks=" + tracks +
-               ", reviews=" + reviews +
                '}';
     }
 }
