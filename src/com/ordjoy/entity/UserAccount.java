@@ -13,6 +13,15 @@ public class UserAccount implements Entity {
     public UserAccount() {
     }
 
+    public UserAccount(Long id, String email, String login, String password, Integer discountPercentageLevel, UserData userData) {
+        this.id = id;
+        this.email = email;
+        this.login = login;
+        this.password = password;
+        this.discountPercentageLevel = discountPercentageLevel;
+        this.userData = userData;
+    }
+
     public UserAccount(Long id, String email, String login, String password, Integer discountPercentageLevel, UserData userData, UserReviewData userReviewData) {
         this.id = id;
         this.email = email;
@@ -119,7 +128,6 @@ public class UserAccount implements Entity {
                ", login='" + login + '\'' +
                ", discountPercentageLevel=" + discountPercentageLevel +
                ", userData=" + userData +
-               ", userReviewData=" + userReviewData +
                '}';
     }
 }
