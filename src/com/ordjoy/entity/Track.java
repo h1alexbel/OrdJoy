@@ -35,6 +35,13 @@ public class Track implements Entity {
         this.reviews = reviews;
     }
 
+    public Track(Long id, String songUrl, String title, Album album) {
+        this.id = id;
+        this.songUrl = songUrl;
+        this.title = title;
+        this.album = album;
+    }
+
     public Long getId() {
         return id;
     }
@@ -104,7 +111,7 @@ public class Track implements Entity {
                "id=" + id +
                ", songUrl='" + songUrl + '\'' +
                ", title='" + title + '\'' +
-               ", reviews=" + reviews +
+               ", album=" + album +
                '}';
     }
 }
