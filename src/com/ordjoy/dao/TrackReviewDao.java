@@ -11,4 +11,8 @@ public interface TrackReviewDao extends GenericDao<Long, TrackReview, ReviewFilt
     Set<TrackReview> findTrackReviewsByUserLogin(String login, DefaultFilter filter);
 
     Set<TrackReview> findTrackReviewsByUserId(Long userId, DefaultFilter filter);
+
+    Set<TrackReview> findTrackReviewsByTrackId(Long trackId, DefaultFilter filter);
+
+    Set<TrackReview> findTrackReviewsByTrackTitle(String title, DefaultFilter filter);
 }
