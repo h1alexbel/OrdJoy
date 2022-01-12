@@ -5,9 +5,9 @@ import com.ordjoy.dbmanager.ConnectionPool;
 import com.ordjoy.dbmanager.ProxyConnection;
 import com.ordjoy.entity.*;
 import com.ordjoy.exception.DaoException;
+import com.ordjoy.exception.DataBaseException;
 import com.ordjoy.filter.DefaultFilter;
 import com.ordjoy.filter.TrackFilter;
-import com.ordjoy.dbmanager.ConnectionManager;
 
 import java.sql.*;
 import java.util.*;
@@ -213,17 +213,30 @@ public class TrackDaoImpl implements TrackDao {
         }
     }
 
+
     @Override
     public boolean deleteById(Long id) {
-        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement deleteStatement = connection.prepareStatement(SQL_DELETE_TRACK_BY_ID);
-             PreparedStatement deleteFromMutualTableStatement = connection.prepareStatement(SQL_DELETE_FROM_MUTUAL_TABLE)) {
+        ProxyConnection connection = null;
+        PreparedStatement deleteStatement = null;
+        PreparedStatement deleteFromMutualTableStatement = null;
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            connection.setAutoCommit(false);
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            deleteStatement = connection.prepareStatement(SQL_DELETE_TRACK_BY_ID);
+            deleteFromMutualTableStatement = connection.prepareStatement(SQL_DELETE_FROM_MUTUAL_TABLE);
             deleteFromMutualTableStatement.setLong(1, id);
             deleteStatement.setLong(1, id);
             deleteFromMutualTableStatement.executeUpdate();
+            connection.commit();
             return deleteStatement.executeUpdate() == 1;
         } catch (SQLException e) {
+            rollbackTransaction(connection);
             throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        } finally {
+            closeConnection(connection);
+            closeStatement(deleteStatement);
+            closeStatement(deleteFromMutualTableStatement);
         }
     }
 
@@ -318,5 +331,35 @@ public class TrackDaoImpl implements TrackDao {
                 resultSet.getLong("a_id"),
                 resultSet.getString("a_title")
         );
+    }
+
+    private void rollbackTransaction(ProxyConnection connection) {
+        if (connection != null) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new DataBaseException(ex);
+            }
+        }
+    }
+
+    private void closeStatement(PreparedStatement preparedStatement) {
+        if (preparedStatement != null) {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void closeConnection(ProxyConnection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
