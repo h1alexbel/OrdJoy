@@ -92,6 +92,12 @@ public class TrackDaoImpl implements TrackDao {
             WHERE id = ?
             """;
 
+    private static final String SQL_DELETE_FROM_ORDER_TABLE = """
+            DELETE
+            FROM user_storage.order
+            WHERE track_id = ?
+            """;
+
     private static final String SQL_DELETE_FROM_REVIEW_TABLE = """
             DELETE
             FROM review_storage.review_about_track
@@ -226,13 +232,17 @@ public class TrackDaoImpl implements TrackDao {
         PreparedStatement deleteStatement = null;
         PreparedStatement deleteFromMutualTableStatement = null;
         PreparedStatement deleteFromReviewTableStatement = null;
+        PreparedStatement deleteFromOrderTableStatement = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             deleteStatement = connection.prepareStatement(SQL_DELETE_TRACK_BY_ID);
+            deleteFromOrderTableStatement = connection.prepareStatement(SQL_DELETE_FROM_ORDER_TABLE);
             deleteFromMutualTableStatement = connection.prepareStatement(SQL_DELETE_FROM_MUTUAL_TABLE);
             deleteFromReviewTableStatement = connection.prepareStatement(SQL_DELETE_FROM_REVIEW_TABLE);
+            deleteFromOrderTableStatement.setLong(1, id);
+            deleteFromOrderTableStatement.executeUpdate();
             deleteFromMutualTableStatement.setLong(1, id);
             deleteFromMutualTableStatement.executeUpdate();
             deleteFromReviewTableStatement.setLong(1, id);
@@ -248,6 +258,7 @@ public class TrackDaoImpl implements TrackDao {
             closeStatement(deleteStatement);
             closeStatement(deleteFromMutualTableStatement);
             closeStatement(deleteFromReviewTableStatement);
+            closeStatement(deleteFromOrderTableStatement);
         }
     }
 
