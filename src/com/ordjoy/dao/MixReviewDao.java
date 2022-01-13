@@ -4,11 +4,11 @@ import com.ordjoy.entity.MixReview;
 import com.ordjoy.filter.DefaultFilter;
 import com.ordjoy.filter.ReviewFilter;
 
-import java.util.Set;
+import java.util.List;
 
 public interface MixReviewDao extends GenericDao<Long, MixReview, ReviewFilter> {
 
-    Set<MixReview> findMixReviewsByUserLogin(String login, DefaultFilter filter);
+    List<MixReview> findMixReviewsByUserLogin(String login, DefaultFilter filter);
 
-    Set<MixReview> findMixReviewsByUserId(Long userId, DefaultFilter filter);
+    List<MixReview> findMixReviewsByUserId(Long userId, DefaultFilter filter);
 }
