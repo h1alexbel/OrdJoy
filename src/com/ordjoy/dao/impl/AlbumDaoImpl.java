@@ -205,7 +205,7 @@ public class AlbumDaoImpl implements AlbumDao {
     }
 
     @Override
-    public Set<AlbumReview> findAlbumReviewsByAlbumTitle(String albumTitle, DefaultFilter filter) {
+    public List<AlbumReview> findAlbumReviewsByAlbumTitle(String albumTitle, DefaultFilter filter) {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
@@ -216,7 +216,7 @@ public class AlbumDaoImpl implements AlbumDao {
             findReviewsByTitleStatement.setObject(2, filter.limit());
             findReviewsByTitleStatement.setObject(3, filter.offset());
             ResultSet resultSet = findReviewsByTitleStatement.executeQuery();
-            Set<AlbumReview> albumReviews = new HashSet<>();
+            List<AlbumReview> albumReviews = new ArrayList<>();
             AlbumReview albumReview = null;
             while (resultSet.next()) {
                 albumReview = buildAlbumReview(resultSet);
@@ -229,7 +229,7 @@ public class AlbumDaoImpl implements AlbumDao {
     }
 
     @Override
-    public Set<AlbumReview> findAlbumReviewsByAlbumId(Long albumId, DefaultFilter filter) {
+    public List<AlbumReview> findAlbumReviewsByAlbumId(Long albumId, DefaultFilter filter) {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
@@ -240,7 +240,7 @@ public class AlbumDaoImpl implements AlbumDao {
             findReviewsByTitleStatement.setObject(2, filter.limit());
             findReviewsByTitleStatement.setObject(3, filter.offset());
             ResultSet resultSet = findReviewsByTitleStatement.executeQuery();
-            Set<AlbumReview> albumReviews = new HashSet<>();
+            List<AlbumReview> albumReviews = new ArrayList<>();
             AlbumReview albumReview = null;
             while (resultSet.next()) {
                 albumReview = buildAlbumReview(resultSet);

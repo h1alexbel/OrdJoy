@@ -210,7 +210,7 @@ public class MixDaoImpl implements MixDao {
     }
 
     @Override
-    public Set<MixReview> findMixReviewByMixName(String mixName, DefaultFilter filter) {
+    public List<MixReview> findMixReviewByMixName(String mixName, DefaultFilter filter) {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
@@ -221,7 +221,7 @@ public class MixDaoImpl implements MixDao {
             findReviewsByMixName.setObject(2, filter.limit());
             findReviewsByMixName.setObject(3, filter.offset());
             ResultSet resultSet = findReviewsByMixName.executeQuery();
-            Set<MixReview> mixReviews = new HashSet<>();
+            List<MixReview> mixReviews = new ArrayList<>();
             MixReview mixReview = null;
             while (resultSet.next()) {
                 mixReview = buildMixReview(resultSet);
@@ -234,7 +234,7 @@ public class MixDaoImpl implements MixDao {
     }
 
     @Override
-    public Set<MixReview> findMixReviewsByMixId(Long mixId, DefaultFilter filter) {
+    public List<MixReview> findMixReviewsByMixId(Long mixId, DefaultFilter filter) {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
@@ -245,7 +245,7 @@ public class MixDaoImpl implements MixDao {
             findReviewsByMixName.setObject(2, filter.limit());
             findReviewsByMixName.setObject(3, filter.offset());
             ResultSet resultSet = findReviewsByMixName.executeQuery();
-            Set<MixReview> mixReviews = new HashSet<>();
+            List<MixReview> mixReviews = new ArrayList<>();
             MixReview mixReview = null;
             while (resultSet.next()) {
                 mixReview = buildMixReview(resultSet);
