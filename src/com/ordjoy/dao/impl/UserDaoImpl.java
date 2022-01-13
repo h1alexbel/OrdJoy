@@ -4,6 +4,7 @@ import com.ordjoy.dao.UserDao;
 import com.ordjoy.dbmanager.ConnectionPool;
 import com.ordjoy.dbmanager.ProxyConnection;
 import com.ordjoy.entity.UserData;
+import com.ordjoy.exception.DataBaseException;
 import com.ordjoy.filter.UserAccountFilter;
 import com.ordjoy.entity.UserAccount;
 import com.ordjoy.entity.UserRole;
@@ -74,6 +75,30 @@ public class UserDaoImpl implements UserDao {
             DELETE
             FROM user_storage.user_account_data
             WHERE id = ?
+            """;
+
+    private static final String SQL_DELETE_FROM_MIX_REVIEW_TABLE = """
+            DELETE
+            FROM review_storage.review_about_mix
+            WHERE user_account_id = ?
+            """;
+
+    private static final String SQL_DELETE_FROM_ALBUM_REVIEW_TABLE = """
+            DELETE
+            FROM review_storage.review_about_album
+            WHERE user_account_id = ?
+            """;
+
+    private static final String SQL_DELETE_FROM_TRACK_REVIEW_TABLE = """
+            DELETE
+            FROM review_storage.review_about_track
+            WHERE user_account_id = ?
+            """;
+
+    private static final String SQL_DELETE_FROM_ORDER_TABLE = """
+            DELETE
+            FROM user_storage.order
+            WHERE user_account_id = ?
             """;
 
     private static final String SQL_FIND_BY_LOGIN = """
@@ -223,12 +248,42 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean deleteById(Long id) {
-        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement deleteUserById = connection.prepareStatement(SQL_DELETE_BY_ID)) {
-            deleteUserById.setLong(1, id);
-            return deleteUserById.executeUpdate() == 1;
+        ProxyConnection connection = null;
+        PreparedStatement deleteStatement = null;
+        PreparedStatement deleteFromMixReviewTable = null;
+        PreparedStatement deleteFromAlbumReviewTable = null;
+        PreparedStatement deleteFromTrackReviewTable = null;
+        PreparedStatement deleteFromOrderTable = null;
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            connection.setAutoCommit(false);
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            deleteStatement = connection.prepareStatement(SQL_DELETE_BY_ID);
+            deleteFromMixReviewTable = connection.prepareStatement(SQL_DELETE_FROM_MIX_REVIEW_TABLE);
+            deleteFromAlbumReviewTable = connection.prepareStatement(SQL_DELETE_FROM_ALBUM_REVIEW_TABLE);
+            deleteFromTrackReviewTable = connection.prepareStatement(SQL_DELETE_FROM_TRACK_REVIEW_TABLE);
+            deleteFromOrderTable = connection.prepareStatement(SQL_DELETE_FROM_ORDER_TABLE);
+            deleteFromMixReviewTable.setLong(1, id);
+            deleteFromMixReviewTable.executeUpdate();
+            deleteFromAlbumReviewTable.setLong(1, id);
+            deleteFromAlbumReviewTable.executeUpdate();
+            deleteFromTrackReviewTable.setLong(1, id);
+            deleteFromTrackReviewTable.executeUpdate();
+            deleteFromOrderTable.setLong(1, id);
+            deleteFromOrderTable.executeUpdate();
+            deleteStatement.setLong(1, id);
+            connection.commit();
+            return deleteStatement.executeUpdate() == 1;
         } catch (SQLException e) {
+            rollbackTransaction(connection);
             throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        } finally {
+            closeConnection(connection);
+            closeStatement(deleteStatement);
+            closeStatement(deleteFromOrderTable);
+            closeStatement(deleteFromTrackReviewTable);
+            closeStatement(deleteFromAlbumReviewTable);
+            closeStatement(deleteFromMixReviewTable);
         }
     }
 
@@ -328,5 +383,35 @@ public class UserDaoImpl implements UserDao {
                 resultSet.getInt("age"),
                 resultSet.getString("card_number")
         );
+    }
+
+    private void rollbackTransaction(ProxyConnection connection) {
+        if (connection != null) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new DataBaseException(ex);
+            }
+        }
+    }
+
+    private void closeStatement(PreparedStatement preparedStatement) {
+        if (preparedStatement != null) {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void closeConnection(ProxyConnection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
