@@ -92,6 +92,12 @@ public class TrackDaoImpl implements TrackDao {
             WHERE id = ?
             """;
 
+    private static final String SQL_DELETE_FROM_REVIEW_TABLE = """
+            DELETE
+            FROM review_storage.review_about_track
+            WHERE track_id = ?
+            """;
+
     private static final String SQL_SAVE_TRACK_AND_MIX_IN_MUTUAL_TABLE = """
             INSERT INTO audio_tracks_storage.track_mixes(track_id, mix_id)
             VALUES ((SELECT id FROM audio_tracks_storage.track WHERE title = ?),
@@ -219,15 +225,19 @@ public class TrackDaoImpl implements TrackDao {
         ProxyConnection connection = null;
         PreparedStatement deleteStatement = null;
         PreparedStatement deleteFromMutualTableStatement = null;
+        PreparedStatement deleteFromReviewTableStatement = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             deleteStatement = connection.prepareStatement(SQL_DELETE_TRACK_BY_ID);
             deleteFromMutualTableStatement = connection.prepareStatement(SQL_DELETE_FROM_MUTUAL_TABLE);
+            deleteFromReviewTableStatement = connection.prepareStatement(SQL_DELETE_FROM_REVIEW_TABLE);
             deleteFromMutualTableStatement.setLong(1, id);
-            deleteStatement.setLong(1, id);
             deleteFromMutualTableStatement.executeUpdate();
+            deleteFromReviewTableStatement.setLong(1, id);
+            deleteFromReviewTableStatement.executeUpdate();
+            deleteStatement.setLong(1, id);
             connection.commit();
             return deleteStatement.executeUpdate() == 1;
         } catch (SQLException e) {
@@ -237,6 +247,7 @@ public class TrackDaoImpl implements TrackDao {
             closeConnection(connection);
             closeStatement(deleteStatement);
             closeStatement(deleteFromMutualTableStatement);
+            closeStatement(deleteFromReviewTableStatement);
         }
     }
 
