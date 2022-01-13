@@ -5,6 +5,7 @@ import com.ordjoy.dbmanager.ConnectionPool;
 import com.ordjoy.dbmanager.ProxyConnection;
 import com.ordjoy.entity.*;
 import com.ordjoy.exception.DaoException;
+import com.ordjoy.exception.DataBaseException;
 import com.ordjoy.filter.AlbumFilter;
 import com.ordjoy.filter.DefaultFilter;
 
@@ -56,6 +57,18 @@ public class AlbumDaoImpl implements AlbumDao {
             DELETE
             FROM audio_tracks_storage.album
             WHERE id = ?
+            """;
+
+    private static final String SQL_DELETE_FROM_TRACK_TABLE = """
+            DELETE
+            FROM audio_tracks_storage.track
+            WHERE album_id = ?
+            """;
+
+    private static final String SQL_DELETE_FROM_REVIEW_TABLE = """
+            DELETE
+            FROM review_storage.review_about_album
+            WHERE album_id = ?
             """;
 
     private static final String SQL_FIND_ALBUM_BY_TITLE = """
@@ -179,12 +192,33 @@ public class AlbumDaoImpl implements AlbumDao {
 
     @Override
     public boolean deleteById(Long id) {
-        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement deleteStatement = connection.prepareStatement(SQL_DELETE_ALBUM_BY_ID)) {
+        ProxyConnection connection = null;
+        PreparedStatement deleteStatement = null;
+        PreparedStatement deleteFromTrackTableStatement = null;
+        PreparedStatement deleteFromAlbumReviewTableStatement = null;
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            connection.setAutoCommit(false);
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            deleteStatement = connection.prepareStatement(SQL_DELETE_ALBUM_BY_ID);
+            deleteFromTrackTableStatement = connection.prepareStatement(SQL_DELETE_FROM_TRACK_TABLE);
+            deleteFromAlbumReviewTableStatement = connection.prepareStatement(SQL_DELETE_FROM_REVIEW_TABLE);
+            deleteFromTrackTableStatement.setLong(1, id);
+            deleteFromTrackTableStatement.executeUpdate();
+            deleteFromAlbumReviewTableStatement.setLong(1, id);
+            deleteFromAlbumReviewTableStatement.executeUpdate();
             deleteStatement.setLong(1, id);
+            deleteFromTrackTableStatement.executeUpdate();
+            connection.commit();
             return deleteStatement.executeUpdate() == 1;
         } catch (SQLException e) {
+            rollbackTransaction(connection);
             throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        } finally {
+            closeConnection(connection);
+            closeStatement(deleteStatement);
+            closeStatement(deleteFromTrackTableStatement);
+            closeStatement(deleteFromAlbumReviewTableStatement);
         }
     }
 
@@ -290,5 +324,35 @@ public class AlbumDaoImpl implements AlbumDao {
                 resultSet.getInt("age"),
                 resultSet.getString("card_number")
         );
+    }
+
+    private void rollbackTransaction(ProxyConnection connection) {
+        if (connection != null) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new DataBaseException(ex);
+            }
+        }
+    }
+
+    private void closeStatement(PreparedStatement preparedStatement) {
+        if (preparedStatement != null) {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void closeConnection(ProxyConnection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
