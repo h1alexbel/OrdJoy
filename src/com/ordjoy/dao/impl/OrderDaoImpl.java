@@ -1,11 +1,12 @@
 package com.ordjoy.dao.impl;
 
 import com.ordjoy.dao.OrderDao;
+import com.ordjoy.dbmanager.ConnectionPool;
+import com.ordjoy.dbmanager.ProxyConnection;
 import com.ordjoy.entity.*;
 import com.ordjoy.exception.DaoException;
 import com.ordjoy.filter.DefaultFilter;
 import com.ordjoy.filter.OrderFilter;
-import com.ordjoy.dbmanager.ConnectionManager;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -32,14 +33,14 @@ public class OrderDaoImpl implements OrderDao {
             """;
 
     private static final String SQL_SAVE_ORDER = """
-            INSERT INTO user_storage.order(price, card_number, user_account_id, track_id)
-            VALUES (?, ?, (SELECT id FROM user_storage.user_account WHERE login = ?),
+            INSERT INTO user_storage.order(price, user_account_id, order_status, track_id)
+            VALUES (?, (SELECT id FROM user_storage.user_account_data WHERE login = ?), ?,
                     (SELECT id FROM audio_tracks_storage.track WHERE title = ?));
             """;
 
-    private static final String SQL_FIND_USER_ACCOUNT_ID = """
+    private static final String SQL_FIND_USER_ID = """
             SELECT id
-            FROM user_storage.user_account
+            FROM user_storage.user_account_data
             WHERE login = ?
             """;
 
@@ -49,276 +50,307 @@ public class OrderDaoImpl implements OrderDao {
             WHERE title = ?
             """;
 
-    private static final String SQL_FIND_ARTIST_ID = """
-            SELECT id FROM audio_tracks_storage.artist WHERE name = ?
-            """;
-
     private static final String SQL_FIND_ORDER_BY_ID = """
-            SELECT ord.id              AS ord_id,
-                   ord.price           AS price,
-                   ord.card_number     AS card_number,
-                   ord.user_account_id AS user_id,
-                   ord.track_id        AS ord_track_id,
-                   ua.id               AS ua_id,
-                   ua.login            AS login,
-                   ua.email            AS email,
-                   ua.password         AS pass,
-                   ua.role             AS role,
-                   tr.id               AS tr_id,
-                   tr.title            AS track_title,
-                   tr.song_url         AS url,
-                   tr.album_id         AS album_id,
-                   tr.genre_id         As genre_id,
-                   g.id                AS g_id,
-                   g.name              AS genre_name,
-                   art.id              AS art_id,
-                   art.name            AS artist_name,
-                   a.id                AS a_id,
-                   a.title             AS a_title
+            SELECT ord.id                        AS id,
+                   ord.price                     AS price,
+                   ord.user_account_id           AS user_account_id,
+                   ord.order_status              AS order_status,
+                   ord.track_id                  AS track_id,
+                   uad.id                        AS uad_id,
+                   uad.login                     AS uad_login,
+                   uad.first_name                AS uad_first_name,
+                   uad.last_name                 AS uad_last_name,
+                   uad.password                  AS pass,
+                   uad.role                      AS role,
+                   uad.age                       AS age,
+                   uad.discount_percentage_level AS discount_percentage_level,
+                   uad.card_number               AS card_number,
+                   uad.email                     AS email,
+                   tr.id                         AS tr_id,
+                   tr.song_url                   AS song_url,
+                   tr.title                      AS title,
+                   tr.album_id                   AS album_id,
+                   a.id                          AS al_id,
+                   a.title                       AS al_title
             FROM user_storage.order ord
-                     JOIN user_storage.user_account ua ON ua.id = ord.user_account_id
+                     JOIN user_storage.user_account_data uad ON uad.id = ord.user_account_id
                      JOIN audio_tracks_storage.track tr ON tr.id = ord.track_id
                      JOIN audio_tracks_storage.album a ON a.id = tr.album_id
-                     JOIN audio_tracks_storage.genre g ON g.id = a.genre_id
-                     JOIN audio_tracks_storage.artist art ON art.id = a.artist_id
             WHERE ord.id = ?
             """;
 
-    private static final String SQL_FIND_ORDER_BY_PRICE = """
-            SELECT ord.id              AS ord_id,
-                   ord.price           AS price,
-                   ord.card_number     AS card_number,
-                   ord.user_account_id AS user_id,
-                   ord.track_id        AS ord_track_id,
-                   ua.id               AS ua_id,
-                   ua.login            AS login,
-                   ua.email            AS email,
-                   ua.password         AS pass,
-                   ua.role             AS role,
-                   tr.id               AS tr_id,
-                   tr.title            AS track_title,
-                   tr.song_url         AS url,
-                   tr.album_id         AS album_id,
-                   tr.genre_id         As genre_id,
-                   g.id                AS g_id,
-                   g.name              AS genre_name,
-                   art.id              AS art_id,
-                   art.name            AS artist_name,
-                   a.id                AS a_id,
-                   a.title             AS a_title
+    private static final String SQL_FIND_ALL = """
+            SELECT ord.id                        AS id,
+                   ord.price                     AS price,
+                   ord.user_account_id           AS user_account_id,
+                   ord.order_status              AS order_status,
+                   ord.track_id                  AS track_id,
+                   uad.id                        AS uad_id,
+                   uad.login                     AS uad_login,
+                   uad.first_name                AS uad_first_name,
+                   uad.last_name                 AS uad_last_name,
+                   uad.password                  AS pass,
+                   uad.role                      AS role,
+                   uad.age                       AS age,
+                   uad.discount_percentage_level AS discount_percentage_level,
+                   uad.card_number               AS card_number,
+                   uad.email                     AS email,
+                   tr.id                         AS tr_id,
+                   tr.song_url                   AS song_url,
+                   tr.title                      AS title,
+                   tr.album_id                   AS album_id,
+                   a.id                          AS al_id,
+                   a.title                       AS al_title
             FROM user_storage.order ord
-                     JOIN user_storage.user_account ua ON ua.id = ord.user_account_id
+                     JOIN user_storage.user_account_data uad ON uad.id = ord.user_account_id
                      JOIN audio_tracks_storage.track tr ON tr.id = ord.track_id
                      JOIN audio_tracks_storage.album a ON a.id = tr.album_id
-                     JOIN audio_tracks_storage.genre g ON g.id = a.genre_id
-                     JOIN audio_tracks_storage.artist art ON art.id = a.artist_id
-            WHERE ord.price = ?
             """;
 
-    private static final String SQL_FIND_ORDER_BY_TRACK_ID = """
-            SELECT ord.id              AS ord_id,
-                   ord.price           AS price,
-                   ord.card_number     AS card_number,
-                   ord.user_account_id AS user_id,
-                   ord.track_id        AS ord_track_id,
-                   ua.id               AS ua_id,
-                   ua.login            AS login,
-                   ua.email            AS email,
-                   ua.password         AS pass,
-                   ua.role             AS role,
-                   tr.id               AS tr_id,
-                   tr.title            AS track_title,
-                   tr.song_url         AS url,
-                   tr.album_id         AS album_id,
-                   tr.genre_id         As genre_id,
-                   g.id                AS g_id,
-                   g.name              AS genre_name,
-                   art.id              AS art_id,
-                   art.name            AS artist_name,
-                   a.id                AS a_id,
-                   a.title             AS a_title
-            FROM user_storage.order ord
-                     JOIN user_storage.user_account ua ON ua.id = ord.user_account_id
-                     JOIN audio_tracks_storage.track tr ON tr.id = ord.track_id
-                     JOIN audio_tracks_storage.album a ON a.id = tr.album_id
-                     JOIN audio_tracks_storage.genre g ON g.id = a.genre_id
-                     JOIN audio_tracks_storage.artist art ON art.id = a.artist_id
-            WHERE tr.id = ?
+    private static final String SQL_UPDATE_ORDER = """
+            UPDATE user_storage.order
+            SET price = ?,
+                user_account_id = ?,
+                order_status = ?,
+                track_id = ?
+            WHERE id = ?
             """;
 
-    private static final String SQL_FIND_ORDER_BY_CARD_NUMBER = """
-            SELECT ord.id              AS ord_id,
-                   ord.price           AS price,
-                   ord.card_number     AS card_number,
-                   ord.user_account_id AS user_id,
-                   ord.track_id        AS ord_track_id,
-                   ua.id               AS ua_id,
-                   ua.login            AS login,
-                   ua.email            AS email,
-                   ua.password         AS pass,
-                   ua.role             AS role,
-                   tr.id               AS tr_id,
-                   tr.title            AS track_title,
-                   tr.song_url         AS url,
-                   tr.album_id         AS album_id,
-                   tr.genre_id         As genre_id,
-                   g.id                AS g_id,
-                   g.name              AS genre_name,
-                   art.id              AS art_id,
-                   art.name            AS artist_name,
-                   a.id                AS a_id,
-                   a.title             AS a_title
-            FROM user_storage.order ord
-                     JOIN user_storage.user_account ua ON ua.id = ord.user_account_id
-                     JOIN audio_tracks_storage.track tr ON tr.id = ord.track_id
-                     JOIN audio_tracks_storage.album a ON a.id = tr.album_id
-                     JOIN audio_tracks_storage.genre g ON g.id = a.genre_id
-                     JOIN audio_tracks_storage.artist art ON art.id = a.artist_id
-            WHERE ord.card_number LIKE ?
+    private static final String SQL_UPDATE_STATUS = """
+            UPDATE user_storage.order
+            SET order_status = ?
+            WHERE id = ?
             """;
 
-    private static final String SQL_FIND_ORDER_BY_ACCOUNT_ID = """
-            SELECT ord.id              AS ord_id,
-                   ord.price           AS price,
-                   ord.card_number     AS card_number,
-                   ord.user_account_id AS user_id,
-                   ord.track_id        AS ord_track_id,
-                   ua.id               AS ua_id,
-                   ua.login            AS login,
-                   ua.email            AS email,
-                   ua.password         AS pass,
-                   ua.role             AS role,
-                   tr.id               AS tr_id,
-                   tr.title            AS track_title,
-                   tr.song_url         AS url,
-                   tr.album_id         AS album_id,
-                   tr.genre_id         As genre_id,
-                   g.id                AS g_id,
-                   g.name              AS genre_name,
-                   art.id              AS art_id,
-                   art.name            AS artist_name,
-                   a.id                AS a_id,
-                   a.title             AS a_title
-            FROM user_storage.order ord
-                     JOIN user_storage.user_account ua ON ua.id = ord.user_account_id
-                     JOIN audio_tracks_storage.track tr ON tr.id = ord.track_id
-                     JOIN audio_tracks_storage.album a ON a.id = tr.album_id
-                     JOIN audio_tracks_storage.genre g ON g.id = a.genre_id
-                     JOIN audio_tracks_storage.artist art ON art.id = a.artist_id
-            WHERE ua.id = ?
-            """;
-
-    private static final String SQL_FIND_ORDER_BY_ACCOUNT_NAME = """
-            SELECT ord.id              AS ord_id,
-                   ord.price           AS price,
-                   ord.card_number     AS card_number,
-                   ord.user_account_id AS user_id,
-                   ord.track_id        AS ord_track_id,
-                   ua.id               AS ua_id,
-                   ua.login            AS login,
-                   ua.email            AS email,
-                   ua.password         AS pass,
-                   ua.role             AS role,
-                   tr.id               AS tr_id,
-                   tr.title            AS track_title,
-                   tr.song_url         AS url,
-                   tr.album_id         AS album_id,
-                   tr.genre_id         As genre_id,
-                   g.id                AS g_id,
-                   g.name              AS genre_name,
-                   art.id              AS art_id,
-                   art.name            AS artist_name,
-                   a.id                AS a_id,
-                   a.title             AS a_title
-            FROM user_storage.order ord
-                     JOIN user_storage.user_account ua ON ua.id = ord.user_account_id
-                     JOIN audio_tracks_storage.track tr ON tr.id = ord.track_id
-                     JOIN audio_tracks_storage.album a ON a.id = tr.album_id
-                     JOIN audio_tracks_storage.genre g ON g.id = a.genre_id
-                     JOIN audio_tracks_storage.artist art ON art.id = a.artist_id
-            WHERE ua.login LIKE ?
-            """;
-
-    private static final String SQL_FIND_ALL_ORDERS = """
-            SELECT ord.id              AS ord_id,
-                   ord.price           AS price,
-                   ord.card_number     AS card_number,
-                   ord.user_account_id AS user_id,
-                   ord.track_id        AS ord_track_id,
-                   ua.id               AS ua_id,
-                   ua.login            AS login,
-                   ua.email            AS email,
-                   ua.password         AS pass,
-                   ua.role             AS role,
-                   tr.id               AS tr_id,
-                   tr.title            AS track_title,
-                   tr.song_url         AS url,
-                   tr.album_id         AS album_id,
-                   tr.genre_id         As genre_id,
-                   g.id                AS g_id,
-                   g.name              AS genre_name,
-                   art.id              AS art_id,
-                   art.name            AS artist_name,
-                   a.id                AS a_id,
-                   a.title             AS a_title
-            FROM user_storage.order ord
-                     JOIN user_storage.user_account ua ON ua.id = ord.user_account_id
-                     JOIN audio_tracks_storage.track tr ON tr.id = ord.track_id
-                     JOIN audio_tracks_storage.album a ON a.id = tr.album_id
-                     JOIN audio_tracks_storage.genre g ON g.id = a.genre_id
-                     JOIN audio_tracks_storage.artist art ON art.id = a.artist_id          
-            """;
-
-    private static final String SQL_DELETE_ORDER_BY_ID = """
+    private static final String SQL_DELETE_BY_ID = """
             DELETE
             FROM user_storage.order
             WHERE id = ?
             """;
 
-    private static final String SQL_UPDATE_ORDER = """
-            UPDATE user_storage.order
-            SET price           = ?,
-                card_number     = ?,
-                user_account_id = ?,
-                track_id        = ?
-            WHERE id = ?
+    private static final String SQL_FIND_ORDER_BY_PRICE = """
+            SELECT ord.id                        AS id,
+                   ord.price                     AS price,
+                   ord.user_account_id           AS user_account_id,
+                   ord.order_status              AS order_status,
+                   ord.track_id                  AS track_id,
+                   uad.id                        AS uad_id,
+                   uad.login                     AS uad_login,
+                   uad.first_name                AS uad_first_name,
+                   uad.last_name                 AS uad_last_name,
+                   uad.password                  AS pass,
+                   uad.role                      AS role,
+                   uad.age                       AS age,
+                   uad.discount_percentage_level AS discount_percentage_level,
+                   uad.card_number               AS card_number,
+                   uad.email                     AS email,
+                   tr.id                         AS tr_id,
+                   tr.song_url                   AS song_url,
+                   tr.title                      AS title,
+                   tr.album_id                   AS album_id,
+                   a.id                          AS al_id,
+                   a.title                       AS al_title
+            FROM user_storage.order ord
+                     JOIN user_storage.user_account_data uad ON uad.id = ord.user_account_id
+                     JOIN audio_tracks_storage.track tr ON tr.id = ord.track_id
+                     JOIN audio_tracks_storage.album a ON a.id = tr.album_id
+            WHERE ord.price = ?
+            """;
+
+    private static final String SQL_FIND_ORDER_BY_USER_ID = """
+            SELECT ord.id                        AS id,
+                   ord.price                     AS price,
+                   ord.user_account_id           AS user_account_id,
+                   ord.order_status              AS order_status,
+                   ord.track_id                  AS track_id,
+                   uad.id                        AS uad_id,
+                   uad.login                     AS uad_login,
+                   uad.first_name                AS uad_first_name,
+                   uad.last_name                 AS uad_last_name,
+                   uad.password                  AS pass,
+                   uad.role                      AS role,
+                   uad.age                       AS age,
+                   uad.discount_percentage_level AS discount_percentage_level,
+                   uad.card_number               AS card_number,
+                   uad.email                     AS email,
+                   tr.id                         AS tr_id,
+                   tr.song_url                   AS song_url,
+                   tr.title                      AS title,
+                   tr.album_id                   AS album_id,
+                   a.id                          AS al_id,
+                   a.title                       AS al_title
+            FROM user_storage.order ord
+                     JOIN user_storage.user_account_data uad ON uad.id = ord.user_account_id
+                     JOIN audio_tracks_storage.track tr ON tr.id = ord.track_id
+                     JOIN audio_tracks_storage.album a ON a.id = tr.album_id
+            WHERE ord.user_account_id = ?
+            """;
+
+    private static final String SQL_FIND_ORDER_BY_USER_EMAIL = """
+            SELECT ord.id                        AS id,
+                   ord.price                     AS price,
+                   ord.user_account_id           AS user_account_id,
+                   ord.order_status              AS order_status,
+                   ord.track_id                  AS track_id,
+                   uad.id                        AS uad_id,
+                   uad.login                     AS uad_login,
+                   uad.first_name                AS uad_first_name,
+                   uad.last_name                 AS uad_last_name,
+                   uad.password                  AS pass,
+                   uad.role                      AS role,
+                   uad.age                       AS age,
+                   uad.discount_percentage_level AS discount_percentage_level,
+                   uad.card_number               AS card_number,
+                   uad.email                     AS email,
+                   tr.id                         AS tr_id,
+                   tr.song_url                   AS song_url,
+                   tr.title                      AS title,
+                   tr.album_id                   AS album_id,
+                   a.id                          AS al_id,
+                   a.title                       AS al_title
+            FROM user_storage.order ord
+                     JOIN user_storage.user_account_data uad ON uad.id = ord.user_account_id
+                     JOIN audio_tracks_storage.track tr ON tr.id = ord.track_id
+                     JOIN audio_tracks_storage.album a ON a.id = tr.album_id
+            WHERE uad.email = ?
+            """;
+
+    private static final String SQL_FIND_ORDER_BY_USER_LOGIN = """
+            SELECT ord.id                        AS id,
+                   ord.price                     AS price,
+                   ord.user_account_id           AS user_account_id,
+                   ord.order_status              AS order_status,
+                   ord.track_id                  AS track_id,
+                   uad.id                        AS uad_id,
+                   uad.login                     AS uad_login,
+                   uad.first_name                AS uad_first_name,
+                   uad.last_name                 AS uad_last_name,
+                   uad.password                  AS pass,
+                   uad.role                      AS role,
+                   uad.age                       AS age,
+                   uad.discount_percentage_level AS discount_percentage_level,
+                   uad.card_number               AS card_number,
+                   uad.email                     AS email,
+                   tr.id                         AS tr_id,
+                   tr.song_url                   AS song_url,
+                   tr.title                      AS title,
+                   tr.album_id                   AS album_id,
+                   a.id                          AS al_id,
+                   a.title                       AS al_title
+            FROM user_storage.order ord
+                     JOIN user_storage.user_account_data uad ON uad.id = ord.user_account_id
+                     JOIN audio_tracks_storage.track tr ON tr.id = ord.track_id
+                     JOIN audio_tracks_storage.album a ON a.id = tr.album_id
+            WHERE uad.login = ?
+            """;
+
+    private static final String SQL_FIND_ORDER_BY_TRACK_ID = """
+            SELECT ord.id                        AS id,
+                   ord.price                     AS price,
+                   ord.user_account_id           AS user_account_id,
+                   ord.order_status              AS order_status,
+                   ord.track_id                  AS track_id,
+                   uad.id                        AS uad_id,
+                   uad.login                     AS uad_login,
+                   uad.first_name                AS uad_first_name,
+                   uad.last_name                 AS uad_last_name,
+                   uad.password                  AS pass,
+                   uad.role                      AS role,
+                   uad.age                       AS age,
+                   uad.discount_percentage_level AS discount_percentage_level,
+                   uad.card_number               AS card_number,
+                   uad.email                     AS email,
+                   tr.id                         AS tr_id,
+                   tr.song_url                   AS song_url,
+                   tr.title                      AS title,
+                   tr.album_id                   AS album_id,
+                   a.id                          AS al_id,
+                   a.title                       AS al_title
+            FROM user_storage.order ord
+                     JOIN user_storage.user_account_data uad ON uad.id = ord.user_account_id
+                     JOIN audio_tracks_storage.track tr ON tr.id = ord.track_id
+                     JOIN audio_tracks_storage.album a ON a.id = tr.album_id
+            WHERE tr.id = ?
+            """;
+
+    private static final String SQL_FIND_ORDER_BY_TRACK_NAME = """
+            SELECT ord.id                        AS id,
+                   ord.price                     AS price,
+                   ord.user_account_id           AS user_account_id,
+                   ord.order_status              AS order_status,
+                   ord.track_id                  AS track_id,
+                   uad.id                        AS uad_id,
+                   uad.login                     AS uad_login,
+                   uad.first_name                AS uad_first_name,
+                   uad.last_name                 AS uad_last_name,
+                   uad.password                  AS pass,
+                   uad.role                      AS role,
+                   uad.age                       AS age,
+                   uad.discount_percentage_level AS discount_percentage_level,
+                   uad.card_number               AS card_number,
+                   uad.email                     AS email,
+                   tr.id                         AS tr_id,
+                   tr.song_url                   AS song_url,
+                   tr.title                      AS title,
+                   tr.album_id                   AS album_id,
+                   a.id                          AS al_id,
+                   a.title                       AS al_title
+            FROM user_storage.order ord
+                     JOIN user_storage.user_account_data uad ON uad.id = ord.user_account_id
+                     JOIN audio_tracks_storage.track tr ON tr.id = ord.track_id
+                     JOIN audio_tracks_storage.album a ON a.id = tr.album_id
+            WHERE tr.title = ?
+            """;
+
+    private static final String SQL_FIND_ORDER_BY_ORDER_STATUS = """
+            SELECT ord.id                        AS id,
+                   ord.price                     AS price,
+                   ord.user_account_id           AS user_account_id,
+                   ord.order_status              AS order_status,
+                   ord.track_id                  AS track_id,
+                   uad.id                        AS uad_id,
+                   uad.login                     AS uad_login,
+                   uad.first_name                AS uad_first_name,
+                   uad.last_name                 AS uad_last_name,
+                   uad.password                  AS pass,
+                   uad.role                      AS role,
+                   uad.age                       AS age,
+                   uad.discount_percentage_level AS discount_percentage_level,
+                   uad.card_number               AS card_number,
+                   uad.email                     AS email,
+                   tr.id                         AS tr_id,
+                   tr.song_url                   AS song_url,
+                   tr.title                      AS title,
+                   tr.album_id                   AS album_id,
+                   a.id                          AS al_id,
+                   a.title                       AS al_title
+            FROM user_storage.order ord
+                     JOIN user_storage.user_account_data uad ON uad.id = ord.user_account_id
+                     JOIN audio_tracks_storage.track tr ON tr.id = ord.track_id
+                     JOIN audio_tracks_storage.album a ON a.id = tr.album_id
+            WHERE ord.order_status = ?
             """;
 
     @Override
-    public Order saveOrder(Order order) {
-        try (Connection connection = ConnectionManager.get();
-             PreparedStatement findUserAccountIdStatement = connection.prepareStatement(SQL_FIND_USER_ACCOUNT_ID);
+    public Order save(Order order) {
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement saveOrderStatement = connection.prepareStatement(SQL_SAVE_ORDER, Statement.RETURN_GENERATED_KEYS);
              PreparedStatement findTrackIdStatement = connection.prepareStatement(SQL_FIND_TRACK_ID);
-             PreparedStatement findArtistStatement = connection.prepareStatement(SQL_FIND_ARTIST_ID);
-             PreparedStatement saveOrderStatement = connection.prepareStatement(SQL_SAVE_ORDER, Statement.RETURN_GENERATED_KEYS)) {
-            findUserAccountIdStatement.setString(1, order.getUserAccount().getLogin());
-            ResultSet resultSet = findUserAccountIdStatement.executeQuery();
+             PreparedStatement findUserIdStatement = connection.prepareStatement(SQL_FIND_USER_ID)) {
+            findUserIdStatement.setString(1, order.getUserAccount().getLogin());
+            ResultSet resultSet = findUserIdStatement.executeQuery();
             if (resultSet.next()) {
-                long userAccountId = resultSet.getLong("id");
-                UserAccount userAccount = order.getUserAccount();
-                userAccount.setId(userAccountId);
-                order.setUserAccount(userAccount);
-                Track orderedTrack = order.getTrack();
-                findArtistStatement.setString(1, orderedTrack.getAlbum().getArtist().getName());
-                ResultSet executeQuery = findArtistStatement.executeQuery();
-                if (executeQuery.next()) {
-                    long artistId = executeQuery.getLong("id");
-                    Artist artist = orderedTrack.getAlbum().getArtist();
-                    artist.setId(artistId);
-                    Set<Artist> artists = new HashSet<>();
-                    artists.add(artist);
-                    orderedTrack.setArtists(artists);
-                }
-                findTrackIdStatement.setString(1, orderedTrack.getTitle());
+                long userId = resultSet.getLong("id");
+                order.getUserAccount().setId(userId);
+                findTrackIdStatement.setString(1, order.getTrack().getTitle());
                 ResultSet query = findTrackIdStatement.executeQuery();
                 if (query.next()) {
                     long trackId = query.getLong("id");
-                    orderedTrack.setId(trackId);
-                    order.setTrack(orderedTrack);
+                    order.getTrack().setId(trackId);
                     saveOrderStatement.setBigDecimal(1, order.getPrice());
-                    saveOrderStatement.setString(2, order.getCardNumber());
-                    saveOrderStatement.setString(3, order.getUserAccount().getLogin());
-                    saveOrderStatement.setString(4, orderedTrack.getTitle());
+                    saveOrderStatement.setString(2, order.getUserAccount().getLogin());
+                    saveOrderStatement.setString(3, order.getOrderStatus().toString());
+                    saveOrderStatement.setString(4, order.getTrack().getTitle());
                     saveOrderStatement.executeUpdate();
                     ResultSet generatedKeys = saveOrderStatement.getGeneratedKeys();
                     if (generatedKeys.next()) {
@@ -335,7 +367,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Optional<Order> findById(Long id) {
-        try (Connection connection = ConnectionManager.get();
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findByIdStatement = connection.prepareStatement(SQL_FIND_ORDER_BY_ID)) {
             findByIdStatement.setLong(1, id);
             ResultSet resultSet = findByIdStatement.executeQuery();
@@ -350,165 +382,33 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Optional<List<Order>> findOrdersByPrice(BigDecimal price, DefaultFilter filter) {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(filter.limit());
-        parameters.add(filter.offset());
-        String sql = SQL_FIND_ORDER_BY_PRICE + LIMIT_OFFSET;
-        try (Connection connection = ConnectionManager.get();
-             PreparedStatement findByPriceStatement = connection.prepareStatement(sql)) {
-            findByPriceStatement.setBigDecimal(1, price);
-            findByPriceStatement.setObject(2, filter.limit());
-            findByPriceStatement.setObject(3, filter.offset());
-            ResultSet resultSet = findByPriceStatement.executeQuery();
-            List<Order> orders = new ArrayList<>();
-            Order order = null;
-            while (resultSet.next()) {
-                order = buildOrder(resultSet);
-                orders.add(order);
-            }
-            return Optional.of(orders);
-        } catch (SQLException e) {
-            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
-        }
-    }
-
-    @Override
-    public Optional<List<Order>> findOrdersByTrackId(Long trackId, DefaultFilter filter) {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(filter.limit());
-        parameters.add(filter.offset());
-        String sql = SQL_FIND_ORDER_BY_TRACK_ID + LIMIT_OFFSET;
-        try (Connection connection = ConnectionManager.get();
-             PreparedStatement findByPriceStatement = connection.prepareStatement(sql)) {
-            findByPriceStatement.setLong(1, trackId);
-            findByPriceStatement.setObject(2, filter.limit());
-            findByPriceStatement.setObject(3, filter.offset());
-            ResultSet resultSet = findByPriceStatement.executeQuery();
-            List<Order> orders = new ArrayList<>();
-            Order order = null;
-            while (resultSet.next()) {
-                order = buildOrder(resultSet);
-                orders.add(order);
-            }
-            return Optional.of(orders);
-        } catch (SQLException e) {
-            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
-        }
-    }
-
-    @Override
-    public Optional<List<Order>> findOrdersByCardNumber(String cardNumber, DefaultFilter filter) {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(filter.limit());
-        parameters.add(filter.offset());
-        String sql = SQL_FIND_ORDER_BY_CARD_NUMBER + LIMIT_OFFSET;
-        try (Connection connection = ConnectionManager.get();
-             PreparedStatement findByPriceStatement = connection.prepareStatement(sql)) {
-            findByPriceStatement.setString(1, cardNumber);
-            findByPriceStatement.setObject(2, filter.limit());
-            findByPriceStatement.setObject(3, filter.offset());
-            ResultSet resultSet = findByPriceStatement.executeQuery();
-            List<Order> orders = new ArrayList<>();
-            Order order = null;
-            while (resultSet.next()) {
-                order = buildOrder(resultSet);
-                orders.add(order);
-            }
-            return Optional.of(orders);
-        } catch (SQLException e) {
-            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
-        }
-    }
-
-    @Override
-    public Optional<List<Order>> findOrdersByUserAccountId(Long userId, DefaultFilter filter) {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(filter.limit());
-        parameters.add(filter.offset());
-        String sql = SQL_FIND_ORDER_BY_ACCOUNT_ID + LIMIT_OFFSET;
-        try (Connection connection = ConnectionManager.get();
-             PreparedStatement findByPriceStatement = connection.prepareStatement(sql)) {
-            findByPriceStatement.setLong(1, userId);
-            findByPriceStatement.setObject(2, filter.limit());
-            findByPriceStatement.setObject(3, filter.offset());
-            ResultSet resultSet = findByPriceStatement.executeQuery();
-            List<Order> orders = new ArrayList<>();
-            Order order = null;
-            while (resultSet.next()) {
-                order = buildOrder(resultSet);
-                orders.add(order);
-            }
-            return Optional.of(orders);
-        } catch (SQLException e) {
-            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
-        }
-    }
-
-    @Override
-    public Optional<List<Order>> findOrdersByUserAccountName(String userName, DefaultFilter filter) {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(filter.limit());
-        parameters.add(filter.offset());
-        String sql = SQL_FIND_ORDER_BY_ACCOUNT_NAME + LIMIT_OFFSET;
-        try (Connection connection = ConnectionManager.get();
-             PreparedStatement findByPriceStatement = connection.prepareStatement(sql)) {
-            findByPriceStatement.setString(1, userName);
-            findByPriceStatement.setObject(2, filter.limit());
-            findByPriceStatement.setObject(3, filter.offset());
-            ResultSet resultSet = findByPriceStatement.executeQuery();
-            List<Order> orders = new ArrayList<>();
-            Order order = null;
-            while (resultSet.next()) {
-                order = buildOrder(resultSet);
-                orders.add(order);
-            }
-            return Optional.of(orders);
-        } catch (SQLException e) {
-            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
-        }
-    }
-
-    @Override
     public List<Order> findAll(OrderFilter filter) {
         List<Object> parameters = new ArrayList<>();
         List<String> whereSql = new ArrayList<>();
         if (filter.price() != null) {
-            whereSql.add("ord.price = ?");
+            whereSql.add("price = ?");
             parameters.add(filter.price());
         }
-        if (filter.cardNumber() != null) {
-            whereSql.add("ord.card_number LIKE ?");
-            parameters.add("%" + filter.cardNumber() + "%");
+        if (filter.orderStatus() != null) {
+            whereSql.add("order_status LIKE ?");
+            parameters.add("%" + filter.orderStatus() + "%");
         }
         parameters.add(filter.limit());
         parameters.add(filter.offset());
         String where = whereSql.stream()
-                .collect(joining(" AND ", " WHERE ", " LIMIT ?  OFFSET ? "));
-        String sql = SQL_FIND_ALL_ORDERS + where;
-        try (Connection connection = ConnectionManager.get();
+                .collect(joining(" AND ", " WHERE ", " LIMIT ? OFFSET ?"));
+        String sql = SQL_FIND_ALL + where;
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findAllStatement = connection.prepareStatement(sql)) {
             for (int i = 0; i < parameters.size(); i++) {
                 findAllStatement.setObject(i + 1, parameters.get(i));
             }
             ResultSet resultSet = findAllStatement.executeQuery();
-            List<Order> all = new ArrayList<>();
+            List<Order> orders = new ArrayList<>();
             while (resultSet.next()) {
-                Order order = buildOrder(resultSet);
-                all.add(order);
+                orders.add(buildOrder(resultSet));
             }
-            return all;
-        } catch (SQLException e) {
-            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
-        }
-    }
-
-    @Override
-    public boolean deleteById(Long id) {
-        try (Connection connection = ConnectionManager.get();
-             PreparedStatement deleteByIdStatement = connection.prepareStatement(SQL_DELETE_ORDER_BY_ID)) {
-            deleteByIdStatement.setLong(1, id);
-            return deleteByIdStatement.executeUpdate() == 1;
+            return orders;
         } catch (SQLException e) {
             throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
         }
@@ -516,11 +416,11 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public void update(Order order) {
-        try (Connection connection = ConnectionManager.get();
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement updateStatement = connection.prepareStatement(SQL_UPDATE_ORDER)) {
             updateStatement.setBigDecimal(1, order.getPrice());
-            updateStatement.setString(2, order.getCardNumber());
-            updateStatement.setLong(3, order.getUserAccount().getId());
+            updateStatement.setLong(2, order.getUserAccount().getId());
+            updateStatement.setString(3, order.getOrderStatus().toString());
             updateStatement.setLong(4, order.getTrack().getId());
             updateStatement.setLong(5, order.getId());
             updateStatement.executeUpdate();
@@ -529,17 +429,185 @@ public class OrderDaoImpl implements OrderDao {
         }
     }
 
+    @Override
+    public boolean deleteById(Long id) {
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement deleteStatement = connection.prepareStatement(SQL_DELETE_BY_ID)) {
+            deleteStatement.setLong(1, id);
+            return deleteStatement.executeUpdate() == 1;
+        } catch (SQLException e) {
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    @Override
+    public void updateOrderStatus(OrderStatus newStatus, Long orderId) {
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement updateStatusStatement = connection.prepareStatement(SQL_UPDATE_STATUS)) {
+            updateStatusStatement.setString(1, newStatus.toString());
+            updateStatusStatement.setLong(2, orderId);
+            updateStatusStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    @Override
+    public List<Order> findOrdersByPrice(BigDecimal price) {
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement findOrderByPrice = connection.prepareStatement(SQL_FIND_ORDER_BY_PRICE)) {
+            findOrderByPrice.setBigDecimal(1, price);
+            ResultSet resultSet = findOrderByPrice.executeQuery();
+            List<Order> orders = new ArrayList<>();
+            while (resultSet.next()) {
+                orders.add(buildOrder(resultSet));
+            }
+            return orders;
+        } catch (SQLException e) {
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    @Override
+    public List<Order> findOrdersByUserId(Long userAccountId, DefaultFilter filter) {
+        List<Object> parameters = new ArrayList<>();
+        parameters.add(filter.limit());
+        parameters.add(filter.offset());
+        String sql = SQL_FIND_ORDER_BY_USER_ID + LIMIT_OFFSET;
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement findOrderByPriceStatement = connection.prepareStatement(sql)) {
+            findOrderByPriceStatement.setLong(1, userAccountId);
+            findOrderByPriceStatement.setObject(2, filter.limit());
+            findOrderByPriceStatement.setObject(3, filter.offset());
+            ResultSet resultSet = findOrderByPriceStatement.executeQuery();
+            List<Order> orders = new ArrayList<>();
+            while (resultSet.next()) {
+                orders.add(buildOrder(resultSet));
+            }
+            return orders;
+        } catch (SQLException e) {
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    @Override
+    public List<Order> findOrdersByUserEmail(String email, DefaultFilter filter) {
+        List<Object> parameters = new ArrayList<>();
+        parameters.add(filter.limit());
+        parameters.add(filter.offset());
+        String sql = SQL_FIND_ORDER_BY_USER_EMAIL + LIMIT_OFFSET;
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement findOrderByPriceStatement = connection.prepareStatement(sql)) {
+            findOrderByPriceStatement.setString(1, email);
+            findOrderByPriceStatement.setObject(2, filter.limit());
+            findOrderByPriceStatement.setObject(3, filter.offset());
+            ResultSet resultSet = findOrderByPriceStatement.executeQuery();
+            List<Order> orders = new ArrayList<>();
+            while (resultSet.next()) {
+                orders.add(buildOrder(resultSet));
+            }
+            return orders;
+        } catch (SQLException e) {
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    @Override
+    public List<Order> findOrdersByUserLogin(String login, DefaultFilter filter) {
+        List<Object> parameters = new ArrayList<>();
+        parameters.add(filter.limit());
+        parameters.add(filter.offset());
+        String sql = SQL_FIND_ORDER_BY_USER_LOGIN + LIMIT_OFFSET;
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement findOrderByPriceStatement = connection.prepareStatement(sql)) {
+            findOrderByPriceStatement.setString(1, login);
+            findOrderByPriceStatement.setObject(2, filter.limit());
+            findOrderByPriceStatement.setObject(3, filter.offset());
+            ResultSet resultSet = findOrderByPriceStatement.executeQuery();
+            List<Order> orders = new ArrayList<>();
+            while (resultSet.next()) {
+                orders.add(buildOrder(resultSet));
+            }
+            return orders;
+        } catch (SQLException e) {
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    @Override
+    public List<Order> findOrdersByTrackId(Long trackId, DefaultFilter filter) {
+        List<Object> parameters = new ArrayList<>();
+        parameters.add(filter.limit());
+        parameters.add(filter.offset());
+        String sql = SQL_FIND_ORDER_BY_TRACK_ID + LIMIT_OFFSET;
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement findOrderByPriceStatement = connection.prepareStatement(sql)) {
+            findOrderByPriceStatement.setLong(1, trackId);
+            findOrderByPriceStatement.setObject(2, filter.limit());
+            findOrderByPriceStatement.setObject(3, filter.offset());
+            ResultSet resultSet = findOrderByPriceStatement.executeQuery();
+            List<Order> orders = new ArrayList<>();
+            while (resultSet.next()) {
+                orders.add(buildOrder(resultSet));
+            }
+            return orders;
+        } catch (SQLException e) {
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    @Override
+    public List<Order> findOrdersByTrackName(String trackName, DefaultFilter filter) {
+        List<Object> parameters = new ArrayList<>();
+        parameters.add(filter.limit());
+        parameters.add(filter.offset());
+        String sql = SQL_FIND_ORDER_BY_TRACK_NAME + LIMIT_OFFSET;
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement findOrderByPriceStatement = connection.prepareStatement(sql)) {
+            findOrderByPriceStatement.setString(1, trackName);
+            findOrderByPriceStatement.setObject(2, filter.limit());
+            findOrderByPriceStatement.setObject(3, filter.offset());
+            ResultSet resultSet = findOrderByPriceStatement.executeQuery();
+            List<Order> orders = new ArrayList<>();
+            while (resultSet.next()) {
+                orders.add(buildOrder(resultSet));
+            }
+            return orders;
+        } catch (SQLException e) {
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    @Override
+    public List<Order> findOrdersByOrderStatus(OrderStatus orderStatus, DefaultFilter filter) {
+        List<Object> parameters = new ArrayList<>();
+        parameters.add(filter.limit());
+        parameters.add(filter.offset());
+        String sql = SQL_FIND_ORDER_BY_ORDER_STATUS + LIMIT_OFFSET;
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement findOrderByPriceStatement = connection.prepareStatement(sql)) {
+            findOrderByPriceStatement.setString(1, orderStatus.toString());
+            findOrderByPriceStatement.setObject(2, filter.limit());
+            findOrderByPriceStatement.setObject(3, filter.offset());
+            ResultSet resultSet = findOrderByPriceStatement.executeQuery();
+            List<Order> orders = new ArrayList<>();
+            while (resultSet.next()) {
+                orders.add(buildOrder(resultSet));
+            }
+            return orders;
+        } catch (SQLException e) {
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
     private Order buildOrder(ResultSet resultSet) throws SQLException {
-        UserAccount userAccount = buildAccount(resultSet);
+        UserAccount userAccount = buildUserAccount(resultSet);
         Track track = buildTrack(resultSet);
-        Set<Artist> artists = new HashSet<>();
-        artists.add(buildArtist(resultSet));
-        track.setArtists(artists);
         return new Order(
-                resultSet.getLong("ord_id"),
+                resultSet.getLong("id"),
                 resultSet.getBigDecimal("price"),
-                resultSet.getString("card_number"),
                 userAccount,
+                OrderStatus.valueOf(resultSet.getString("order_status")),
                 track
         );
     }
@@ -548,43 +616,38 @@ public class OrderDaoImpl implements OrderDao {
         Album album = buildAlbum(resultSet);
         return new Track(
                 resultSet.getLong("tr_id"),
-                resultSet.getString("url"),
-                resultSet.getString("track_title"),
-                album.getGenre(),
+                resultSet.getString("song_url"),
+                resultSet.getString("title"),
                 album
         );
     }
 
     private Album buildAlbum(ResultSet resultSet) throws SQLException {
-        Artist artist = buildArtist(resultSet);
-        Genre genre = buildGenre(resultSet);
         return new Album(
-                resultSet.getLong("a_id"),
-                resultSet.getString("a_title"),
-                genre,
-                artist
+                resultSet.getLong("al_id"),
+                resultSet.getString("al_title")
         );
     }
 
-    private Genre buildGenre(ResultSet resultSet) throws SQLException {
-        return new Genre(resultSet.getLong("g_id"),
-                GenreType.valueOf(resultSet.getString("genre_name")));
-    }
-
-    private Artist buildArtist(ResultSet resultSet) throws SQLException {
-        return new Artist(
-                resultSet.getLong("art_id"),
-                resultSet.getString("artist_name")
-        );
-    }
-
-    private UserAccount buildAccount(ResultSet resultSet) throws SQLException {
+    private UserAccount buildUserAccount(ResultSet resultSet) throws SQLException {
+        UserData data = buildUserData(resultSet);
         return new UserAccount(
-                resultSet.getLong("ua_id"),
+                resultSet.getLong("uad_id"),
                 resultSet.getString("email"),
-                resultSet.getString("login"),
+                resultSet.getString("uad_login"),
                 resultSet.getString("pass"),
-                UserRole.valueOf(resultSet.getString("role"))
+                resultSet.getInt("discount_percentage_level"),
+                data
+        );
+    }
+
+    private UserData buildUserData(ResultSet resultSet) throws SQLException {
+        return new UserData(
+                UserRole.valueOf(resultSet.getString("role")),
+                resultSet.getString("uad_first_name"),
+                resultSet.getString("uad_last_name"),
+                resultSet.getInt("age"),
+                resultSet.getString("card_number")
         );
     }
 }

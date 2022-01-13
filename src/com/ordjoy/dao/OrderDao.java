@@ -7,17 +7,18 @@ import com.ordjoy.entity.Order;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
 
 public interface OrderDao extends GenericDao<Long, Order, OrderFilter> {
 
-    List<Order> findOrdersByPrice(BigDecimal price, DefaultFilter filter);
+    void updateOrderStatus(OrderStatus newStatus, Long orderId);
 
-    Set<Order> findOrdersByUserId(Long userAccountId, DefaultFilter filter);
+    List<Order> findOrdersByPrice(BigDecimal price);
 
-    Set<Order> findOrdersByUserEmail(String email, DefaultFilter filter);
+    List<Order> findOrdersByUserId(Long userAccountId, DefaultFilter filter);
 
-    Set<Order> findOrdersByUserLogin(String login, DefaultFilter filter);
+    List<Order> findOrdersByUserEmail(String email, DefaultFilter filter);
+
+    List<Order> findOrdersByUserLogin(String login, DefaultFilter filter);
 
     List<Order> findOrdersByTrackId(Long trackId, DefaultFilter filter);
 
