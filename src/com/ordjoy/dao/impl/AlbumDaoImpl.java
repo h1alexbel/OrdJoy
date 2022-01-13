@@ -65,6 +65,12 @@ public class AlbumDaoImpl implements AlbumDao {
             WHERE album_id = ?
             """;
 
+    private static final String SQL_DELETE_FROM_REVIEW_TABLE = """
+            DELETE
+            FROM review_storage.review_about_album
+            WHERE album_id = ?
+            """;
+
     private static final String SQL_FIND_ALBUM_BY_TITLE = """
             SELECT id, title
             FROM audio_tracks_storage.album
@@ -189,14 +195,18 @@ public class AlbumDaoImpl implements AlbumDao {
         ProxyConnection connection = null;
         PreparedStatement deleteStatement = null;
         PreparedStatement deleteFromTrackTableStatement = null;
+        PreparedStatement deleteFromReviewTableStatement = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             deleteStatement = connection.prepareStatement(SQL_DELETE_ALBUM_BY_ID);
             deleteFromTrackTableStatement = connection.prepareStatement(SQL_DELETE_FROM_TRACK_TABLE);
+            deleteFromReviewTableStatement = connection.prepareStatement(SQL_DELETE_FROM_REVIEW_TABLE);
             deleteFromTrackTableStatement.setLong(1, id);
             deleteFromTrackTableStatement.executeUpdate();
+            deleteFromReviewTableStatement.setLong(1, id);
+            deleteFromReviewTableStatement.executeUpdate();
             deleteStatement.setLong(1, id);
             deleteFromTrackTableStatement.executeUpdate();
             connection.commit();
@@ -208,6 +218,7 @@ public class AlbumDaoImpl implements AlbumDao {
             closeConnection(connection);
             closeStatement(deleteStatement);
             closeStatement(deleteFromTrackTableStatement);
+            closeStatement(deleteFromReviewTableStatement);
         }
     }
 

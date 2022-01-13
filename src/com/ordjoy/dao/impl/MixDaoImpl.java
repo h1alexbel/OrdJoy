@@ -5,6 +5,7 @@ import com.ordjoy.dbmanager.ConnectionPool;
 import com.ordjoy.dbmanager.ProxyConnection;
 import com.ordjoy.entity.*;
 import com.ordjoy.exception.DaoException;
+import com.ordjoy.exception.DataBaseException;
 import com.ordjoy.filter.DefaultFilter;
 import com.ordjoy.filter.MixFilter;
 
@@ -50,6 +51,18 @@ public class MixDaoImpl implements MixDao {
             DELETE
             FROM audio_tracks_storage.mix
             WHERE id = ?
+            """;
+
+    private static final String SQL_DELETE_FROM_MUTUAL_TABLE = """
+            DELETE
+            FROM audio_tracks_storage.track_mixes
+            WHERE mix_id = ?
+            """;
+
+    private static final String SQL_DELETE_FROM_MIX_REVIEW_TABLE = """
+            DELETE
+            FROM review_storage.review_about_mix
+            WHERE mix_id = ?
             """;
 
     private static final String SQL_UPDATE_MIX = """
@@ -182,14 +195,36 @@ public class MixDaoImpl implements MixDao {
         }
     }
 
+
     @Override
     public boolean deleteById(Long id) {
-        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement deleteMixById = connection.prepareStatement(SQL_DELETE_MIX_BY_ID)) {
-            deleteMixById.setLong(1, id);
-            return deleteMixById.executeUpdate() == 1;
+        ProxyConnection connection = null;
+        PreparedStatement deleteStatement = null;
+        PreparedStatement deleteFromMutualTableStatement = null;
+        PreparedStatement deleteFromMixReviewStatement = null;
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            connection.setAutoCommit(false);
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            deleteStatement = connection.prepareStatement(SQL_DELETE_MIX_BY_ID);
+            deleteFromMutualTableStatement = connection.prepareStatement(SQL_DELETE_FROM_MUTUAL_TABLE);
+            deleteFromMixReviewStatement = connection.prepareStatement(SQL_DELETE_FROM_MIX_REVIEW_TABLE);
+            deleteFromMutualTableStatement.setLong(1, id);
+            deleteFromMutualTableStatement.executeUpdate();
+            deleteFromMixReviewStatement.setLong(1, id);
+            deleteFromMixReviewStatement.executeUpdate();
+            deleteStatement.setLong(1, id);
+            deleteFromMutualTableStatement.executeUpdate();
+            connection.commit();
+            return deleteStatement.executeUpdate() == 1;
         } catch (SQLException e) {
+            rollbackTransaction(connection);
             throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        } finally {
+            closeConnection(connection);
+            closeStatement(deleteStatement);
+            closeStatement(deleteFromMutualTableStatement);
+            closeStatement(deleteFromMixReviewStatement);
         }
     }
 
@@ -296,5 +331,35 @@ public class MixDaoImpl implements MixDao {
                 resultSet.getInt("age"),
                 resultSet.getString("card_number")
         );
+    }
+
+    private void rollbackTransaction(ProxyConnection connection) {
+        if (connection != null) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new DataBaseException(ex);
+            }
+        }
+    }
+
+    private void closeStatement(PreparedStatement preparedStatement) {
+        if (preparedStatement != null) {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void closeConnection(ProxyConnection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
