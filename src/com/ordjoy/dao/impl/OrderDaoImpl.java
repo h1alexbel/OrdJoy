@@ -41,13 +41,13 @@ public class OrderDaoImpl implements OrderDao {
     private static final String SQL_FIND_USER_ID = """
             SELECT id
             FROM user_storage.user_account_data
-            WHERE login = ?
+            WHERE login LIKE ?
             """;
 
     private static final String SQL_FIND_TRACK_ID = """
             SELECT id
             FROM audio_tracks_storage.track
-            WHERE title = ?
+            WHERE title LIKE ?
             """;
 
     private static final String SQL_FIND_ORDER_BY_ID = """
@@ -212,7 +212,7 @@ public class OrderDaoImpl implements OrderDao {
                      JOIN user_storage.user_account_data uad ON uad.id = ord.user_account_id
                      JOIN audio_tracks_storage.track tr ON tr.id = ord.track_id
                      JOIN audio_tracks_storage.album a ON a.id = tr.album_id
-            WHERE uad.email = ?
+            WHERE uad.email LIKE ?
             """;
 
     private static final String SQL_FIND_ORDER_BY_USER_LOGIN = """
@@ -241,7 +241,7 @@ public class OrderDaoImpl implements OrderDao {
                      JOIN user_storage.user_account_data uad ON uad.id = ord.user_account_id
                      JOIN audio_tracks_storage.track tr ON tr.id = ord.track_id
                      JOIN audio_tracks_storage.album a ON a.id = tr.album_id
-            WHERE uad.login = ?
+            WHERE uad.login LIKE ?
             """;
 
     private static final String SQL_FIND_ORDER_BY_TRACK_ID = """
@@ -299,7 +299,7 @@ public class OrderDaoImpl implements OrderDao {
                      JOIN user_storage.user_account_data uad ON uad.id = ord.user_account_id
                      JOIN audio_tracks_storage.track tr ON tr.id = ord.track_id
                      JOIN audio_tracks_storage.album a ON a.id = tr.album_id
-            WHERE tr.title = ?
+            WHERE tr.title LIKE ?
             """;
 
     private static final String SQL_FIND_ORDER_BY_ORDER_STATUS = """
@@ -328,7 +328,7 @@ public class OrderDaoImpl implements OrderDao {
                      JOIN user_storage.user_account_data uad ON uad.id = ord.user_account_id
                      JOIN audio_tracks_storage.track tr ON tr.id = ord.track_id
                      JOIN audio_tracks_storage.album a ON a.id = tr.album_id
-            WHERE ord.order_status = ?
+            WHERE ord.order_status LIKE ?
             """;
 
     @Override
