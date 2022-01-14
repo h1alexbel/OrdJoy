@@ -30,7 +30,7 @@ CREATE TABLE audio_tracks_storage.mix
 CREATE TABLE audio_tracks_storage.album
 (
     id    BIGSERIAL PRIMARY KEY,
-    title CHARACTER VARYING(128) NOT NULL
+    title CHARACTER VARYING(128) UNIQUE NOT NULL
 );
 
 CREATE TABLE audio_tracks_storage.track
