@@ -9,14 +9,10 @@ public class AlbumDto {
 
     private final Long id;
     private final String title;
-    private final Set<Track> tracks;
-    private final Set<AlbumReview> albumReviews;
 
-    public AlbumDto(Long id, String title, Set<Track> tracks, Set<AlbumReview> albumReviews) {
+    public AlbumDto(Long id, String title) {
         this.id = id;
         this.title = title;
-        this.tracks = tracks;
-        this.albumReviews = albumReviews;
     }
 
     public Long getId() {
@@ -25,14 +21,6 @@ public class AlbumDto {
 
     public String getTitle() {
         return title;
-    }
-
-    public Set<Track> getTracks() {
-        return tracks;
-    }
-
-    public Set<AlbumReview> getAlbumReviews() {
-        return albumReviews;
     }
 
     @Override
@@ -55,8 +43,6 @@ public class AlbumDto {
         return "AlbumDto{" +
                "id=" + id +
                ", title='" + title + '\'' +
-               ", tracks=" + tracks +
-               ", albumReviews=" + albumReviews +
                '}';
     }
 }
