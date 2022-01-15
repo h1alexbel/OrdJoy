@@ -21,13 +21,13 @@ import static java.util.stream.Collectors.joining;
 
 public class TrackReviewDaoImpl implements TrackReviewDao {
 
-    private static final TrackReviewDao INSTANCE = new TrackReviewDaoImpl();
+    private static final TrackReviewDaoImpl INSTANCE = new TrackReviewDaoImpl();
 
     private TrackReviewDaoImpl() {
 
     }
 
-    public static TrackReviewDao getInstance() {
+    public static TrackReviewDaoImpl getInstance() {
         return INSTANCE;
     }
 
