@@ -15,7 +15,6 @@ import static java.util.stream.Collectors.*;
 public class TrackService {
 
     private final TrackDaoImpl trackDao = TrackDaoImpl.getInstance();
-
     private static final TrackService INSTANCE = new TrackService();
 
     private TrackService() {

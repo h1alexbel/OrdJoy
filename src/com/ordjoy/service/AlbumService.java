@@ -15,7 +15,6 @@ import static java.util.stream.Collectors.*;
 public class AlbumService {
 
     private final AlbumDaoImpl albumDao = AlbumDaoImpl.getInstance();
-
     private static final AlbumService INSTANCE = new AlbumService();
 
     private AlbumService() {

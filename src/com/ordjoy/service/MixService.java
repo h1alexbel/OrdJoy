@@ -15,7 +15,6 @@ import static java.util.stream.Collectors.*;
 public class MixService {
 
     private final MixDaoImpl mixDao = MixDaoImpl.getInstance();
-
     private static final MixService INSTANCE = new MixService();
 
     private MixService() {

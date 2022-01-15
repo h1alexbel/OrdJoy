@@ -16,9 +16,7 @@ import static java.util.stream.Collectors.toList;
 public class OrderService {
 
     private final OrderDaoImpl orderDao = OrderDaoImpl.getInstance();
-
     private static final OrderService INSTANCE = new OrderService();
-
 
     private OrderService() {
 

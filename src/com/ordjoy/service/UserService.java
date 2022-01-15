@@ -13,7 +13,6 @@ import static java.util.stream.Collectors.*;
 public class UserService {
 
     private final UserDaoImpl userDao = UserDaoImpl.getInstance();
-
     private static final UserService INSTANCE = new UserService();
 
     private UserService() {
