@@ -1,10 +1,5 @@
 package com.ordjoy.dto;
 
-import com.ordjoy.entity.AlbumReview;
-import com.ordjoy.entity.Track;
-
-import java.util.Set;
-
 public class AlbumDto {
 
     private final Long id;
