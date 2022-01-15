@@ -12,6 +12,8 @@ import static java.util.stream.Collectors.*;
 
 public class UserService {
 
+    private final UserDaoImpl userDao = UserDaoImpl.getInstance();
+
     private static final UserService INSTANCE = new UserService();
 
     private UserService() {
@@ -21,8 +23,6 @@ public class UserService {
     public static UserService getInstance() {
         return INSTANCE;
     }
-
-    private final UserDaoImpl userDao = UserDaoImpl.getInstance();
 
     public List<UserDto> findAllUsersWithLimitOffset(UserAccountFilter filter) {
         return userDao.findAll(filter).stream()
