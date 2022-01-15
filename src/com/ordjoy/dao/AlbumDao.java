@@ -1,9 +1,9 @@
 package com.ordjoy.dao;
 
 import com.ordjoy.entity.AlbumReview;
-import com.ordjoy.filter.AlbumFilter;
+import com.ordjoy.dao.filter.AlbumFilter;
 import com.ordjoy.entity.Album;
-import com.ordjoy.filter.DefaultFilter;
+import com.ordjoy.dao.filter.DefaultFilter;
 
 import java.util.List;
 import java.util.Optional;

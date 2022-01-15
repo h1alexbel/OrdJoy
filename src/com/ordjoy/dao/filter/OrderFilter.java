@@ -1,4 +1,4 @@
-package com.ordjoy.filter;
+package com.ordjoy.dao.filter;
 
 import com.ordjoy.entity.OrderStatus;
 

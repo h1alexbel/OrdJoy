@@ -1,8 +1,8 @@
 package com.ordjoy.dao;
 
 import com.ordjoy.entity.MixReview;
-import com.ordjoy.filter.DefaultFilter;
-import com.ordjoy.filter.MixFilter;
+import com.ordjoy.dao.filter.DefaultFilter;
+import com.ordjoy.dao.filter.MixFilter;
 import com.ordjoy.entity.Mix;
 
 import java.util.List;

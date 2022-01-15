@@ -1,6 +1,6 @@
 package com.ordjoy.dao;
 
-import com.ordjoy.filter.UserAccountFilter;
+import com.ordjoy.dao.filter.UserAccountFilter;
 import com.ordjoy.entity.UserAccount;
 
 import java.util.Optional;

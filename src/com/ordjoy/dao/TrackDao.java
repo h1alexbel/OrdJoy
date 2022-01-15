@@ -1,7 +1,7 @@
 package com.ordjoy.dao;
 
-import com.ordjoy.filter.DefaultFilter;
-import com.ordjoy.filter.TrackFilter;
+import com.ordjoy.dao.filter.DefaultFilter;
+import com.ordjoy.dao.filter.TrackFilter;
 import com.ordjoy.entity.*;
 
 import java.util.Optional;

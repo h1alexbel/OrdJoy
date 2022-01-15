@@ -1,7 +1,7 @@
 package com.ordjoy.dao;
 
 import com.ordjoy.entity.Entity;
-import com.ordjoy.filter.Filter;
+import com.ordjoy.dao.filter.Filter;
 
 import java.util.List;
 import java.util.Optional;

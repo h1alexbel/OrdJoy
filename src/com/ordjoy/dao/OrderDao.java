@@ -1,8 +1,8 @@
 package com.ordjoy.dao;
 
 import com.ordjoy.entity.OrderStatus;
-import com.ordjoy.filter.DefaultFilter;
-import com.ordjoy.filter.OrderFilter;
+import com.ordjoy.dao.filter.DefaultFilter;
+import com.ordjoy.dao.filter.OrderFilter;
 import com.ordjoy.entity.Order;
 
 import java.math.BigDecimal;

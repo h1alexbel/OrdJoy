@@ -5,7 +5,7 @@ import com.ordjoy.dbmanager.ConnectionPool;
 import com.ordjoy.dbmanager.ProxyConnection;
 import com.ordjoy.entity.UserData;
 import com.ordjoy.exception.DataBaseException;
-import com.ordjoy.filter.UserAccountFilter;
+import com.ordjoy.dao.filter.UserAccountFilter;
 import com.ordjoy.entity.UserAccount;
 import com.ordjoy.entity.UserRole;
 import com.ordjoy.exception.DaoException;

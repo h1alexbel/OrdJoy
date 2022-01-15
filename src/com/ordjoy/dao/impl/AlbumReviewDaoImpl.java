@@ -5,8 +5,8 @@ import com.ordjoy.dbmanager.ConnectionPool;
 import com.ordjoy.dbmanager.ProxyConnection;
 import com.ordjoy.entity.*;
 import com.ordjoy.exception.DaoException;
-import com.ordjoy.filter.DefaultFilter;
-import com.ordjoy.filter.ReviewFilter;
+import com.ordjoy.dao.filter.DefaultFilter;
+import com.ordjoy.dao.filter.ReviewFilter;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

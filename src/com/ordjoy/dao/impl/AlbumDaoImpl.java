@@ -6,8 +6,8 @@ import com.ordjoy.dbmanager.ProxyConnection;
 import com.ordjoy.entity.*;
 import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.DataBaseException;
-import com.ordjoy.filter.AlbumFilter;
-import com.ordjoy.filter.DefaultFilter;
+import com.ordjoy.dao.filter.AlbumFilter;
+import com.ordjoy.dao.filter.DefaultFilter;
 
 import java.sql.*;
 import java.util.*;
