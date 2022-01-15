@@ -291,7 +291,7 @@ public class TrackDaoImpl implements TrackDao {
     }
 
     @Override
-    public Set<Track> findTracksByAlbumId(Long albumId, DefaultFilter filter) {
+    public List<Track> findTracksByAlbumId(Long albumId, DefaultFilter filter) {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
@@ -302,7 +302,7 @@ public class TrackDaoImpl implements TrackDao {
             findTrackByTitle.setObject(2, filter.limit());
             findTrackByTitle.setObject(3, filter.offset());
             ResultSet resultSet = findTrackByTitle.executeQuery();
-            Set<Track> tracks = new HashSet<>();
+            List<Track> tracks = new ArrayList<>();
             Track track = null;
             while (resultSet.next()) {
                 track = buildTrack(resultSet);
@@ -315,7 +315,7 @@ public class TrackDaoImpl implements TrackDao {
     }
 
     @Override
-    public Set<Track> findTracksByAlbumName(String albumName, DefaultFilter filter) {
+    public List<Track> findTracksByAlbumName(String albumName, DefaultFilter filter) {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
@@ -326,7 +326,7 @@ public class TrackDaoImpl implements TrackDao {
             findTrackByTitle.setObject(2, filter.limit());
             findTrackByTitle.setObject(3, filter.offset());
             ResultSet resultSet = findTrackByTitle.executeQuery();
-            Set<Track> tracks = new HashSet<>();
+            List<Track> tracks = new ArrayList<>();
             Track track = null;
             while (resultSet.next()) {
                 track = buildTrack(resultSet);

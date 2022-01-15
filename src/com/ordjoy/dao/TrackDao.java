@@ -4,8 +4,8 @@ import com.ordjoy.dao.filter.DefaultFilter;
 import com.ordjoy.dao.filter.TrackFilter;
 import com.ordjoy.entity.*;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public interface TrackDao extends GenericDao<Long, Track, TrackFilter> {
 
@@ -13,7 +13,7 @@ public interface TrackDao extends GenericDao<Long, Track, TrackFilter> {
 
     Optional<Track> findByTrackTitle(String trackTitle);
 
-    Set<Track> findTracksByAlbumId(Long albumId, DefaultFilter filter);
+    List<Track> findTracksByAlbumId(Long albumId, DefaultFilter filter);
 
-    Set<Track> findTracksByAlbumName(String albumName, DefaultFilter filter);
+    List<Track> findTracksByAlbumName(String albumName, DefaultFilter filter);
 }

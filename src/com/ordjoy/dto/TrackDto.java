@@ -1,35 +1,33 @@
 package com.ordjoy.dto;
 
-import java.util.Set;
-
 public class TrackDto {
 
     private final Long id;
+    private final String url;
     private final String title;
-    private final AlbumDto album;
-    private final Set<TrackReviewDto> trackReviews;
+    private final String album;
 
-    public TrackDto(Long id, String title, AlbumDto album, Set<TrackReviewDto> trackReviews) {
+    public TrackDto(Long id, String url, String title, String album) {
         this.id = id;
+        this.url = url;
         this.title = title;
         this.album = album;
-        this.trackReviews = trackReviews;
     }
 
     public Long getId() {
         return id;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
     public String getTitle() {
         return title;
     }
 
-    public AlbumDto getAlbum() {
+    public String getAlbum() {
         return album;
-    }
-
-    public Set<TrackReviewDto> getTrackReviews() {
-        return trackReviews;
     }
 
     @Override
@@ -51,8 +49,9 @@ public class TrackDto {
     public String toString() {
         return "TrackDto{" +
                "id=" + id +
+               ", url='" + url + '\'' +
                ", title='" + title + '\'' +
-               ", trackReviews=" + trackReviews +
+               ", album='" + album + '\'' +
                '}';
     }
 }
