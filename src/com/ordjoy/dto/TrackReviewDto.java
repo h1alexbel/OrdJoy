@@ -4,14 +4,14 @@ public class TrackReviewDto {
 
     private final Long id;
     private final String review;
-    private final TrackDto track;
-    private final UserDto user;
+    private final String trackName;
+    private final String userLogin;
 
-    public TrackReviewDto(Long id, String review, TrackDto trackDto, UserDto userDto) {
+    public TrackReviewDto(Long id, String review, String trackName, String userLogin) {
         this.id = id;
         this.review = review;
-        this.track = trackDto;
-        this.user = userDto;
+        this.trackName = trackName;
+        this.userLogin = userLogin;
     }
 
     public Long getId() {
@@ -22,12 +22,12 @@ public class TrackReviewDto {
         return review;
     }
 
-    public TrackDto getTrack() {
-        return track;
+    public String getTrackName() {
+        return trackName;
     }
 
-    public UserDto getUser() {
-        return user;
+    public String getUserLogin() {
+        return userLogin;
     }
 
     @Override
@@ -50,7 +50,8 @@ public class TrackReviewDto {
         return "TrackReviewDto{" +
                "id=" + id +
                ", review='" + review + '\'' +
-               ", user=" + user +
+               ", trackName='" + trackName + '\'' +
+               ", userLogin='" + userLogin + '\'' +
                '}';
     }
 }

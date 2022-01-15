@@ -1,5 +1,8 @@
 package com.ordjoy.dto;
 
+import com.ordjoy.entity.MixReview;
+import com.ordjoy.entity.Track;
+
 import java.util.Set;
 
 public class MixDto {
@@ -7,10 +10,10 @@ public class MixDto {
     private final Long id;
     private final String name;
     private final String description;
-    private final Set<TrackDto> tracks;
-    private final Set<MixReviewDto> mixReviews;
+    private final Set<Track> tracks;
+    private final Set<MixReview> mixReviews;
 
-    public MixDto(Long id, String name, String description, Set<TrackDto> tracks, Set<MixReviewDto> mixReviews) {
+    public MixDto(Long id, String name, String description, Set<Track> tracks, Set<MixReview> mixReviews) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -30,11 +33,11 @@ public class MixDto {
         return description;
     }
 
-    public Set<TrackDto> getTracks() {
+    public Set<Track> getTracks() {
         return tracks;
     }
 
-    public Set<MixReviewDto> getMixReviews() {
+    public Set<MixReview> getMixReviews() {
         return mixReviews;
     }
 

@@ -4,14 +4,14 @@ public class AlbumReviewDto {
 
     private final Long id;
     private final String review;
-    private final AlbumDto album;
-    private final UserDto user;
+    private final String albumName;
+    private final String userName;
 
-    public AlbumReviewDto(Long id, String review, AlbumDto albumDto, UserDto userDto) {
+    public AlbumReviewDto(Long id, String review, String albumName, String userName) {
         this.id = id;
         this.review = review;
-        this.album = albumDto;
-        this.user = userDto;
+        this.albumName = albumName;
+        this.userName = userName;
     }
 
     public Long getId() {
@@ -22,12 +22,12 @@ public class AlbumReviewDto {
         return review;
     }
 
-    public AlbumDto getAlbum() {
-        return album;
+    public String getAlbumName() {
+        return albumName;
     }
 
-    public UserDto getUser() {
-        return user;
+    public String getUserName() {
+        return userName;
     }
 
     @Override
@@ -50,7 +50,8 @@ public class AlbumReviewDto {
         return "AlbumReviewDto{" +
                "id=" + id +
                ", review='" + review + '\'' +
-               ", user=" + user +
+               ", albumName='" + albumName + '\'' +
+               ", userName='" + userName + '\'' +
                '}';
     }
 }

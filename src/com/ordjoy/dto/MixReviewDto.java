@@ -4,14 +4,14 @@ public class MixReviewDto {
 
     private final Long id;
     private final String review;
-    private final MixDto mix;
-    private final UserDto user;
+    private final String mixName;
+    private final String userName ;
 
-    public MixReviewDto(Long id, String review, MixDto mixDto, UserDto userDto) {
+    public MixReviewDto(Long id, String review, String mixName, String userName) {
         this.id = id;
         this.review = review;
-        this.mix = mixDto;
-        this.user = userDto;
+        this.mixName = mixName;
+        this.userName = userName;
     }
 
     public Long getId() {
@@ -22,12 +22,12 @@ public class MixReviewDto {
         return review;
     }
 
-    public MixDto getMix() {
-        return mix;
+    public String getMixName() {
+        return mixName;
     }
 
-    public UserDto getUser() {
-        return user;
+    public String getUserName() {
+        return userName;
     }
 
     @Override
@@ -50,7 +50,8 @@ public class MixReviewDto {
         return "MixReviewDto{" +
                "id=" + id +
                ", review='" + review + '\'' +
-               ", user=" + user +
+               ", mixName='" + mixName + '\'' +
+               ", userName='" + userName + '\'' +
                '}';
     }
 }

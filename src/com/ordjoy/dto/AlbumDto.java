@@ -1,15 +1,18 @@
 package com.ordjoy.dto;
 
+import com.ordjoy.entity.AlbumReview;
+import com.ordjoy.entity.Track;
+
 import java.util.Set;
 
 public class AlbumDto {
 
     private final Long id;
     private final String title;
-    private final Set<TrackDto> tracks;
-    private final Set<AlbumReviewDto> albumReviews;
+    private final Set<Track> tracks;
+    private final Set<AlbumReview> albumReviews;
 
-    public AlbumDto(Long id, String title, Set<TrackDto> tracks, Set<AlbumReviewDto> albumReviews) {
+    public AlbumDto(Long id, String title, Set<Track> tracks, Set<AlbumReview> albumReviews) {
         this.id = id;
         this.title = title;
         this.tracks = tracks;
@@ -24,11 +27,11 @@ public class AlbumDto {
         return title;
     }
 
-    public Set<TrackDto> getTracks() {
+    public Set<Track> getTracks() {
         return tracks;
     }
 
-    public Set<AlbumReviewDto> getAlbumReviews() {
+    public Set<AlbumReview> getAlbumReviews() {
         return albumReviews;
     }
 
