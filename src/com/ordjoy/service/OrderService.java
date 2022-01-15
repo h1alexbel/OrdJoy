@@ -6,6 +6,7 @@ import com.ordjoy.dao.impl.OrderDaoImpl;
 import com.ordjoy.dto.OrderDto;
 import com.ordjoy.entity.Order;
 import com.ordjoy.entity.OrderStatus;
+import com.ordjoy.exception.ServiceException;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -26,11 +27,11 @@ public class OrderService {
         return INSTANCE;
     }
 
-    public Order saveOrder(Order order) {
+    public Order saveOrder(Order order) throws ServiceException {
         return orderDao.save(order);
     }
 
-    public Optional<OrderDto> findOrderById(Long id) {
+    public Optional<OrderDto> findOrderById(Long id) throws ServiceException {
         return orderDao.findById(id).stream()
                 .map(order -> new OrderDto(
                         order.getId(),
@@ -40,7 +41,7 @@ public class OrderService {
                 )).findFirst();
     }
 
-    public List<OrderDto> findAllOrders(OrderFilter filter) {
+    public List<OrderDto> findAllOrders(OrderFilter filter) throws ServiceException {
         return orderDao.findAll(filter).stream()
                 .map(order -> new OrderDto(
                         order.getId(),
@@ -50,19 +51,19 @@ public class OrderService {
                 )).collect(toList());
     }
 
-    public void update(Order order) {
+    public void update(Order order) throws ServiceException {
         orderDao.update(order);
     }
 
-    public boolean deleteById(Long id) {
+    public boolean deleteById(Long id) throws ServiceException {
         return orderDao.deleteById(id);
     }
 
-    public void updateOrderStatus(OrderStatus newStatus, Long orderId) {
+    public void updateOrderStatus(OrderStatus newStatus, Long orderId) throws ServiceException {
         orderDao.updateOrderStatus(newStatus, orderId);
     }
 
-    public List<OrderDto> findOrdersByPrice(BigDecimal price) {
+    public List<OrderDto> findOrdersByPrice(BigDecimal price) throws ServiceException {
         return orderDao.findOrdersByPrice(price).stream()
                 .map(order -> new OrderDto(
                         order.getId(),
@@ -72,7 +73,7 @@ public class OrderService {
                 )).collect(toList());
     }
 
-    public List<OrderDto> findOrdersByUserId(Long userAccountId, DefaultFilter filter) {
+    public List<OrderDto> findOrdersByUserId(Long userAccountId, DefaultFilter filter) throws ServiceException {
         return orderDao.findOrdersByUserId(userAccountId, filter).stream()
                 .map(order -> new OrderDto(
                         order.getId(),
@@ -82,7 +83,7 @@ public class OrderService {
                 )).collect(toList());
     }
 
-    public List<OrderDto> findOrdersByUserEmail(String email, DefaultFilter filter) {
+    public List<OrderDto> findOrdersByUserEmail(String email, DefaultFilter filter) throws ServiceException {
         return orderDao.findOrdersByUserEmail(email, filter).stream()
                 .map(order -> new OrderDto(
                         order.getId(),
@@ -92,7 +93,7 @@ public class OrderService {
                 )).collect(toList());
     }
 
-    public List<OrderDto> findOrdersByUserLogin(String login, DefaultFilter filter) {
+    public List<OrderDto> findOrdersByUserLogin(String login, DefaultFilter filter) throws ServiceException {
         return orderDao.findOrdersByUserLogin(login, filter).stream()
                 .map(order -> new OrderDto(
                         order.getId(),
@@ -102,7 +103,7 @@ public class OrderService {
                 )).collect(toList());
     }
 
-    public List<OrderDto> findOrdersByTrackId(Long trackId, DefaultFilter filter) {
+    public List<OrderDto> findOrdersByTrackId(Long trackId, DefaultFilter filter) throws ServiceException {
         return orderDao.findOrdersByTrackId(trackId, filter).stream()
                 .map(order -> new OrderDto(
                         order.getId(),
@@ -112,7 +113,7 @@ public class OrderService {
                 )).collect(toList());
     }
 
-    public List<OrderDto> findOrdersByTrackName(String trackName, DefaultFilter filter) {
+    public List<OrderDto> findOrdersByTrackName(String trackName, DefaultFilter filter) throws ServiceException {
         return orderDao.findOrdersByTrackName(trackName, filter).stream()
                 .map(order -> new OrderDto(
                         order.getId(),
@@ -122,7 +123,7 @@ public class OrderService {
                 )).collect(toList());
     }
 
-    public List<OrderDto> findOrdersByOrderStatus(OrderStatus orderStatus, DefaultFilter filter) {
+    public List<OrderDto> findOrdersByOrderStatus(OrderStatus orderStatus, DefaultFilter filter) throws ServiceException {
         return orderDao.findOrdersByOrderStatus(orderStatus, filter).stream()
                 .map(order -> new OrderDto(
                         order.getId(),

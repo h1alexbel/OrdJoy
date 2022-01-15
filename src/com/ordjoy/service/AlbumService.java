@@ -6,6 +6,7 @@ import com.ordjoy.dao.impl.AlbumDaoImpl;
 import com.ordjoy.dto.AlbumDto;
 import com.ordjoy.dto.AlbumReviewDto;
 import com.ordjoy.entity.Album;
+import com.ordjoy.exception.ServiceException;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,11 +26,11 @@ public class AlbumService {
         return INSTANCE;
     }
 
-    public Album saveAlbum(Album album) {
+    public Album saveAlbum(Album album) throws ServiceException {
         return albumDao.save(album);
     }
 
-    public Optional<AlbumDto> findAlbumById(Long id) {
+    public Optional<AlbumDto> findAlbumById(Long id) throws ServiceException {
         return albumDao.findById(id).stream()
                 .map(album -> new AlbumDto(
                         album.getId(),
@@ -37,7 +38,7 @@ public class AlbumService {
                 )).findFirst();
     }
 
-    public List<AlbumDto> findAllAlbums(AlbumFilter filter) {
+    public List<AlbumDto> findAllAlbums(AlbumFilter filter) throws ServiceException {
         return albumDao.findAll(filter).stream()
                 .map(album -> new AlbumDto(
                         album.getId(),
@@ -45,15 +46,15 @@ public class AlbumService {
                 )).collect(toList());
     }
 
-    public void updateAlbum(Album album) {
+    public void updateAlbum(Album album) throws ServiceException {
         albumDao.update(album);
     }
 
-    public boolean deleteAlbumById(Long id) {
+    public boolean deleteAlbumById(Long id) throws ServiceException {
         return albumDao.deleteById(id);
     }
 
-    public Optional<AlbumDto> findAlbumByTitle(String albumTitle) {
+    public Optional<AlbumDto> findAlbumByTitle(String albumTitle) throws ServiceException {
         return albumDao.findAlbumByTitle(albumTitle).stream()
                 .map(album -> new AlbumDto(
                         album.getId(),
@@ -61,7 +62,7 @@ public class AlbumService {
                 )).findFirst();
     }
 
-    public List<AlbumReviewDto> findAlbumReviewsByAlbumTitle(String albumTitle, DefaultFilter filter) {
+    public List<AlbumReviewDto> findAlbumReviewsByAlbumTitle(String albumTitle, DefaultFilter filter) throws ServiceException {
         return albumDao.findAlbumReviewsByAlbumTitle(albumTitle, filter).stream()
                 .map(albumReview -> new AlbumReviewDto(
                         albumReview.getId(),
@@ -71,7 +72,7 @@ public class AlbumService {
                 )).collect(toList());
     }
 
-    public List<AlbumReviewDto> findAlbumReviewsByAlbumId(Long albumId, DefaultFilter filter) {
+    public List<AlbumReviewDto> findAlbumReviewsByAlbumId(Long albumId, DefaultFilter filter) throws ServiceException {
         return albumDao.findAlbumReviewsByAlbumId(albumId, filter).stream()
                 .map(albumReview -> new AlbumReviewDto(
                         albumReview.getId(),

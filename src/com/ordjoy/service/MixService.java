@@ -6,6 +6,7 @@ import com.ordjoy.dao.impl.MixDaoImpl;
 import com.ordjoy.dto.MixDto;
 import com.ordjoy.dto.MixReviewDto;
 import com.ordjoy.entity.Mix;
+import com.ordjoy.exception.ServiceException;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,11 +26,11 @@ public class MixService {
         return INSTANCE;
     }
 
-    public Mix saveMix(Mix mix) {
+    public Mix saveMix(Mix mix) throws ServiceException {
         return mixDao.save(mix);
     }
 
-    public Optional<MixDto> findMixById(Long id) {
+    public Optional<MixDto> findMixById(Long id) throws ServiceException {
         return mixDao.findById(id).stream()
                 .map(mix -> new MixDto(
                         mix.getId(),
@@ -38,7 +39,7 @@ public class MixService {
                 )).findFirst();
     }
 
-    public List<MixDto> findAllMixes(MixFilter filter) {
+    public List<MixDto> findAllMixes(MixFilter filter) throws ServiceException {
         return mixDao.findAll(filter).stream()
                 .map(mix -> new MixDto(
                         mix.getId(),
@@ -47,15 +48,15 @@ public class MixService {
                 )).collect(toList());
     }
 
-    public void updateMix(Mix mix) {
+    public void updateMix(Mix mix) throws ServiceException {
         mixDao.update(mix);
     }
 
-    public boolean deleteMixById(Long id) {
+    public boolean deleteMixById(Long id) throws ServiceException {
         return mixDao.deleteById(id);
     }
 
-    public Optional<MixDto> findMixByMixName(String mixName) {
+    public Optional<MixDto> findMixByMixName(String mixName) throws ServiceException {
         return mixDao.findMixByMixName(mixName).stream()
                 .map(mix -> new MixDto(
                         mix.getId(),
@@ -64,7 +65,7 @@ public class MixService {
                 )).findFirst();
     }
 
-    public List<MixReviewDto> findMixReviewByMixName(String mixName, DefaultFilter filter) {
+    public List<MixReviewDto> findMixReviewByMixName(String mixName, DefaultFilter filter) throws ServiceException {
         return mixDao.findMixReviewByMixName(mixName, filter).stream()
                 .map(mixReview -> new MixReviewDto(
                         mixReview.getId(),
@@ -74,7 +75,7 @@ public class MixService {
                 )).collect(toList());
     }
 
-    public List<MixReviewDto> findMixReviewsByMixId(Long mixId, DefaultFilter filter) {
+    public List<MixReviewDto> findMixReviewsByMixId(Long mixId, DefaultFilter filter) throws ServiceException {
         return mixDao.findMixReviewsByMixId(mixId, filter).stream()
                 .map(mixReview -> new MixReviewDto(
                         mixReview.getId(),

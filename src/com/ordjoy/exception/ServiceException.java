@@ -1,6 +1,8 @@
 package com.ordjoy.exception;
 
-public class ServiceException extends RuntimeException {
+import java.io.IOException;
+
+public class ServiceException extends IOException {
 
     public ServiceException() {
     }
