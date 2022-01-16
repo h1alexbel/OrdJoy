@@ -22,10 +22,6 @@ import static java.util.stream.Collectors.joining;
 public class MixReviewDaoImpl implements MixReviewDao {
 
     private static final MixReviewDaoImpl INSTANCE = new MixReviewDaoImpl();
-    public static final String LIMIT_OFFSET = """
-            LIMIT ?
-            OFFSET ?
-            """;
 
     private MixReviewDaoImpl() {
 
@@ -34,6 +30,11 @@ public class MixReviewDaoImpl implements MixReviewDao {
     public static MixReviewDaoImpl getInstance() {
         return INSTANCE;
     }
+
+    private static final String LIMIT_OFFSET = """
+            LIMIT ?
+            OFFSET ?
+            """;
 
     private static final String SQL_SAVE_MIX_REVIEW = """
             INSERT INTO review_storage.review_about_mix(review_text, user_account_id, mix_id)
