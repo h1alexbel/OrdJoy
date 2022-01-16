@@ -5,13 +5,13 @@ public class UserDto {
     private final Long id;
     private final String login;
     private final String email;
-    private final String password;
+    private final Integer discountPercentageLevel;
 
-    public UserDto(Long id, String login, String email, String password) {
+    public UserDto(Long id, String login, String email, Integer discountPercentageLevel) {
         this.id = id;
         this.login = login;
         this.email = email;
-        this.password = password;
+        this.discountPercentageLevel = discountPercentageLevel;
     }
 
     public Long getId() {
@@ -26,8 +26,8 @@ public class UserDto {
         return email;
     }
 
-    public String getPassword() {
-        return password;
+    public Integer getDiscountPercentageLevel() {
+        return discountPercentageLevel;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class UserDto {
                "id=" + id +
                ", login='" + login + '\'' +
                ", email='" + email + '\'' +
-               ", password='" + password + '\'' +
+               ", discountPercentageLevel=" + discountPercentageLevel +
                '}';
     }
 }
