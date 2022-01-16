@@ -12,7 +12,6 @@ import com.ordjoy.exception.ServiceException;
 import com.ordjoy.mapper.MixMapper;
 import com.ordjoy.mapper.MixReviewMapper;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -106,28 +105,18 @@ public class MixService {
     }
 
     public List<MixReviewDto> findMixReviewByMixName(String mixName, DefaultFilter filter) throws ServiceException {
-        List<MixReviewDto> mixReviewDtos = new ArrayList<>();
         try {
-            List<MixReview> mixReviews = mixDao.findMixReviewByMixName(mixName, filter);
-            mixReviews.forEach(mixReview -> {
-                MixReviewDto mixReviewDto = mixReviewMapper.mapFrom(mixReview);
-                mixReviewDtos.add(mixReviewDto);
-            });
-            return mixReviewDtos;
+            return mixDao.findMixReviewByMixName(mixName, filter).stream()
+                    .map(mixReviewMapper::mapFrom).collect(toList());
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 
     public List<MixReviewDto> findMixReviewByMixId(Long mixId, DefaultFilter filter) throws ServiceException {
-        List<MixReviewDto> mixReviewDtos = new ArrayList<>();
         try {
-            List<MixReview> mixReviews = mixDao.findMixReviewsByMixId(mixId, filter);
-            mixReviews.forEach(mixReview -> {
-                MixReviewDto mixReviewDto = mixReviewMapper.mapFrom(mixReview);
-                mixReviewDtos.add(mixReviewDto);
-            });
-            return mixReviewDtos;
+            return mixDao.findMixReviewsByMixId(mixId, filter).stream()
+                    .map(mixReviewMapper::mapFrom).collect(toList());
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }

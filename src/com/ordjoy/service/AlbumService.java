@@ -6,13 +6,11 @@ import com.ordjoy.dao.impl.AlbumDaoImpl;
 import com.ordjoy.dto.AlbumDto;
 import com.ordjoy.dto.AlbumReviewDto;
 import com.ordjoy.entity.Album;
-import com.ordjoy.entity.AlbumReview;
 import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.mapper.AlbumMapper;
 import com.ordjoy.mapper.AlbumReviewMapper;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -103,28 +101,18 @@ public class AlbumService {
     }
 
     public List<AlbumReviewDto> findAlbumReviewsByAlbumTitle(String albumTitle, DefaultFilter filter) throws ServiceException {
-        List<AlbumReviewDto> albumReviewDtos = new ArrayList<>();
         try {
-            List<AlbumReview> albumReviews = albumDao.findAlbumReviewsByAlbumTitle(albumTitle, filter);
-            albumReviews.forEach(albumReview -> {
-                AlbumReviewDto albumReviewDto = albumReviewMapper.mapFrom(albumReview);
-                albumReviewDtos.add(albumReviewDto);
-            });
-            return albumReviewDtos;
+            return albumDao.findAlbumReviewsByAlbumTitle(albumTitle, filter).stream()
+                    .map(albumReviewMapper::mapFrom).collect(toList());
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 
     public List<AlbumReviewDto> findAlbumReviewsByAlbumId(Long albumId, DefaultFilter filter) throws ServiceException {
-        List<AlbumReviewDto> albumReviewDtos = new ArrayList<>();
         try {
-            List<AlbumReview> albumReviews = albumDao.findAlbumReviewsByAlbumId(albumId, filter);
-            albumReviews.forEach(albumReview -> {
-                AlbumReviewDto albumReviewDto = albumReviewMapper.mapFrom(albumReview);
-                albumReviewDtos.add(albumReviewDto);
-            });
-            return albumReviewDtos;
+            return albumDao.findAlbumReviewsByAlbumId(albumId, filter).stream()
+                    .map(albumReviewMapper::mapFrom).collect(toList());
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }

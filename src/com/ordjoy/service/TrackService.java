@@ -6,17 +6,21 @@ import com.ordjoy.dao.impl.TrackDaoImpl;
 import com.ordjoy.dto.TrackDto;
 import com.ordjoy.entity.Mix;
 import com.ordjoy.entity.Track;
+import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
+import com.ordjoy.mapper.TrackMapper;
 
 import java.util.List;
 import java.util.Optional;
 
+import static com.ordjoy.util.ExceptionMessageUtils.*;
 import static java.util.stream.Collectors.*;
 
 public class TrackService {
 
     private final TrackDaoImpl trackDao = TrackDaoImpl.getInstance();
     private static final TrackService INSTANCE = new TrackService();
+    private final TrackMapper trackMapper = TrackMapper.getInstance();
 
     private TrackService() {
 
@@ -26,69 +30,92 @@ public class TrackService {
         return INSTANCE;
     }
 
-    public Track saveTrack(Track track) throws ServiceException {
-        return trackDao.save(track);
+    public TrackDto addNewTrack(Track track) throws ServiceException {
+        try {
+            Track savedTrack = trackDao.save(track);
+            TrackDto trackDto = trackMapper.mapFrom(savedTrack);
+            return trackDto;
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
     }
 
-    public Optional<TrackDto> findById(Long id) throws ServiceException {
-        return trackDao.findById(id).stream()
-                .map(track -> new TrackDto(
-                        track.getId(),
-                        track.getSongUrl(),
-                        track.getTitle(),
-                        track.getAlbum().getTitle()
-                )).findFirst();
+    public Optional<TrackDto> findTrackById(Long id) throws ServiceException {
+        try {
+            Optional<Track> maybeTrack = trackDao.findById(id);
+            if (maybeTrack.isPresent()) {
+                Track track = maybeTrack.get();
+                TrackDto trackDto = trackMapper.mapFrom(track);
+                return Optional.of(trackDto);
+            }
+            return Optional.empty();
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
     }
 
     public List<TrackDto> findAllTracksWithLimitOffset(TrackFilter filter) throws ServiceException {
-        return trackDao.findAll(filter).stream()
-                .map(track -> new TrackDto(
-                        track.getId(),
-                        track.getSongUrl(),
-                        track.getTitle(),
-                        track.getAlbum().getTitle()
-                )).collect(toList());
+        try {
+            return trackDao.findAll(filter).stream()
+                    .map(trackMapper::mapFrom).collect(toList());
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
     }
 
     public void updateTrack(Track track) throws ServiceException {
-        trackDao.update(track);
+        try {
+            trackDao.update(track);
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
     }
 
     public boolean deleteTrackById(Long id) throws ServiceException {
-        return trackDao.deleteById(id);
+        try {
+            return trackDao.deleteById(id);
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
     }
 
     public boolean addExistingTrackToMix(Mix mixThatExists, Track trackThatExists) throws ServiceException {
-        return trackDao.addExistingTrackToMix(mixThatExists, trackThatExists);
+        try {
+            return trackDao.addExistingTrackToMix(mixThatExists, trackThatExists);
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
     }
 
     public Optional<TrackDto> findByTrackTitle(String trackTitle) throws ServiceException {
-        return trackDao.findByTrackTitle(trackTitle).stream()
-                .map(track -> new TrackDto(
-                        track.getId(),
-                        track.getSongUrl(),
-                        track.getTitle(),
-                        track.getAlbum().getTitle()
-                )).findFirst();
+        try {
+            Optional<Track> maybeTrack = trackDao.findByTrackTitle(trackTitle);
+            if (maybeTrack.isPresent()) {
+                Track track = maybeTrack.get();
+                TrackDto trackDto = trackMapper.mapFrom(track);
+                return Optional.of(trackDto);
+            }
+            return Optional.empty();
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
     }
 
     public List<TrackDto> findTracksByAlbumId(Long albumId, DefaultFilter filter) throws ServiceException {
-        return trackDao.findTracksByAlbumId(albumId, filter).stream()
-                .map(track -> new TrackDto(
-                        track.getId(),
-                        track.getSongUrl(),
-                        track.getTitle(),
-                        track.getAlbum().getTitle()
-                )).collect(toList());
+        try {
+            return trackDao.findTracksByAlbumId(albumId, filter).stream()
+                    .map(trackMapper::mapFrom).collect(toList());
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
     }
 
     public List<TrackDto> findTracksByAlbumName(String albumName, DefaultFilter filter) throws ServiceException {
-        return trackDao.findTracksByAlbumName(albumName, filter).stream()
-                .map(track -> new TrackDto(
-                        track.getId(),
-                        track.getSongUrl(),
-                        track.getTitle(),
-                        track.getAlbum().getTitle()
-                )).collect(toList());
+        try {
+            return trackDao.findTracksByAlbumName(albumName, filter).stream()
+                    .map(trackMapper::mapFrom).collect(toList());
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
     }
 }
