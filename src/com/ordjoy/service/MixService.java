@@ -6,17 +6,25 @@ import com.ordjoy.dao.impl.MixDaoImpl;
 import com.ordjoy.dto.MixDto;
 import com.ordjoy.dto.MixReviewDto;
 import com.ordjoy.entity.Mix;
+import com.ordjoy.entity.MixReview;
+import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
+import com.ordjoy.mapper.MixMapper;
+import com.ordjoy.mapper.MixReviewMapper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.ordjoy.util.ExceptionMessageUtils.SERVICE_LAYER_EXCEPTION_MESSAGE;
 import static java.util.stream.Collectors.*;
 
 public class MixService {
 
     private final MixDaoImpl mixDao = MixDaoImpl.getInstance();
     private static final MixService INSTANCE = new MixService();
+    private final MixMapper mixMapper = MixMapper.getInstance();
+    private final MixReviewMapper mixReviewMapper = MixReviewMapper.getInstance();
 
     private MixService() {
 
@@ -26,62 +34,102 @@ public class MixService {
         return INSTANCE;
     }
 
-    public Mix saveMix(Mix mix) throws ServiceException {
-        return mixDao.save(mix);
+    public MixDto addNewMix(Mix mix) throws ServiceException {
+        try {
+            Mix savedMix = mixDao.save(mix);
+            MixDto mixDto = mixMapper.mapFrom(savedMix);
+            return mixDto;
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
     }
 
     public Optional<MixDto> findMixById(Long id) throws ServiceException {
-        return mixDao.findById(id).stream()
-                .map(mix -> new MixDto(
-                        mix.getId(),
-                        mix.getName(),
-                        mix.getDescription()
-                )).findFirst();
+        Optional<MixDto> maybeMix;
+        try {
+            maybeMix = mixDao.findById(id).stream()
+                    .map(mix -> new MixDto(
+                            mix.getId(),
+                            mix.getName(),
+                            mix.getDescription()
+                    )).findFirst();
+            return maybeMix;
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
     }
 
     public List<MixDto> findAllMixes(MixFilter filter) throws ServiceException {
-        return mixDao.findAll(filter).stream()
-                .map(mix -> new MixDto(
-                        mix.getId(),
-                        mix.getName(),
-                        mix.getDescription()
-                )).collect(toList());
+        List<MixDto> mixes;
+        try {
+            mixes = mixDao.findAll(filter).stream()
+                    .map(mix -> new MixDto(
+                            mix.getId(),
+                            mix.getName(),
+                            mix.getDescription()
+                    )).collect(toList());
+            return mixes;
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
     }
 
     public void updateMix(Mix mix) throws ServiceException {
-        mixDao.update(mix);
+        try {
+            mixDao.update(mix);
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
     }
 
     public boolean deleteMixById(Long id) throws ServiceException {
-        return mixDao.deleteById(id);
+        try {
+            return mixDao.deleteById(id);
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
     }
 
     public Optional<MixDto> findMixByMixName(String mixName) throws ServiceException {
-        return mixDao.findMixByMixName(mixName).stream()
-                .map(mix -> new MixDto(
-                        mix.getId(),
-                        mix.getName(),
-                        mix.getDescription()
-                )).findFirst();
+        Optional<MixDto> maybeMix;
+        try {
+            maybeMix = mixDao.findMixByMixName(mixName).stream()
+                    .map(mix -> new MixDto(
+                            mix.getId(),
+                            mix.getName(),
+                            mix.getDescription()
+                    )).findFirst();
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
+        return maybeMix;
     }
 
     public List<MixReviewDto> findMixReviewByMixName(String mixName, DefaultFilter filter) throws ServiceException {
-        return mixDao.findMixReviewByMixName(mixName, filter).stream()
-                .map(mixReview -> new MixReviewDto(
-                        mixReview.getId(),
-                        mixReview.getReviewText(),
-                        mixReview.getMix().getName(),
-                        mixReview.getUserAccount().getLogin()
-                )).collect(toList());
+        List<MixReviewDto> mixReviewDtos = new ArrayList<>();
+        try {
+            List<MixReview> mixReviews = mixDao.findMixReviewByMixName(mixName, filter);
+            mixReviews.forEach(mixReview -> {
+                MixReviewDto mixReviewDto = mixReviewMapper.mapFrom(mixReview);
+                mixReviewDtos.add(mixReviewDto);
+            });
+            return mixReviewDtos;
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
     }
 
-    public List<MixReviewDto> findMixReviewsByMixId(Long mixId, DefaultFilter filter) throws ServiceException {
-        return mixDao.findMixReviewsByMixId(mixId, filter).stream()
-                .map(mixReview -> new MixReviewDto(
-                        mixReview.getId(),
-                        mixReview.getReviewText(),
-                        mixReview.getMix().getName(),
-                        mixReview.getUserAccount().getLogin()
-                )).collect(toList());
+    public List<MixReviewDto> findMixReviewByMixId(Long mixId, DefaultFilter filter) throws ServiceException {
+        List<MixReviewDto> mixReviewDtos = new ArrayList<>();
+        try {
+            List<MixReview> mixReviews = mixDao.findMixReviewsByMixId(mixId, filter);
+            mixReviews.forEach(mixReview -> {
+                MixReviewDto mixReviewDto = mixReviewMapper.mapFrom(mixReview);
+                mixReviewDtos.add(mixReviewDto);
+            });
+            return mixReviewDtos;
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
     }
 }

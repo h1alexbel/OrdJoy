@@ -6,17 +6,25 @@ import com.ordjoy.dao.impl.AlbumDaoImpl;
 import com.ordjoy.dto.AlbumDto;
 import com.ordjoy.dto.AlbumReviewDto;
 import com.ordjoy.entity.Album;
+import com.ordjoy.entity.AlbumReview;
+import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
+import com.ordjoy.mapper.AlbumMapper;
+import com.ordjoy.mapper.AlbumReviewMapper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.ordjoy.util.ExceptionMessageUtils.*;
 import static java.util.stream.Collectors.*;
 
 public class AlbumService {
 
     private final AlbumDaoImpl albumDao = AlbumDaoImpl.getInstance();
     private static final AlbumService INSTANCE = new AlbumService();
+    private final AlbumMapper albumMapper = AlbumMapper.getInstance();
+    private final AlbumReviewMapper albumReviewMapper = AlbumReviewMapper.getInstance();
 
     private AlbumService() {
 
@@ -26,59 +34,99 @@ public class AlbumService {
         return INSTANCE;
     }
 
-    public Album saveAlbum(Album album) throws ServiceException {
-        return albumDao.save(album);
+    public AlbumDto saveAlbum(Album album) throws ServiceException {
+        try {
+            Album savedAlbum = albumDao.save(album);
+            AlbumDto albumDto = albumMapper.mapFrom(savedAlbum);
+            return albumDto;
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
     }
 
     public Optional<AlbumDto> findAlbumById(Long id) throws ServiceException {
-        return albumDao.findById(id).stream()
-                .map(album -> new AlbumDto(
-                        album.getId(),
-                        album.getTitle()
-                )).findFirst();
+        Optional<AlbumDto> maybeAlbum;
+        try {
+            maybeAlbum = albumDao.findById(id).stream()
+                    .map(album -> new AlbumDto(
+                            album.getId(),
+                            album.getTitle()
+                    )).findFirst();
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
+        return maybeAlbum;
     }
 
     public List<AlbumDto> findAllAlbums(AlbumFilter filter) throws ServiceException {
-        return albumDao.findAll(filter).stream()
-                .map(album -> new AlbumDto(
-                        album.getId(),
-                        album.getTitle()
-                )).collect(toList());
+        List<AlbumDto> albums;
+        try {
+            albums = albumDao.findAll(filter).stream()
+                    .map(album -> new AlbumDto(
+                            album.getId(),
+                            album.getTitle()
+                    )).collect(toList());
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
+        return albums;
     }
 
     public void updateAlbum(Album album) throws ServiceException {
-        albumDao.update(album);
+        try {
+            albumDao.update(album);
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
     }
 
     public boolean deleteAlbumById(Long id) throws ServiceException {
-        return albumDao.deleteById(id);
+        try {
+            return albumDao.deleteById(id);
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
     }
 
     public Optional<AlbumDto> findAlbumByTitle(String albumTitle) throws ServiceException {
-        return albumDao.findAlbumByTitle(albumTitle).stream()
-                .map(album -> new AlbumDto(
-                        album.getId(),
-                        album.getTitle()
-                )).findFirst();
+        Optional<AlbumDto> maybeAlbum;
+        try {
+            maybeAlbum = albumDao.findAlbumByTitle(albumTitle).stream()
+                    .map(album -> new AlbumDto(
+                            album.getId(),
+                            album.getTitle()
+                    )).findFirst();
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
+        return maybeAlbum;
     }
 
     public List<AlbumReviewDto> findAlbumReviewsByAlbumTitle(String albumTitle, DefaultFilter filter) throws ServiceException {
-        return albumDao.findAlbumReviewsByAlbumTitle(albumTitle, filter).stream()
-                .map(albumReview -> new AlbumReviewDto(
-                        albumReview.getId(),
-                        albumReview.getReviewText(),
-                        albumReview.getAlbum().getTitle(),
-                        albumReview.getUserAccount().getLogin()
-                )).collect(toList());
+        List<AlbumReviewDto> albumReviewDtos = new ArrayList<>();
+        try {
+            List<AlbumReview> albumReviews = albumDao.findAlbumReviewsByAlbumTitle(albumTitle, filter);
+            albumReviews.forEach(albumReview -> {
+                AlbumReviewDto albumReviewDto = albumReviewMapper.mapFrom(albumReview);
+                albumReviewDtos.add(albumReviewDto);
+            });
+            return albumReviewDtos;
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
     }
 
     public List<AlbumReviewDto> findAlbumReviewsByAlbumId(Long albumId, DefaultFilter filter) throws ServiceException {
-        return albumDao.findAlbumReviewsByAlbumId(albumId, filter).stream()
-                .map(albumReview -> new AlbumReviewDto(
-                        albumReview.getId(),
-                        albumReview.getReviewText(),
-                        albumReview.getAlbum().getTitle(),
-                        albumReview.getUserAccount().getLogin()
-                )).collect(toList());
+        List<AlbumReviewDto> albumReviewDtos = new ArrayList<>();
+        try {
+            List<AlbumReview> albumReviews = albumDao.findAlbumReviewsByAlbumId(albumId, filter);
+            albumReviews.forEach(albumReview -> {
+                AlbumReviewDto albumReviewDto = albumReviewMapper.mapFrom(albumReview);
+                albumReviewDtos.add(albumReviewDto);
+            });
+            return albumReviewDtos;
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
     }
 }
