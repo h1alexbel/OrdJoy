@@ -3,31 +3,31 @@ package com.ordjoy.dto;
 public class TrackReviewDto {
 
     private final Long id;
-    private final String review;
-    private final String trackName;
-    private final String userLogin;
+    private final String reviewText;
+    private final TrackDto track;
+    private final UserAccountDto userAccount;
 
-    public TrackReviewDto(Long id, String review, String trackName, String userLogin) {
+    public TrackReviewDto(Long id, String reviewText, TrackDto track, UserAccountDto userAccount) {
         this.id = id;
-        this.review = review;
-        this.trackName = trackName;
-        this.userLogin = userLogin;
+        this.reviewText = reviewText;
+        this.track = track;
+        this.userAccount = userAccount;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getReview() {
-        return review;
+    public String getReviewText() {
+        return reviewText;
     }
 
-    public String getTrackName() {
-        return trackName;
+    public TrackDto getTrack() {
+        return track;
     }
 
-    public String getUserLogin() {
-        return userLogin;
+    public UserAccountDto getUserAccount() {
+        return userAccount;
     }
 
     @Override
@@ -49,9 +49,9 @@ public class TrackReviewDto {
     public String toString() {
         return "TrackReviewDto{" +
                "id=" + id +
-               ", review='" + review + '\'' +
-               ", trackName='" + trackName + '\'' +
-               ", userLogin='" + userLogin + '\'' +
+               ", reviewText='" + reviewText + '\'' +
+               ", track=" + track +
+               ", userAccount=" + userAccount +
                '}';
     }
 }

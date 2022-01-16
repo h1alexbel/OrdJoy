@@ -5,9 +5,9 @@ public class TrackDto {
     private final Long id;
     private final String url;
     private final String title;
-    private final String album;
+    private final AlbumDto album;
 
-    public TrackDto(Long id, String url, String title, String album) {
+    public TrackDto(Long id, String url, String title, AlbumDto album) {
         this.id = id;
         this.url = url;
         this.title = title;
@@ -26,7 +26,7 @@ public class TrackDto {
         return title;
     }
 
-    public String getAlbum() {
+    public AlbumDto getAlbum() {
         return album;
     }
 

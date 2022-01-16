@@ -3,31 +3,31 @@ package com.ordjoy.dto;
 public class MixReviewDto {
 
     private final Long id;
-    private final String review;
-    private final String mixName;
-    private final String userName ;
+    private final String reviewText;
+    private final MixDto mix;
+    private final UserAccountDto userAccount;
 
-    public MixReviewDto(Long id, String review, String mixName, String userName) {
+    public MixReviewDto(Long id, String reviewText, MixDto mix, UserAccountDto userAccount) {
         this.id = id;
-        this.review = review;
-        this.mixName = mixName;
-        this.userName = userName;
+        this.reviewText = reviewText;
+        this.mix = mix;
+        this.userAccount = userAccount;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getReview() {
-        return review;
+    public String getReviewText() {
+        return reviewText;
     }
 
-    public String getMixName() {
-        return mixName;
+    public MixDto getMix() {
+        return mix;
     }
 
-    public String getUserName() {
-        return userName;
+    public UserAccountDto getUserAccount() {
+        return userAccount;
     }
 
     @Override
@@ -49,9 +49,9 @@ public class MixReviewDto {
     public String toString() {
         return "MixReviewDto{" +
                "id=" + id +
-               ", review='" + review + '\'' +
-               ", mixName='" + mixName + '\'' +
-               ", userName='" + userName + '\'' +
+               ", reviewText='" + reviewText + '\'' +
+               ", mix=" + mix +
+               ", userAccount=" + userAccount +
                '}';
     }
 }

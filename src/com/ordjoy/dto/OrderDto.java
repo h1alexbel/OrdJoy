@@ -6,14 +6,14 @@ public class OrderDto {
 
     private final Long id;
     private final BigDecimal price;
-    private final String userName;
-    private final String trackName;
+    private final UserAccountDto userAccount;
+    private final TrackDto track;
 
-    public OrderDto(Long id, BigDecimal price, String userName, String trackName) {
+    public OrderDto(Long id, BigDecimal price, UserAccountDto userAccount, TrackDto track) {
         this.id = id;
         this.price = price;
-        this.userName = userName;
-        this.trackName = trackName;
+        this.userAccount = userAccount;
+        this.track = track;
     }
 
     public Long getId() {
@@ -24,12 +24,12 @@ public class OrderDto {
         return price;
     }
 
-    public String getUserName() {
-        return userName;
+    public UserAccountDto getUserAccount() {
+        return userAccount;
     }
 
-    public String getTrackName() {
-        return trackName;
+    public TrackDto getTrack() {
+        return track;
     }
 
     @Override
@@ -52,8 +52,8 @@ public class OrderDto {
         return "OrderDto{" +
                "id=" + id +
                ", price=" + price +
-               ", userName='" + userName + '\'' +
-               ", trackName='" + trackName + '\'' +
+               ", userAccount=" + userAccount +
+               ", track=" + track +
                '}';
     }
 }

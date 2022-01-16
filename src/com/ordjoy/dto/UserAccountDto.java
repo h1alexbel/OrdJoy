@@ -1,13 +1,13 @@
 package com.ordjoy.dto;
 
-public class UserDto {
+public class UserAccountDto {
 
     private final Long id;
     private final String login;
     private final String email;
     private final Integer discountPercentageLevel;
 
-    public UserDto(Long id, String login, String email, Integer discountPercentageLevel) {
+    public UserAccountDto(Long id, String login, String email, Integer discountPercentageLevel) {
         this.id = id;
         this.login = login;
         this.email = email;
@@ -35,7 +35,7 @@ public class UserDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UserDto userDto = (UserDto) o;
+        UserAccountDto userDto = (UserAccountDto) o;
 
         return id != null ? id.equals(userDto.id) : userDto.id == null;
     }
