@@ -4,6 +4,7 @@ import com.ordjoy.dao.filter.UserAccountFilter;
 import com.ordjoy.dao.impl.UserDaoImpl;
 import com.ordjoy.dto.UserAccountDto;
 import com.ordjoy.entity.UserAccount;
+import com.ordjoy.entity.UserData;
 import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.mapper.UserAccountMapper;
@@ -16,6 +17,7 @@ import static java.util.stream.Collectors.*;
 
 public class UserService {
 
+    private static final Integer STARTER_DISCOUNT_PERCENTAGE_LEVEL = 0;
     private final UserDaoImpl userDao = UserDaoImpl.getInstance();
     private static final UserService INSTANCE = new UserService();
     private final UserAccountMapper userAccountMapper = UserAccountMapper.getInstance();
@@ -45,9 +47,21 @@ public class UserService {
         }
     }
 
-    public UserAccountDto saveUser(UserAccount userAccount) throws ServiceException {
+    public UserAccountDto saveNewUser(UserAccount userAccount) throws ServiceException {
         try {
             UserAccount savedUser = userDao.save(userAccount);
+            UserAccountDto userAccountDto = userAccountMapper.mapFrom(savedUser);
+            return userAccountDto;
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    public UserAccountDto saveNewUser(
+            String email, String login, String password, Integer discountPercentageLevel, UserData data) throws ServiceException {
+        UserAccount user = buildUser(email, login, password, STARTER_DISCOUNT_PERCENTAGE_LEVEL, data);
+        try {
+            UserAccount savedUser = userDao.save(user);
             UserAccountDto userAccountDto = userAccountMapper.mapFrom(savedUser);
             return userAccountDto;
         } catch (DaoException e) {
@@ -143,5 +157,11 @@ public class UserService {
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
+    }
+
+    private UserAccount buildUser(String email, String login, String password, Integer discountPercentageLevel, UserData data) {
+        return new UserAccount(
+                email, login, password, discountPercentageLevel, data
+        );
     }
 }
