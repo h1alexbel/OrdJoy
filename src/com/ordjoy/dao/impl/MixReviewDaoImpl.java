@@ -163,7 +163,7 @@ public class MixReviewDaoImpl implements MixReviewDao {
             """;
 
     @Override
-    public MixReview save(MixReview review) {
+    public MixReview save(MixReview review) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement saveReviewStatement = connection.prepareStatement(SQL_SAVE_MIX_REVIEW, Statement.RETURN_GENERATED_KEYS);
              PreparedStatement findMixIdStatement = connection.prepareStatement(SQL_FIND_MIX_ID);
@@ -196,7 +196,7 @@ public class MixReviewDaoImpl implements MixReviewDao {
     }
 
     @Override
-    public Optional<MixReview> findById(Long id) {
+    public Optional<MixReview> findById(Long id) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findReviewById = connection.prepareStatement(SQL_FIND_REVIEW_BY_ID)) {
             findReviewById.setLong(1, id);
@@ -212,7 +212,7 @@ public class MixReviewDaoImpl implements MixReviewDao {
     }
 
     @Override
-    public List<MixReview> findAll(ReviewFilter filter) {
+    public List<MixReview> findAll(ReviewFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         List<String> whereSql = new ArrayList<>();
         if (filter.reviewText() != null) {
@@ -245,7 +245,7 @@ public class MixReviewDaoImpl implements MixReviewDao {
     }
 
     @Override
-    public void update(MixReview mixReview) {
+    public void update(MixReview mixReview) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement updateStatement = connection.prepareStatement(SQL_UPDATE_MIX_REVIEW)) {
             updateStatement.setString(1, mixReview.getReviewText());
@@ -259,7 +259,7 @@ public class MixReviewDaoImpl implements MixReviewDao {
     }
 
     @Override
-    public boolean deleteById(Long id) {
+    public boolean deleteById(Long id) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement deleteMixReviewByIdStatement = connection.prepareStatement(SQL_DELETE_MIX_REVIEW)) {
             deleteMixReviewByIdStatement.setLong(1, id);
@@ -270,7 +270,7 @@ public class MixReviewDaoImpl implements MixReviewDao {
     }
 
     @Override
-    public List<MixReview> findMixReviewsByUserLogin(String login, DefaultFilter filter) {
+    public List<MixReview> findMixReviewsByUserLogin(String login, DefaultFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
@@ -292,7 +292,7 @@ public class MixReviewDaoImpl implements MixReviewDao {
     }
 
     @Override
-    public List<MixReview> findMixReviewsByUserId(Long userId, DefaultFilter filter) {
+    public List<MixReview> findMixReviewsByUserId(Long userId, DefaultFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());

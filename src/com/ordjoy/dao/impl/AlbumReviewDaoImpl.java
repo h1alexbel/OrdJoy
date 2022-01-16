@@ -160,7 +160,7 @@ public class AlbumReviewDaoImpl implements AlbumReviewDao {
             """;
 
     @Override
-    public AlbumReview save(AlbumReview albumReview) {
+    public AlbumReview save(AlbumReview albumReview) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findUserIdStatement = connection.prepareStatement(SQL_FIND_USER_ID);
              PreparedStatement findAlbumId = connection.prepareStatement(SQL_FIND_ALBUM_ID);
@@ -193,7 +193,7 @@ public class AlbumReviewDaoImpl implements AlbumReviewDao {
     }
 
     @Override
-    public Optional<AlbumReview> findById(Long id) {
+    public Optional<AlbumReview> findById(Long id) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findByIdStatement = connection.prepareStatement(SQL_FIND_ALBUM_REVIEW_BY_ID)) {
             findByIdStatement.setLong(1, id);
@@ -209,7 +209,7 @@ public class AlbumReviewDaoImpl implements AlbumReviewDao {
     }
 
     @Override
-    public List<AlbumReview> findAll(ReviewFilter filter) {
+    public List<AlbumReview> findAll(ReviewFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         List<String> whereSql = new ArrayList<>();
         if (filter.reviewText() != null) {
@@ -242,7 +242,7 @@ public class AlbumReviewDaoImpl implements AlbumReviewDao {
     }
 
     @Override
-    public void update(AlbumReview albumReview) {
+    public void update(AlbumReview albumReview) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement updateStatement = connection.prepareStatement(SQL_UPDATE_ALBUM_REVIEW)) {
             updateStatement.setString(1, albumReview.getReviewText());
@@ -256,7 +256,7 @@ public class AlbumReviewDaoImpl implements AlbumReviewDao {
     }
 
     @Override
-    public boolean deleteById(Long id) {
+    public boolean deleteById(Long id) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement deleteStatement = connection.prepareStatement(SQL_DELETE_ALBUM_REVIEW_BY_ID)) {
             deleteStatement.setLong(1, id);
@@ -267,7 +267,7 @@ public class AlbumReviewDaoImpl implements AlbumReviewDao {
     }
 
     @Override
-    public List<AlbumReview> findAlbumReviewsByUserLogin(String login, DefaultFilter filter) {
+    public List<AlbumReview> findAlbumReviewsByUserLogin(String login, DefaultFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
@@ -289,7 +289,7 @@ public class AlbumReviewDaoImpl implements AlbumReviewDao {
     }
 
     @Override
-    public List<AlbumReview> findAlbumReviewsByUserId(Long userId, DefaultFilter filter) {
+    public List<AlbumReview> findAlbumReviewsByUserId(Long userId, DefaultFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());

@@ -1,6 +1,8 @@
 package com.ordjoy.exception;
 
-public class DaoException extends RuntimeException {
+import java.io.IOException;
+
+public class DaoException extends IOException {
 
     public DaoException() {
     }

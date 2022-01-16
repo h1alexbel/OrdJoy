@@ -164,7 +164,7 @@ public class UserDaoImpl implements UserDao {
             """;
 
     @Override
-    public UserAccount save(UserAccount userAccount) {
+    public UserAccount save(UserAccount userAccount) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement saveUserAccountStatement = connection.prepareStatement(SQL_SAVE_USER_ACCOUNT, Statement.RETURN_GENERATED_KEYS)) {
             saveUserAccountStatement.setString(1, userAccount.getEmail());
@@ -189,7 +189,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<UserAccount> findById(Long id) {
+    public Optional<UserAccount> findById(Long id) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findByIdStatement = connection.prepareStatement(SQL_FIND_USER_BY_USER_ID)) {
             findByIdStatement.setLong(1, id);
@@ -205,7 +205,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<UserAccount> findAll(UserAccountFilter filter) {
+    public List<UserAccount> findAll(UserAccountFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
@@ -227,7 +227,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void update(UserAccount userAccount) {
+    public void update(UserAccount userAccount) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement updateStatement = connection.prepareStatement(SQL_UPDATE_ACCOUNT)) {
             updateStatement.setString(1, userAccount.getEmail());
@@ -247,7 +247,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean deleteById(Long id) {
+    public boolean deleteById(Long id) throws DaoException {
         ProxyConnection connection = null;
         PreparedStatement deleteStatement = null;
         PreparedStatement deleteFromMixReviewTable = null;
@@ -288,7 +288,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void addDiscountPercentageLevel(Integer discountPercentageLevel, String userEmail) {
+    public void addDiscountPercentageLevel(Integer discountPercentageLevel, String userEmail) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement addDiscountPercentageLevelStatement = connection.prepareStatement(SQL_ADD_DISCOUNT_PERCENTAGE_LEVEL)) {
             addDiscountPercentageLevelStatement.setInt(1, discountPercentageLevel);
@@ -300,7 +300,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<Integer> findDiscountPercentageLevelByUserId(Long userId) {
+    public Optional<Integer> findDiscountPercentageLevelByUserId(Long userId) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findDiscountLevelByUserId = connection.prepareStatement(SQL_FIND_DISCOUNT_LEVEL_BY_USER_ID)) {
             findDiscountLevelByUserId.setLong(1, userId);
@@ -316,7 +316,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<Integer> findDiscountPercentageLevelByEmail(String email) {
+    public Optional<Integer> findDiscountPercentageLevelByEmail(String email) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findDiscountLevelByUserId = connection.prepareStatement(SQL_FIND_DISCOUNT_LEVEL_BY_USER_EMAIL)) {
             findDiscountLevelByUserId.setString(1, email);
@@ -332,7 +332,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<UserAccount> findUserByLogin(String login) {
+    public Optional<UserAccount> findUserByLogin(String login) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findByIdStatement = connection.prepareStatement(SQL_FIND_BY_LOGIN)) {
             findByIdStatement.setString(1, login);
@@ -348,7 +348,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<UserAccount> findUserByEmail(String email) {
+    public Optional<UserAccount> findUserByEmail(String email) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findByIdStatement = connection.prepareStatement(SQL_FIND_USER_BY_EMAIL)) {
             findByIdStatement.setString(1, email);

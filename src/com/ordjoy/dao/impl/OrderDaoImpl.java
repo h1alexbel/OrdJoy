@@ -332,7 +332,7 @@ public class OrderDaoImpl implements OrderDao {
             """;
 
     @Override
-    public Order save(Order order) {
+    public Order save(Order order) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement saveOrderStatement = connection.prepareStatement(SQL_SAVE_ORDER, Statement.RETURN_GENERATED_KEYS);
              PreparedStatement findTrackIdStatement = connection.prepareStatement(SQL_FIND_TRACK_ID);
@@ -366,7 +366,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Optional<Order> findById(Long id) {
+    public Optional<Order> findById(Long id) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findByIdStatement = connection.prepareStatement(SQL_FIND_ORDER_BY_ID)) {
             findByIdStatement.setLong(1, id);
@@ -382,7 +382,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> findAll(OrderFilter filter) {
+    public List<Order> findAll(OrderFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         List<String> whereSql = new ArrayList<>();
         if (filter.price() != null) {
@@ -415,7 +415,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public void update(Order order) {
+    public void update(Order order) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement updateStatement = connection.prepareStatement(SQL_UPDATE_ORDER)) {
             updateStatement.setBigDecimal(1, order.getPrice());
@@ -430,7 +430,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public boolean deleteById(Long id) {
+    public boolean deleteById(Long id) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement deleteStatement = connection.prepareStatement(SQL_DELETE_BY_ID)) {
             deleteStatement.setLong(1, id);
@@ -441,7 +441,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public void updateOrderStatus(OrderStatus newStatus, Long orderId) {
+    public void updateOrderStatus(OrderStatus newStatus, Long orderId) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement updateStatusStatement = connection.prepareStatement(SQL_UPDATE_STATUS)) {
             updateStatusStatement.setString(1, newStatus.toString());
@@ -453,7 +453,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> findOrdersByPrice(BigDecimal price) {
+    public List<Order> findOrdersByPrice(BigDecimal price) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findOrderByPrice = connection.prepareStatement(SQL_FIND_ORDER_BY_PRICE)) {
             findOrderByPrice.setBigDecimal(1, price);
@@ -469,7 +469,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> findOrdersByUserId(Long userAccountId, DefaultFilter filter) {
+    public List<Order> findOrdersByUserId(Long userAccountId, DefaultFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
@@ -491,7 +491,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> findOrdersByUserEmail(String email, DefaultFilter filter) {
+    public List<Order> findOrdersByUserEmail(String email, DefaultFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
@@ -513,7 +513,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> findOrdersByUserLogin(String login, DefaultFilter filter) {
+    public List<Order> findOrdersByUserLogin(String login, DefaultFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
@@ -535,7 +535,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> findOrdersByTrackId(Long trackId, DefaultFilter filter) {
+    public List<Order> findOrdersByTrackId(Long trackId, DefaultFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
@@ -557,7 +557,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> findOrdersByTrackName(String trackName, DefaultFilter filter) {
+    public List<Order> findOrdersByTrackName(String trackName, DefaultFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
@@ -579,7 +579,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> findOrdersByOrderStatus(OrderStatus orderStatus, DefaultFilter filter) {
+    public List<Order> findOrdersByOrderStatus(OrderStatus orderStatus, DefaultFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());

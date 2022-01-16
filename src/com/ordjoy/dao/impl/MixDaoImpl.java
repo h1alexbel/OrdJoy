@@ -127,7 +127,7 @@ public class MixDaoImpl implements MixDao {
             """;
 
     @Override
-    public Mix save(Mix mix) {
+    public Mix save(Mix mix) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement saveMixStatement = connection.prepareStatement(SQL_SAVE_MIX, Statement.RETURN_GENERATED_KEYS)) {
             saveMixStatement.setString(1, mix.getName());
@@ -145,7 +145,7 @@ public class MixDaoImpl implements MixDao {
     }
 
     @Override
-    public Optional<Mix> findById(Long id) {
+    public Optional<Mix> findById(Long id) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findByIdStatement = connection.prepareStatement(SQL_FIND_MIX_BY_ID)) {
             findByIdStatement.setLong(1, id);
@@ -161,7 +161,7 @@ public class MixDaoImpl implements MixDao {
     }
 
     @Override
-    public List<Mix> findAll(MixFilter filter) {
+    public List<Mix> findAll(MixFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
@@ -183,7 +183,7 @@ public class MixDaoImpl implements MixDao {
     }
 
     @Override
-    public void update(Mix mix) {
+    public void update(Mix mix) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement updateStatement = connection.prepareStatement(SQL_UPDATE_MIX)) {
             updateStatement.setString(1, mix.getName());
@@ -197,7 +197,7 @@ public class MixDaoImpl implements MixDao {
 
 
     @Override
-    public boolean deleteById(Long id) {
+    public boolean deleteById(Long id) throws DaoException {
         ProxyConnection connection = null;
         PreparedStatement deleteStatement = null;
         PreparedStatement deleteFromMutualTableStatement = null;
@@ -229,7 +229,7 @@ public class MixDaoImpl implements MixDao {
     }
 
     @Override
-    public Optional<Mix> findMixByMixName(String mixName) {
+    public Optional<Mix> findMixByMixName(String mixName) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findByIdStatement = connection.prepareStatement(SQL_FIND_MIX_BY_NAME)) {
             findByIdStatement.setString(1, mixName);
@@ -245,7 +245,7 @@ public class MixDaoImpl implements MixDao {
     }
 
     @Override
-    public List<MixReview> findMixReviewByMixName(String mixName, DefaultFilter filter) {
+    public List<MixReview> findMixReviewByMixName(String mixName, DefaultFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
@@ -269,7 +269,7 @@ public class MixDaoImpl implements MixDao {
     }
 
     @Override
-    public List<MixReview> findMixReviewsByMixId(Long mixId, DefaultFilter filter) {
+    public List<MixReview> findMixReviewsByMixId(Long mixId, DefaultFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());

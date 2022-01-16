@@ -236,7 +236,7 @@ public class TrackReviewDaoImpl implements TrackReviewDao {
             """;
 
     @Override
-    public TrackReview save(TrackReview trackReview) {
+    public TrackReview save(TrackReview trackReview) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement saveStatement = connection.prepareStatement(SQL_SAVE_TRACK_REVIEW, Statement.RETURN_GENERATED_KEYS);
              PreparedStatement findUserId = connection.prepareStatement(SQL_FIND_USER_ID);
@@ -269,7 +269,7 @@ public class TrackReviewDaoImpl implements TrackReviewDao {
     }
 
     @Override
-    public Optional<TrackReview> findById(Long id) {
+    public Optional<TrackReview> findById(Long id) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findByIdStatement = connection.prepareStatement(SQL_FIND_TRACK_REVIEW_BY_ID)) {
             findByIdStatement.setLong(1, id);
@@ -285,7 +285,7 @@ public class TrackReviewDaoImpl implements TrackReviewDao {
     }
 
     @Override
-    public List<TrackReview> findAll(ReviewFilter filter) {
+    public List<TrackReview> findAll(ReviewFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         List<String> whereSql = new ArrayList<>();
         if (filter.reviewText() != null) {
@@ -318,7 +318,7 @@ public class TrackReviewDaoImpl implements TrackReviewDao {
     }
 
     @Override
-    public void update(TrackReview trackReview) {
+    public void update(TrackReview trackReview) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement updateStatement = connection.prepareStatement(SQL_UPDATE_REVIEW)) {
             updateStatement.setString(1, trackReview.getReviewText());
@@ -332,7 +332,7 @@ public class TrackReviewDaoImpl implements TrackReviewDao {
     }
 
     @Override
-    public boolean deleteById(Long id) {
+    public boolean deleteById(Long id) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement deleteTrackReviewStatement = connection.prepareStatement(SQL_DELETE_TRACK_REVIEW_BY_ID)) {
             deleteTrackReviewStatement.setLong(1, id);
@@ -343,7 +343,7 @@ public class TrackReviewDaoImpl implements TrackReviewDao {
     }
 
     @Override
-    public List<TrackReview> findTrackReviewsByUserLogin(String login, DefaultFilter filter) {
+    public List<TrackReview> findTrackReviewsByUserLogin(String login, DefaultFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
@@ -365,7 +365,7 @@ public class TrackReviewDaoImpl implements TrackReviewDao {
     }
 
     @Override
-    public List<TrackReview> findTrackReviewsByUserId(Long userId, DefaultFilter filter) {
+    public List<TrackReview> findTrackReviewsByUserId(Long userId, DefaultFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
@@ -387,7 +387,7 @@ public class TrackReviewDaoImpl implements TrackReviewDao {
     }
 
     @Override
-    public List<TrackReview> findTrackReviewsByTrackId(Long trackId, DefaultFilter filter) {
+    public List<TrackReview> findTrackReviewsByTrackId(Long trackId, DefaultFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
@@ -409,7 +409,7 @@ public class TrackReviewDaoImpl implements TrackReviewDao {
     }
 
     @Override
-    public List<TrackReview> findTrackReviewsByTrackTitle(String title, DefaultFilter filter) {
+    public List<TrackReview> findTrackReviewsByTrackTitle(String title, DefaultFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());

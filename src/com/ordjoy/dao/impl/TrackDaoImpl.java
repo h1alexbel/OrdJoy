@@ -141,7 +141,7 @@ public class TrackDaoImpl implements TrackDao {
             """;
 
     @Override
-    public Track save(Track track) {
+    public Track save(Track track) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findAlbumIdStatement = connection.prepareStatement(SQL_FIND_ALBUM_ID);
              PreparedStatement saveTrackStatement = connection.prepareStatement(SQL_SAVE_TRACK, Statement.RETURN_GENERATED_KEYS)) {
@@ -167,7 +167,7 @@ public class TrackDaoImpl implements TrackDao {
     }
 
     @Override
-    public Optional<Track> findById(Long id) {
+    public Optional<Track> findById(Long id) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findTrackByIdStatement = connection.prepareStatement(SQL_FIND_TRACK_BY_ID)) {
             findTrackByIdStatement.setLong(1, id);
@@ -183,7 +183,7 @@ public class TrackDaoImpl implements TrackDao {
     }
 
     @Override
-    public List<Track> findAll(TrackFilter filter) {
+    public List<Track> findAll(TrackFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         List<String> whereSql = new ArrayList<>();
         if (filter.albumTitle() != null) {
@@ -212,7 +212,7 @@ public class TrackDaoImpl implements TrackDao {
     }
 
     @Override
-    public void update(Track track) {
+    public void update(Track track) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement updateStatement = connection.prepareStatement(SQL_UPDATE_TRACK)) {
             updateStatement.setString(1, track.getSongUrl());
@@ -227,7 +227,7 @@ public class TrackDaoImpl implements TrackDao {
 
 
     @Override
-    public boolean deleteById(Long id) {
+    public boolean deleteById(Long id) throws DaoException {
         ProxyConnection connection = null;
         PreparedStatement deleteStatement = null;
         PreparedStatement deleteFromMutualTableStatement = null;
@@ -263,7 +263,7 @@ public class TrackDaoImpl implements TrackDao {
     }
 
     @Override
-    public boolean addExistingTrackToMix(Mix mixThatExists, Track trackThatExists) {
+    public boolean addExistingTrackToMix(Mix mixThatExists, Track trackThatExists) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement saveStatement = connection.prepareStatement(SQL_SAVE_TRACK_AND_MIX_IN_MUTUAL_TABLE)) {
             saveStatement.setString(1, trackThatExists.getTitle());
@@ -275,7 +275,7 @@ public class TrackDaoImpl implements TrackDao {
     }
 
     @Override
-    public Optional<Track> findByTrackTitle(String trackTitle) {
+    public Optional<Track> findByTrackTitle(String trackTitle) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findTrackByTitle = connection.prepareStatement(SQL_FIND_TRACK_BY_TITLE)) {
             findTrackByTitle.setString(1, trackTitle);
@@ -291,7 +291,7 @@ public class TrackDaoImpl implements TrackDao {
     }
 
     @Override
-    public List<Track> findTracksByAlbumId(Long albumId, DefaultFilter filter) {
+    public List<Track> findTracksByAlbumId(Long albumId, DefaultFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
@@ -315,7 +315,7 @@ public class TrackDaoImpl implements TrackDao {
     }
 
     @Override
-    public List<Track> findTracksByAlbumName(String albumName, DefaultFilter filter) {
+    public List<Track> findTracksByAlbumName(String albumName, DefaultFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());

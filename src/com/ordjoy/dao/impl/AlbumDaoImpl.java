@@ -124,7 +124,7 @@ public class AlbumDaoImpl implements AlbumDao {
             """;
 
     @Override
-    public Album save(Album album) {
+    public Album save(Album album) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement saveAlbumStatement = connection.prepareStatement(SQL_SAVE_ALBUM, Statement.RETURN_GENERATED_KEYS)) {
             saveAlbumStatement.setString(1, album.getTitle());
@@ -141,7 +141,7 @@ public class AlbumDaoImpl implements AlbumDao {
     }
 
     @Override
-    public Optional<Album> findById(Long id) {
+    public Optional<Album> findById(Long id) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findByIdStatement = connection.prepareStatement(SQL_FIND_ALBUM_BY_ID)) {
             findByIdStatement.setLong(1, id);
@@ -157,7 +157,7 @@ public class AlbumDaoImpl implements AlbumDao {
     }
 
     @Override
-    public List<Album> findAll(AlbumFilter filter) {
+    public List<Album> findAll(AlbumFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
@@ -179,7 +179,7 @@ public class AlbumDaoImpl implements AlbumDao {
     }
 
     @Override
-    public void update(Album album) {
+    public void update(Album album) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement updateStatement = connection.prepareStatement(SQL_UPDATE_ALBUM)) {
             updateStatement.setString(1, album.getTitle());
@@ -191,7 +191,7 @@ public class AlbumDaoImpl implements AlbumDao {
     }
 
     @Override
-    public boolean deleteById(Long id) {
+    public boolean deleteById(Long id) throws DaoException {
         ProxyConnection connection = null;
         PreparedStatement deleteStatement = null;
         PreparedStatement deleteFromTrackTableStatement = null;
@@ -223,7 +223,7 @@ public class AlbumDaoImpl implements AlbumDao {
     }
 
     @Override
-    public Optional<Album> findAlbumByTitle(String albumTitle) {
+    public Optional<Album> findAlbumByTitle(String albumTitle) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findByIdStatement = connection.prepareStatement(SQL_FIND_ALBUM_BY_TITLE)) {
             findByIdStatement.setString(1, albumTitle);
@@ -239,7 +239,7 @@ public class AlbumDaoImpl implements AlbumDao {
     }
 
     @Override
-    public List<AlbumReview> findAlbumReviewsByAlbumTitle(String albumTitle, DefaultFilter filter) {
+    public List<AlbumReview> findAlbumReviewsByAlbumTitle(String albumTitle, DefaultFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
@@ -263,7 +263,7 @@ public class AlbumDaoImpl implements AlbumDao {
     }
 
     @Override
-    public List<AlbumReview> findAlbumReviewsByAlbumId(Long albumId, DefaultFilter filter) {
+    public List<AlbumReview> findAlbumReviewsByAlbumId(Long albumId, DefaultFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
