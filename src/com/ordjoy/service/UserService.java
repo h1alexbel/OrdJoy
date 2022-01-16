@@ -2,10 +2,11 @@ package com.ordjoy.service;
 
 import com.ordjoy.dao.filter.UserAccountFilter;
 import com.ordjoy.dao.impl.UserDaoImpl;
-import com.ordjoy.dto.UserDto;
+import com.ordjoy.dto.UserAccountDto;
 import com.ordjoy.entity.UserAccount;
 import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
+import com.ordjoy.mapper.UserAccountMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +18,7 @@ public class UserService {
 
     private final UserDaoImpl userDao = UserDaoImpl.getInstance();
     private static final UserService INSTANCE = new UserService();
+    private final UserAccountMapper userAccountMapper = UserAccountMapper.getInstance();
 
     private UserService() {
 
@@ -26,11 +28,11 @@ public class UserService {
         return INSTANCE;
     }
 
-    public List<UserDto> findAllUsersWithLimitOffset(UserAccountFilter filter) throws ServiceException {
-        List<UserDto> users;
+    public List<UserAccountDto> findAllUsersWithLimitOffset(UserAccountFilter filter) throws ServiceException {
+        List<UserAccountDto> users;
         try {
             users = userDao.findAll(filter).stream()
-                    .map(user -> new UserDto(
+                    .map(user -> new UserAccountDto(
                             user.getId(),
                             user.getLogin(),
                             user.getEmail(),
@@ -43,19 +45,21 @@ public class UserService {
         }
     }
 
-    public UserAccount saveUser(UserAccount userAccount) throws ServiceException {
+    public UserAccountDto saveUser(UserAccount userAccount) throws ServiceException {
         try {
-            return userDao.save(userAccount);
+            UserAccount savedUser = userDao.save(userAccount);
+            UserAccountDto userAccountDto = userAccountMapper.mapFrom(savedUser);
+            return userAccountDto;
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 
-    public Optional<UserDto> findUserById(Long id) throws ServiceException {
-        Optional<UserDto> maybeUser;
+    public Optional<UserAccountDto> findUserById(Long id) throws ServiceException {
+        Optional<UserAccountDto> maybeUser;
         try {
             maybeUser = userDao.findById(id).stream()
-                    .map(user -> new UserDto(
+                    .map(user -> new UserAccountDto(
                             user.getId(),
                             user.getLogin(),
                             user.getEmail(),
@@ -109,11 +113,11 @@ public class UserService {
         return maybeDiscountPercentageLevel;
     }
 
-    public Optional<UserDto> findUserByLogin(String login) throws ServiceException {
-        Optional<UserDto> maybeUser;
+    public Optional<UserAccountDto> findUserByLogin(String login) throws ServiceException {
+        Optional<UserAccountDto> maybeUser;
         try {
             maybeUser = userDao.findUserByLogin(login).stream()
-                    .map(user -> new UserDto(
+                    .map(user -> new UserAccountDto(
                             user.getId(),
                             user.getLogin(),
                             user.getEmail(),
@@ -125,11 +129,11 @@ public class UserService {
         return maybeUser;
     }
 
-    public Optional<UserDto> findUserByEmail(String email) throws ServiceException {
-        Optional<UserDto> maybeUser;
+    public Optional<UserAccountDto> findUserByEmail(String email) throws ServiceException {
+        Optional<UserAccountDto> maybeUser;
         try {
             maybeUser = userDao.findUserByEmail(email).stream()
-                    .map(user -> new UserDto(
+                    .map(user -> new UserAccountDto(
                             user.getId(),
                             user.getLogin(),
                             user.getEmail(),
