@@ -6,7 +6,6 @@ import com.ordjoy.dao.impl.MixDaoImpl;
 import com.ordjoy.dto.MixDto;
 import com.ordjoy.dto.MixReviewDto;
 import com.ordjoy.entity.Mix;
-import com.ordjoy.entity.MixReview;
 import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.mapper.MixMapper;
@@ -36,11 +35,23 @@ public class MixService {
     public MixDto addNewMix(Mix mix) throws ServiceException {
         try {
             Mix savedMix = mixDao.save(mix);
-            MixDto mixDto = mixMapper.mapFrom(savedMix);
-            return mixDto;
+            return mixMapper.mapFrom(savedMix);
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
+    }
+
+    public boolean isMixExists(String mixName) throws ServiceException {
+        boolean result = false;
+        try {
+            Optional<Mix> maybeMix = mixDao.findMixByMixName(mixName);
+            if (maybeMix.isPresent()) {
+                result = true;
+            }
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
+        return result;
     }
 
     public Optional<MixDto> findMixById(Long id) throws ServiceException {
