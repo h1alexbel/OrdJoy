@@ -35,11 +35,23 @@ public class AlbumService {
     public AlbumDto saveAlbum(Album album) throws ServiceException {
         try {
             Album savedAlbum = albumDao.save(album);
-            AlbumDto albumDto = albumMapper.mapFrom(savedAlbum);
-            return albumDto;
+            return albumMapper.mapFrom(savedAlbum);
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
+    }
+
+    public boolean isAlbumExists(String title) throws ServiceException {
+        boolean result = false;
+        try {
+            Optional<Album> maybeAlbum = albumDao.findAlbumByTitle(title);
+            if (maybeAlbum.isPresent()) {
+                result = true;
+            }
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
+        return result;
     }
 
     public Optional<AlbumDto> findAlbumById(Long id) throws ServiceException {
