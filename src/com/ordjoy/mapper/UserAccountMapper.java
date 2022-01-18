@@ -21,7 +21,8 @@ public class UserAccountMapper implements Mapper<UserAccount, UserAccountDto> {
                 userAccount.getId(),
                 userAccount.getLogin(),
                 userAccount.getEmail(),
-                userAccount.getDiscountPercentageLevel()
+                userAccount.getDiscountPercentageLevel(),
+                userAccount.getUserData().getUserRole()
         );
     }
 }

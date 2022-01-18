@@ -38,7 +38,8 @@ public class UserService {
                             user.getId(),
                             user.getLogin(),
                             user.getEmail(),
-                            user.getDiscountPercentageLevel()
+                            user.getDiscountPercentageLevel(),
+                            user.getUserData().getUserRole()
                     ))
                     .collect(toList());
             return users;
@@ -115,7 +116,8 @@ public class UserService {
                             user.getId(),
                             user.getLogin(),
                             user.getEmail(),
-                            user.getDiscountPercentageLevel()
+                            user.getDiscountPercentageLevel(),
+                            user.getUserData().getUserRole()
                     )).findFirst();
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
@@ -173,7 +175,8 @@ public class UserService {
                             user.getId(),
                             user.getLogin(),
                             user.getEmail(),
-                            user.getDiscountPercentageLevel()
+                            user.getDiscountPercentageLevel(),
+                            user.getUserData().getUserRole()
                     )).findFirst();
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
@@ -189,7 +192,8 @@ public class UserService {
                             user.getId(),
                             user.getLogin(),
                             user.getEmail(),
-                            user.getDiscountPercentageLevel()
+                            user.getDiscountPercentageLevel(),
+                            user.getUserData().getUserRole()
                     )).findFirst();
             return maybeUser;
         } catch (DaoException e) {
