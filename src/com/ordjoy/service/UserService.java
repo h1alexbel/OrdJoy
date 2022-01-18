@@ -50,23 +50,61 @@ public class UserService {
     public UserAccountDto saveNewUser(UserAccount userAccount) throws ServiceException {
         try {
             UserAccount savedUser = userDao.save(userAccount);
-            UserAccountDto userAccountDto = userAccountMapper.mapFrom(savedUser);
-            return userAccountDto;
+            return userAccountMapper.mapFrom(savedUser);
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 
     public UserAccountDto saveNewUser(
-            String email, String login, String password, Integer discountPercentageLevel, UserData data) throws ServiceException {
-        UserAccount user = buildUser(email, login, password, STARTER_DISCOUNT_PERCENTAGE_LEVEL, data);
+            String email, String login, String password, UserData data) throws ServiceException {
+        UserAccount user = buildUser(email, login, password, data);
         try {
             UserAccount savedUser = userDao.save(user);
-            UserAccountDto userAccountDto = userAccountMapper.mapFrom(savedUser);
-            return userAccountDto;
+            return userAccountMapper.mapFrom(savedUser);
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
+    }
+
+    public boolean isUserAccountExists(String login, Long id) throws ServiceException {
+        boolean result = false;
+        try {
+            Optional<UserAccount> maybeUserByLogin = userDao.findUserByLogin(login);
+            Optional<UserAccount> maybeUserById = userDao.findById(id);
+            if (maybeUserByLogin.isPresent() && maybeUserById.isPresent()) {
+                result = true;
+            }
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
+        return result;
+    }
+
+    public boolean isEmailExists(String email) throws ServiceException {
+        boolean result = false;
+        try {
+            Optional<UserAccount> maybeUser = userDao.findUserByEmail(email);
+            if (maybeUser.isPresent()) {
+                result = true;
+            }
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
+        return result;
+    }
+
+    public boolean isLoginExists(String login) throws ServiceException {
+        boolean result = false;
+        try {
+            Optional<UserAccount> maybeUser = userDao.findUserByLogin(login);
+            if (maybeUser.isPresent()) {
+                result = true;
+            }
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
+        return result;
     }
 
     public Optional<UserAccountDto> findUserById(Long id) throws ServiceException {
@@ -159,9 +197,9 @@ public class UserService {
         }
     }
 
-    private UserAccount buildUser(String email, String login, String password, Integer discountPercentageLevel, UserData data) {
+    private UserAccount buildUser(String email, String login, String password, UserData data) {
         return new UserAccount(
-                email, login, password, discountPercentageLevel, data
+                email, login, password, UserService.STARTER_DISCOUNT_PERCENTAGE_LEVEL, data
         );
     }
 }
