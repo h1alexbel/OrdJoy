@@ -33,11 +33,23 @@ public class TrackService {
     public TrackDto addNewTrack(Track track) throws ServiceException {
         try {
             Track savedTrack = trackDao.save(track);
-            TrackDto trackDto = trackMapper.mapFrom(savedTrack);
-            return trackDto;
+            return trackMapper.mapFrom(savedTrack);
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
+    }
+
+    public boolean isTrackExists(String title) throws ServiceException {
+        boolean result = false;
+        try {
+            Optional<Track> maybeTrack = trackDao.findByTrackTitle(title);
+            if (maybeTrack.isPresent()) {
+                result = true;
+            }
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
+        return result;
     }
 
     public Optional<TrackDto> findTrackById(Long id) throws ServiceException {
