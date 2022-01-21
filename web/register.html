@@ -11,17 +11,17 @@
     <form method="post" action="/frontController" enctype="application/x-www-form-urlencoded">
         <input type="hidden" name="frontCommand" value="registerUser">
         <div class="txt_field">
-            <input name="email" type="email" required pattern="^[A-Za-z]+\.+\w+@[A-Za-z]{2,}\.(com|org)$">
+            <input name="email" type="email" required pattern="^[A-Za-z.]+\w+@[A-Za-z]{2,}\.(com|org)$">
             <span></span>
             <label>Email</label>
         </div>
         <div class="txt_field">
-            <input name="userName" type="text" required>
+            <input name="userName" type="text" required pattern="^[A-Za-z]{2,}$">
             <span></span>
             <label>Username</label>
         </div>
         <div class="txt_field">
-            <input name="password" type="password" required>
+            <input name="password" type="password" required pattern="^\w{2,}$">
             <span></span>
             <label>Password</label>
         </div>
