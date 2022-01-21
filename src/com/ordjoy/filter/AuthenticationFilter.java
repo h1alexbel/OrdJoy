@@ -23,7 +23,7 @@ public class AuthenticationFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
         if (!isAuthorized(httpServletRequest)) {
-            filterChain.doFilter(httpServletRequest, httpServletResponse);
+            filterChain.doFilter(servletRequest, servletResponse);
         } else {
             UserAccountDto userAccount = (UserAccountDto) httpServletRequest.getSession().getAttribute(USER_ATTRIBUTE);
             String pathToPage;

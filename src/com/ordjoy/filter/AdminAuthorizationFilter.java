@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = "/html/admin/*")
+@WebFilter(urlPatterns = {"/admin.html"})
 public class AdminAuthorizationFilter implements Filter {
 
     private static final String LOGIN_PAGE = "login.html";
@@ -23,7 +23,7 @@ public class AdminAuthorizationFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
         if (isAuthorized(httpServletRequest)) {
-            filterChain.doFilter(httpServletRequest, httpServletResponse);
+            filterChain.doFilter(servletRequest, servletResponse);
         } else {
             moveToLoginPage(httpServletRequest, httpServletResponse);
         }
