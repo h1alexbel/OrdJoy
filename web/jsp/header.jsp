@@ -62,8 +62,8 @@
                            aria-label="Search">
                 </form>
                 <div class="text-end">
-                    <a href="${pageContext.request.contextPath}/login.html" class="btn btn-outline-light me-2" role="button">Login</a>
-                    <a href="${pageContext.request.contextPath}/register.html" class="btn btn-info" role="button">Sign-up</a>
+                    <a href="${pageContext.request.contextPath}/login.jsp" class="btn btn-outline-light me-2" role="button">Login</a>
+                    <a href="${pageContext.request.contextPath}/register.jsp" class="btn btn-info" role="button">Sign-up</a>
                 </div>
             </div>
         </div>
