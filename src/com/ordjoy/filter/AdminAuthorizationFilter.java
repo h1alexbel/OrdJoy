@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/admin.html"})
+@WebFilter(urlPatterns = {"/jsp/admin/*"})
 public class AdminAuthorizationFilter implements Filter {
 
-    private static final String LOGIN_PAGE = "login.html";
+    private static final String LOGIN_PAGE = "/login.jsp";
     private static final String USER_ATTRIBUTE = "user";
 
     @Override

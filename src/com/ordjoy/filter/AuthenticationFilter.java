@@ -11,8 +11,8 @@ import java.io.IOException;
 @WebFilter(urlPatterns = "/*")
 public class AuthenticationFilter implements Filter {
 
-    private static final String USER_STARTER_PAGE = "user.html";
-    private static final String ADMIN_STARTER_PAGE = "admin.html";
+    private static final String USER_STARTER_PAGE = "/jsp/user/user.jsp";
+    private static final String ADMIN_STARTER_PAGE = "/jsp/admin/admin.jsp";
     private static final String USER_ATTRIBUTE = "user";
 
     @Override
