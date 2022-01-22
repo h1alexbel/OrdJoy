@@ -25,6 +25,16 @@
             <label>Email</label>
         </div>
         <div class="txt_field">
+            <input name="firstName" type="text" required pattern="^[A-Za-z]{2,20}$">
+            <span></span>
+            <label>First Name</label>
+        </div>
+        <div class="txt_field">
+            <input name="lastName" type="text" required pattern="^[A-Za-z]{2,20}$">
+            <span></span>
+            <label>Last Name</label>
+        </div>
+        <div class="txt_field">
             <input name="userName" type="text" required pattern="^\w{3,20}$">
             <span></span>
             <label>Username</label>
