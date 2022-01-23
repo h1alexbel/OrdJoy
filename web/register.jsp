@@ -44,6 +44,11 @@
             <span></span>
             <label>Password</label>
         </div>
+        <div class="txt_field">
+            <input name="age" type="text" required pattern="^\d{1,2}$">
+            <span></span>
+            <label>Age</label>
+        </div>
         <input type="submit" value="Signup">
     </form>
 </div>
