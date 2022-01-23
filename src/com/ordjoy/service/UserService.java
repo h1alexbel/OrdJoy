@@ -73,7 +73,7 @@ public class UserService {
                 throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
             }
         }
-        throw new ValidationException();
+        throw new ValidationException(VALIDATION_EXCEPTION_MESSAGE);
     }
 
     public UserAccountDto saveNewUser(
@@ -94,7 +94,7 @@ public class UserService {
                 throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
             }
         }
-        throw new ValidationException();
+        throw new ValidationException(VALIDATION_EXCEPTION_MESSAGE);
     }
 
     public Optional<UserAccountDto> findUserByLoginAndPassword(String login, String password) throws ServiceException {
