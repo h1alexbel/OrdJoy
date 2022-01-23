@@ -5,9 +5,13 @@ import com.ordjoy.dao.impl.UserDaoImpl;
 import com.ordjoy.dto.UserAccountDto;
 import com.ordjoy.entity.UserAccount;
 import com.ordjoy.entity.UserData;
+import com.ordjoy.entity.UserRole;
 import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
+import com.ordjoy.exception.ValidationException;
 import com.ordjoy.mapper.UserAccountMapper;
+import com.ordjoy.validation.UserValidator;
+import com.ordjoy.validation.ValidationResult;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +25,7 @@ public class UserService {
     private final UserDaoImpl userDao = UserDaoImpl.getInstance();
     private static final UserService INSTANCE = new UserService();
     private final UserAccountMapper userAccountMapper = UserAccountMapper.getInstance();
+    private final UserValidator userValidator = UserValidator.getInstance();
 
     private UserService() {
 
@@ -50,24 +55,46 @@ public class UserService {
         }
     }
 
-    public UserAccountDto saveNewUser(UserAccount userAccount) throws ServiceException {
-        try {
-            UserAccount savedUser = userDao.save(userAccount);
-            return userAccountMapper.mapFrom(savedUser);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+    public UserAccountDto addNewAdmin
+            (String email,
+             String login,
+             String password,
+             String firstName,
+             String lastName,
+             String age,
+             String cardNumber) throws ServiceException, ValidationException {
+        UserAccount admin = buildAdmin(email, login, password, firstName, lastName, age, cardNumber);
+        ValidationResult validationResult = userValidator.isValid(admin);
+        if (validationResult.isValid()) {
+            try {
+                UserAccount savedAdmin = userDao.save(admin);
+                return userAccountMapper.mapFrom(savedAdmin);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        throw new ValidationException();
     }
 
     public UserAccountDto saveNewUser(
-            String email, String login, String password, UserData data) throws ServiceException {
-        UserAccount user = buildUser(email, login, password, data);
-        try {
-            UserAccount savedUser = userDao.save(user);
-            return userAccountMapper.mapFrom(savedUser);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            String email,
+            String login,
+            String password,
+            String firstName,
+            String lastName,
+            String age,
+            String cardNumber) throws ServiceException, ValidationException {
+        UserAccount user = buildUser(email, login, password, firstName, lastName, age, cardNumber);
+        ValidationResult validationResult = userValidator.isValid(user);
+        if (validationResult.isValid()) {
+            try {
+                UserAccount savedUser = userDao.save(user);
+                return userAccountMapper.mapFrom(savedUser);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        throw new ValidationException();
     }
 
     public Optional<UserAccountDto> findUserByLoginAndPassword(String login, String password) throws ServiceException {
@@ -228,9 +255,31 @@ public class UserService {
         }
     }
 
-    private UserAccount buildUser(String email, String login, String password, UserData data) {
+    private UserAccount buildUser(
+            String email,
+            String login,
+            String password,
+            String firstName,
+            String lastName,
+            String ageToParse,
+            String cardNumber) {
         return new UserAccount(
-                email, login, password, UserService.STARTER_DISCOUNT_PERCENTAGE_LEVEL, data
+                email, login, password, UserService.STARTER_DISCOUNT_PERCENTAGE_LEVEL,
+                new UserData(UserRole.CLIENT_ROLE, firstName, lastName, Integer.parseInt(ageToParse), cardNumber)
+        );
+    }
+
+    private UserAccount buildAdmin(
+            String email,
+            String login,
+            String password,
+            String firstName,
+            String lastName,
+            String ageToParse,
+            String cardNumber) {
+        return new UserAccount(
+                email, login, password, UserService.STARTER_DISCOUNT_PERCENTAGE_LEVEL,
+                new UserData(UserRole.ADMIN_ROLE, firstName, lastName, Integer.parseInt(ageToParse), cardNumber)
         );
     }
 }
