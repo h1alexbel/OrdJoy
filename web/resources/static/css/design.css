@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: montserrat, serif;
-    background: linear-gradient(120deg, #8744ad, #ffffff);
+    background: linear-gradient(120deg, #4472ad, #ffffff);
     height: 100vh;
     overflow: hidden;
 }
@@ -30,7 +30,7 @@ body {
 
 form .txt_field {
     position: relative;
-    border-bottom: 2px solid #8e44ad;
+    border-bottom: 2px solid #4459ad;
     margin: 30px 0;
 }
 
