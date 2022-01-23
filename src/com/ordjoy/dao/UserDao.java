@@ -14,6 +14,8 @@ public interface UserDao extends GenericDao<Long, UserAccount, UserAccountFilter
 
     Optional<Integer> findDiscountPercentageLevelByEmail(String email) throws DaoException;
 
+    Optional<UserAccount> findUserAccountByLoginAndPassword(String login, String password) throws DaoException;
+
     Optional<UserAccount> findUserByLogin(String login) throws DaoException;
 
     Optional<UserAccount> findUserByEmail(String email) throws DaoException;

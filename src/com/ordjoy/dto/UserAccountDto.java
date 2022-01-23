@@ -9,13 +9,17 @@ public class UserAccountDto {
     private final String email;
     private final Integer discountPercentageLevel;
     private final UserRole role;
+    private final String firstName;
+    private final String lastName;
 
-    public UserAccountDto(Long id, String login, String email, Integer discountPercentageLevel, UserRole role) {
+    public UserAccountDto(Long id, String login, String email, Integer discountPercentageLevel, UserRole role, String firstName, String lastName) {
         this.id = id;
         this.login = login;
         this.email = email;
         this.discountPercentageLevel = discountPercentageLevel;
         this.role = role;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public Long getId() {
@@ -36,6 +40,14 @@ public class UserAccountDto {
 
     public UserRole getRole() {
         return role;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     @Override
@@ -61,6 +73,8 @@ public class UserAccountDto {
                ", email='" + email + '\'' +
                ", discountPercentageLevel=" + discountPercentageLevel +
                ", role=" + role +
+               ", firstName='" + firstName + '\'' +
+               ", lastName='" + lastName + '\'' +
                '}';
     }
 }

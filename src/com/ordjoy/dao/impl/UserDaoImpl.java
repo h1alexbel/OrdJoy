@@ -163,6 +163,21 @@ public class UserDaoImpl implements UserDao {
             FROM user_storage.user_account_data
             """;
 
+    private static final String SQL_FIND_USER_BY_LOGIN_AND_PASS = """
+            SELECT id,
+                   email,
+                   login,
+                   password,
+                   discount_percentage_level,
+                   role,
+                   first_name,
+                   last_name,
+                   age,
+                   card_number
+            FROM user_storage.user_account_data
+            WHERE login = ? AND password = ?
+            """;
+
     @Override
     public UserAccount save(UserAccount userAccount) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
@@ -194,6 +209,23 @@ public class UserDaoImpl implements UserDao {
              PreparedStatement findByIdStatement = connection.prepareStatement(SQL_FIND_USER_BY_USER_ID)) {
             findByIdStatement.setLong(1, id);
             ResultSet resultSet = findByIdStatement.executeQuery();
+            UserAccount userAccount = null;
+            if (resultSet.next()) {
+                userAccount = buildUserAccount(resultSet);
+            }
+            return Optional.ofNullable(userAccount);
+        } catch (SQLException e) {
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    @Override
+    public Optional<UserAccount> findUserAccountByLoginAndPassword(String login, String password) throws DaoException {
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement findUserByLoginAndPassword = connection.prepareStatement(SQL_FIND_USER_BY_LOGIN_AND_PASS)) {
+            findUserByLoginAndPassword.setString(1, login);
+            findUserByLoginAndPassword.setString(2, password);
+            ResultSet resultSet = findUserByLoginAndPassword.executeQuery();
             UserAccount userAccount = null;
             if (resultSet.next()) {
                 userAccount = buildUserAccount(resultSet);
