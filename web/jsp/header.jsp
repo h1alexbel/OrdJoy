@@ -55,14 +55,17 @@
                            class="nav-link px-2 text-white">Home</a></li>
                     <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
                     <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+                    <li><a href="https://github.com/h1alexbel/OrdJoy" class="nav-link px-2 text-white">GitHub</a></li>
                 </ul>
                 <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
                     <input type="search" class="form-control form-control-dark" placeholder="Search..."
                            aria-label="Search">
                 </form>
                 <div class="text-end">
-                    <a href="${pageContext.request.contextPath}/login.jsp" class="btn btn-outline-light me-2" role="button">Login</a>
-                    <a href="${pageContext.request.contextPath}/register.jsp" class="btn btn-info" role="button">Sign-up</a>
+                    <a href="${pageContext.request.contextPath}/login.jsp" class="btn btn-outline-light me-2"
+                       role="button">Login</a>
+                    <a href="${pageContext.request.contextPath}/register.jsp" class="btn btn-info"
+                       role="button">Sign-up</a>
                 </div>
             </div>
         </div>

@@ -26,6 +26,7 @@
             -moz-user-select: none;
             user-select: none;
         }
+
         @media (min-width: 768px) {
             .bd-placeholder-img-lg {
                 font-size: 3.5rem;
@@ -41,6 +42,8 @@
                                     class="nav-link px-2 text-muted">Home</a></li>
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a></li>
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+            <li class="nav-item"><a href="https://github.com/h1alexbel/OrdJoy"
+                                    class="nav-link px-2 text-muted">GitHub</a></li>
         </ul>
         <p class="text-center text-muted">&copy; 2021 Company, Inc</p>
     </footer>
