@@ -10,7 +10,7 @@ import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.exception.ValidationException;
 import com.ordjoy.mapper.UserAccountMapper;
-import com.ordjoy.validation.UserValidator;
+import com.ordjoy.validation.impl.UserValidator;
 import com.ordjoy.validation.ValidationResult;
 
 import java.util.List;

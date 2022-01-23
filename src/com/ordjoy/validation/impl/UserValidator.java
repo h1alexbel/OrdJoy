@@ -1,6 +1,9 @@
-package com.ordjoy.validation;
+package com.ordjoy.validation.impl;
 
 import com.ordjoy.entity.UserAccount;
+import com.ordjoy.validation.Error;
+import com.ordjoy.validation.ValidationResult;
+import com.ordjoy.validation.Validator;
 
 import static com.ordjoy.util.ErrorConstUtils.*;
 
