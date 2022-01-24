@@ -6,14 +6,17 @@ import com.ordjoy.dao.impl.AlbumReviewDaoImpl;
 import com.ordjoy.dao.impl.MixReviewDaoImpl;
 import com.ordjoy.dao.impl.TrackReviewDaoImpl;
 import com.ordjoy.dto.*;
-import com.ordjoy.entity.AlbumReview;
-import com.ordjoy.entity.MixReview;
-import com.ordjoy.entity.TrackReview;
+import com.ordjoy.entity.*;
 import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
+import com.ordjoy.exception.ValidationException;
 import com.ordjoy.mapper.AlbumReviewMapper;
 import com.ordjoy.mapper.MixReviewMapper;
 import com.ordjoy.mapper.TrackReviewMapper;
+import com.ordjoy.validation.ValidationResult;
+import com.ordjoy.validation.impl.AlbumReviewValidator;
+import com.ordjoy.validation.impl.MixReviewValidator;
+import com.ordjoy.validation.impl.TrackReviewValidator;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +33,9 @@ public class ReviewService {
     private final MixReviewMapper mixReviewMapper = MixReviewMapper.getInstance();
     private final TrackReviewMapper trackReviewMapper = TrackReviewMapper.getInstance();
     private final AlbumReviewMapper albumReviewMapper = AlbumReviewMapper.getInstance();
+    private final TrackReviewValidator trackReviewValidator = TrackReviewValidator.getInstance();
+    private final AlbumReviewValidator albumReviewValidator = AlbumReviewValidator.getInstance();
+    private final MixReviewValidator mixReviewValidator = MixReviewValidator.getInstance();
 
     private ReviewService() {
 
@@ -39,31 +45,46 @@ public class ReviewService {
         return INSTANCE;
     }
 
-    public MixReviewDto addMixReview(MixReview mixReview) throws ServiceException {
-        try {
-            MixReview savedMixReview = mixReviewDao.save(mixReview);
-            return mixReviewMapper.mapFrom(savedMixReview);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+    public MixReviewDto addMixReview(String reviewText, UserAccount userAccount, Mix mix) throws ServiceException, ValidationException {
+        MixReview mixReview = buildMixReview(reviewText, userAccount, mix);
+        ValidationResult validationResult = mixReviewValidator.isValid(mixReview);
+        if (validationResult.isValid()) {
+            try {
+                MixReview savedMixReview = mixReviewDao.save(mixReview);
+                return mixReviewMapper.mapFrom(savedMixReview);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        throw new ValidationException(VALIDATION_EXCEPTION_MESSAGE);
     }
 
-    public TrackReviewDto addTrackReview(TrackReview trackReview) throws ServiceException {
-        try {
-            TrackReview savedTrackReview = trackReviewDao.save(trackReview);
-            return trackReviewMapper.mapFrom(savedTrackReview);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+    public TrackReviewDto addTrackReview(String reviewText, UserAccount userAccount, Track track) throws ServiceException, ValidationException {
+        TrackReview trackReview = buildTrackReview(reviewText, userAccount, track);
+        ValidationResult validationResult = trackReviewValidator.isValid(trackReview);
+        if (validationResult.isValid()) {
+            try {
+                TrackReview savedTrackReview = trackReviewDao.save(trackReview);
+                return trackReviewMapper.mapFrom(savedTrackReview);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        throw new ValidationException(VALIDATION_EXCEPTION_MESSAGE);
     }
 
-    public AlbumReviewDto addAlbumReview(AlbumReview albumReview) throws ServiceException {
-        try {
-            AlbumReview saveAlbumReview = albumReviewDao.save(albumReview);
-            return albumReviewMapper.mapFrom(saveAlbumReview);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+    public AlbumReviewDto addAlbumReview(String reviewText, UserAccount userAccount, Album album) throws ServiceException, ValidationException {
+        AlbumReview albumReview = buildAlbumReview(reviewText, userAccount, album);
+        ValidationResult validationResult = albumReviewValidator.isValid(albumReview);
+        if (validationResult.isValid()) {
+            try {
+                AlbumReview saveAlbumReview = albumReviewDao.save(albumReview);
+                return albumReviewMapper.mapFrom(saveAlbumReview);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        throw new ValidationException(VALIDATION_EXCEPTION_MESSAGE);
     }
 
     public Optional<MixReviewDto> findMixReviewById(Long id) throws ServiceException {
@@ -133,26 +154,35 @@ public class ReviewService {
     }
 
     public void updateMixReview(MixReview mixReview) throws ServiceException {
-        try {
-            mixReviewDao.update(mixReview);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        ValidationResult validationResult = mixReviewValidator.isValid(mixReview);
+        if (validationResult.isValid()) {
+            try {
+                mixReviewDao.update(mixReview);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
     }
 
     public void updateTrackReview(TrackReview trackReview) throws ServiceException {
-        try {
-            trackReviewDao.update(trackReview);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        ValidationResult validationResult = trackReviewValidator.isValid(trackReview);
+        if (validationResult.isValid()) {
+            try {
+                trackReviewDao.update(trackReview);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
     }
 
     public void updateAlbumReview(AlbumReview albumReview) throws ServiceException {
-        try {
-            albumReviewDao.update(albumReview);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        ValidationResult validationResult = albumReviewValidator.isValid(albumReview);
+        if (validationResult.isValid()) {
+            try {
+                albumReviewDao.update(albumReview);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
     }
 
@@ -250,5 +280,23 @@ public class ReviewService {
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
+    }
+
+    private MixReview buildMixReview(String reviewText, UserAccount userAccount, Mix mix) {
+        return new MixReview(
+                reviewText, userAccount, mix
+        );
+    }
+
+    private TrackReview buildTrackReview(String reviewText, UserAccount userAccount, Track track) {
+        return new TrackReview(
+                reviewText, userAccount, track
+        );
+    }
+
+    private AlbumReview buildAlbumReview(String reviewText, UserAccount userAccount, Album album) {
+        return new AlbumReview(
+                reviewText, userAccount, album
+        );
     }
 }

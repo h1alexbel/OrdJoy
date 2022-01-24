@@ -37,12 +37,6 @@ public class TrackDaoImpl implements TrackDao {
             VALUES (?, ?, (SELECT id FROM audio_tracks_storage.album WHERE album.title = ?));
             """;
 
-    private static final String SQL_FIND_ALBUM_ID = """
-            SELECT id
-            FROM audio_tracks_storage.album
-            WHERE album.title = ?
-            """;
-
     private static final String SQL_FIND_TRACK_BY_ID = """
             SELECT tr.id       AS id,
                    tr.song_url AS song_url,
@@ -143,22 +137,15 @@ public class TrackDaoImpl implements TrackDao {
     @Override
     public Track save(Track track) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement findAlbumIdStatement = connection.prepareStatement(SQL_FIND_ALBUM_ID);
              PreparedStatement saveTrackStatement = connection.prepareStatement(SQL_SAVE_TRACK, Statement.RETURN_GENERATED_KEYS)) {
-            findAlbumIdStatement.setString(1, track.getAlbum().getTitle());
-            ResultSet resultSet = findAlbumIdStatement.executeQuery();
-            if (resultSet.next()) {
-                long albumId = resultSet.getLong("id");
-                track.getAlbum().setId(albumId);
-                saveTrackStatement.setString(1, track.getSongUrl());
-                saveTrackStatement.setString(2, track.getTitle());
-                saveTrackStatement.setString(3, track.getAlbum().getTitle());
-                saveTrackStatement.executeUpdate();
-                ResultSet generatedKeys = saveTrackStatement.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    long trackId = generatedKeys.getLong("id");
-                    track.setId(trackId);
-                }
+            saveTrackStatement.setString(1, track.getSongUrl());
+            saveTrackStatement.setString(2, track.getTitle());
+            saveTrackStatement.setString(3, track.getAlbum().getTitle());
+            saveTrackStatement.executeUpdate();
+            ResultSet generatedKeys = saveTrackStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                long trackId = generatedKeys.getLong("id");
+                track.setId(trackId);
             }
             return track;
         } catch (SQLException e) {

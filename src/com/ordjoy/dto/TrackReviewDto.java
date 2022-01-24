@@ -48,8 +48,7 @@ public class TrackReviewDto {
     @Override
     public String toString() {
         return "TrackReviewDto{" +
-               "id=" + id +
-               ", reviewText='" + reviewText + '\'' +
+               " reviewText='" + reviewText + '\'' +
                ", track=" + track +
                ", userAccount=" + userAccount +
                '}';

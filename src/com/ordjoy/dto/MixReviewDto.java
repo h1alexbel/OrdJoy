@@ -48,8 +48,7 @@ public class MixReviewDto {
     @Override
     public String toString() {
         return "MixReviewDto{" +
-               "id=" + id +
-               ", reviewText='" + reviewText + '\'' +
+               " reviewText='" + reviewText + '\'' +
                ", mix=" + mix +
                ", userAccount=" + userAccount +
                '}';

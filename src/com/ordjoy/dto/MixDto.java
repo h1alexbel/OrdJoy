@@ -42,8 +42,7 @@ public class MixDto {
     @Override
     public String toString() {
         return "MixDto{" +
-               "id=" + id +
-               ", name='" + name + '\'' +
+               " name='" + name + '\'' +
                ", description='" + description + '\'' +
                '}';
     }

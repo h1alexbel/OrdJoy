@@ -50,8 +50,7 @@ public class OrderDto {
     @Override
     public String toString() {
         return "OrderDto{" +
-               "id=" + id +
-               ", price=" + price +
+               " price=" + price +
                ", userAccount=" + userAccount +
                ", track=" + track +
                '}';

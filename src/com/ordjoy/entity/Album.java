@@ -12,6 +12,10 @@ public class Album implements Entity {
     public Album() {
     }
 
+    public Album(String title) {
+        this.title = title;
+    }
+
     public Album(Long id, String title, Set<Track> tracks, Set<AlbumReview> reviews) {
         this.id = id;
         this.title = title;

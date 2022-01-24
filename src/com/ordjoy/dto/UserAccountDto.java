@@ -68,8 +68,7 @@ public class UserAccountDto {
     @Override
     public String toString() {
         return "UserAccountDto{" +
-               "id=" + id +
-               ", login='" + login + '\'' +
+               " login='" + login + '\'' +
                ", email='" + email + '\'' +
                ", discountPercentageLevel=" + discountPercentageLevel +
                ", role=" + role +

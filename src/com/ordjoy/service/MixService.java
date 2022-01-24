@@ -8,13 +8,17 @@ import com.ordjoy.dto.MixReviewDto;
 import com.ordjoy.entity.Mix;
 import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
+import com.ordjoy.exception.ValidationException;
 import com.ordjoy.mapper.MixMapper;
 import com.ordjoy.mapper.MixReviewMapper;
+import com.ordjoy.validation.ValidationResult;
+import com.ordjoy.validation.impl.MixValidator;
 
 import java.util.List;
 import java.util.Optional;
 
 import static com.ordjoy.util.ExceptionMessageUtils.SERVICE_LAYER_EXCEPTION_MESSAGE;
+import static com.ordjoy.util.ExceptionMessageUtils.VALIDATION_EXCEPTION_MESSAGE;
 import static java.util.stream.Collectors.*;
 
 public class MixService {
@@ -23,6 +27,7 @@ public class MixService {
     private static final MixService INSTANCE = new MixService();
     private final MixMapper mixMapper = MixMapper.getInstance();
     private final MixReviewMapper mixReviewMapper = MixReviewMapper.getInstance();
+    private final MixValidator mixValidator = MixValidator.getInstance();
 
     private MixService() {
 
@@ -32,13 +37,22 @@ public class MixService {
         return INSTANCE;
     }
 
-    public MixDto addNewMix(Mix mix) throws ServiceException {
-        try {
-            Mix savedMix = mixDao.save(mix);
-            return mixMapper.mapFrom(savedMix);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+    public MixDto addNewMix(String name, String description) throws ServiceException, ValidationException {
+        Mix mix = buildMix(name, description);
+        ValidationResult validationResult = mixValidator.isValid(mix);
+        if (validationResult.isValid()) {
+            try {
+                Mix savedMix = mixDao.save(mix);
+                return mixMapper.mapFrom(savedMix);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        throw new ValidationException(VALIDATION_EXCEPTION_MESSAGE);
+    }
+
+    private Mix buildMix(String name, String description) {
+        return new Mix(name, description);
     }
 
     public boolean isMixExists(String mixName) throws ServiceException {
@@ -85,10 +99,13 @@ public class MixService {
     }
 
     public void updateMix(Mix mix) throws ServiceException {
-        try {
-            mixDao.update(mix);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        ValidationResult validationResult = mixValidator.isValid(mix);
+        if (validationResult.isValid()) {
+            try {
+                mixDao.update(mix);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
     }
 

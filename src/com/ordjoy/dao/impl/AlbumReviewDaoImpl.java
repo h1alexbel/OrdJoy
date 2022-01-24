@@ -42,18 +42,6 @@ public class AlbumReviewDaoImpl implements AlbumReviewDao {
                     (SELECT id FROM audio_tracks_storage.album WHERE title = ?));
             """;
 
-    private static final String SQL_FIND_ALBUM_ID = """
-            SELECT id
-            FROM audio_tracks_storage.album
-            WHERE title = ?
-            """;
-
-    private static final String SQL_FIND_USER_ID = """
-            SELECT id
-            FROM user_storage.user_account_data
-            WHERE login = ?
-            """;
-
     private static final String SQL_FIND_ALBUM_REVIEW_BY_ID = """
             SELECT al.id                          AS id,
                    al.title                       AS title,
@@ -162,29 +150,15 @@ public class AlbumReviewDaoImpl implements AlbumReviewDao {
     @Override
     public AlbumReview save(AlbumReview albumReview) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement findUserIdStatement = connection.prepareStatement(SQL_FIND_USER_ID);
-             PreparedStatement findAlbumId = connection.prepareStatement(SQL_FIND_ALBUM_ID);
              PreparedStatement saveAlbumReviewStatement = connection.prepareStatement(SQL_SAVE_ALBUM_REVIEW, Statement.RETURN_GENERATED_KEYS)) {
-            findUserIdStatement.setString(1, albumReview.getUserAccount().getLogin());
-            ResultSet resultSet = findUserIdStatement.executeQuery();
-            if (resultSet.next()) {
-                long userAccountId = resultSet.getLong("id");
-                albumReview.getUserAccount().setId(userAccountId);
-                findAlbumId.setString(1, albumReview.getAlbum().getTitle());
-                ResultSet query = findAlbumId.executeQuery();
-                if (query.next()) {
-                    long albumId = query.getLong("id");
-                    albumReview.getAlbum().setId(albumId);
-                    saveAlbumReviewStatement.setString(1, albumReview.getReviewText());
-                    saveAlbumReviewStatement.setString(2, albumReview.getUserAccount().getLogin());
-                    saveAlbumReviewStatement.setString(3, albumReview.getAlbum().getTitle());
-                    saveAlbumReviewStatement.executeUpdate();
-                    ResultSet generatedKeys = saveAlbumReviewStatement.getGeneratedKeys();
-                    if (generatedKeys.next()) {
-                        long albumReviewId = generatedKeys.getLong("id");
-                        albumReview.setId(albumReviewId);
-                    }
-                }
+            saveAlbumReviewStatement.setString(1, albumReview.getReviewText());
+            saveAlbumReviewStatement.setString(2, albumReview.getUserAccount().getLogin());
+            saveAlbumReviewStatement.setString(3, albumReview.getAlbum().getTitle());
+            saveAlbumReviewStatement.executeUpdate();
+            ResultSet generatedKeys = saveAlbumReviewStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                long albumReviewId = generatedKeys.getLong("id");
+                albumReview.setId(albumReviewId);
             }
             return albumReview;
         } catch (SQLException e) {

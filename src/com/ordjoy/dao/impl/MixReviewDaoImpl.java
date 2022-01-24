@@ -42,18 +42,6 @@ public class MixReviewDaoImpl implements MixReviewDao {
                     (SELECT id FROM audio_tracks_storage.mix WHERE name = ?));
             """;
 
-    private static final String SQL_FIND_USER_ACCOUNT_ID = """
-            SELECT id
-            FROM user_storage.user_account_data
-            WHERE login = ?
-            """;
-
-    private static final String SQL_FIND_MIX_ID = """
-            SELECT id
-            FROM audio_tracks_storage.mix
-            WHERE name = ?
-            """;
-
     private static final String SQL_FIND_REVIEW_BY_ID = """
             SELECT mix.id                         AS id,
                    mix.name                       AS name,
@@ -166,29 +154,15 @@ public class MixReviewDaoImpl implements MixReviewDao {
     @Override
     public MixReview save(MixReview review) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement saveReviewStatement = connection.prepareStatement(SQL_SAVE_MIX_REVIEW, Statement.RETURN_GENERATED_KEYS);
-             PreparedStatement findMixIdStatement = connection.prepareStatement(SQL_FIND_MIX_ID);
-             PreparedStatement findUserAccountIdStatement = connection.prepareStatement(SQL_FIND_USER_ACCOUNT_ID)) {
-            findUserAccountIdStatement.setString(1, review.getUserAccount().getLogin());
-            ResultSet resultSet = findUserAccountIdStatement.executeQuery();
-            if (resultSet.next()) {
-                long userId = resultSet.getLong("id");
-                review.getUserAccount().setId(userId);
-                findMixIdStatement.setString(1, review.getMix().getName());
-                ResultSet query = findMixIdStatement.executeQuery();
-                if (query.next()) {
-                    long mixId = query.getLong("id");
-                    review.getMix().setId(mixId);
-                    saveReviewStatement.setString(1, review.getReviewText());
-                    saveReviewStatement.setString(2, review.getUserAccount().getLogin());
-                    saveReviewStatement.setString(3, review.getMix().getName());
-                    saveReviewStatement.executeUpdate();
-                    ResultSet generatedKeys = saveReviewStatement.getGeneratedKeys();
-                    if (generatedKeys.next()) {
-                        long reviewId = generatedKeys.getLong("id");
-                        review.setId(reviewId);
-                    }
-                }
+             PreparedStatement saveReviewStatement = connection.prepareStatement(SQL_SAVE_MIX_REVIEW, Statement.RETURN_GENERATED_KEYS)) {
+            saveReviewStatement.setString(1, review.getReviewText());
+            saveReviewStatement.setString(2, review.getUserAccount().getLogin());
+            saveReviewStatement.setString(3, review.getMix().getName());
+            saveReviewStatement.executeUpdate();
+            ResultSet generatedKeys = saveReviewStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                long reviewId = generatedKeys.getLong("id");
+                review.setId(reviewId);
             }
             return review;
         } catch (SQLException e) {

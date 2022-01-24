@@ -15,6 +15,12 @@ public class Track implements Entity {
     public Track() {
     }
 
+    public Track(String songUrl, String title, Album album) {
+        this.songUrl = songUrl;
+        this.title = title;
+        this.album = album;
+    }
+
     public Track(String songUrl, String title, Album album, List<Mix> mixes) {
         this.songUrl = songUrl;
         this.title = title;

@@ -38,18 +38,6 @@ public class OrderDaoImpl implements OrderDao {
                     (SELECT id FROM audio_tracks_storage.track WHERE title = ?));
             """;
 
-    private static final String SQL_FIND_USER_ID = """
-            SELECT id
-            FROM user_storage.user_account_data
-            WHERE login LIKE ?
-            """;
-
-    private static final String SQL_FIND_TRACK_ID = """
-            SELECT id
-            FROM audio_tracks_storage.track
-            WHERE title LIKE ?
-            """;
-
     private static final String SQL_FIND_ORDER_BY_ID = """
             SELECT ord.id                        AS id,
                    ord.price                     AS price,
@@ -334,30 +322,16 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public Order save(Order order) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement saveOrderStatement = connection.prepareStatement(SQL_SAVE_ORDER, Statement.RETURN_GENERATED_KEYS);
-             PreparedStatement findTrackIdStatement = connection.prepareStatement(SQL_FIND_TRACK_ID);
-             PreparedStatement findUserIdStatement = connection.prepareStatement(SQL_FIND_USER_ID)) {
-            findUserIdStatement.setString(1, order.getUserAccount().getLogin());
-            ResultSet resultSet = findUserIdStatement.executeQuery();
-            if (resultSet.next()) {
-                long userId = resultSet.getLong("id");
-                order.getUserAccount().setId(userId);
-                findTrackIdStatement.setString(1, order.getTrack().getTitle());
-                ResultSet query = findTrackIdStatement.executeQuery();
-                if (query.next()) {
-                    long trackId = query.getLong("id");
-                    order.getTrack().setId(trackId);
-                    saveOrderStatement.setBigDecimal(1, order.getPrice());
-                    saveOrderStatement.setString(2, order.getUserAccount().getLogin());
-                    saveOrderStatement.setString(3, order.getOrderStatus().toString());
-                    saveOrderStatement.setString(4, order.getTrack().getTitle());
-                    saveOrderStatement.executeUpdate();
-                    ResultSet generatedKeys = saveOrderStatement.getGeneratedKeys();
-                    if (generatedKeys.next()) {
-                        long orderId = generatedKeys.getLong("id");
-                        order.setId(orderId);
-                    }
-                }
+             PreparedStatement saveOrderStatement = connection.prepareStatement(SQL_SAVE_ORDER, Statement.RETURN_GENERATED_KEYS)) {
+            saveOrderStatement.setBigDecimal(1, order.getPrice());
+            saveOrderStatement.setString(2, order.getUserAccount().getLogin());
+            saveOrderStatement.setString(3, order.getOrderStatus().toString());
+            saveOrderStatement.setString(4, order.getTrack().getTitle());
+            saveOrderStatement.executeUpdate();
+            ResultSet generatedKeys = saveOrderStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                long orderId = generatedKeys.getLong("id");
+                order.setId(orderId);
             }
             return order;
         } catch (SQLException e) {

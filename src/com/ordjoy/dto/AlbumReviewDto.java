@@ -48,8 +48,7 @@ public class AlbumReviewDto {
     @Override
     public String toString() {
         return "AlbumReviewDto{" +
-               "id=" + id +
-               ", reviewText='" + reviewText + '\'' +
+               " reviewText='" + reviewText + '\'' +
                ", album=" + album +
                ", userAccount=" + userAccount +
                '}';

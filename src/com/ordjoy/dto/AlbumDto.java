@@ -36,8 +36,7 @@ public class AlbumDto {
     @Override
     public String toString() {
         return "AlbumDto{" +
-               "id=" + id +
-               ", title='" + title + '\'' +
+               "title='" + title + '\'' +
                '}';
     }
 }

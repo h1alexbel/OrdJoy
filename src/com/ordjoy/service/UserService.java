@@ -176,10 +176,13 @@ public class UserService {
     }
 
     public void updateUserData(UserAccount userAccount) throws ServiceException {
-        try {
-            userDao.update(userAccount);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        ValidationResult validationResult = userValidator.isValid(userAccount);
+        if (validationResult.isValid()) {
+            try {
+                userDao.update(userAccount);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
     }
 

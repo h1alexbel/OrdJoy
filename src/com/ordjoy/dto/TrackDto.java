@@ -48,10 +48,9 @@ public class TrackDto {
     @Override
     public String toString() {
         return "TrackDto{" +
-               "id=" + id +
-               ", url='" + url + '\'' +
+               "url='" + url + '\'' +
                ", title='" + title + '\'' +
-               ", album='" + album + '\'' +
+               ", album=" + album +
                '}';
     }
 }

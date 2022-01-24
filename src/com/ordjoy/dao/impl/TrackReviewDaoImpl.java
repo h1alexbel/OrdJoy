@@ -42,18 +42,6 @@ public class TrackReviewDaoImpl implements TrackReviewDao {
                     (SELECT id FROM audio_tracks_storage.track WHERE title = ?));
             """;
 
-    private static final String SQL_FIND_USER_ID = """
-            SELECT id
-            FROM user_storage.user_account_data
-            WHERE login = ?
-            """;
-
-    private static final String SQL_FIND_TRACK_ID = """
-            SELECT id
-            FROM audio_tracks_storage.track
-            WHERE title = ?
-            """;
-
     private static final String SQL_FIND_TRACK_REVIEW_BY_ID = """
             SELECT track.id                       AS id,
                    track.title                    AS title,
@@ -238,29 +226,15 @@ public class TrackReviewDaoImpl implements TrackReviewDao {
     @Override
     public TrackReview save(TrackReview trackReview) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement saveStatement = connection.prepareStatement(SQL_SAVE_TRACK_REVIEW, Statement.RETURN_GENERATED_KEYS);
-             PreparedStatement findUserId = connection.prepareStatement(SQL_FIND_USER_ID);
-             PreparedStatement findTrackId = connection.prepareStatement(SQL_FIND_TRACK_ID)) {
-            findUserId.setString(1, trackReview.getUserAccount().getLogin());
-            ResultSet resultSet = findUserId.executeQuery();
-            if (resultSet.next()) {
-                long userId = resultSet.getLong("id");
-                trackReview.getUserAccount().setId(userId);
-                findTrackId.setString(1, trackReview.getTrack().getTitle());
-                ResultSet query = findTrackId.executeQuery();
-                if (query.next()) {
-                    long trackId = query.getLong("id");
-                    trackReview.getTrack().setId(trackId);
-                    saveStatement.setString(1, trackReview.getReviewText());
-                    saveStatement.setString(2, trackReview.getUserAccount().getLogin());
-                    saveStatement.setString(3, trackReview.getTrack().getTitle());
-                    saveStatement.executeUpdate();
-                    ResultSet generatedKeys = saveStatement.getGeneratedKeys();
-                    if (generatedKeys.next()) {
-                        long trackReviewId = generatedKeys.getLong("id");
-                        trackReview.setId(trackReviewId);
-                    }
-                }
+             PreparedStatement saveStatement = connection.prepareStatement(SQL_SAVE_TRACK_REVIEW, Statement.RETURN_GENERATED_KEYS)) {
+            saveStatement.setString(1, trackReview.getReviewText());
+            saveStatement.setString(2, trackReview.getUserAccount().getLogin());
+            saveStatement.setString(3, trackReview.getTrack().getTitle());
+            saveStatement.executeUpdate();
+            ResultSet generatedKeys = saveStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                long trackReviewId = generatedKeys.getLong("id");
+                trackReview.setId(trackReviewId);
             }
             return trackReview;
         } catch (SQLException e) {
