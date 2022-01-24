@@ -9,7 +9,6 @@ import com.ordjoy.entity.Mix;
 import com.ordjoy.entity.Track;
 import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
-import com.ordjoy.exception.ValidationException;
 import com.ordjoy.mapper.TrackMapper;
 import com.ordjoy.validation.ValidationResult;
 import com.ordjoy.validation.impl.TrackValidator;
@@ -35,7 +34,7 @@ public class TrackService {
         return INSTANCE;
     }
 
-    public TrackDto addNewTrack(String songUrl, String title, Album album) throws ServiceException, ValidationException {
+    public TrackDto addNewTrack(String songUrl, String title, Album album) throws ServiceException {
         Track track = buildTrack(songUrl, title, album);
         try {
             Track savedTrack = trackDao.save(track);
@@ -100,7 +99,7 @@ public class TrackService {
         }
     }
 
-    public boolean addExistingTrackToMix(Mix mixThatExists, Track trackThatExists) throws ServiceException, ValidationException {
+    public boolean addExistingTrackToMix(Mix mixThatExists, Track trackThatExists) throws ServiceException {
         try {
             return trackDao.addExistingTrackToMix(mixThatExists, trackThatExists);
         } catch (DaoException e) {
