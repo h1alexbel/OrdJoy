@@ -11,8 +11,6 @@ import com.ordjoy.exception.ServiceException;
 import com.ordjoy.exception.ValidationException;
 import com.ordjoy.mapper.AlbumMapper;
 import com.ordjoy.mapper.AlbumReviewMapper;
-import com.ordjoy.validation.ValidationResult;
-import com.ordjoy.validation.impl.AlbumValidator;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +24,6 @@ public class AlbumService {
     private static final AlbumService INSTANCE = new AlbumService();
     private final AlbumMapper albumMapper = AlbumMapper.getInstance();
     private final AlbumReviewMapper albumReviewMapper = AlbumReviewMapper.getInstance();
-    private final AlbumValidator albumValidator = AlbumValidator.getInstance();
 
     private AlbumService() {
 
@@ -38,16 +35,12 @@ public class AlbumService {
 
     public AlbumDto saveAlbum(String title) throws ServiceException, ValidationException {
         Album album = buildAlbum(title);
-        ValidationResult validationResult = albumValidator.isValid(album);
-        if (validationResult.isValid()) {
-            try {
-                Album savedAlbum = albumDao.save(album);
-                return albumMapper.mapFrom(savedAlbum);
-            } catch (DaoException e) {
-                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
-            }
+        try {
+            Album savedAlbum = albumDao.save(album);
+            return albumMapper.mapFrom(savedAlbum);
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
-        throw new ValidationException(VALIDATION_EXCEPTION_MESSAGE);
     }
 
     public boolean isAlbumExists(String title) throws ServiceException {
@@ -92,13 +85,10 @@ public class AlbumService {
     }
 
     public void updateAlbum(Album album) throws ServiceException {
-        ValidationResult validationResult = albumValidator.isValid(album);
-        if (validationResult.isValid()) {
-            try {
-                albumDao.update(album);
-            } catch (DaoException e) {
-                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
-            }
+        try {
+            albumDao.update(album);
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 

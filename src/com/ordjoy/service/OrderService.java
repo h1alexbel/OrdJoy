@@ -12,8 +12,6 @@ import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.exception.ValidationException;
 import com.ordjoy.mapper.OrderMapper;
-import com.ordjoy.validation.ValidationResult;
-import com.ordjoy.validation.impl.OrderValidator;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -27,7 +25,6 @@ public class OrderService {
     private final OrderDaoImpl orderDao = OrderDaoImpl.getInstance();
     private static final OrderService INSTANCE = new OrderService();
     private final OrderMapper orderMapper = OrderMapper.getInstance();
-    private final OrderValidator orderValidator = OrderValidator.getInstance();
     private static final OrderStatus DEFAULT_STATUS_AFTER_ORDER_MAKE = OrderStatus.ACCEPTED;
 
     private OrderService() {
@@ -40,16 +37,12 @@ public class OrderService {
 
     public OrderDto makeOrder(BigDecimal price, UserAccount userAccount, Track track) throws ServiceException, ValidationException {
         Order order = buildOrder(price, userAccount, track);
-        ValidationResult validationResult = orderValidator.isValid(order);
-        if (validationResult.isValid()) {
-            try {
-                Order savedOrder = orderDao.save(order);
-                return orderMapper.mapFrom(savedOrder);
-            } catch (DaoException e) {
-                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
-            }
+        try {
+            Order savedOrder = orderDao.save(order);
+            return orderMapper.mapFrom(savedOrder);
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
-        throw new ValidationException(VALIDATION_EXCEPTION_MESSAGE);
     }
 
     public BigDecimal getCheckForOrder(Long orderId) throws ServiceException {
@@ -95,13 +88,10 @@ public class OrderService {
     }
 
     public void updateOrder(Order order) throws ServiceException {
-        ValidationResult validationResult = orderValidator.isValid(order);
-        if (validationResult.isValid()) {
-            try {
-                orderDao.update(order);
-            } catch (DaoException e) {
-                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
-            }
+        try {
+            orderDao.update(order);
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 

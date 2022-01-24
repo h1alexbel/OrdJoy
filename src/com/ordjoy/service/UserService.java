@@ -10,8 +10,6 @@ import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.exception.ValidationException;
 import com.ordjoy.mapper.UserAccountMapper;
-import com.ordjoy.validation.impl.UserValidator;
-import com.ordjoy.validation.ValidationResult;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +23,6 @@ public class UserService {
     private final UserDaoImpl userDao = UserDaoImpl.getInstance();
     private static final UserService INSTANCE = new UserService();
     private final UserAccountMapper userAccountMapper = UserAccountMapper.getInstance();
-    private final UserValidator userValidator = UserValidator.getInstance();
 
     private UserService() {
 
@@ -64,16 +61,12 @@ public class UserService {
              String age,
              String cardNumber) throws ServiceException, ValidationException {
         UserAccount admin = buildAdmin(email, login, password, firstName, lastName, age, cardNumber);
-        ValidationResult validationResult = userValidator.isValid(admin);
-        if (validationResult.isValid()) {
-            try {
-                UserAccount savedAdmin = userDao.save(admin);
-                return userAccountMapper.mapFrom(savedAdmin);
-            } catch (DaoException e) {
-                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
-            }
+        try {
+            UserAccount savedAdmin = userDao.save(admin);
+            return userAccountMapper.mapFrom(savedAdmin);
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
-        throw new ValidationException(VALIDATION_EXCEPTION_MESSAGE);
     }
 
     public UserAccountDto saveNewUser(
@@ -85,16 +78,12 @@ public class UserService {
             String age,
             String cardNumber) throws ServiceException, ValidationException {
         UserAccount user = buildUser(email, login, password, firstName, lastName, age, cardNumber);
-        ValidationResult validationResult = userValidator.isValid(user);
-        if (validationResult.isValid()) {
-            try {
-                UserAccount savedUser = userDao.save(user);
-                return userAccountMapper.mapFrom(savedUser);
-            } catch (DaoException e) {
-                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
-            }
+        try {
+            UserAccount savedUser = userDao.save(user);
+            return userAccountMapper.mapFrom(savedUser);
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
-        throw new ValidationException(VALIDATION_EXCEPTION_MESSAGE);
     }
 
     public Optional<UserAccountDto> findUserByLoginAndPassword(String login, String password) throws ServiceException {
@@ -176,13 +165,10 @@ public class UserService {
     }
 
     public void updateUserData(UserAccount userAccount) throws ServiceException {
-        ValidationResult validationResult = userValidator.isValid(userAccount);
-        if (validationResult.isValid()) {
-            try {
-                userDao.update(userAccount);
-            } catch (DaoException e) {
-                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
-            }
+        try {
+            userDao.update(userAccount);
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 
