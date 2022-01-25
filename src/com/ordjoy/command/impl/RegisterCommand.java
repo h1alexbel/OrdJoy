@@ -8,6 +8,7 @@ import com.ordjoy.entity.UserAccount;
 import com.ordjoy.exception.ControllerException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.service.UserService;
+import com.ordjoy.util.PasswordEncoder;
 import com.ordjoy.validation.ValidationResult;
 import com.ordjoy.validation.impl.UserValidator;
 
@@ -42,8 +43,9 @@ public class RegisterCommand implements FrontCommand {
         String age = httpServletRequest.getParameter(AGE);
         String cardNumber = httpServletRequest.getParameter(CARD_NUMBER);
         try {
+            String encodedPassword = PasswordEncoder.encode(password);
             UserAccount userAccount = userService.buildUser
-                    (email, login, password, firstName, lastName, age, cardNumber);
+                    (email, login, encodedPassword, firstName, lastName, age, cardNumber);
             ValidationResult validationResult = userValidator.isValid(userAccount);
             if (validationResult.isValid()) {
                 UserAccountDto userAccountDto = userService.saveNewUser(userAccount);
