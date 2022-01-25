@@ -35,7 +35,7 @@
             <label>Last Name</label>
         </div>
         <div class="txt_field">
-            <input name="userName" type="text" required pattern="^\w{3,20}$">
+            <input name="login" type="text" required pattern="^\w{3,20}$">
             <span></span>
             <label>Username</label>
         </div>
@@ -48,6 +48,11 @@
             <input name="age" type="text" required pattern="^\d{1,2}$">
             <span></span>
             <label>Age</label>
+        </div>
+        <div class="txt_field">
+            <input name="cardNumber" type="text" required pattern="^\d{16}$">
+            <span></span>
+            <label>Card Number</label>
         </div>
         <input type="submit" value="Signup">
     </form>
