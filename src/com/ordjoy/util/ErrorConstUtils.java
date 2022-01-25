@@ -14,6 +14,8 @@ public final class ErrorConstUtils {
     public static final String INVALID_FIRST_NAME_MESSAGE = "First Name is invalid";
     public static final String LAST_NAME_INVALID = "lastName.invalid";
     public static final String INVALID_LAST_NAME_MESSAGE = "Last Name is invalid";
+    public static final String CARD_NUMBER_INVALID = "cardNumber.invalid";
+    public static final String CARD_NUMBER_INVALID_MESSAGE = "Card number is invalid";
     public static final String USER_INVALID = "user.invalid";
     public static final String USER_CANNOT_BE_NULL_MESSAGE = "User can not be null!";
     public static final String AGE_INVALID = "age.invalid";

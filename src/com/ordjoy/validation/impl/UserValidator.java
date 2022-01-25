@@ -45,6 +45,9 @@ public class UserValidator implements Validator<UserAccount> {
             if (!isAgeValid(userAccount.getUserData().getAge())) {
                 validationResult.add(Error.of(AGE_INVALID, INVALID_AGE_MESSAGE));
             }
+            if (!isCardDataValid(userAccount.getUserData().getCardNumber())) {
+                validationResult.add(Error.of(CARD_NUMBER_INVALID, CARD_NUMBER_INVALID_MESSAGE));
+            }
         } else {
             validationResult.add(Error.of(USER_INVALID, USER_CANNOT_BE_NULL_MESSAGE));
         }
@@ -55,7 +58,7 @@ public class UserValidator implements Validator<UserAccount> {
         return password != null && password.matches(PASSWORD_REGEX);
     }
 
-    public boolean isCardDataValid(String cardNumber) {
+    private boolean isCardDataValid(String cardNumber) {
         boolean result = false;
         if (cardNumber != null) {
             result = cardNumber.matches(CARD_NUMBER_REGEX);
@@ -63,7 +66,7 @@ public class UserValidator implements Validator<UserAccount> {
         return result;
     }
 
-    private boolean isLoginValid(String login) {
+    public boolean isLoginValid(String login) {
         return login != null && login.matches(LOGIN_REGEX);
     }
 
