@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = "/*")
+@WebFilter(urlPatterns = {"/login.jsp", "/register.jsp"})
 public class AuthenticationFilter implements Filter {
 
     private static final String USER_STARTER_PAGE = "/jsp/user/user.jsp";
