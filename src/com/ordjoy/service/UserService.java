@@ -59,7 +59,7 @@ public class UserService {
              String firstName,
              String lastName,
              String age,
-             String cardNumber) throws ServiceException, ValidationException {
+             String cardNumber) throws ServiceException {
         UserAccount admin = buildAdmin(email, login, password, firstName, lastName, age, cardNumber);
         try {
             UserAccount savedAdmin = userDao.save(admin);
@@ -76,7 +76,7 @@ public class UserService {
             String firstName,
             String lastName,
             String age,
-            String cardNumber) throws ServiceException, ValidationException {
+            String cardNumber) throws ServiceException {
         UserAccount user = buildUser(email, login, password, firstName, lastName, age, cardNumber);
         try {
             UserAccount savedUser = userDao.save(user);

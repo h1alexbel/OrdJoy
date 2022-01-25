@@ -18,7 +18,7 @@
     <h1>Login in to OrdJoy</h1>
     <form method="post" action="${pageContext.request.contextPath}/frontController"
           enctype="application/x-www-form-urlencoded">
-        <input type="hidden" name="frontCommand" value="loginUser">
+        <input type="hidden" name="frontCommand" value="login">
         <div class="txt_field">
             <input name="userName" type="text" required pattern="^\w{3,20}$">
             <span></span>

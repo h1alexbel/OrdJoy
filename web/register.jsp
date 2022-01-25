@@ -18,7 +18,7 @@
     <h1>Join us today</h1>
     <form method="post" action="${pageContext.request.contextPath}/frontController"
           enctype="application/x-www-form-urlencoded">
-        <input type="hidden" name="frontCommand" value="registerUser">
+        <input type="hidden" name="frontCommand" value="register">
         <div class="txt_field">
             <input name="email" type="email" required pattern="^[A-Za-z.]+\w+@[A-Za-z]{2,}\.(com|org)$">
             <span></span>
