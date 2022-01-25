@@ -8,7 +8,6 @@ import com.ordjoy.entity.UserData;
 import com.ordjoy.entity.UserRole;
 import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
-import com.ordjoy.exception.ValidationException;
 import com.ordjoy.mapper.UserAccountMapper;
 
 import java.util.List;
@@ -52,34 +51,18 @@ public class UserService {
         }
     }
 
-    public UserAccountDto addNewAdmin
-            (String email,
-             String login,
-             String password,
-             String firstName,
-             String lastName,
-             String age,
-             String cardNumber) throws ServiceException {
-        UserAccount admin = buildAdmin(email, login, password, firstName, lastName, age, cardNumber);
+    public UserAccountDto addNewAdmin(UserAccount userAccount) throws ServiceException {
         try {
-            UserAccount savedAdmin = userDao.save(admin);
-            return userAccountMapper.mapFrom(savedAdmin);
+            UserAccount savedUser = userDao.save(userAccount);
+            return userAccountMapper.mapFrom(savedUser);
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
 
-    public UserAccountDto saveNewUser(
-            String email,
-            String login,
-            String password,
-            String firstName,
-            String lastName,
-            String age,
-            String cardNumber) throws ServiceException {
-        UserAccount user = buildUser(email, login, password, firstName, lastName, age, cardNumber);
+    public UserAccountDto saveNewUser(UserAccount userAccount) throws ServiceException {
         try {
-            UserAccount savedUser = userDao.save(user);
+            UserAccount savedUser = userDao.save(userAccount);
             return userAccountMapper.mapFrom(savedUser);
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
@@ -244,7 +227,7 @@ public class UserService {
         }
     }
 
-    private UserAccount buildUser(
+    public UserAccount buildUser(
             String email,
             String login,
             String password,
@@ -258,7 +241,7 @@ public class UserService {
         );
     }
 
-    private UserAccount buildAdmin(
+    public UserAccount buildAdmin(
             String email,
             String login,
             String password,
