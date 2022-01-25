@@ -6,7 +6,7 @@ public enum FrontCommandType {
 
     LOGIN(new LoginCommand()),
     REGISTER(new RegisterCommand()),
-    LOG_OUT(new LogOutCommand()),
+    LOGOUT(new LogOutCommand()),
     EDIT_USER_INFO(new EditUserInfoCommand()),
     ADD_ADMIN(new AddAdminCommand()),
     ALL_USERS(new AllUsersCommand()),
