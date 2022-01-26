@@ -38,14 +38,16 @@
 <div class="container fixed-bottom">
     <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item"><a href="${pageContext.request.contextPath}/index.jsp"
+            <li class="nav-item"><a href="${pageContext.request.contextPath}/jsp/user/user.jsp"
                                     class="nav-link px-2 text-muted">Home</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+            <li class="nav-item"><a href="${pageContext.request.contextPath}/jsp/features.jsp"
+                                    class="nav-link px-2 text-muted">Features</a></li>
+            <li class="nav-item"><a href="${pageContext.request.contextPath}/jsp/about.jsp"
+                                    class="nav-link px-2 text-muted">About</a></li>
             <li class="nav-item"><a href="https://github.com/h1alexbel/OrdJoy"
                                     class="nav-link px-2 text-muted">GitHub</a></li>
         </ul>
-        <p class="text-center text-muted">&copy; 2021 Company, Inc</p>
+        <p class="text-center text-muted">&copy; 2021 OrdJoy, Inc</p>
     </footer>
 </div>
 <script src="${pageContext.request.contextPath}/resources/static/js/bootstrap.bundle.min.js"
