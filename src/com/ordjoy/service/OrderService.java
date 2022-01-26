@@ -10,7 +10,6 @@ import com.ordjoy.entity.Track;
 import com.ordjoy.entity.UserAccount;
 import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
-import com.ordjoy.exception.ValidationException;
 import com.ordjoy.mapper.OrderMapper;
 
 import java.math.BigDecimal;
@@ -35,7 +34,7 @@ public class OrderService {
         return INSTANCE;
     }
 
-    public OrderDto makeOrder(BigDecimal price, UserAccount userAccount, Track track) throws ServiceException, ValidationException {
+    public OrderDto makeOrder(BigDecimal price, UserAccount userAccount, Track track) throws ServiceException {
         Order order = buildOrder(price, userAccount, track);
         try {
             Order savedOrder = orderDao.save(order);

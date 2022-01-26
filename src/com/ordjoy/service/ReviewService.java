@@ -9,7 +9,6 @@ import com.ordjoy.dto.*;
 import com.ordjoy.entity.*;
 import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
-import com.ordjoy.exception.ValidationException;
 import com.ordjoy.mapper.AlbumReviewMapper;
 import com.ordjoy.mapper.MixReviewMapper;
 import com.ordjoy.mapper.TrackReviewMapper;
@@ -38,7 +37,7 @@ public class ReviewService {
         return INSTANCE;
     }
 
-    public MixReviewDto addMixReview(String reviewText, UserAccount userAccount, Mix mix) throws ServiceException, ValidationException {
+    public MixReviewDto addMixReview(String reviewText, UserAccount userAccount, Mix mix) throws ServiceException {
         MixReview mixReview = buildMixReview(reviewText, userAccount, mix);
         try {
             MixReview savedMixReview = mixReviewDao.save(mixReview);
@@ -48,7 +47,7 @@ public class ReviewService {
         }
     }
 
-    public TrackReviewDto addTrackReview(String reviewText, UserAccount userAccount, Track track) throws ServiceException, ValidationException {
+    public TrackReviewDto addTrackReview(String reviewText, UserAccount userAccount, Track track) throws ServiceException {
         TrackReview trackReview = buildTrackReview(reviewText, userAccount, track);
         try {
             TrackReview savedTrackReview = trackReviewDao.save(trackReview);
@@ -58,7 +57,7 @@ public class ReviewService {
         }
     }
 
-    public AlbumReviewDto addAlbumReview(String reviewText, UserAccount userAccount, Album album) throws ServiceException, ValidationException {
+    public AlbumReviewDto addAlbumReview(String reviewText, UserAccount userAccount, Album album) throws ServiceException {
         AlbumReview albumReview = buildAlbumReview(reviewText, userAccount, album);
         try {
             AlbumReview saveAlbumReview = albumReviewDao.save(albumReview);

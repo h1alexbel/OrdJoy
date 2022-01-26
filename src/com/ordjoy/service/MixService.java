@@ -8,7 +8,6 @@ import com.ordjoy.dto.MixReviewDto;
 import com.ordjoy.entity.Mix;
 import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
-import com.ordjoy.exception.ValidationException;
 import com.ordjoy.mapper.MixMapper;
 import com.ordjoy.mapper.MixReviewMapper;
 
@@ -33,7 +32,7 @@ public class MixService {
         return INSTANCE;
     }
 
-    public MixDto addNewMix(String name, String description) throws ServiceException, ValidationException {
+    public MixDto addNewMix(String name, String description) throws ServiceException {
         Mix mix = buildMix(name, description);
         try {
             Mix savedMix = mixDao.save(mix);

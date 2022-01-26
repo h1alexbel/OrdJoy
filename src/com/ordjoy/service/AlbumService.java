@@ -8,7 +8,6 @@ import com.ordjoy.dto.AlbumReviewDto;
 import com.ordjoy.entity.Album;
 import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
-import com.ordjoy.exception.ValidationException;
 import com.ordjoy.mapper.AlbumMapper;
 import com.ordjoy.mapper.AlbumReviewMapper;
 
@@ -33,7 +32,7 @@ public class AlbumService {
         return INSTANCE;
     }
 
-    public AlbumDto saveAlbum(String title) throws ServiceException, ValidationException {
+    public AlbumDto saveAlbum(String title) throws ServiceException {
         Album album = buildAlbum(title);
         try {
             Album savedAlbum = albumDao.save(album);
