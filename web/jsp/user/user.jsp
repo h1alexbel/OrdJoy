@@ -8,11 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>User Main Page</title>
+    <title>Home</title>
 </head>
 <body>
 <%@ include file="userHeader.jsp" %>
-hello user!
+hello ${sessionScope.user.firstName} ${sessionScope.user.lastName}!
 <%@ include file="userFooter.jsp" %>
 </body>
 </html>
