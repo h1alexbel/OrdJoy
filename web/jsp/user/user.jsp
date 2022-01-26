@@ -11,6 +11,8 @@
     <title>User Main Page</title>
 </head>
 <body>
+<%@ include file="userHeader.jsp" %>
 hello user!
+<%@ include file="userFooter.jsp" %>
 </body>
 </html>
