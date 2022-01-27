@@ -2,7 +2,9 @@ package com.ordjoy.dto;
 
 import com.ordjoy.entity.UserRole;
 
-public class UserAccountDto {
+import java.io.Serializable;
+
+public class UserAccountDto implements Serializable {
 
     private final Long id;
     private final String login;

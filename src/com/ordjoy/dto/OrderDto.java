@@ -1,8 +1,9 @@
 package com.ordjoy.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class OrderDto {
+public class OrderDto implements Serializable {
 
     private final Long id;
     private final BigDecimal price;

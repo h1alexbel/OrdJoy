@@ -1,6 +1,8 @@
 package com.ordjoy.dto;
 
-public class MixDto {
+import java.io.Serializable;
+
+public class MixDto implements Serializable {
 
     private final Long id;
     private final String name;

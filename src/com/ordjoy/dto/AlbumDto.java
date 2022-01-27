@@ -1,6 +1,8 @@
 package com.ordjoy.dto;
 
-public class AlbumDto {
+import java.io.Serializable;
+
+public class AlbumDto implements Serializable {
 
     private final Long id;
     private final String title;
