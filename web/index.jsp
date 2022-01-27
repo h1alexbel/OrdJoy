@@ -8,9 +8,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Deployment Info</title>
+    <link rel="stylesheet" href="resources/static/css/bootstrap.css">
 </head>
 <body>
-hello!
+<div class="text-md-center">
+    How to deploy OrdJoy application?
+    <h2>
+        <a href="https://github.com/h1alexbel/OrdJoy/blob/main/README.md">
+            check README.md
+        </a>
+    </h2>
+</div>
 </body>
 </html>
