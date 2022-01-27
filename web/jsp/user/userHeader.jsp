@@ -53,9 +53,11 @@
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                     <li><a href="${pageContext.request.contextPath}/jsp/user/user.jsp"
                            class="nav-link px-2 text-white">Home</a></li>
-                    <li><a href="${pageContext.request.contextPath}/jsp/features.jsp" class="nav-link px-2 text-white">Features</a>
+                    <li><a href="${pageContext.request.contextPath}/jsp/user/features.jsp"
+                           class="nav-link px-2 text-white">Features</a>
                     </li>
-                    <li><a href="${pageContext.request.contextPath}/jsp/about.jsp" class="nav-link px-2 text-white">About</a>
+                    <li><a href="${pageContext.request.contextPath}/jsp/user/about.jsp"
+                           class="nav-link px-2 text-white">About</a>
                     </li>
                     <li><a href="https://github.com/h1alexbel/OrdJoy" class="nav-link px-2 text-white">GitHub</a></li>
                 </ul>
@@ -66,6 +68,9 @@
                 <div class="text-end">
                     <a href="${pageContext.request.contextPath}/jsp/user/account.jsp" class="btn btn-outline-light me-2"
                        role="button">Your Account</a>
+                    <a href="${pageContext.request.contextPath}/jsp/user/makeOrder.jsp"
+                       class="btn btn-outline-primary" role="button">Order Track</a>
+
                     <div class="text-xxl-center">
                         <form method="post" action="${pageContext.request.contextPath}/frontController"
                               enctype="application/x-www-form-urlencoded">
