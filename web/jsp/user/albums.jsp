@@ -1,14 +1,14 @@
 <%--
   Created by IntelliJ IDEA.
   User: alexeybelyavsky
-  Date: 22.01.22
-  Time: 6:14 pm
+  Date: 27.01.22
+  Time: 4:48 pm
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Albums</title>
 </head>
 <body>
 
