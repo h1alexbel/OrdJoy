@@ -14,6 +14,7 @@ import com.ordjoy.util.JspFormatHelper;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+import static com.ordjoy.util.ExceptionMessageUtils.*;
 import static com.ordjoy.util.JspPageConst.*;
 
 public class ShowAllUsersCommand implements FrontCommand {
@@ -32,7 +33,7 @@ public class ShowAllUsersCommand implements FrontCommand {
             page = SEPARATOR + JspFormatHelper.getAdminPath(ALL_USERS_PAGE);
             frontCommandResult = new FrontCommandResult(page, NavigationType.FORWARD);
         } catch (ServiceException e) {
-            throw new ControllerException(ExceptionMessageUtils.CONTROLLER_EXCEPTION_MESSAGE, e);
+            throw new ControllerException(CONTROLLER_EXCEPTION_MESSAGE, e);
         }
         return frontCommandResult;
     }
