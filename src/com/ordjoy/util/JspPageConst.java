@@ -21,7 +21,7 @@ public final class JspPageConst {
     public static final String LOGIN_PAGE = "login";
     public static final String REGISTER_PAGE = "register";
     public static final String ERROR_PAGE = "error";
-
+    public static final String LOGIN_PAGE_FOR_FILTER = "/login.jsp";
     private JspPageConst() {
         throw new UnsupportedOperationException();
     }

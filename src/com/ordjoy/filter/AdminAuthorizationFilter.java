@@ -9,10 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.ordjoy.util.JspPageConst.*;
+
 @WebFilter(urlPatterns = {"/jsp/admin/*"})
 public class AdminAuthorizationFilter implements Filter {
 
-    private static final String LOGIN_PAGE = "/login.jsp";
     private static final String USER_ATTRIBUTE = "user";
 
     @Override
@@ -30,7 +31,7 @@ public class AdminAuthorizationFilter implements Filter {
     }
 
     private void moveToLoginPage(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
-        httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + LOGIN_PAGE);
+        httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + LOGIN_PAGE_FOR_FILTER);
     }
 
     private boolean isAuthorized(HttpServletRequest httpServletRequest) {

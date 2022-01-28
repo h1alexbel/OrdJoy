@@ -1,6 +1,7 @@
 package com.ordjoy.filter;
 
 import com.ordjoy.dto.UserAccountDto;
+import com.ordjoy.util.JspFormatHelper;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -8,11 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.ordjoy.util.JspPageConst.*;
+
 @WebFilter(urlPatterns = {"/login.jsp", "/register.jsp"})
 public class AuthenticationFilter implements Filter {
 
-    private static final String USER_STARTER_PAGE = "/jsp/user/user.jsp";
-    private static final String ADMIN_STARTER_PAGE = "/jsp/admin/admin.jsp";
     private static final String USER_ATTRIBUTE = "user";
 
     @Override
@@ -29,11 +30,11 @@ public class AuthenticationFilter implements Filter {
             String pathToPage;
             switch (userAccount.getRole()) {
                 case CLIENT_ROLE -> {
-                    pathToPage = USER_STARTER_PAGE;
+                    pathToPage = JspFormatHelper.getUserPath(USER_MAIN_PAGE);
                     httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + pathToPage);
                 }
                 case ADMIN_ROLE -> {
-                    pathToPage = ADMIN_STARTER_PAGE;
+                    pathToPage = JspFormatHelper.getAdminPath(ADMIN_MAIN_PAGE);
                     httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + pathToPage);
                 }
                 default -> throw new ServletException();
