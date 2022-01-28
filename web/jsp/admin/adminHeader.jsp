@@ -137,6 +137,11 @@
                        class="btn btn-primary">Add Album</a>
                     <a href="${pageContext.request.contextPath}/jsp/admin/addMixForm.jsp" role="button"
                        class="btn btn-primary">Add Mix</a>
+                    <form method="post" action="${pageContext.request.contextPath}/frontController"
+                          enctype="application/x-www-form-urlencoded">
+                        <input type="hidden" name="frontCommand" value="logout">
+                        <input type="submit" class="btn btn-info" value="Logout">
+                    </form>
                 </div>
             </div>
         </div>
