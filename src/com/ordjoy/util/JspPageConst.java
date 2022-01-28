@@ -2,6 +2,7 @@ package com.ordjoy.util;
 
 public final class JspPageConst {
 
+    public static final String SEPARATOR = "/";
     public static final String USER_MAIN_PAGE = "user";
     public static final String GREETING_PAGE = "greeting";
     public static final String FEATURES_PAGE = "features";

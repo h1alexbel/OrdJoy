@@ -8,9 +8,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Add new Track</title>
 </head>
 <body>
-
+form to add new track
 </body>
 </html>

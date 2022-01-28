@@ -8,9 +8,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Add new Mix</title>
 </head>
 <body>
-
+form to add new mix
 </body>
 </html>
