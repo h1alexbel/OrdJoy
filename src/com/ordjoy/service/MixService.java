@@ -32,8 +32,7 @@ public class MixService {
         return INSTANCE;
     }
 
-    public MixDto addNewMix(String name, String description) throws ServiceException {
-        Mix mix = buildMix(name, description);
+    public MixDto addNewMix(Mix mix) throws ServiceException {
         try {
             Mix savedMix = mixDao.save(mix);
             return mixMapper.mapFrom(savedMix);
@@ -134,7 +133,7 @@ public class MixService {
         }
     }
 
-    private Mix buildMix(String name, String description) {
+    public Mix buildMix(String name, String description) {
         return new Mix(name, description);
     }
 }
