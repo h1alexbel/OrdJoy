@@ -32,8 +32,7 @@ public class AlbumService {
         return INSTANCE;
     }
 
-    public AlbumDto saveAlbum(String title) throws ServiceException {
-        Album album = buildAlbum(title);
+    public AlbumDto saveAlbum(Album album) throws ServiceException {
         try {
             Album savedAlbum = albumDao.save(album);
             return albumMapper.mapFrom(savedAlbum);
@@ -131,7 +130,7 @@ public class AlbumService {
         }
     }
 
-    private Album buildAlbum(String title) {
+    public Album buildAlbum(String title) {
         return new Album(title);
     }
 }
