@@ -3,40 +3,42 @@ package com.ordjoy.command.impl;
 import com.ordjoy.command.FrontCommand;
 import com.ordjoy.command.FrontCommandResult;
 import com.ordjoy.command.NavigationType;
-import com.ordjoy.dto.AlbumDto;
-import com.ordjoy.entity.Album;
+import com.ordjoy.dto.MixDto;
+import com.ordjoy.entity.Mix;
 import com.ordjoy.exception.ControllerException;
 import com.ordjoy.exception.ServiceException;
-import com.ordjoy.service.AlbumService;
+import com.ordjoy.service.MixService;
 import com.ordjoy.util.JspFormatHelper;
 import com.ordjoy.validation.ValidationResult;
-import com.ordjoy.validation.impl.AlbumValidator;
+import com.ordjoy.validation.impl.MixValidator;
 
 import javax.servlet.http.HttpServletRequest;
 
 import static com.ordjoy.util.ExceptionMessageUtils.*;
 import static com.ordjoy.util.JspPageConst.ERROR_PAGE;
 
-public class AddAlbumCommand implements FrontCommand {
+public class AddMixCommand implements FrontCommand {
 
-    private static final String ALBUM_TITLE = "albumTitle";
     private static final String REFERER_HEADER = "Referer";
-    private static final String SESSION_ALBUM = "album";
-    private final AlbumService albumService = AlbumService.getInstance();
-    private final AlbumValidator albumValidator = AlbumValidator.getInstance();
+    private static final String SESSION_MIX = "mix";
+    private final MixService mixService = MixService.getInstance();
+    private final MixValidator mixValidator = MixValidator.getInstance();
+    private static final String MIX_NAME = "mixName";
+    private static final String MIX_DESCRIPTION = "mixDescription";
 
     @Override
     public FrontCommandResult process(HttpServletRequest httpServletRequest) throws ControllerException {
         String page;
         FrontCommandResult frontCommandResult;
-        String albumTitle = httpServletRequest.getParameter(ALBUM_TITLE);
-        Album album = albumService.buildAlbum(albumTitle);
-        ValidationResult validationResult = albumValidator.isValid(album);
+        String mixName = httpServletRequest.getParameter(MIX_NAME);
+        String mixDescription = httpServletRequest.getParameter(MIX_DESCRIPTION);
+        Mix mix = mixService.buildMix(mixName, mixDescription);
+        ValidationResult validationResult = mixValidator.isValid(mix);
         try {
-            if (validationResult.isValid() && !albumService.isAlbumExists(albumTitle)) {
-                AlbumDto albumDto = albumService.saveAlbum(album);
+            if (validationResult.isValid() && !mixService.isMixExists(mixName)) {
+                MixDto mixDto = mixService.addNewMix(mix);
                 page = httpServletRequest.getHeader(REFERER_HEADER);
-                httpServletRequest.getSession().setAttribute(SESSION_ALBUM, albumDto);
+                httpServletRequest.getSession().setAttribute(SESSION_MIX, mixDto);
             } else {
                 page = httpServletRequest.getContextPath() + JspFormatHelper.getPublicPath(ERROR_PAGE);
             }
