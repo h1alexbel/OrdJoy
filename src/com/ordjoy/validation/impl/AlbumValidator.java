@@ -33,7 +33,7 @@ public class AlbumValidator implements Validator<Album> {
         return validationResult;
     }
 
-    private boolean isTitleValid(String title) {
+    public boolean isTitleValid(String title) {
         return title != null && title.matches(TITLE_REGEX);
     }
 }

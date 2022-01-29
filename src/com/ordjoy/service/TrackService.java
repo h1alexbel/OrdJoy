@@ -34,8 +34,7 @@ public class TrackService {
         return INSTANCE;
     }
 
-    public TrackDto addNewTrack(String songUrl, String title, Album album) throws ServiceException {
-        Track track = buildTrack(songUrl, title, album);
+    public TrackDto addNewTrack(Track track) throws ServiceException {
         try {
             Track savedTrack = trackDao.save(track);
             return trackMapper.mapFrom(savedTrack);
@@ -139,7 +138,8 @@ public class TrackService {
         }
     }
 
-    private Track buildTrack(String songUrl, String title, Album album) {
+    public Track buildTrack(String songUrl, String title, String albumTitle) {
+        Album album = new Album(albumTitle);
         return new Track(
                 songUrl, title, album
         );
