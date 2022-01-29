@@ -79,7 +79,7 @@
                 </div>
                 <h2>Albums</h2>
                 <p>Every track has his own album. Browse all albums and check out this!</p>
-                <a href="${pageContext.request.contextPath}/jsp/user/albums.jsp" class="icon-link">
+                <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_albums" class="icon-link">
                     Browse Albums
                 </a>
             </div>
