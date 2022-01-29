@@ -17,7 +17,7 @@ public enum FrontCommandType {
     ADD_ALBUM(new AddAlbumCommand()),
     EDIT_ALBUM(new EditAlbumCommand()),
     DELETE_ALBUM(new DeleteAlbumCommand()),
-    ALL_ALBUMS(new AllAlbumsCommand()),
+    ALL_ALBUMS(new ShowAllAlbumsCommand()),
     ADD_MIX(new AddMixCommand()),
     EDIT_MIX(new EditMixCommand()),
     DELETE_MIX(new DeleteMixCommand()),
