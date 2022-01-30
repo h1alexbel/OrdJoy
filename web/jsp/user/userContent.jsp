@@ -136,9 +136,12 @@
                 <div class="p-4">
                     <h4 class="fst-italic">Our goods</h4>
                     <ol class="list-unstyled mb-0">
-                        <li><a href="${pageContext.request.contextPath}/jsp/user/tracks.jsp">Track List</a></li>
-                        <li><a href="${pageContext.request.contextPath}/jsp/user/mixes.jsp">Mix List</a></li>
-                        <li><a href="${pageContext.request.contextPath}/jsp/user/albums.jsp">Album List</a></li>
+                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_tracks">Track
+                            List</a></li>
+                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_mixes">Mix
+                            List</a></li>
+                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_albums">Album
+                            List</a></li>
                     </ol>
                 </div>
 

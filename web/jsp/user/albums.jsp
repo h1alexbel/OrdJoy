@@ -24,6 +24,20 @@
         <tr>
             <th scope="row">${status.count}</th>
             <td>${album.title}</td>
+            <c:if test="${sessionScope.user.role eq 'ADMIN_ROLE'}">
+                <td>
+                    <form method="post" action="${pageContext.request.contextPath}/frontController"
+                          enctype="application/x-www-form-urlencoded">
+                        <input type="hidden" name="frontCommand" value="delete_album">
+                        <input type="submit" class="btn btn-outline-danger" value="Delete Album">
+                    </form>
+                </td>
+            </c:if>
+            <c:if test="${sessionScope.user.role eq 'CLIENT_ROLE'}">
+                <td><a href="${pageContext.request.contextPath}/jsp/user/addAlbumReviewForm.jsp" role="button"
+                       class="btn btn-warning">Add
+                    Review</a></td>
+            </c:if>
         </tr>
     </c:forEach>
     </thead>
