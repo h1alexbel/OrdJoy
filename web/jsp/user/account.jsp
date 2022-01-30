@@ -80,11 +80,10 @@
             </div>
         </div>
     </a>
-    <form method="post" action="${pageContext.request.contextPath}/frontController"
-          enctype="application/x-www-form-urlencoded">
-        <input type="hidden" name="frontCommand" value="update_user">
-        <input type="submit" class="btn-outline-success" value="Send request to update your settings">
-    </form>
+    <a href="${pageContext.request.contextPath}/jsp/user/updateAccountForm.jsp" role="button"
+       class="btn-outline-success">Want to change something? Go to update form</a>
+    <a href="${pageContext.request.contextPath}/jsp/user/updateDiscountForm.jsp" role="button"
+       class="btn-outline-primary">Want to update discount percentage level? You need this form</a>
 </div>
 <script src="${pageContext.request.contextPath}/resources/static/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
