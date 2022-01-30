@@ -14,6 +14,5 @@
 <body>
 <%@ include file="userHeader.jsp" %>
 <%@include file="userContent.jsp" %>
-<%@ include file="userFooter.jsp" %>
 </body>
 </html>
