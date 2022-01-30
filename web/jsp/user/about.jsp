@@ -120,7 +120,8 @@
                 <h2>Reviews</h2>
                 <p>You can add reviews on all tracks, albums and mixes that we have. We interested in forming
                     community</p>
-                <p><a class="btn btn-secondary" href="${pageContext.request.contextPath}/jsp/user/reviews.jsp">All
+                <p><a class="btn btn-secondary"
+                      href="${pageContext.request.contextPath}/frontController?frontCommand=all_reviews">All
                     reviews &raquo;</a></p>
             </div>
             <div class="col-lg-4">
