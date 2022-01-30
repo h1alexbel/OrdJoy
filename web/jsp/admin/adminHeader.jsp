@@ -133,6 +133,8 @@
                 <div class="text-end">
                     <a href="${pageContext.request.contextPath}/jsp/admin/addAdminForm.jsp" role="button"
                        class="btn btn-warning">Add New Admin</a>
+                    <a href="${pageContext.request.contextPath}/jsp/admin/addTrackToMixFrom.jsp" role="button"
+                       class="btn btn-primary">Add Track to Mix</a>
                     <a href="${pageContext.request.contextPath}/jsp/admin/addTrackForm.jsp" role="button"
                        class="btn btn-primary">Add Track</a>
                     <a href="${pageContext.request.contextPath}/jsp/admin/addAlbumForm.jsp" role="button"
