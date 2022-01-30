@@ -62,7 +62,7 @@
                 <p>We provide the most popular tracks. What do you need to enjoy them? Just make some order and we
                     redirect this to
                     the the platform that you choose</p>
-                <a href="${pageContext.request.contextPath}/jsp/user/tracks.jsp" class="icon-link">
+                <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_tracks" class="icon-link">
                     Find your favorite
                 </a>
             </div>
@@ -99,7 +99,7 @@
                 </div>
                 <h2>Mixes</h2>
                 <p>We follow all the track artists and make theme mixes based on your choice</p>
-                <a href="${pageContext.request.contextPath}/jsp/user/mixes.jsp" class="icon-link">
+                <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_mixes" class="icon-link">
                     Pick the best
                     <svg class="bi" width="1em" height="1em">
                         <use xlink:href="#chevron-right"></use>
