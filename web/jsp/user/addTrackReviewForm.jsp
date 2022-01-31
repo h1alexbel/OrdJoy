@@ -19,7 +19,7 @@
           enctype="application/x-www-form-urlencoded">
         <input type="hidden" name="frontCommand" value="add_track_review">
         <div class="txt_field">
-            <input name="mixName" type="text" required pattern="^\w.{1,512}.$">
+            <input name="trackTitle" type="text" required pattern="^\w.{1,512}.$">
             <span></span>
             <label>Track title</label>
         </div>

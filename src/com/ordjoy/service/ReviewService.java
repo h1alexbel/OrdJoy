@@ -37,8 +37,7 @@ public class ReviewService {
         return INSTANCE;
     }
 
-    public MixReviewDto addMixReview(String reviewText, UserAccount userAccount, Mix mix) throws ServiceException {
-        MixReview mixReview = buildMixReview(reviewText, userAccount, mix);
+    public MixReviewDto addMixReview(MixReview mixReview) throws ServiceException {
         try {
             MixReview savedMixReview = mixReviewDao.save(mixReview);
             return mixReviewMapper.mapFrom(savedMixReview);
@@ -47,8 +46,7 @@ public class ReviewService {
         }
     }
 
-    public TrackReviewDto addTrackReview(String reviewText, UserAccount userAccount, Track track) throws ServiceException {
-        TrackReview trackReview = buildTrackReview(reviewText, userAccount, track);
+    public TrackReviewDto addTrackReview(TrackReview trackReview) throws ServiceException {
         try {
             TrackReview savedTrackReview = trackReviewDao.save(trackReview);
             return trackReviewMapper.mapFrom(savedTrackReview);
@@ -57,8 +55,7 @@ public class ReviewService {
         }
     }
 
-    public AlbumReviewDto addAlbumReview(String reviewText, UserAccount userAccount, Album album) throws ServiceException {
-        AlbumReview albumReview = buildAlbumReview(reviewText, userAccount, album);
+    public AlbumReviewDto addAlbumReview(AlbumReview albumReview) throws ServiceException {
         try {
             AlbumReview saveAlbumReview = albumReviewDao.save(albumReview);
             return albumReviewMapper.mapFrom(saveAlbumReview);
@@ -253,19 +250,19 @@ public class ReviewService {
         }
     }
 
-    private MixReview buildMixReview(String reviewText, UserAccount userAccount, Mix mix) {
+    public MixReview buildMixReview(String reviewText, UserAccount userAccount, Mix mix) {
         return new MixReview(
                 reviewText, userAccount, mix
         );
     }
 
-    private TrackReview buildTrackReview(String reviewText, UserAccount userAccount, Track track) {
+    public TrackReview buildTrackReview(String reviewText, UserAccount userAccount, Track track) {
         return new TrackReview(
                 reviewText, userAccount, track
         );
     }
 
-    private AlbumReview buildAlbumReview(String reviewText, UserAccount userAccount, Album album) {
+    public AlbumReview buildAlbumReview(String reviewText, UserAccount userAccount, Album album) {
         return new AlbumReview(
                 reviewText, userAccount, album
         );
