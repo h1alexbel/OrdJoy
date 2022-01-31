@@ -34,8 +34,7 @@ public class OrderService {
         return INSTANCE;
     }
 
-    public OrderDto makeOrder(BigDecimal price, UserAccount userAccount, Track track) throws ServiceException {
-        Order order = buildOrder(price, userAccount, track);
+    public OrderDto makeOrder(Order order) throws ServiceException {
         try {
             Order savedOrder = orderDao.save(order);
             return orderMapper.mapFrom(savedOrder);
@@ -173,7 +172,7 @@ public class OrderService {
         }
     }
 
-    private Order buildOrder(BigDecimal price, UserAccount userAccount, Track track) {
+    public Order buildOrder(BigDecimal price, UserAccount userAccount, Track track) {
         return new Order(
                 price, userAccount, DEFAULT_STATUS_AFTER_ORDER_MAKE, track
         );

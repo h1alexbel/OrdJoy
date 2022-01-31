@@ -19,6 +19,9 @@ import static java.util.stream.Collectors.*;
 public class UserService {
 
     private static final Integer STARTER_DISCOUNT_PERCENTAGE_LEVEL = 0;
+    private static final int DEFAULT_AGE_FOR_COMPLETE_ORDER = 18;
+    private static final String DEFAULT_CARD_NUMBER = "";
+    private static final String NO_PASS_FOR_COMPLETE_ORDER = "";
     private final UserDaoImpl userDao = UserDaoImpl.getInstance();
     private static final UserService INSTANCE = new UserService();
     private final UserAccountMapper userAccountMapper = UserAccountMapper.getInstance();
@@ -239,6 +242,13 @@ public class UserService {
                 email, login, password, UserService.STARTER_DISCOUNT_PERCENTAGE_LEVEL,
                 new UserData(UserRole.CLIENT_ROLE, firstName, lastName, Integer.parseInt(ageToParse), cardNumber)
         );
+    }
+
+    public UserAccount buildUserWithoutPasswordAndAgeFromSession(UserAccountDto userAccountDto) {
+        return new UserAccount(userAccountDto.getEmail(), userAccountDto.getLogin(), NO_PASS_FOR_COMPLETE_ORDER,
+                userAccountDto.getDiscountPercentageLevel(), new UserData(userAccountDto.getRole(),
+                userAccountDto.getFirstName(), userAccountDto.getLastName(),
+                DEFAULT_AGE_FOR_COMPLETE_ORDER, DEFAULT_CARD_NUMBER));
     }
 
     public UserAccount buildAdmin(

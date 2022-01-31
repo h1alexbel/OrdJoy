@@ -26,7 +26,7 @@
         <tr>
             <th scope="row">${status.count}</th>
             <td>${track.title}</td>
-            <td>${track.url}</td>
+            <td><a href="${track.url}">Listen Free</a></td>
             <td>${track.album.title}</td>
             <c:if test="${sessionScope.user.role eq 'ADMIN_ROLE'}">
                 <td>

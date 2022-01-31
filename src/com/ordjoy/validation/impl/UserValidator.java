@@ -70,7 +70,6 @@ public class UserValidator implements Validator<UserAccount> {
         return login != null && login.matches(LOGIN_REGEX);
     }
 
-
     private boolean isEmailValid(String email) {
         return email != null && email.matches(EMAIL_REGEX);
     }

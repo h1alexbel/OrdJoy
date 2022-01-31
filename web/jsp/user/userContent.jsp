@@ -65,7 +65,7 @@
                     <h3 class="mb-0">DS4Ever available now!</h3>
                     <div class="mb-1 text-muted">Jan 29</div>
                     <p class="card-text mb-auto">This hit is available to order! Try this. </p>
-                    <a href="#"
+                    <a href="${pageContext.request.contextPath}/frontController?frontCommand=find_album_by_title&title=DS4Ever"
                        class="stretched-link">Check out this one!</a>
                 </div>
                 <div class="col-auto d-none d-lg-block">
@@ -81,7 +81,7 @@
                     <h3 class="mb-0">Rock it!</h3>
                     <div class="mb-1 text-muted">Jan 29</div>
                     <p class="mb-auto">For real Metalica & Rock fans!</p>
-                    <a href="#"
+                    <a href="${pageContext.request.contextPath}/frontController?frontCommand=find_album_by_title&title=Metalica"
                        class="stretched-link">Its time to remember the old day's music!</a>
                 </div>
                 <div class="col-auto d-none d-lg-block">
@@ -103,25 +103,12 @@
                 <p>Hello folks! By the January 29, 2022 we added some new features. Some updates that You can see right
                     now! :</p>
                 <ul>
-                    <li><a href="${pageContext.request.contextPath}/jsp/user/tracks.jsp">Track updates</a></li>
+                    <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_tracks">Track
+                        updates</a></li>
                     <li>Admin can add another admin very easy, just filling out the form. Relevant button was added:)
                     </li>
                 </ul>
                 <p>Find some bug or You have some suggestions? Contact us: ordjoy.team@gmail.com</p>
-            </article>
-            <article class="blog-post">
-                <h2 class="blog-post-title">Little article about Administration</h2>
-                <p class="blog-post-meta">January 29, 2022 by <a href="https://github.com/h1alexbel">Alexey</a></p>
-
-                <p>This is some additional paragraph placeholder content. It has been written to fill the available
-                    space and show how a longer snippet of text affects the surrounding content. We'll repeat it often
-                    to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
-                <blockquote>
-                    <p>Longer quote goes here, maybe with some <strong>emphasized text</strong> in the middle of it.</p>
-                </blockquote>
-                <p>This is some additional paragraph placeholder content. It has been written to fill the available
-                    space and show how a longer snippet of text affects the surrounding content. We'll repeat it often
-                    to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
             </article>
         </div>
 

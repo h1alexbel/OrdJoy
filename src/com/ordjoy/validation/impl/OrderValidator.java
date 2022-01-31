@@ -12,6 +12,7 @@ import static com.ordjoy.util.ErrorConstUtils.*;
 public class OrderValidator implements Validator<Order> {
 
     private static final OrderValidator INSTANCE = new OrderValidator();
+    private static final String PRICE_REGEX = "^\\d{1,}$";
 
     private OrderValidator() {
 
@@ -25,7 +26,7 @@ public class OrderValidator implements Validator<Order> {
     public ValidationResult isValid(Order order) {
         ValidationResult validationResult = new ValidationResult();
         if (order != null) {
-            if (isPriceValid(order.getPrice()) != 1) {
+            if (isPriceBiggerThanZero(order.getPrice()) != 1) {
                 validationResult.add(Error.of(PRICE_INVALID, PRICE_IS_INVALID_MESSAGE));
             }
         } else {
@@ -34,7 +35,11 @@ public class OrderValidator implements Validator<Order> {
         return validationResult;
     }
 
-    private int isPriceValid(BigDecimal price) {
+    public boolean isPriceValid(String price) {
+        return price != null && price.matches(PRICE_REGEX);
+    }
+
+    private int isPriceBiggerThanZero(BigDecimal price) {
         return price.compareTo(BigDecimal.valueOf(0));
     }
 }
