@@ -37,7 +37,7 @@
                 </td>
             </c:if>
             <c:if test="${sessionScope.user.role eq 'CLIENT_ROLE'}">
-                <td><a href="${pageContext.request.contextPath}/jsp/user/addTrackReviewForm.jsp" role="button"
+                <td><a href="${pageContext.request.contextPath}/jsp/user/addMixReviewForm.jsp" role="button"
                        class="btn btn-warning">Add
                     Review</a></td>
             </c:if>
