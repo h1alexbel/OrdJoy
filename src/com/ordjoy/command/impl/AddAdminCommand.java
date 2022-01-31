@@ -28,7 +28,6 @@ public class AddAdminCommand implements FrontCommand {
     private static final String AGE = "age";
     private static final String CARD_NUMBER = "cardNumber";
     private static final String SESSION_USER = "user";
-    private static final String REFERER_HEADER = "Referer";
     private final UserValidator userValidator = UserValidator.getInstance();
     private final UserService userService = UserService.getInstance();
 
@@ -48,7 +47,7 @@ public class AddAdminCommand implements FrontCommand {
             UserAccount admin = userService.buildAdmin
                     (email, login, encodedPassword, firstName, lastName, age, cardNumber);
             ValidationResult validationResult = userValidator.isValid(admin);
-            if (validationResult.isValid()) {
+            if (validationResult.isValid() && !userService.isLoginExists(login)) {
                 UserAccountDto adminAccountDto = userService.saveNewUser(admin);
                 page = httpServletRequest.getHeader(REFERER_HEADER);
                 httpServletRequest.getSession().setAttribute(SESSION_USER, adminAccountDto);

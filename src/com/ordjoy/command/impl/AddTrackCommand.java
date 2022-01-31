@@ -17,11 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.ordjoy.util.ExceptionMessageUtils.CONTROLLER_EXCEPTION_MESSAGE;
 import static com.ordjoy.util.JspPageConst.ERROR_PAGE;
+import static com.ordjoy.util.JspPageConst.REFERER_HEADER;
 
 public class AddTrackCommand implements FrontCommand {
 
     private static final String SESSION_TRACK = "track";
-    private static final String REFERER_HEADER = "Referer";
     private final TrackService trackService = TrackService.getInstance();
     private final TrackValidator trackValidator = TrackValidator.getInstance();
     private final AlbumValidator albumValidator = AlbumValidator.getInstance();

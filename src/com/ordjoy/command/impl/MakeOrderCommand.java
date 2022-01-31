@@ -63,16 +63,16 @@ public class MakeOrderCommand implements FrontCommand {
                             httpServletRequest.getSession().setAttribute(SESSION_ORDER, orderDto);
                             page = httpServletRequest.getContextPath() + JspFormatHelper.getUserPath((THANKS_FOR_ORDER_PAGE));
                         } else {
-                            page = httpServletRequest.getContextPath() + JspFormatHelper.getUserPath(ORDER_PAGE);
+                            page = httpServletRequest.getHeader(REFERER_HEADER);
                         }
                     } else {
-                        page = httpServletRequest.getContextPath() + JspFormatHelper.getUserPath(ORDER_PAGE);
+                        page = httpServletRequest.getHeader(REFERER_HEADER);
                     }
                 } else {
-                    page = httpServletRequest.getContextPath() + JspFormatHelper.getUserPath(ORDER_PAGE);
+                    page = httpServletRequest.getHeader(REFERER_HEADER);
                 }
             } else {
-                page = httpServletRequest.getContextPath() + JspFormatHelper.getUserPath(ORDER_PAGE);
+                page = httpServletRequest.getHeader(REFERER_HEADER);
             }
             frontCommandResult = new FrontCommandResult(page, NavigationType.REDIRECT);
             return frontCommandResult;

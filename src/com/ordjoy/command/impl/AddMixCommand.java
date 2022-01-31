@@ -16,10 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.ordjoy.util.ExceptionMessageUtils.*;
 import static com.ordjoy.util.JspPageConst.ERROR_PAGE;
+import static com.ordjoy.util.JspPageConst.REFERER_HEADER;
 
 public class AddMixCommand implements FrontCommand {
 
-    private static final String REFERER_HEADER = "Referer";
     private static final String SESSION_MIX = "mix";
     private final MixService mixService = MixService.getInstance();
     private final MixValidator mixValidator = MixValidator.getInstance();

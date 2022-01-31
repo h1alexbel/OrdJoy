@@ -33,6 +33,7 @@ public class AddAlbumReviewCommand implements FrontCommand {
     private static final String ALBUM_TITLE = "albumTitle";
     private static final String ALBUM_REVIEW_TEXT = "albumReviewText";
     private static final String ALBUM_REVIEW_ATTRIBUTE = "albumReview";
+    private static final String REFERER_HEADER = "Referer";
     private final ReviewService reviewService = ReviewService.getInstance();
     private final AlbumReviewValidator albumReviewValidator = AlbumReviewValidator.getInstance();
     private final AlbumService albumService = AlbumService.getInstance();
@@ -59,13 +60,13 @@ public class AddAlbumReviewCommand implements FrontCommand {
                         httpServletRequest.getSession().setAttribute(ALBUM_REVIEW_ATTRIBUTE, albumReviewDto);
                         page = httpServletRequest.getContextPath() + JspFormatHelper.getUserPath(USER_MAIN_PAGE);
                     } else {
-                        page = httpServletRequest.getContextPath() + JspFormatHelper.getUserPath(ALBUM_REVIEW_FORM_PAGE);
+                        page = httpServletRequest.getHeader(REFERER_HEADER);
                     }
                 } else {
-                    page = httpServletRequest.getContextPath() + JspFormatHelper.getUserPath(ALBUM_REVIEW_FORM_PAGE);
+                    page = httpServletRequest.getHeader(REFERER_HEADER);
                 }
             } else {
-                page = httpServletRequest.getContextPath() + JspFormatHelper.getUserPath(ALBUM_REVIEW_FORM_PAGE);
+                page = httpServletRequest.getHeader(REFERER_HEADER);
             }
             frontCommandResult = new FrontCommandResult(page, NavigationType.REDIRECT);
             return frontCommandResult;

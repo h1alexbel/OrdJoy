@@ -59,13 +59,13 @@ public class AddMixReviewCommand implements FrontCommand {
                         httpServletRequest.getSession().setAttribute(MIX_REVIEW_ATTRIBUTE, mixReviewDto);
                         page = httpServletRequest.getContextPath() + JspFormatHelper.getUserPath(USER_MAIN_PAGE);
                     } else {
-                        page = httpServletRequest.getContextPath() + JspFormatHelper.getUserPath(MIX_REVIEW_FORM_PAGE);
+                        page = httpServletRequest.getHeader(REFERER_HEADER);
                     }
                 } else {
-                    page = httpServletRequest.getContextPath() + JspFormatHelper.getUserPath(MIX_REVIEW_FORM_PAGE);
+                    page = httpServletRequest.getHeader(REFERER_HEADER);
                 }
             } else {
-                page = httpServletRequest.getContextPath() + JspFormatHelper.getUserPath(MIX_REVIEW_FORM_PAGE);
+                page = httpServletRequest.getHeader(REFERER_HEADER);
             }
             frontCommandResult = new FrontCommandResult(page, NavigationType.REDIRECT);
             return frontCommandResult;

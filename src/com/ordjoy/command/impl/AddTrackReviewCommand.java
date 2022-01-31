@@ -60,13 +60,13 @@ public class AddTrackReviewCommand implements FrontCommand {
                         httpServletRequest.getSession().setAttribute(TRACK_REVIEW_ATTRIBUTE, trackReviewDto);
                         page = httpServletRequest.getContextPath() + JspFormatHelper.getUserPath(USER_MAIN_PAGE);
                     } else {
-                        page = httpServletRequest.getContextPath() + JspFormatHelper.getUserPath(TRACK_REVIEW_FORM_PAGE);
+                        page = httpServletRequest.getHeader(REFERER_HEADER);
                     }
                 } else {
-                    page = httpServletRequest.getContextPath() + JspFormatHelper.getUserPath(TRACK_REVIEW_FORM_PAGE);
+                    page = httpServletRequest.getHeader(REFERER_HEADER);
                 }
             } else {
-                page = httpServletRequest.getContextPath() + JspFormatHelper.getUserPath(TRACK_REVIEW_FORM_PAGE);
+                page = httpServletRequest.getHeader(REFERER_HEADER);
             }
             frontCommandResult = new FrontCommandResult(page, NavigationType.REDIRECT);
             return frontCommandResult;

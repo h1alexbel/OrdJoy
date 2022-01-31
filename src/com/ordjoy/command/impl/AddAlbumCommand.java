@@ -16,11 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.ordjoy.util.ExceptionMessageUtils.*;
 import static com.ordjoy.util.JspPageConst.ERROR_PAGE;
+import static com.ordjoy.util.JspPageConst.REFERER_HEADER;
 
 public class AddAlbumCommand implements FrontCommand {
 
     private static final String ALBUM_TITLE = "albumTitle";
-    private static final String REFERER_HEADER = "Referer";
     private static final String SESSION_ALBUM = "album";
     private final AlbumService albumService = AlbumService.getInstance();
     private final AlbumValidator albumValidator = AlbumValidator.getInstance();
