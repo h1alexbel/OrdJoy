@@ -45,7 +45,7 @@
             <li class="nav-item"><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_orders"
                                     class="nav-link px-2 text-muted">Orders</a></li>
             <li class="nav-item"><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_users"
-                                    class="nav-link px-2 text-muted">Customers</a></li>
+                                    class="nav-link px-2 text-muted">Users</a></li>
         </ul>
         <p class="text-center text-muted">&copy; 2021 OrdJoy, Inc</p>
     </footer>

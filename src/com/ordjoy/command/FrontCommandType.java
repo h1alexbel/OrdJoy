@@ -11,6 +11,8 @@ public enum FrontCommandType {
     UPDATE_USER(new EditUserInfoCommand()),
     ALL_USERS(new ShowAllUsersCommand()),
     ADD_TRACK(new AddTrackCommand()),
+    ADD_TRACK_TO_MIX(new AddTrackToMixCommand()),
+    ALL_ADMINS(new ShowAllAdminsCommand()),
     EDIT_TRACK(new EditTrackCommand()),
     DELETE_TRACK(new DeleteTrackCommand()),
     ALL_TRACKS(new ShowAllTracksCommand()),
@@ -38,7 +40,7 @@ public enum FrontCommandType {
     EDIT_ORDER(new EditOrderCommand()),
     EDIT_ORDER_STATUS(new EditOrderStatusCommand()),
     DELETE_ORDER(new DeleteOrderCommand()),
-    ALL_ORDERS(new AllOrdersCommand());
+    ALL_ORDERS(new ShowAllOrdersCommand());
 
     private FrontCommand frontCommand;
 

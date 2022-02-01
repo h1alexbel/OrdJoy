@@ -95,7 +95,7 @@
                         <a class="nav-link"
                            href="${pageContext.request.contextPath}/frontController?frontCommand=all_users">
                             <span data-feather="users"></span>
-                            Users
+                            Customers
                         </a>
                     </li>
                     <li class="nav-item">
@@ -103,12 +103,6 @@
                            href="${pageContext.request.contextPath}/frontController?frontCommand=all_admins">
                             <span data-feather="users"></span>
                             Administration
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="layers"></span>
-                            Integrations
                         </a>
                     </li>
                 </ul>
@@ -121,12 +115,6 @@
                         <a class="nav-link" href="#">
                             <span data-feather="file-text"></span>
                             User account settings requests
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            User DPL requests
                         </a>
                     </li>
                     <li class="nav-item">
