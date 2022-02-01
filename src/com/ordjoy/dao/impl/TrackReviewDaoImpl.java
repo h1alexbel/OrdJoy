@@ -64,9 +64,9 @@ public class TrackReviewDaoImpl implements TrackReviewDao {
                    a.id                           AS a_id,
                    a.title                        AS a_title
             FROM review_storage.review_about_track rat
-                     JOIN audio_tracks_storage.track ON rat.track_id = track_id
-                     JOIN user_storage.user_account_data data ON data.id = rat.user_account_id
-                     JOIN audio_tracks_storage.album a ON a.id = track.album_id
+                     JOIN user_storage.user_account_data data ON rat.user_account_id = data.id
+                     JOIN audio_tracks_storage.track ON rat.track_id = track.id
+                     JOIN audio_tracks_storage.album a ON track.album_id = a.id
             WHERE rat.id = ?
             """;
 
@@ -92,9 +92,9 @@ public class TrackReviewDaoImpl implements TrackReviewDao {
                    a.id                           AS a_id,
                    a.title                        AS a_title
             FROM review_storage.review_about_track rat
-                     JOIN audio_tracks_storage.track ON rat.track_id = track_id
-                     JOIN user_storage.user_account_data data ON data.id = rat.user_account_id
-                     JOIN audio_tracks_storage.album a ON a.id = track.album_id
+                     JOIN user_storage.user_account_data data ON rat.user_account_id = data.id
+                     JOIN audio_tracks_storage.track ON rat.track_id = track.id
+                     JOIN audio_tracks_storage.album a ON track.album_id = a.id
             """;
 
     private static final String SQL_FIND_TRACK_REVIEW_BY_USER_LOGIN = """
@@ -119,9 +119,9 @@ public class TrackReviewDaoImpl implements TrackReviewDao {
                    a.id                           AS a_id,
                    a.title                        AS a_title
             FROM review_storage.review_about_track rat
-                     JOIN audio_tracks_storage.track ON rat.track_id = track_id
-                     JOIN user_storage.user_account_data data ON data.id = rat.user_account_id
-                     JOIN audio_tracks_storage.album a ON a.id = track.album_id
+                     JOIN user_storage.user_account_data data ON rat.user_account_id = data.id
+                     JOIN audio_tracks_storage.track ON rat.track_id = track.id
+                     JOIN audio_tracks_storage.album a ON track.album_id = a.id
             WHERE data.login = ?
             """;
 
@@ -147,9 +147,9 @@ public class TrackReviewDaoImpl implements TrackReviewDao {
                    a.id                           AS a_id,
                    a.title                        AS a_title
             FROM review_storage.review_about_track rat
-                     JOIN audio_tracks_storage.track ON rat.track_id = track_id
-                     JOIN user_storage.user_account_data data ON data.id = rat.user_account_id
-                     JOIN audio_tracks_storage.album a ON a.id = track.album_id
+                     JOIN user_storage.user_account_data data ON rat.user_account_id = data.id
+                     JOIN audio_tracks_storage.track ON rat.track_id = track.id
+                     JOIN audio_tracks_storage.album a ON track.album_id = a.id
             WHERE data.id = ?
             """;
 
@@ -189,9 +189,9 @@ public class TrackReviewDaoImpl implements TrackReviewDao {
                    a.id                           AS a_id,
                    a.title                        AS a_title
             FROM review_storage.review_about_track rat
-                     JOIN audio_tracks_storage.track ON rat.track_id = track_id
-                     JOIN user_storage.user_account_data data ON data.id = rat.user_account_id
-                     JOIN audio_tracks_storage.album a ON a.id = track.album_id
+                     JOIN user_storage.user_account_data data ON rat.user_account_id = data.id
+                     JOIN audio_tracks_storage.track ON rat.track_id = track.id
+                     JOIN audio_tracks_storage.album a ON track.album_id = a.id
             WHERE track.title = ?
             """;
 
@@ -217,9 +217,9 @@ public class TrackReviewDaoImpl implements TrackReviewDao {
                    a.id                           AS a_id,
                    a.title                        AS a_title
             FROM review_storage.review_about_track rat
-                     JOIN audio_tracks_storage.track ON rat.track_id = track_id
-                     JOIN user_storage.user_account_data data ON data.id = rat.user_account_id
-                     JOIN audio_tracks_storage.album a ON a.id = track.album_id
+                     JOIN user_storage.user_account_data data ON rat.user_account_id = data.id
+                     JOIN audio_tracks_storage.track ON rat.track_id = track.id
+                     JOIN audio_tracks_storage.album a ON track.album_id = a.id
             WHERE track.id = ?
             """;
 

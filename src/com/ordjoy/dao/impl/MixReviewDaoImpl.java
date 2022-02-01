@@ -61,8 +61,8 @@ public class MixReviewDaoImpl implements MixReviewDao {
                    data.age                       AS age,
                    data.card_number               AS card_number
             FROM review_storage.review_about_mix rm
-                     JOIN audio_tracks_storage.mix ON rm.mix_id = mix_id
-                     JOIN user_storage.user_account_data data ON data.id = rm.user_account_id
+                     JOIN user_storage.user_account_data data ON rm.user_account_id = data.id
+                     JOIN audio_tracks_storage.mix mix ON rm.mix_id = mix.id
             WHERE rm.id = ?
             """;
 
@@ -85,8 +85,8 @@ public class MixReviewDaoImpl implements MixReviewDao {
                    data.age                       AS age,
                    data.card_number               AS card_number
             FROM review_storage.review_about_mix rm
-                     JOIN audio_tracks_storage.mix ON rm.mix_id = mix_id
-                     JOIN user_storage.user_account_data data ON data.id = rm.user_account_id
+                     JOIN user_storage.user_account_data data ON rm.user_account_id = data.id
+                     JOIN audio_tracks_storage.mix mix ON rm.mix_id = mix.id
             """;
 
     private static final String SQL_UPDATE_MIX_REVIEW = """
@@ -122,8 +122,8 @@ public class MixReviewDaoImpl implements MixReviewDao {
                    data.age                       AS age,
                    data.card_number               AS card_number
             FROM review_storage.review_about_mix rm
-                     JOIN audio_tracks_storage.mix ON rm.mix_id = mix_id
-                     JOIN user_storage.user_account_data data ON data.id = rm.user_account_id
+                     JOIN user_storage.user_account_data data ON rm.user_account_id = data.id
+                     JOIN audio_tracks_storage.mix mix ON rm.mix_id = mix.id
             WHERE data.login = ?
             """;
 
@@ -146,8 +146,8 @@ public class MixReviewDaoImpl implements MixReviewDao {
                    data.age                       AS age,
                    data.card_number               AS card_number
             FROM review_storage.review_about_mix rm
-                     JOIN audio_tracks_storage.mix ON rm.mix_id = mix_id
-                     JOIN user_storage.user_account_data data ON data.id = rm.user_account_id
+                     JOIN user_storage.user_account_data data ON rm.user_account_id = data.id
+                     JOIN audio_tracks_storage.mix mix ON rm.mix_id = mix.id
             WHERE data.id = ?
             """;
 

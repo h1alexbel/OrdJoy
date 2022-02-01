@@ -60,31 +60,31 @@ public class AlbumReviewDaoImpl implements AlbumReviewDao {
                    data.age                       AS age,
                    data.card_number               AS card_number
             FROM review_storage.review_about_album raa
-                     JOIN audio_tracks_storage.album al ON raa.album_id = album_id
-                     JOIN user_storage.user_account_data data ON data.id = raa.user_account_id
+                     JOIN user_storage.user_account_data data ON raa.user_account_id = data.id
+                     JOIN audio_tracks_storage.album al ON raa.album_id = al.id
             WHERE raa.id = ?
             """;
 
     private static final String SQL_FIND_ALL = """
-            SELECT al.id                          AS id,
-                   al.title                       AS title,
-                   raa.id                         AS raa_id,
-                   raa.review_text                AS raa_review_text,
-                   raa.user_account_id            AS raa_user_account_id,
-                   raa.album_id                   AS raa_album_id,
-                   data.id                        AS user_id,
-                   data.email                     AS email,
-                   data.login                     AS login,
-                   data.password                  AS password,
-                   data.discount_percentage_level AS discount_percentage_level,
-                   data.role                      AS role,
-                   data.first_name                AS first_name,
-                   data.last_name                 AS last_name,
-                   data.age                       AS age,
-                   data.card_number               AS card_number
-            FROM review_storage.review_about_album raa
-                     JOIN audio_tracks_storage.album al ON raa.album_id = album_id
-                     JOIN user_storage.user_account_data data ON data.id = raa.user_account_id
+           SELECT al.id                          AS id,
+                  al.title                       AS title,
+                  raa.id                         AS raa_id,
+                  raa.review_text                AS raa_review_text,
+                  raa.user_account_id            AS raa_user_account_id,
+                  raa.album_id                   AS raa_album_id,
+                  data.id                        AS user_id,
+                  data.email                     AS email,
+                  data.login                     AS login,
+                  data.password                  AS password,
+                  data.discount_percentage_level AS discount_percentage_level,
+                  data.role                      AS role,
+                  data.first_name                AS first_name,
+                  data.last_name                 AS last_name,
+                  data.age                       AS age,
+                  data.card_number               AS card_number
+           FROM review_storage.review_about_album raa
+                    JOIN user_storage.user_account_data data ON raa.user_account_id = data.id
+                    JOIN audio_tracks_storage.album al ON raa.album_id = al.id
             """;
 
     private static final String SQL_UPDATE_ALBUM_REVIEW = """
@@ -119,8 +119,8 @@ public class AlbumReviewDaoImpl implements AlbumReviewDao {
                    data.age                       AS age,
                    data.card_number               AS card_number
             FROM review_storage.review_about_album raa
-                     JOIN audio_tracks_storage.album al ON raa.album_id = album_id
-                     JOIN user_storage.user_account_data data ON data.id = raa.user_account_id
+                     JOIN user_storage.user_account_data data ON raa.user_account_id = data.id
+                     JOIN audio_tracks_storage.album al ON raa.album_id = al.id
             WHERE data.login LIKE ?
             """;
 
@@ -142,8 +142,8 @@ public class AlbumReviewDaoImpl implements AlbumReviewDao {
                    data.age                       AS age,
                    data.card_number               AS card_number
             FROM review_storage.review_about_album raa
-                     JOIN audio_tracks_storage.album al ON raa.album_id = album_id
-                     JOIN user_storage.user_account_data data ON data.id = raa.user_account_id
+                     JOIN user_storage.user_account_data data ON raa.user_account_id = data.id
+                     JOIN audio_tracks_storage.album al ON raa.album_id = al.id
             WHERE data.id = ?
             """;
 
