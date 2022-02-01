@@ -42,9 +42,9 @@
                                     class="nav-link px-2 text-muted">Home</a></li>
             <li class="nav-item"><a href="${pageContext.request.contextPath}/jsp/admin/dashboard.jsp"
                                     class="nav-link px-2 text-muted">Dashboard</a></li>
-            <li class="nav-item"><a href="#"
+            <li class="nav-item"><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_orders"
                                     class="nav-link px-2 text-muted">Orders</a></li>
-            <li class="nav-item"><a href="#"
+            <li class="nav-item"><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_users"
                                     class="nav-link px-2 text-muted">Customers</a></li>
         </ul>
         <p class="text-center text-muted">&copy; 2021 OrdJoy, Inc</p>
