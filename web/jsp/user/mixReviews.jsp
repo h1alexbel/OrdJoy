@@ -1,0 +1,111 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: alexeybelyavsky
+  Date: 1.02.22
+  Time: 6:24 pm
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <title>Mix Reviews</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/css/bootstrap.css">
+</head>
+<body>
+<c:if test="${sessionScope.user.role eq 'ADMIN_ROLE'}">
+    <%@include file="/jsp/admin/adminHeader.jsp" %>
+</c:if>
+
+<c:if test="${sessionScope.user.role eq 'CLIENT_ROLE'}">
+    <%@include file="userHeader.jsp" %>
+</c:if>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <c:if test="${sessionScope.user.role eq 'ADMIN_ROLE'}">
+            <th scope="col">Id</th>
+        </c:if>
+        <th scope="col">Mix name</th>
+        <th scope="col">Mix description</th>
+        <th scope="col">Review text</th>
+        <c:if test="${sessionScope.user.role eq 'ADMIN_ROLE'}">
+            <th scope="col">User's id</th>
+        </c:if>
+        <th scope="col">Login</th>
+        <th scope="col">User's Full Name</th>
+    </tr>
+    <c:forEach var="mixReview" varStatus="status" items="${requestScope.mixReviews}">
+        <tr>
+            <th scope="row">${status.count}</th>
+            <c:if test="${sessionScope.user.role eq 'ADMIN_ROLE'}">
+                <td>${mixReview.id}</td>
+            </c:if>
+            <td>${mixReview.mix.name}</td>
+            <td>${mixReview.mix.description}</td>
+            <td>${mixReview.reviewText}</td>
+            <c:if test="${sessionScope.user.role eq 'ADMIN_ROLE'}">
+                <td>${mixReview.userAccount.id}</td>
+            </c:if>
+            <td>${mixReview.userAccount.login}</td>
+            <td>${mixReview.userAccount.firstName} ${mixReview.userAccount.lastName}</td>
+            <c:if test="${sessionScope.user.role eq 'CLIENT_ROLE'}">
+                <td>
+                    <form method="post" action="${pageContext.request.contextPath}/frontController"
+                          enctype="application/x-www-form-urlencoded">
+                        <input type="hidden" name="frontCommand" value="delete_mix_review">
+                        <input type="submit" class="btn btn-outline-danger" value="Delete Review">
+                    </form>
+                </td>
+            </c:if>
+            <c:if test="${sessionScope.user.role eq 'CLIENT_ROLE'}">
+                <td><a href="${pageContext.request.contextPath}/jsp/user/editMixReviewForm.jsp" role="button"
+                       class="btn btn-outline-info">Edit
+                    Review</a></td>
+            </c:if>
+        </tr>
+    </c:forEach>
+    </thead>
+</table>
+
+<c:if test="${sessionScope.user.role eq 'ADMIN_ROLE'}">
+    <div class="container fixed-bottom">
+        <footer class="py-3 my-4">
+            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                <li class="nav-item"><a href="${pageContext.request.contextPath}/jsp/admin/admin.jsp"
+                                        class="nav-link px-2 text-muted">Home</a></li>
+                <li class="nav-item"><a href="${pageContext.request.contextPath}/jsp/admin/dashboard.jsp"
+                                        class="nav-link px-2 text-muted">Dashboard</a></li>
+                <li class="nav-item"><a
+                        href="${pageContext.request.contextPath}/frontController?frontCommand=all_orders"
+                        class="nav-link px-2 text-muted">Orders</a></li>
+                <li class="nav-item"><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_users"
+                                        class="nav-link px-2 text-muted">Users</a></li>
+            </ul>
+            <p class="text-center text-muted">&copy; 2021 OrdJoy, Inc</p>
+        </footer>
+    </div>
+</c:if>
+
+<c:if test="${sessionScope.user.role eq 'CLIENT_ROLE'}">
+    <div class="container fixed-bottom">
+        <footer class="py-3 my-4">
+            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                <li class="nav-item"><a href="${pageContext.request.contextPath}/jsp/user/user.jsp"
+                                        class="nav-link px-2 text-muted">Home</a></li>
+                <li class="nav-item"><a href="${pageContext.request.contextPath}/jsp/user/features.jsp"
+                                        class="nav-link px-2 text-muted">Features</a></li>
+                <li class="nav-item"><a href="${pageContext.request.contextPath}/jsp/user/about.jsp"
+                                        class="nav-link px-2 text-muted">About</a></li>
+                <li class="nav-item"><a href="https://github.com/h1alexbel/OrdJoy"
+                                        class="nav-link px-2 text-muted">GitHub</a></li>
+            </ul>
+            <p class="text-center text-muted">&copy; 2021 OrdJoy, Inc</p>
+        </footer>
+    </div>
+</c:if>
+<script src="${pageContext.request.contextPath}/resources/static/js/bootstrap.js"></script>
+</body>
+</html>

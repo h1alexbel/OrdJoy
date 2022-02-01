@@ -120,8 +120,14 @@
                 <h2>Reviews</h2>
                 <p>You can add reviews on all tracks, albums and mixes that we have. We interested in forming
                     community</p>
-                <p><a class="btn btn-secondary"
-                      href="${pageContext.request.contextPath}/frontController?frontCommand=all_reviews">All
+                <p><a class="btn btn-success"
+                      href="${pageContext.request.contextPath}/frontController?frontCommand=all_track_reviews">Track
+                    reviews &raquo;</a></p>
+                <p><a class="btn btn-success"
+                      href="${pageContext.request.contextPath}/frontController?frontCommand=all_album_reviews">Album
+                    reviews &raquo;</a></p>
+                <p><a class="btn btn-success"
+                      href="${pageContext.request.contextPath}/frontController?frontCommand=all_mix_reviews">Mix
                     reviews &raquo;</a></p>
             </div>
             <div class="col-lg-4">

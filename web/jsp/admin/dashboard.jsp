@@ -118,9 +118,24 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link"
+                           href="${pageContext.request.contextPath}/frontController?frontCommand=all_mix_reviews">
                             <span data-feather="file-text"></span>
-                            User Reviews
+                            User Mix Reviews
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="${pageContext.request.contextPath}/frontController?frontCommand=all_track_reviews">
+                            <span data-feather="file-text"></span>
+                            User Track Reviews
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="${pageContext.request.contextPath}/frontController?frontCommand=all_album_reviews">
+                            <span data-feather="file-text"></span>
+                            User Album Reviews
                         </a>
                     </li>
                 </ul>
