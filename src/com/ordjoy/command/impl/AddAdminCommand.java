@@ -49,10 +49,10 @@ public class AddAdminCommand implements FrontCommand {
             ValidationResult validationResult = userValidator.isValid(admin);
             if (validationResult.isValid() && !userService.isLoginExists(login)) {
                 UserAccountDto adminAccountDto = userService.saveNewUser(admin);
-                page = httpServletRequest.getHeader(REFERER_HEADER);
+                page = httpServletRequest.getContextPath() + JspFormatHelper.getAdminPath(ADMIN_MAIN_PAGE);
                 httpServletRequest.getSession().setAttribute(SESSION_USER, adminAccountDto);
             } else {
-                page = httpServletRequest.getContextPath() + JspFormatHelper.getAdminPath(ADMIN_MAIN_PAGE);
+                page = httpServletRequest.getContextPath() + JspFormatHelper.getPublicPath(ERROR_PAGE);
             }
             frontCommandResult = new FrontCommandResult(page, NavigationType.REDIRECT);
         } catch (ServiceException e) {

@@ -15,8 +15,7 @@ import com.ordjoy.validation.impl.MixValidator;
 import javax.servlet.http.HttpServletRequest;
 
 import static com.ordjoy.util.ExceptionMessageUtils.*;
-import static com.ordjoy.util.JspPageConst.ERROR_PAGE;
-import static com.ordjoy.util.JspPageConst.REFERER_HEADER;
+import static com.ordjoy.util.JspPageConst.*;
 
 public class AddMixCommand implements FrontCommand {
 
@@ -37,7 +36,7 @@ public class AddMixCommand implements FrontCommand {
         try {
             if (validationResult.isValid() && !mixService.isMixExists(mixName)) {
                 MixDto mixDto = mixService.addNewMix(mix);
-                page = httpServletRequest.getHeader(REFERER_HEADER);
+                page = httpServletRequest.getContextPath() + JspFormatHelper.getAdminPath(ADMIN_MAIN_PAGE);
                 httpServletRequest.getSession().setAttribute(SESSION_MIX, mixDto);
             } else {
                 page = httpServletRequest.getContextPath() + JspFormatHelper.getPublicPath(ERROR_PAGE);

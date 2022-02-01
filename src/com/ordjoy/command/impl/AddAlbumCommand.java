@@ -15,8 +15,7 @@ import com.ordjoy.validation.impl.AlbumValidator;
 import javax.servlet.http.HttpServletRequest;
 
 import static com.ordjoy.util.ExceptionMessageUtils.*;
-import static com.ordjoy.util.JspPageConst.ERROR_PAGE;
-import static com.ordjoy.util.JspPageConst.REFERER_HEADER;
+import static com.ordjoy.util.JspPageConst.*;
 
 public class AddAlbumCommand implements FrontCommand {
 
@@ -35,7 +34,7 @@ public class AddAlbumCommand implements FrontCommand {
         try {
             if (validationResult.isValid() && !albumService.isAlbumExists(albumTitle)) {
                 AlbumDto albumDto = albumService.saveAlbum(album);
-                page = httpServletRequest.getHeader(REFERER_HEADER);
+                page = httpServletRequest.getContextPath() + JspFormatHelper.getAdminPath(ADMIN_MAIN_PAGE);
                 httpServletRequest.getSession().setAttribute(SESSION_ALBUM, albumDto);
             } else {
                 page = httpServletRequest.getContextPath() + JspFormatHelper.getPublicPath(ERROR_PAGE);

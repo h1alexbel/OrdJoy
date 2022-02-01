@@ -16,8 +16,7 @@ import com.ordjoy.validation.impl.TrackValidator;
 import javax.servlet.http.HttpServletRequest;
 
 import static com.ordjoy.util.ExceptionMessageUtils.CONTROLLER_EXCEPTION_MESSAGE;
-import static com.ordjoy.util.JspPageConst.ERROR_PAGE;
-import static com.ordjoy.util.JspPageConst.REFERER_HEADER;
+import static com.ordjoy.util.JspPageConst.*;
 
 public class AddTrackCommand implements FrontCommand {
 
@@ -43,7 +42,7 @@ public class AddTrackCommand implements FrontCommand {
                 && !trackService.isTrackExists(trackTitle)
                 && albumValidator.isTitleValid(albumTitle)) {
                 TrackDto trackDto = trackService.addNewTrack(track);
-                page = httpServletRequest.getHeader(REFERER_HEADER);
+                page = httpServletRequest.getContextPath() + JspFormatHelper.getAdminPath(ADMIN_MAIN_PAGE);
                 httpServletRequest.getSession().setAttribute(SESSION_TRACK, trackDto);
             } else {
                 page = httpServletRequest.getContextPath() + JspFormatHelper.getPublicPath(ERROR_PAGE);

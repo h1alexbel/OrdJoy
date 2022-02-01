@@ -23,11 +23,6 @@
             <label>Track title</label>
         </div>
         <div class="txt_field">
-            <input name="trackUrl" type="text" required pattern="^https://\w.+$">
-            <span></span>
-            <label>Track URL</label>
-        </div>
-        <div class="txt_field">
             <input name="mixName" type="text" required pattern="^\w.{1,512}.$">
             <span></span>
             <label>Mix name</label>
