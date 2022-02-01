@@ -42,7 +42,7 @@ public class LoginCommand implements FrontCommand {
                     UserRole role = userAccountDto.getRole();
                     httpServletRequest.getSession().setAttribute(SESSION_USER, userAccountDto);
                     switch (role) {
-                        case CLIENT_ROLE -> page = httpServletRequest.getContextPath() + JspFormatHelper.getAdminPath(USER_MAIN_PAGE);
+                        case CLIENT_ROLE -> page = httpServletRequest.getContextPath() + JspFormatHelper.getUserPath(GREETING_PAGE);
                         case ADMIN_ROLE -> page = httpServletRequest.getContextPath() + JspFormatHelper.getAdminPath(ADMIN_MAIN_PAGE);
                         default -> throw new IllegalStateException("Unexpected value: " + role);
                     }
