@@ -28,7 +28,7 @@ public class DeleteAdminCommand implements FrontCommand {
             if (isDeleted) {
                 page = httpServletRequest.getHeader(REFERER_HEADER);
             } else {
-                page = httpServletRequest.getContextPath() + JspFormatHelper.getAdminPath(ADMIN_DASHBOARD_PAGE);
+                page = httpServletRequest.getContextPath() + JspFormatHelper.getAdminPath(ADMIN_MAIN_PAGE);
             }
             frontCommandResult = new FrontCommandResult(page, NavigationType.REDIRECT);
             return frontCommandResult;
