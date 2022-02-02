@@ -57,43 +57,6 @@
             <p class="lead my-3"></p>
         </div>
     </div>
-    <div class="row mb-2">
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
-                    <strong class="d-inline-block mb-2 text-primary">Hip-Hop/Rap</strong>
-                    <h3 class="mb-0">DS4Ever available now!</h3>
-                    <div class="mb-1 text-muted">Jan 29</div>
-                    <p class="card-text mb-auto">This hit is available to order! Try this. </p>
-                    <a href="${pageContext.request.contextPath}/frontController?frontCommand=find_album_by_title&title=DS4Ever"
-                       class="stretched-link">Check out this one!</a>
-                </div>
-                <div class="col-auto d-none d-lg-block">
-                    <img src="${pageContext.request.contextPath}/img/DS4Ever.png" class="bd-placeholder-img"
-                         width="640" height="640" role="img" aria-label="Placeholder: Thumbnail" alt="DS4Ever photo">
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
-                    <strong class="d-inline-block mb-2 text-success">Rock/Metal</strong>
-                    <h3 class="mb-0">Rock it!</h3>
-                    <div class="mb-1 text-muted">Jan 29</div>
-                    <p class="mb-auto">For real Metalica & Rock fans!</p>
-                    <a href="${pageContext.request.contextPath}/frontController?frontCommand=find_album_by_title&title=Metalica"
-                       class="stretched-link">Its time to remember the old day's music!</a>
-                </div>
-                <div class="col-auto d-none d-lg-block">
-                    <img src="${pageContext.request.contextPath}/img/metalica.jpeg"
-                         class="bd-placeholder-img"
-                         width="640" height="640" role="img" aria-label="Placeholder: Thumbnail"
-                         alt="Metalica band photo">
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="row g-5">
         <div class="col-md-8">
             <article class="blog-post">
@@ -129,6 +92,18 @@
                             List</a></li>
                         <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_albums">Album
                             List</a></li>
+                    </ol>
+                </div>
+
+                <div class="p-4">
+                    <h4 class="fst-italic">Reviews</h4>
+                    <ol class="list-unstyled mb-0">
+                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_track_reviews">Track
+                            Reviews</a></li>
+                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_mix_reviews">Mix
+                            Reviews</a></li>
+                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_album_reviews">Album
+                            Reviews</a></li>
                     </ol>
                 </div>
 

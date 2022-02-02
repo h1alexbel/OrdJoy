@@ -30,13 +30,8 @@
                 <td>${user.email}</td>
                 <td>${user.firstName} ${user.lastName}</td>
                 <c:if test="${sessionScope.user.role eq 'ADMIN_ROLE'}">
-                    <td>
-                        <form method="post" action="${pageContext.request.contextPath}/frontController"
-                              enctype="application/x-www-form-urlencoded">
-                            <input type="hidden" name="frontCommand" value="delete_admin">
-                            <input type="submit" class="btn btn-outline-danger" value="Delete Admin">
-                        </form>
-                    </td>
+                    <td><a href="${pageContext.request.contextPath}/jsp/admin/deleteAdmin.jsp" role="button"
+                           class="btn btn-outline-danger">Delete admin</a></td>
                 </c:if>
             </tr>
         </c:if>

@@ -52,20 +52,6 @@
             </c:if>
             <td>${trackReview.userAccount.login}</td>
             <td>${trackReview.userAccount.firstName} ${trackReview.userAccount.lastName}</td>
-            <c:if test="${sessionScope.user.role eq 'CLIENT_ROLE'}">
-                <td>
-                    <form method="post" action="${pageContext.request.contextPath}/frontController"
-                          enctype="application/x-www-form-urlencoded">
-                        <input type="hidden" name="frontCommand" value="delete_track_review">
-                        <input type="submit" class="btn btn-outline-danger" value="Delete Review">
-                    </form>
-                </td>
-            </c:if>
-            <c:if test="${sessionScope.user.role eq 'CLIENT_ROLE'}">
-                <td><a href="${pageContext.request.contextPath}/jsp/user/editTrackReviewForm.jsp" role="button"
-                       class="btn btn-outline-info">Edit
-                    Review</a></td>
-            </c:if>
         </tr>
     </c:forEach>
     </thead>

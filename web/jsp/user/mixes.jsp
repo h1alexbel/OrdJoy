@@ -19,22 +19,29 @@
     <thead>
     <tr>
         <th scope="col">#</th>
+        <c:if test="${sessionScope.user.role eq 'ADMIN_ROLE'}">
+            <th scope="col">Mix Id</th>
+        </c:if>
         <th scope="col">Mix name</th>
         <th scope="col">Description</th>
     </tr>
     <c:forEach var="mix" varStatus="status" items="${requestScope.mixes}">
         <tr>
             <th scope="row">${status.count}</th>
+            <c:if test="${sessionScope.user.role eq 'ADMIN_ROLE'}">
+                <td>${mix.id}</td>
+            </c:if>
             <td>${mix.name}</td>
             <td>${mix.description}</td>
             <c:if test="${sessionScope.user.role eq 'ADMIN_ROLE'}">
-                <td>
-                    <form method="post" action="${pageContext.request.contextPath}/frontController"
-                          enctype="application/x-www-form-urlencoded">
-                        <input type="hidden" name="frontCommand" value="delete_mix">
-                        <input type="submit" class="btn btn-outline-danger" value="Delete Mix">
-                    </form>
-                </td>
+                <td><a href="${pageContext.request.contextPath}/jsp/admin/deleteMix.jsp" role="button"
+                       class="btn btn-danger">Delete
+                    Mix</a></td>
+            </c:if>
+            <c:if test="${sessionScope.user.role eq 'ADMIN_ROLE'}">
+                <td><a href="${pageContext.request.contextPath}/jsp/admin/editMix.jsp" role="button"
+                       class="btn btn-info">Edit
+                    Mix</a></td>
             </c:if>
             <c:if test="${sessionScope.user.role eq 'CLIENT_ROLE'}">
                 <td><a href="${pageContext.request.contextPath}/jsp/user/addMixReviewForm.jsp" role="button"

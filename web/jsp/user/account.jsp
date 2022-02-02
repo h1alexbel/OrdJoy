@@ -80,8 +80,6 @@
             </div>
         </div>
     </a>
-    <a href="${pageContext.request.contextPath}/jsp/user/updateAccountForm.jsp" role="button"
-       class="btn-outline-success">Want to change something? Go to update form</a>
 </div>
 <script src="${pageContext.request.contextPath}/resources/static/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"

@@ -24,6 +24,7 @@
         <th scope="col">User's email</th>
         <th scope="col">User's Full Name</th>
         <th scope="col">Order price</th>
+        <th scope="col">Order status</th>
     </tr>
     <c:forEach var="order" varStatus="status" items="${requestScope.orders}">
         <tr>
@@ -34,27 +35,13 @@
             <td>${order.userAccount.email}</td>
             <td>${order.userAccount.firstName} ${order.userAccount.lastName}</td>
             <td>${order.price}$</td>
-            <td>
-                <form method="post" action="${pageContext.request.contextPath}/frontController"
-                      enctype="application/x-www-form-urlencoded">
-                    <input type="hidden" name="frontCommand" value="run_order">
-                    <input type="submit" class="btn btn-outline-success" value="Run task">
-                </form>
-            </td>
-            <td>
-                <form method="post" action="${pageContext.request.contextPath}/frontController"
-                      enctype="application/x-www-form-urlencoded">
-                    <input type="hidden" name="frontCommand" value="decline_order">
-                    <input type="submit" class="btn btn-outline-warning" value="Decline order">
-                </form>
-            </td>
-            <td>
-                <form method="post" action="${pageContext.request.contextPath}/frontController"
-                      enctype="application/x-www-form-urlencoded">
-                    <input type="hidden" name="frontCommand" value="delete_order">
-                    <input type="submit" class="btn btn-outline-danger" value="Delete order">
-                </form>
-            </td>
+            <td>${order.status}</td>
+            <td><a href="${pageContext.request.contextPath}/jsp/admin/doOrder.jsp" role="button"
+                   class="btn btn-outline-success">Run order</a></td>
+            <td><a href="${pageContext.request.contextPath}/jsp/admin/declineOrder.jsp" role="button"
+                   class="btn btn-outline-warning">Decline order</a></td>
+            <td><a href="${pageContext.request.contextPath}/jsp/admin/deleteOrder.jsp" role="button"
+                   class="btn btn-outline-danger">Delete order</a></td>
         </tr>
     </c:forEach>
     </thead>

@@ -18,6 +18,9 @@
     <thead>
     <tr>
         <th scope="col">#</th>
+        <c:if test="${sessionScope.user.role eq 'ADMIN_ROLE'}">
+            <th scope="col">Track Id</th>
+        </c:if>
         <th scope="col">Track title</th>
         <th scope="col">Track URL</th>
         <th scope="col">Album</th>
@@ -25,17 +28,21 @@
     <c:forEach var="track" varStatus="status" items="${requestScope.tracks}">
         <tr>
             <th scope="row">${status.count}</th>
+            <c:if test="${sessionScope.user.role eq 'ADMIN_ROLE'}">
+                <td>${track.id}</td>
+            </c:if>
             <td>${track.title}</td>
             <td><a href="${track.url}">Listen Free</a></td>
             <td>${track.album.title}</td>
             <c:if test="${sessionScope.user.role eq 'ADMIN_ROLE'}">
-                <td>
-                    <form method="post" action="${pageContext.request.contextPath}/frontController"
-                          enctype="application/x-www-form-urlencoded">
-                        <input type="hidden" name="frontCommand" value="delete_track">
-                        <input type="submit" class="btn btn-outline-danger" value="Delete Track">
-                    </form>
-                </td>
+                <td><a href="${pageContext.request.contextPath}/jsp/admin/deleteTrack.jsp" role="button"
+                       class="btn btn-danger">Delete
+                    Track</a></td>
+            </c:if>
+            <c:if test="${sessionScope.user.role eq 'ADMIN_ROLE'}">
+                <td><a href="${pageContext.request.contextPath}/jsp/admin/editTrack.jsp" role="button"
+                       class="btn btn-info">Edit
+                    Track</a></td>
             </c:if>
             <c:if test="${sessionScope.user.role eq 'CLIENT_ROLE'}">
                 <td><a href="${pageContext.request.contextPath}/jsp/user/addTrackReviewForm.jsp" role="button"
