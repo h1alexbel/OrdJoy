@@ -21,6 +21,11 @@ public final class JspPageConst {
     public static final String ADD_ALBUM_FORM_PAGE = "addAlbumForm";
     public static final String ADD_TRACK_FORM_PAGE = "addTrackForm";
     public static final String ALL_USERS_PAGE = "users";
+    public static final String ALL_ADMINS_PAGE = "allAdmins";
+    public static final String ALL_ORDERS = "orders";
+    public static final String TRACK_REVIEWS_PAGE = "trackReviews";
+    public static final String ALBUM_REVIEWS_PAGE = "albumReviews";
+    public static final String MIX_REVIEWS_PAGE = "mixReviews";
     public static final String LOGIN_PAGE = "login";
     public static final String REGISTER_PAGE = "register";
     public static final String ERROR_PAGE = "error";
