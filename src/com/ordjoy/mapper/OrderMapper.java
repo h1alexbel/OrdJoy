@@ -21,7 +21,8 @@ public class OrderMapper implements Mapper<Order, OrderDto> {
                 order.getId(),
                 order.getPrice(),
                 UserAccountMapper.getInstance().mapFrom(order.getUserAccount()),
-                TrackMapper.getInstance().mapFrom(order.getTrack())
+                TrackMapper.getInstance().mapFrom(order.getTrack()),
+                order.getOrderStatus()
         );
     }
 }

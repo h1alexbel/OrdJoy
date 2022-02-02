@@ -1,5 +1,7 @@
 package com.ordjoy.dto;
 
+import com.ordjoy.entity.OrderStatus;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -9,12 +11,18 @@ public class OrderDto implements Serializable {
     private final BigDecimal price;
     private final UserAccountDto userAccount;
     private final TrackDto track;
+    private final OrderStatus status;
 
-    public OrderDto(Long id, BigDecimal price, UserAccountDto userAccount, TrackDto track) {
+    public OrderDto(Long id, BigDecimal price, UserAccountDto userAccount, TrackDto track, OrderStatus status) {
         this.id = id;
         this.price = price;
         this.userAccount = userAccount;
         this.track = track;
+        this.status = status;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
     }
 
     public Long getId() {
@@ -51,9 +59,10 @@ public class OrderDto implements Serializable {
     @Override
     public String toString() {
         return "OrderDto{" +
-               " price=" + price +
+               "price=" + price +
                ", userAccount=" + userAccount +
                ", track=" + track +
+               ", status=" + status +
                '}';
     }
 }
