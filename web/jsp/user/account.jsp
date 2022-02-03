@@ -76,7 +76,7 @@
         <div class="d-flex gap-2 w-100 justify-content-between">
             <div>
                 <h6 class="mb-0">Your current discount percentage level:</h6>
-                <p class="mb-0 opacity-75">${sessionScope.user.discountPercentageLevel}</p>
+                <p class="mb-0 opacity-75">${sessionScope.user.discountPercentageLevel}%</p>
             </div>
         </div>
     </a>

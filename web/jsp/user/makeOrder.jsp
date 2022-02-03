@@ -88,7 +88,6 @@
                                    required>
                             <label class="form-check-label" for="credit">Credit card</label>
                         </div>
-
                         <div class="row gy-3">
                             <div class="col-md-6">
                                 <label for="cc-number" class="form-label">Credit card number</label>

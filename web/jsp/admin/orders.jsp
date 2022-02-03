@@ -42,8 +42,6 @@
                    class="btn btn-outline-warning">Decline order</a></td>
             <td><a href="${pageContext.request.contextPath}/jsp/admin/deleteOrder.jsp" role="button"
                    class="btn btn-outline-danger">Delete order</a></td>
-            <td><a href="${pageContext.request.contextPath}/jsp/admin/editOrder.jsp" role="button"
-                   class="btn btn-outline-info">Edit order</a></td>
         </tr>
     </c:forEach>
     </thead>
