@@ -110,6 +110,12 @@ public class OrderDaoImpl implements OrderDao {
             WHERE id = ?
             """;
 
+    private static final String SQL_UPDATE_PRICE = """
+            UPDATE user_storage.order
+            SET price = ?
+            WHERE id = ?
+            """;
+
     private static final String SQL_DELETE_BY_ID = """
             DELETE
             FROM user_storage.order
@@ -421,6 +427,18 @@ public class OrderDaoImpl implements OrderDao {
             updateStatusStatement.setString(1, newStatus.toString());
             updateStatusStatement.setLong(2, orderId);
             updateStatusStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    @Override
+    public void updateOrderPrice(BigDecimal price, Long orderId) throws DaoException {
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement updatePriceStatement = connection.prepareStatement(SQL_UPDATE_PRICE)) {
+            updatePriceStatement.setBigDecimal(1, price);
+            updatePriceStatement.setLong(2, orderId);
+            updatePriceStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
         }

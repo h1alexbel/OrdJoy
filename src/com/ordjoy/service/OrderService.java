@@ -21,6 +21,8 @@ import static java.util.stream.Collectors.toList;
 
 public class OrderService {
 
+    private static final int STANDART_DISCOUNT_PERCENTAGE_LEVEL = 0;
+    private static final int PERCENTAGE_AMOUNT = 100;
     private final OrderDaoImpl orderDao = OrderDaoImpl.getInstance();
     private static final OrderService INSTANCE = new OrderService();
     private final OrderMapper orderMapper = OrderMapper.getInstance();
@@ -43,23 +45,32 @@ public class OrderService {
         }
     }
 
-    public BigDecimal getCheckForOrder(Long orderId) throws ServiceException {
-        BigDecimal result = null;
-        Optional<Order> maybeOrder;
+    public void updateOrderPrice(BigDecimal price, Long id) throws ServiceException {
         try {
-            maybeOrder = orderDao.findById(orderId);
-            if (maybeOrder.isPresent()) {
-                result = maybeOrder.get().getPrice();
-                Integer price = result.intValue();
-                Integer discountPercentageLevel = maybeOrder.get().getUserAccount().getDiscountPercentageLevel();
-                if (discountPercentageLevel > 0) {
-                    result = new BigDecimal(price * discountPercentageLevel);
-                }
-            }
+            orderDao.updateOrderPrice(price, id);
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
-        return result;
+    }
+
+    public BigDecimal calculateOrderPrice(Long orderId) throws ServiceException {
+        BigDecimal price = null;
+        try {
+            Optional<Order> maybeOrder = orderDao.findById(orderId);
+            if (maybeOrder.isPresent()) {
+                Order order = maybeOrder.get();
+                price = order.getPrice();
+                int value = price.intValue();
+                Integer discountPercentageLevel = order.getUserAccount().getDiscountPercentageLevel();
+                if (discountPercentageLevel > STANDART_DISCOUNT_PERCENTAGE_LEVEL) {
+                    int discount = (value * discountPercentageLevel / PERCENTAGE_AMOUNT);
+                    price = new BigDecimal(value - discount);
+                }
+            }
+            return price;
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
     }
 
     public Optional<OrderDto> findOrderById(Long id) throws ServiceException {

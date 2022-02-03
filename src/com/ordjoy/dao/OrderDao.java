@@ -13,6 +13,8 @@ public interface OrderDao extends GenericDao<Long, Order, OrderFilter> {
 
     void updateOrderStatus(OrderStatus newStatus, Long orderId) throws DaoException;
 
+    void updateOrderPrice(BigDecimal price, Long orderId) throws DaoException;
+
     List<Order> findOrdersByPrice(BigDecimal price) throws DaoException;
 
     List<Order> findOrdersByUserId(Long userAccountId, DefaultFilter filter) throws DaoException;

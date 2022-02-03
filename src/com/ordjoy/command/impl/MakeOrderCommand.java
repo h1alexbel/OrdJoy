@@ -60,6 +60,8 @@ public class MakeOrderCommand implements FrontCommand {
                         ValidationResult orderValidationResult = orderValidator.isValid(order);
                         if (orderValidationResult.isValid()) {
                             OrderDto orderDto = orderService.makeOrder(order);
+                            BigDecimal afterDiscountPrice = orderService.calculateOrderPrice(order.getId());
+                            orderService.updateOrderPrice(afterDiscountPrice, order.getId());
                             httpServletRequest.getSession().setAttribute(SESSION_ORDER, orderDto);
                             page = httpServletRequest.getContextPath() + JspFormatHelper.getUserPath((THANKS_FOR_ORDER_PAGE));
                         } else {
