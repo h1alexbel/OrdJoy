@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -66,10 +67,16 @@
 
                 <div class="container">
                     <div class="carousel-caption text-start">
-                        <h1>We provide track-ordering.</h1>
-                        <p>Just try. You're fell in love!</p>
+                        <h1>
+                            <ftm:message key="about.order.message"/>
+                        </h1>
+                        <p>
+                            <ftm:message key="about.order.second.message"/>
+                        </p>
                         <p><a class="btn btn-lg btn-primary"
-                              href="${pageContext.request.contextPath}/jsp/user/makeOrder.jsp">Make order</a></p>
+                              href="${pageContext.request.contextPath}/jsp/user/makeOrder.jsp">
+                            <ftm:message key="about.make.order"/>
+                        </a></p>
                     </div>
                 </div>
             </div>
@@ -81,10 +88,16 @@
 
                 <div class="container">
                     <div class="carousel-caption">
-                        <h1>We have all hits</h1>
-                        <p>Explore our platform. We have all popular Tracks & Albums</p>
+                        <h1>
+                            <fmt:message key="about.all.hits.message"/>
+                        </h1>
+                        <p>
+                            <fmt:message key="about.explore.message"/>
+                        </p>
                         <p><a class="btn btn-lg btn-primary"
-                              href="${pageContext.request.contextPath}/jsp/user/features.jsp">Explore</a></p>
+                              href="${pageContext.request.contextPath}/jsp/user/features.jsp">
+                            <fmt:message key="about.explore.button"/>
+                        </a></p>
                     </div>
                 </div>
             </div>
@@ -96,19 +109,27 @@
 
                 <div class="container">
                     <div class="carousel-caption text-end">
-                        <h1>Support</h1>
-                        <p>Nice administration, that manage platform and forms Mixes, add Tracks & Albums</p>
+                        <h1>
+                            <fmt:message key="about.support.title"/>
+                        </h1>
+                        <p>
+                            <fmt:message key="about.support.message"/>
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
+            <span class="visually-hidden">
+                                            <fmt:message key="about.carousel.prev"/>
+            </span>
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
+            <span class="visually-hidden">
+                                            <fmt:message key="about.carousel.next"/>
+            </span>
         </button>
     </div>
 
@@ -117,35 +138,42 @@
             <div class="col-lg-4">
                 <img src="${pageContext.request.contextPath}/img/review.jpeg" class="bd-placeholder-img rounded-circle"
                      width="140" height="140">
-                <h2>Reviews</h2>
-                <p>You can add reviews on all tracks, albums and mixes that we have. We interested in forming
-                    community</p>
+                <h2>
+                    <fmt:message key="user.content.reviews"/>
+                </h2>
+                <p>
+                    <fmt:message key="about.reviews.message"/>
+                </p>
                 <p><a class="btn btn-success"
-                      href="${pageContext.request.contextPath}/frontController?frontCommand=all_track_reviews">Track
-                    reviews &raquo;</a></p>
+                      href="${pageContext.request.contextPath}/frontController?frontCommand=all_track_reviews">
+                    <fmt:message key="user.content.track.reviews"/> &raquo;
+                </a></p>
                 <p><a class="btn btn-success"
-                      href="${pageContext.request.contextPath}/frontController?frontCommand=all_album_reviews">Album
-                    reviews &raquo;</a></p>
+                      href="${pageContext.request.contextPath}/frontController?frontCommand=all_album_reviews">
+                    <fmt:message key="user.content.album.reviews"/> &raquo;</a></p>
                 <p><a class="btn btn-success"
-                      href="${pageContext.request.contextPath}/frontController?frontCommand=all_mix_reviews">Mix
-                    reviews &raquo;</a></p>
+                      href="${pageContext.request.contextPath}/frontController?frontCommand=all_mix_reviews">
+                    <fmt:message key="user.content.mix.reviews"/> &raquo;</a></p>
             </div>
             <div class="col-lg-4">
                 <img src="${pageContext.request.contextPath}/img/discount.png" class="bd-placeholder-img rounded-circle"
                      width="140" height="140">
-                <h2>Discounts</h2>
-                <p>You can earn discount percentage level</p>
-                <p><a class="btn btn-secondary" href="${pageContext.request.contextPath}/jsp/user/account.jsp">View
-                    details about Your account &raquo;</a></p>
+                <h2>
+                    <fmt:message key="about.discounts"/>
+                </h2>
+                <p><a class="btn btn-secondary" href="${pageContext.request.contextPath}/jsp/user/account.jsp">
+                    <fmt:message key="about.view.account.message"/> &raquo;</a></p>
             </div>
             <div class="col-lg-4">
                 <img src="${pageContext.request.contextPath}/img/contribute.png"
                      class="bd-placeholder-img rounded-circle"
                      width="140" height="140">
-                <h2>Contribute on GitHub</h2>
+                <h2>
+                    <fmt:message key="about.contribute"/>
+                </h2>
                 <p></p>
-                <p><a class="btn btn-secondary" href="https://github.com/h1alexbel/OrdJoy/pulls">Pull request
-                    &raquo;</a></p>
+                <p><a class="btn btn-secondary" href="https://github.com/h1alexbel/OrdJoy/pulls">
+                    <fmt:message key="about.pull.request"/> &raquo;</a></p>
             </div>
         </div>
 
@@ -153,10 +181,14 @@
 
         <div class="row featurette">
             <div class="col-md-7">
-                <h2 class="featurette-heading">Tracks <span
-                        class="text-muted">We have really big repository of all hits .It’ll blow your mind.</span></h2>
+                <h2 class="featurette-heading">
+                    <fmt:message key="about.track.repo"/>
+                    <span
+                            class="text-muted">
+                         <fmt:message key="about.track.repo.info"/>
+                    </span></h2>
                 <p class="lead"><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_tracks">
-                    All tracks </a></p>
+                    <fmt:message key="about.track.repo"/> </a></p>
             </div>
             <div class="col-md-5">
                 <img src="${pageContext.request.contextPath}/img/track.jpeg"
@@ -170,10 +202,13 @@
 
         <div class="row featurette">
             <div class="col-md-7 order-md-2">
-                <h2 class="featurette-heading">Albums <span
-                        class="text-muted"></span></h2>
+                <h2 class="featurette-heading">
+                    <fmt:message key="about.album.repo"/>
+                    <span
+                            class="text-muted"></span></h2>
                 <p class="lead"><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_albums">
-                    All Albums</a></p>
+                    <fmt:message key="about.album.repo.info"/>
+                </a></p>
             </div>
             <div class="col-md-5 order-md-1">
                 <img src="${pageContext.request.contextPath}/img/albums.jpeg"
@@ -187,10 +222,13 @@
 
         <div class="row featurette">
             <div class="col-md-7">
-                <h2 class="featurette-heading">Mixes <span
-                        class="text-muted">We form this with an eye to your pleasure.</span></h2>
+                <h2 class="featurette-heading">
+                    <fmt:message key="about.mix.repo"/>
+                    <span
+                            class="text-muted"><fmt:message key="about.mix.repo.info"/></span></h2>
                 <p class="lead"><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_mixes">
-                    All mixes</a></p>
+                    <fmt:message key="about.mix.repo"/>
+                </a></p>
             </div>
             <div class="col-md-5">
                 <img src="${pageContext.request.contextPath}/img/mixes.png"
@@ -204,13 +242,21 @@
     <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
             <li class="nav-item"><a href="${pageContext.request.contextPath}/jsp/user/user.jsp"
-                                    class="nav-link px-2 text-muted">Home</a></li>
+                                    class="nav-link px-2 text-muted">
+                <fmt:message key="user.home"/>
+            </a></li>
             <li class="nav-item"><a href="${pageContext.request.contextPath}/jsp/user/features.jsp"
-                                    class="nav-link px-2 text-muted">Features</a></li>
+                                    class="nav-link px-2 text-muted">
+                <fmt:message key="user.features"/>
+            </a></li>
             <li class="nav-item"><a href="${pageContext.request.contextPath}/jsp/user/about.jsp"
-                                    class="nav-link px-2 text-muted">About</a></li>
+                                    class="nav-link px-2 text-muted">
+                <fmt:message key="user.about"/>
+            </a></li>
             <li class="nav-item"><a href="https://github.com/h1alexbel/OrdJoy"
-                                    class="nav-link px-2 text-muted">GitHub</a></li>
+                                    class="nav-link px-2 text-muted">
+                <fmt:message key="user.github"/>
+            </a></li>
         </ul>
         <p class="text-center text-muted">&copy; 2021 OrdJoy, Inc</p>
     </footer>

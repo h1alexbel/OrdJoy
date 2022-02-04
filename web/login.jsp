@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,24 +15,31 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/css/design.css">
 </head>
 <body>
+<%@include file="jsp/locale.jsp"%>
 <div class="center">
-    <h1>Login in to OrdJoy</h1>
+    <h1><fmt:message key="login.title"/>
+    </h1>
     <form method="post" action="${pageContext.request.contextPath}/frontController"
           enctype="application/x-www-form-urlencoded">
         <input type="hidden" name="frontCommand" value="login">
         <div class="txt_field">
             <input name="login" type="text" required pattern="^\w{3,20}$">
             <span></span>
-            <label>Username</label>
+            <label>
+                <fmt:message key="login.username"/>
+            </label>
         </div>
         <div class="txt_field">
             <input name="password" type="password" required pattern="^\w{2,64}$">
             <span></span>
-            <label>Password</label>
+            <label>
+                <fmt:message key="login.password"/>
+            </label>
         </div>
-        <input type="submit" value="Login">
+        <input type="submit" value="<fmt:message key="login.submit"/>">
         <div class="signup_link">
-            Not a member? <a href="${pageContext.request.contextPath}register.jsp">Signup</a>
+            <fmt:message key="login.reg.membership"/>
+            <a href="${pageContext.request.contextPath}register.jsp"><fmt:message key="register.submit"/></a>
         </div>
     </form>
 </div>

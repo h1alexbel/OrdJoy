@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -44,15 +45,19 @@
         <img class="d-block mx-auto mb-4"
              src="${pageContext.request.contextPath}/img/greeting.svg" alt="" width="210"
              height="140">
-        <h1 class="display-5 fw-bold">Hello ${sessionScope.user.firstName} ${sessionScope.user.lastName}!</h1>
+        <h1 class="display-5 fw-bold"><fmt:message
+                key="greeting.hello.message"/>  ${sessionScope.user.firstName} ${sessionScope.user.lastName}!</h1>
         <div class="col-lg-6 mx-auto">
-            <p class="lead mb-4">We feel great to meet you! Welcome!</p>
+            <p class="lead mb-4"><fmt:message key="greeting.hello.second.message"/></p>
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
                 <a href="${pageContext.request.contextPath}/jsp/user/user.jsp"
-                   class="btn btn-primary btn-lg px-4 gap-3" role="button">Go to Home page</a>
+                   class="btn btn-primary btn-lg px-4 gap-3" role="button"><fmt:message
+                        key="go.home"/></a>
                 <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
                     <a href="${pageContext.request.contextPath}/jsp/user/makeOrder.jsp"
-                       class="btn btn-outline-secondary btn-lg px-4" role="button">Make Order</a>
+                       class="btn btn-outline-secondary btn-lg px-4" role="button">
+                        <fmt:message key="greeting.goto.order"/>
+                    </a>
                 </div>
             </div>
         </div>

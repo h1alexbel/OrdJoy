@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="ftm" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -49,33 +51,41 @@
                         <use xlink:href="#bootstrap"/>
                     </svg>
                 </a>
-
+                <%@include file="/jsp/locale.jsp"%>
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                     <li><a href="${pageContext.request.contextPath}/jsp/user/user.jsp"
-                           class="nav-link px-2 text-white">Home</a></li>
+                           class="nav-link px-2 text-white">
+                        <ftm:message key="user.home"/>
+                    </a></li>
                     <li><a href="${pageContext.request.contextPath}/jsp/user/features.jsp"
-                           class="nav-link px-2 text-white">Features</a>
+                           class="nav-link px-2 text-white">
+                        <ftm:message key="user.features"/>
+                    </a>
                     </li>
                     <li><a href="${pageContext.request.contextPath}/jsp/user/about.jsp"
-                           class="nav-link px-2 text-white">About</a>
+                           class="nav-link px-2 text-white">
+                        <ftm:message key="user.about"/>
+                    </a>
                     </li>
-                    <li><a href="https://github.com/h1alexbel/OrdJoy" class="nav-link px-2 text-white">GitHub</a></li>
+                    <li><a href="https://github.com/h1alexbel/OrdJoy" class="nav-link px-2 text-white">
+                        <ftm:message key="user.github"/>
+                    </a></li>
                 </ul>
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                    <input type="search" class="form-control form-control-dark" placeholder="Search new Hits..."
-                           aria-label="Search">
-                </form>
                 <div class="text-end">
                     <a href="${pageContext.request.contextPath}/jsp/user/account.jsp" class="btn btn-outline-light me-2"
-                       role="button">Your Account</a>
+                       role="button">
+                        <ftm:message key="user.account.text"/>
+                    </a>
                     <a href="${pageContext.request.contextPath}/jsp/user/makeOrder.jsp"
-                       class="btn btn-outline-primary" role="button">Order Track</a>
+                       class="btn btn-outline-primary" role="button">
+                        <ftm:message key="user.order"/>
+                    </a>
 
                     <div class="text-xxl-center">
                         <form method="post" action="${pageContext.request.contextPath}/frontController"
                               enctype="application/x-www-form-urlencoded">
                             <input type="hidden" name="frontCommand" value="logout">
-                            <input type="submit" class="btn btn-info" value="Logout">
+                            <input type="submit" class="btn btn-info" value="<fmt:message key="user.logout"/>">
                         </form>
                     </div>
                 </div>

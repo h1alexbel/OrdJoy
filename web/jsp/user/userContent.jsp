@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -53,66 +54,93 @@
 <main class="container">
     <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
         <div class="col-md-6 px-0">
-            <h1 class="display-4 fst-italic">What's new?</h1>
+            <h1 class="display-4 fst-italic">
+                <ftm:message key="user.content.new"/>
+            </h1>
             <p class="lead my-3"></p>
         </div>
     </div>
     <div class="row g-5">
         <div class="col-md-8">
             <article class="blog-post">
-                <h2 class="blog-post-title">New feature</h2>
+                <h2 class="blog-post-title">
+                    <ftm:message key="user.content.new.feature"/>
+                </h2>
                 <p class="blog-post-meta">January 29, 2022 by <a href="https://github.com/h1alexbel">Alexey</a></p>
 
-                <p>Hello folks! By the January 29, 2022 we added some new features. Some updates that You can see right
-                    now! :</p>
+                <p><ftm:message key="big.message"/></p>
                 <ul>
                     <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_tracks">Track
                         updates</a></li>
-                    <li>Admin can add another admin very easy, just filling out the form. Relevant button was added:)
+                    <li>
+                        <ftm:message key="big.message.info"/>
                     </li>
                 </ul>
-                <p>Find some bug or You have some suggestions? Contact us: ordjoy.team@gmail.com</p>
+                <p>
+                    <ftm:message key="user.content.contact"/>
+                </p>
             </article>
         </div>
 
         <div class="col-md-4">
             <div class="position-sticky" style="top: 2rem;">
                 <div class="p-4 mb-3 bg-light rounded">
-                    <h4 class="fst-italic">About</h4>
-                    <p class="mb-0">We publish and offer to You only that tracks, that pass the full verify stage and
-                        our listing</p>
+                    <h4 class="fst-italic">
+                        <ftm:message key="user.about"/>
+                    </h4>
+                    <p class="mb-0">
+                        <ftm:message key="user.content.about.message"/>
+                    </p>
                 </div>
 
                 <div class="p-4">
-                    <h4 class="fst-italic">Our goods</h4>
+                    <h4 class="fst-italic">
+                        <ftm:message key="user.content.goods"/>
+                    </h4>
                     <ol class="list-unstyled mb-0">
-                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_tracks">Track
-                            List</a></li>
-                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_mixes">Mix
-                            List</a></li>
-                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_albums">Album
-                            List</a></li>
+                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_tracks">
+                            <ftm:message key="user.content.tracks"/>
+                        </a></li>
+                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_mixes">
+                            <ftm:message key="user.content.mixes"/>
+                        </a></li>
+                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_albums">
+                            <ftm:message key="user.content.albums"/>
+                        </a></li>
                     </ol>
                 </div>
 
                 <div class="p-4">
-                    <h4 class="fst-italic">Reviews</h4>
+                    <h4 class="fst-italic">
+                        <ftm:message key="user.content.reviews"/>
+                    </h4>
                     <ol class="list-unstyled mb-0">
-                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_track_reviews">Track
-                            Reviews</a></li>
-                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_mix_reviews">Mix
-                            Reviews</a></li>
-                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_album_reviews">Album
-                            Reviews</a></li>
+                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_track_reviews">
+                            <ftm:message key="user.content.track.reviews"/>
+                        </a></li>
+                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_mix_reviews">
+                            <ftm:message key="user.content.mix.reviews"/>
+                        </a></li>
+                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_album_reviews">
+                            <ftm:message key="user.content.album.reviews"/>
+                        </a></li>
                     </ol>
                 </div>
 
                 <div class="p-4">
-                    <h4 class="fst-italic">Elsewhere</h4>
+                    <h4 class="fst-italic">
+                        <ftm:message key="user.content.elsewhere"/>
+                    </h4>
                     <ol class="list-unstyled">
-                        <li><a href="https://github.com/h1alexbel/OrdJoy">OrdJoy's GitHub</a></li>
-                        <li><a href="https://github.com/h1alexbel">Developer's GitHub</a></li>
-                        <li><a href="https://www.linkedin.com/in/aliaksei-bialiauski-49b2a821a/">LinkedIn</a></li>
+                        <li><a href="https://github.com/h1alexbel/OrdJoy">
+                            <ftm:message key="user.content.elsewhere.github.ordjoy"/>
+                        </a></li>
+                        <li><a href="https://github.com/h1alexbel">
+                            <ftm:message key="user.content.elsewhere.github.dev"/>
+                        </a></li>
+                        <li><a href="https://www.linkedin.com/in/aliaksei-bialiauski-49b2a821a/">
+                            <ftm:message key="user.content.elsewhere.linkedin.dev"/>
+                        </a></li>
                     </ol>
                 </div>
             </div>
@@ -121,13 +149,21 @@
     <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
             <li class="nav-item"><a href="${pageContext.request.contextPath}/jsp/user/user.jsp"
-                                    class="nav-link px-2 text-muted">Home</a></li>
+                                    class="nav-link px-2 text-muted">
+                <ftm:message key="user.home"/>
+            </a></li>
             <li class="nav-item"><a href="${pageContext.request.contextPath}/jsp/user/features.jsp"
-                                    class="nav-link px-2 text-muted">Features</a></li>
+                                    class="nav-link px-2 text-muted">
+                <ftm:message key="user.features"/>
+            </a></li>
             <li class="nav-item"><a href="${pageContext.request.contextPath}/jsp/user/about.jsp"
-                                    class="nav-link px-2 text-muted">About</a></li>
+                                    class="nav-link px-2 text-muted">
+                <ftm:message key="user.about"/>
+            </a></li>
             <li class="nav-item"><a href="https://github.com/h1alexbel/OrdJoy"
-                                    class="nav-link px-2 text-muted">GitHub</a></li>
+                                    class="nav-link px-2 text-muted">
+                <ftm:message key="user.github"/>
+            </a></li>
         </ul>
         <p class="text-center text-muted">&copy; 2021 OrdJoy, Inc</p>
     </footer>

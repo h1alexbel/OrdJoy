@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -42,37 +43,50 @@
 <div class="container">
     <main>
         <div class="py-5 text-center">
-            <h2>Order form</h2>
-            <p class="lead">Just fill out the following form, BE SURE TO SPECIFY one of the existing tracks on the
-                OrdJoy platform and the price for the order, you can pay whenever you want.</p>
+            <h2>
+                <fmt:message key="make.order.form"/>
+            </h2>
+            <p class="lead">
+                <fmt:message key="make.order.form.message"/>
+            </p>
         </div>
         <div class="row g-5">
             <div class="col-md-7 col-lg-8">
-                <h4 class="mb-3">Order details</h4>
+                <h4 class="mb-3">
+                    <fmt:message key="make.order.details"/>
+                </h4>
                 <form class="needs-validation" novalidate method="post"
                       action="${pageContext.request.contextPath}/frontController"
                       enctype="application/x-www-form-urlencoded">
                     <input type="hidden" name="frontCommand" value="make_order">
                     <div class="row g-3">
                         <div class="col-sm-6">
-                            <label for="login" class="form-label">Username on OrdJoy</label>
+                            <label for="login" class="form-label">
+                                <fmt:message key="make.order.username"/>
+                            </label>
                             <input type="text" class="form-control" id="login" value="${sessionScope.user.login}"
                                    required pattern="^\w{3,20}$">
                         </div>
 
                         <div class="col-sm-6">
-                            <label for="email" class="form-label">Email</label>
+                            <label for="email" class="form-label">
+                                <fmt:message key="account.email"/>
+                            </label>
                             <input type="text" class="form-control" id="email" value="${sessionScope.user.email}"
                                    required pattern="^[A-Za-z.]+\w+@[A-Za-z]{2,}\.(com|org)$">
                         </div>
 
                         <div class="col-sm-6">
-                            <label for="email" class="form-label">Track title</label>
+                            <label for="email" class="form-label">
+                                <fmt:message key="tracks.track.title"/>
+                            </label>
                             <input type="text" class="form-control" name="trackTitle" required pattern="^\w.{1,512}.$">
                         </div>
 
                         <div class="col-sm-6">
-                            <label for="email" class="form-label">Price (USD)</label>
+                            <label for="email" class="form-label">
+                                <fmt:message key="make.order.price"/>
+                            </label>
                             <input type="text" class="form-control" name="price" required pattern="^\d{1,}$">
                         </div>
                     </div>
@@ -80,27 +94,35 @@
                     <hr class="my-4">
 
 
-                    <h4 class="mb-3">Payment</h4>
+                    <h4 class="mb-3">
+                        <fmt:message key="make.order.payment"/>
+                    </h4>
 
                     <div class="my-3">
                         <div class="form-check">
                             <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked
                                    required>
-                            <label class="form-check-label" for="credit">Credit card</label>
+                            <label class="form-check-label" for="credit">
+                                <fmt:message key="make.order.credit.card.radio"/>
+                            </label>
                         </div>
                         <div class="row gy-3">
                             <div class="col-md-6">
-                                <label for="cc-number" class="form-label">Credit card number</label>
+                                <label for="cc-number" class="form-label">
+                                    <fmt:message key="make.order.credit.card"/>
+                                </label>
                                 <input type="text" class="form-control" id="cc-number"
-                                       placeholder="We don't share your payment data" required
+                                       placeholder="<fmt:message key="payment.message"/>" required
                                        pattern="^\d{16}$">
                                 <div class="invalid-feedback">
-                                    Credit card number is required
+                                    <fmt:message key="make.order.credit.card.required"/>
                                 </div>
                             </div>
                         </div>
                         <hr class="my-4">
-                        <button class="w-100 btn btn-primary btn-lg" type="submit">That's all</button>
+                        <button class="w-100 btn btn-primary btn-lg" type="submit">
+                            <fmt:message key="make.order.submit"/>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -109,13 +131,21 @@
     <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
             <li class="nav-item"><a href="${pageContext.request.contextPath}/jsp/user/user.jsp"
-                                    class="nav-link px-2 text-muted">Home</a></li>
+                                    class="nav-link px-2 text-muted">
+                <fmt:message key="user.home"/>
+            </a></li>
             <li class="nav-item"><a href="${pageContext.request.contextPath}/jsp/user/features.jsp"
-                                    class="nav-link px-2 text-muted">Features</a></li>
+                                    class="nav-link px-2 text-muted">
+                <fmt:message key="user.features"/>
+            </a></li>
             <li class="nav-item"><a href="${pageContext.request.contextPath}/jsp/user/about.jsp"
-                                    class="nav-link px-2 text-muted">About</a></li>
+                                    class="nav-link px-2 text-muted">
+                <fmt:message key="user.about"/>
+            </a></li>
             <li class="nav-item"><a href="https://github.com/h1alexbel/OrdJoy"
-                                    class="nav-link px-2 text-muted">GitHub</a></li>
+                                    class="nav-link px-2 text-muted">
+                <fmt:message key="user.github"/>
+            </a></li>
         </ul>
         <p class="text-center text-muted">&copy; 2021 OrdJoy, Inc</p>
     </footer>

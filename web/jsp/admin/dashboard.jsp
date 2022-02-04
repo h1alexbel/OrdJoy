@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: alexeybelyavsky
@@ -61,76 +62,78 @@
                         <a class="nav-link active" aria-current="page"
                            href="${pageContext.request.contextPath}/jsp/admin/admin.jsp">
                             <span data-feather="home"></span>
-                            Home
+                            <fmt:message key="admin.home"/>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
                            href="${pageContext.request.contextPath}/frontController?frontCommand=all_orders">
                             <span data-feather="shopping-cart"></span>
-                            Orders
+                            <fmt:message key="admin.orders"/>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
                            href="${pageContext.request.contextPath}/frontController?frontCommand=all_tracks">
                             <span data-feather="file"></span>
-                            Tracks
+                            <fmt:message key="dashboard.tracks"/>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
                            href="${pageContext.request.contextPath}/frontController?frontCommand=all_albums">
                             <span data-feather="file"></span>
-                            Albums
+                            <fmt:message key="dashboard.albums"/>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
                            href="${pageContext.request.contextPath}/frontController?frontCommand=all_mixes">
                             <span data-feather="file"></span>
-                            Mixes
+                            <fmt:message key="dashboard.mixes"/>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
                            href="${pageContext.request.contextPath}/frontController?frontCommand=all_users">
                             <span data-feather="users"></span>
-                            Customers
+                            <fmt:message key="admin.customers"/>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
                            href="${pageContext.request.contextPath}/frontController?frontCommand=all_admins">
                             <span data-feather="users"></span>
-                            Administration
+                            <fmt:message key="dashboard.admins"/>
                         </a>
                     </li>
                 </ul>
 
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span>Actions</span>
+                    <span>
+                        <fmt:message key="dashboard.actions"/>
+                    </span>
                 </h6>
                 <ul class="nav flex-column mb-2">
                     <li class="nav-item">
                         <a class="nav-link"
                            href="${pageContext.request.contextPath}/frontController?frontCommand=all_mix_reviews">
                             <span data-feather="file-text"></span>
-                            User Mix Reviews
+                            <fmt:message key="dashboard.mix.reviews"/>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
                            href="${pageContext.request.contextPath}/frontController?frontCommand=all_track_reviews">
                             <span data-feather="file-text"></span>
-                            User Track Reviews
+                            <fmt:message key="dashboard.track.reviews"/>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
                            href="${pageContext.request.contextPath}/frontController?frontCommand=all_album_reviews">
                             <span data-feather="file-text"></span>
-                            User Album Reviews
+                            <fmt:message key="dashboard.album.reviews"/>
                         </a>
                     </li>
                 </ul>
@@ -139,7 +142,8 @@
 
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Current admin: ${sessionScope.user.login}</h1>
+                <h1 class="h2"><fmt:message key="dashboard.current"/>
+                    ${sessionScope.user.login}</h1>
             </div>
             <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
         </main>
@@ -149,13 +153,21 @@
 <footer class="py-3 my-4">
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
         <li class="nav-item"><a href="${pageContext.request.contextPath}/jsp/admin/admin.jsp"
-                                class="nav-link px-2 text-muted">Home</a></li>
+                                class="nav-link px-2 text-muted">
+            <fmt:message key="admin.home"/>
+        </a></li>
         <li class="nav-item"><a href="${pageContext.request.contextPath}/jsp/admin/dashboard.jsp"
-                                class="nav-link px-2 text-muted">Dashboard</a></li>
-        <li class="nav-item"><a href="#"
-                                class="nav-link px-2 text-muted">Orders</a></li>
-        <li class="nav-item"><a href="#"
-                                class="nav-link px-2 text-muted">Customers</a></li>
+                                class="nav-link px-2 text-muted">
+            <fmt:message key="admin.dashboard"/>
+        </a></li>
+        <li class="nav-item"><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_orders"
+                                class="nav-link px-2 text-muted">
+            <fmt:message key="admin.orders"/>
+        </a></li>
+        <li class="nav-item"><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_users"
+                                class="nav-link px-2 text-muted">
+            <fmt:message key="admin.customers"/>
+        </a></li>
     </ul>
     <p class="text-center text-muted">&copy; 2021 OrdJoy, Inc</p>
 </footer>

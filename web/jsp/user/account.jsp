@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -43,7 +44,7 @@
     <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
         <div class="d-flex gap-2 w-100 justify-content-between">
             <div>
-                <h6 class="mb-0">Your Username:</h6>
+                <h6 class="mb-0"><fmt:message key="account.username"/></h6>
                 <p class="mb-0 opacity-75">${sessionScope.user.login}</p>
             </div>
         </div>
@@ -51,7 +52,9 @@
     <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
         <div class="d-flex gap-2 w-100 justify-content-between">
             <div>
-                <h6 class="mb-0">Your Email:</h6>
+                <h6 class="mb-0">
+                    <fmt:message key="account.email"/>
+                </h6>
                 <p class="mb-0 opacity-75">${sessionScope.user.email}</p>
             </div>
         </div>
@@ -59,7 +62,9 @@
     <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
         <div class="d-flex gap-2 w-100 justify-content-between">
             <div>
-                <h6 class="mb-0">Your First Name:</h6>
+                <h6 class="mb-0">
+                    <fmt:message key="account.firstname"/>
+                </h6>
                 <p class="mb-0 opacity-75">${sessionScope.user.firstName}</p>
             </div>
         </div>
@@ -67,7 +72,9 @@
     <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
         <div class="d-flex gap-2 w-100 justify-content-between">
             <div>
-                <h6 class="mb-0">Your Last Name:</h6>
+                <h6 class="mb-0">
+                    <fmt:message key="account.lastname"/>
+                </h6>
                 <p class="mb-0 opacity-75">${sessionScope.user.lastName}</p>
             </div>
         </div>
@@ -75,8 +82,11 @@
     <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
         <div class="d-flex gap-2 w-100 justify-content-between">
             <div>
-                <h6 class="mb-0">Your current discount percentage level:</h6>
-                <p class="mb-0 opacity-75">${sessionScope.user.discountPercentageLevel}%</p>
+                <h6 class="mb-0">
+                    <fmt:message key="account.percentage.level"/>
+                </h6>
+                <p class="mb-0 opacity-75">${sessionScope.user.discountPercentageLevel}<fmt:message key="percentage.sign"/>
+                </p>
             </div>
         </div>
     </a>

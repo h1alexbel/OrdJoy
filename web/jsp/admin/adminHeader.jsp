@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -82,7 +83,7 @@
                     <a href="/"
                        class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
                     </a>
-
+                    <%@include file="/jsp/locale.jsp"%>
                     <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
                         <li>
                             <a href="${pageContext.request.contextPath}/jsp/admin/admin.jsp"
@@ -90,7 +91,7 @@
                                 <svg class="bi d-block mx-auto mb-1" width="24" height="24">
                                     <use xlink:href="#home"></use>
                                 </svg>
-                                Home
+                                <fmt:message key="admin.home"/>
                             </a>
                         </li>
                         <li>
@@ -99,7 +100,7 @@
                                 <svg class="bi d-block mx-auto mb-1" width="24" height="24">
                                     <use xlink:href="#speedometer2"></use>
                                 </svg>
-                                Dashboard
+                                <fmt:message key="admin.dashboard"/>
                             </a>
                         </li>
                         <li>
@@ -108,7 +109,7 @@
                                 <svg class="bi d-block mx-auto mb-1" width="24" height="24">
                                     <use xlink:href="#table"></use>
                                 </svg>
-                                Orders
+                                <fmt:message key="admin.orders"/>
                             </a>
                         </li>
                         <li>
@@ -117,7 +118,7 @@
                                 <svg class="bi d-block mx-auto mb-1" width="24" height="24">
                                     <use xlink:href="#people-circle"></use>
                                 </svg>
-                                Customers
+                                <fmt:message key="admin.customers"/>
                             </a>
                         </li>
                     </ul>
@@ -126,25 +127,31 @@
         </div>
         <div class="px-3 py-2 border-bottom mb-3">
             <div class="container d-flex flex-wrap justify-content-center">
-                <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
-                    <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-                </form>
-
                 <div class="text-end">
                     <a href="${pageContext.request.contextPath}/jsp/admin/addAdminForm.jsp" role="button"
-                       class="btn btn-warning">Add New Admin</a>
+                       class="btn btn-warning">
+                        <fmt:message key="add.admin"/>
+                    </a>
                     <a href="${pageContext.request.contextPath}/jsp/admin/addTrackToMixFrom.jsp" role="button"
-                       class="btn btn-primary">Add Track to Mix</a>
+                       class="btn btn-primary">
+                        <fmt:message key="admin.add.track.to.mix"/>
+                    </a>
                     <a href="${pageContext.request.contextPath}/jsp/admin/addTrackForm.jsp" role="button"
-                       class="btn btn-primary">Add Track</a>
+                       class="btn btn-primary">
+                        <fmt:message key="admin.add.track"/>
+                    </a>
                     <a href="${pageContext.request.contextPath}/jsp/admin/addAlbumForm.jsp" role="button"
-                       class="btn btn-primary">Add Album</a>
+                       class="btn btn-primary">
+                        <fmt:message key="admin.add.album"/>
+                    </a>
                     <a href="${pageContext.request.contextPath}/jsp/admin/addMixForm.jsp" role="button"
-                       class="btn btn-primary">Add Mix</a>
+                       class="btn btn-primary">
+                        <fmt:message key="admin.add.mix"/>
+                    </a>
                     <form method="post" action="${pageContext.request.contextPath}/frontController"
                           enctype="application/x-www-form-urlencoded">
                         <input type="hidden" name="frontCommand" value="logout">
-                        <input type="submit" class="btn btn-info" value="Logout">
+                        <input type="submit" class="btn btn-info" value="<fmt:message key="user.logout"/>">
                     </form>
                 </div>
             </div>

@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -41,10 +41,14 @@
 <body>
 <%@include file="userHeader.jsp" %>
 <main>
-    <h1 class="visually-hidden">OrdJoy Features</h1>
+    <h1 class="visually-hidden">
+        <fmt:message key="feature.features"/>
+    </h1>
 
     <div class="container px-4 py-5" id="featured-3">
-        <h2 class="pb-2 border-bottom">OrdJoy Features</h2>
+        <h2 class="pb-2 border-bottom">
+            <fmt:message key="feature.features"/>
+        </h2>
         <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
             <div class="feature col">
                 <div class="feature-icon bg-primary bg-gradient">
@@ -58,12 +62,12 @@
                         </svg>
                     </svg>
                 </div>
-                <h2>Tracks</h2>
-                <p>We provide the most popular tracks. What do you need to enjoy them? Just make some order and we
-                    redirect this to
-                    the the platform that you choose</p>
+                <h2>
+                    <fmt:message key="about.track.repo"/>
+                </h2>
+                <p><fmt:message key="feature.tracks.message"/></p>
                 <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_tracks" class="icon-link">
-                    Find your favorite
+                    <fmt:message key="feature.find.track.button"/>
                 </a>
             </div>
             <div class="feature col">
@@ -77,10 +81,10 @@
                         </svg>
                     </svg>
                 </div>
-                <h2>Albums</h2>
-                <p>Every track has his own album. Browse all albums and check out this!</p>
+                <h2><fmt:message key="about.album.repo"/></h2>
+                <p><fmt:message key="feature.albums.message"/></p>
                 <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_albums" class="icon-link">
-                    Browse Albums
+                    <fmt:message key="feature.find.albums.button"/>
                 </a>
             </div>
             <div class="feature col">
@@ -97,10 +101,10 @@
                         </svg>
                     </svg>
                 </div>
-                <h2>Mixes</h2>
-                <p>We follow all the track artists and make theme mixes based on your choice</p>
+                <h2><fmt:message key="about.mix.repo"/></h2>
+                <p><fmt:message key="feature.mixes.message"/></p>
                 <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_mixes" class="icon-link">
-                    Pick the best
+                    <fmt:message key="feature.find.mixes.button"/>
                     <svg class="bi" width="1em" height="1em">
                         <use xlink:href="#chevron-right"></use>
                     </svg>

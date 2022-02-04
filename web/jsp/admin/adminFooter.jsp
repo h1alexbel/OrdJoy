@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -39,13 +40,21 @@
     <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
             <li class="nav-item"><a href="${pageContext.request.contextPath}/jsp/admin/admin.jsp"
-                                    class="nav-link px-2 text-muted">Home</a></li>
+                                    class="nav-link px-2 text-muted">
+                <fmt:message key="admin.home"/>
+            </a></li>
             <li class="nav-item"><a href="${pageContext.request.contextPath}/jsp/admin/dashboard.jsp"
-                                    class="nav-link px-2 text-muted">Dashboard</a></li>
+                                    class="nav-link px-2 text-muted">
+                <fmt:message key="admin.dashboard"/>
+            </a></li>
             <li class="nav-item"><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_orders"
-                                    class="nav-link px-2 text-muted">Orders</a></li>
+                                    class="nav-link px-2 text-muted">
+                <fmt:message key="admin.orders"/>
+            </a></li>
             <li class="nav-item"><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_users"
-                                    class="nav-link px-2 text-muted">Users</a></li>
+                                    class="nav-link px-2 text-muted">
+                <fmt:message key="admin.customers"/>
+            </a></li>
         </ul>
         <p class="text-center text-muted">&copy; 2021 OrdJoy, Inc</p>
     </footer>

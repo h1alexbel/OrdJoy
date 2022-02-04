@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>All Users | Analytics</title>
@@ -18,9 +19,15 @@
     <thead>
     <tr>
         <th scope="col">Id</th>
-        <th scope="col">Login</th>
-        <th scope="col">Email</th>
-        <th scope="col">Full Name</th>
+        <th scope="col">
+            <fmt:message key="login.username"/>
+        </th>
+        <th scope="col">
+            <fmt:message key="register.email"/>
+        </th>
+        <th scope="col">
+            <fmt:message key="reviews.full.name"/>
+        </th>
     </tr>
     <c:forEach var="user" items="${requestScope.users}">
         <c:if test="${user.role eq 'ADMIN_ROLE'}">
@@ -31,7 +38,9 @@
                 <td>${user.firstName} ${user.lastName}</td>
                 <c:if test="${sessionScope.user.role eq 'ADMIN_ROLE'}">
                     <td><a href="${pageContext.request.contextPath}/jsp/admin/deleteAdmin.jsp" role="button"
-                           class="btn btn-outline-danger">Delete admin</a></td>
+                           class="btn btn-outline-danger">
+                        <fmt:message key="admins.delete.button"/>
+                    </a></td>
                 </c:if>
             </tr>
         </c:if>
