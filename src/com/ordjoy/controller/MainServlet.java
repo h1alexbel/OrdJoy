@@ -16,6 +16,8 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/frontController")
 public class MainServlet extends HttpServlet {
 
+    private static final String FRONT_COMMAND_PARAM = "frontCommand";
+
     @Override
     public void init() throws ServletException {
         super.init();
@@ -40,7 +42,7 @@ public class MainServlet extends HttpServlet {
 
     private void processFrontCommand(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
             throws ServletException, IOException {
-        String frontCommand = httpServletRequest.getParameter("frontCommand");
+        String frontCommand = httpServletRequest.getParameter(FRONT_COMMAND_PARAM);
         FrontCommand command = FrontCommandFactory.getCommand(frontCommand);
         try {
             FrontCommandResult result = command.process(httpServletRequest);
