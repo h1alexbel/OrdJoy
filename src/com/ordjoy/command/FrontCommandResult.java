@@ -13,10 +13,18 @@ public class FrontCommandResult {
         this.navigationType = navigationType;
     }
 
+    /**
+     * Gets page
+     * @return page from {@link FrontCommandResult}
+     */
     public String getPage() {
         return page;
     }
 
+    /**
+     * Gets Navigation Type
+     * @return {@link NavigationType} from {@link FrontCommandResult}
+     */
     public NavigationType getNavigationType() {
         return navigationType;
     }

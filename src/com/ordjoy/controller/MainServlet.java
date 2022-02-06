@@ -45,7 +45,7 @@ public class MainServlet extends HttpServlet {
         String frontCommand = httpServletRequest.getParameter(FRONT_COMMAND_PARAM);
         FrontCommand command = FrontCommandFactory.getCommand(frontCommand);
         try {
-            FrontCommandResult result = command.process(httpServletRequest);
+            FrontCommandResult result = command.execute(httpServletRequest);
             switch (result.getNavigationType()) {
                 case FORWARD -> getServletContext().getRequestDispatcher(result.getPage()).forward(httpServletRequest, httpServletResponse);
                 case REDIRECT -> httpServletResponse.sendRedirect(result.getPage());

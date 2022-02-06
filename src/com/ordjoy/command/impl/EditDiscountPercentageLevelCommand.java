@@ -20,7 +20,7 @@ public class EditDiscountPercentageLevelCommand implements FrontCommand {
     private final UserService userService = UserService.getInstance();
 
     @Override
-    public FrontCommandResult process(HttpServletRequest httpServletRequest) throws ControllerException {
+    public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
         String page;
         FrontCommandResult frontCommandResult;
         String userEmail = httpServletRequest.getParameter(EMAIL);

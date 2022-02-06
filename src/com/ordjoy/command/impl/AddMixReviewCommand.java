@@ -37,12 +37,12 @@ public class AddMixReviewCommand implements FrontCommand {
     private final MixReviewValidator mixReviewValidator = MixReviewValidator.getInstance();
 
     @Override
-    public FrontCommandResult process(HttpServletRequest httpServletRequest) throws ControllerException {
+    public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
         String page;
         FrontCommandResult frontCommandResult;
         UserAccountDto user = (UserAccountDto) httpServletRequest.getSession().getAttribute(SESSION_USER);
         UserService userService = UserService.getInstance();
-        UserAccount userAccount = userService.buildUserWithoutPasswordAndAgeFromSession(user);
+        UserAccount userAccount = userService.buildUserAccountFromSession(user);
         String mixName = httpServletRequest.getParameter(MIX_NAME);
         String mixReviewText = httpServletRequest.getParameter(MIX_REVIEW_TEXT);
         try {

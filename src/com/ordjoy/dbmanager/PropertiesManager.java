@@ -29,6 +29,10 @@ public final class PropertiesManager {
         }
     }
 
+    /**
+     * @param key key in application.properties file
+     * @return Property value
+     */
     public static String getPropertyByKey(String key) {
         return PROPERTIES.getProperty(key);
     }

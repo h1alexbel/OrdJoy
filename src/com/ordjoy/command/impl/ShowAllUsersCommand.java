@@ -23,7 +23,7 @@ public class ShowAllUsersCommand implements FrontCommand {
     private final UserAccountFilter defaultAccountFilterForAdmin = new UserAccountFilter(20, 0);
 
     @Override
-    public FrontCommandResult process(HttpServletRequest httpServletRequest) throws ControllerException {
+    public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
         String page;
         FrontCommandResult frontCommandResult;
         try {

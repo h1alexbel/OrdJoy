@@ -17,6 +17,9 @@ public class TrackValidator implements Validator<Track> {
 
     }
 
+    /**
+     * @return {@link TrackValidator} instance
+     */
     public static TrackValidator getInstance() {
         return INSTANCE;
     }

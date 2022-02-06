@@ -22,6 +22,9 @@ public class UserValidator implements Validator<UserAccount> {
 
     }
 
+    /**
+     * @return {@link UserValidator} instance
+     */
     public static UserValidator getInstance() {
         return INSTANCE;
     }
@@ -54,8 +57,20 @@ public class UserValidator implements Validator<UserAccount> {
         return validationResult;
     }
 
+    /** Checks valid or not password is
+     * @param password password to validate
+     * @return boolean result based on not null check and matching to password regex
+     */
     public boolean isPasswordValid(String password) {
         return password != null && password.matches(PASSWORD_REGEX);
+    }
+
+    /** Checks valid or not login is
+     * @param login login to validate
+     * @return boolean result based on not null check and matching to login regex
+     */
+    public boolean isLoginValid(String login) {
+        return login != null && login.matches(LOGIN_REGEX);
     }
 
     private boolean isCardDataValid(String cardNumber) {
@@ -64,10 +79,6 @@ public class UserValidator implements Validator<UserAccount> {
             result = cardNumber.matches(CARD_NUMBER_REGEX);
         }
         return result;
-    }
-
-    public boolean isLoginValid(String login) {
-        return login != null && login.matches(LOGIN_REGEX);
     }
 
     private boolean isEmailValid(String email) {

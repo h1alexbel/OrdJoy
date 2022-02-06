@@ -29,7 +29,7 @@ public class AddTrackCommand implements FrontCommand {
     private static final String ALBUM_TITLE = "albumTitle";
 
     @Override
-    public FrontCommandResult process(HttpServletRequest httpServletRequest) throws ControllerException {
+    public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
         String page;
         FrontCommandResult frontCommandResult;
         String trackTitle = httpServletRequest.getParameter(TRACK_TITLE);

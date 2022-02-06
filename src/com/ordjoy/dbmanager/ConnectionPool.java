@@ -23,6 +23,11 @@ public class ConnectionPool {
     private ConnectionPool() {
     }
 
+    /**
+     * Create {@link ConnectionPool} with fixed {@link ProxyConnection} instances
+     *
+     * @return thread-safe {@link ConnectionPool}
+     */
     public static ConnectionPool getInstance() {
         if (!isInstanced.get()) {
             try {
@@ -59,6 +64,12 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Take {@link ProxyConnection} from pool
+     *
+     * @return {@link ProxyConnection} from {@link ConnectionPool}
+     * @throws DataBaseException if ProxyConnection interrupted
+     */
     public ProxyConnection getConnection() {
         try {
             return connections.take();
@@ -67,6 +78,11 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Return {@link ProxyConnection} into {@link ConnectionPool} and setAutoCommit(true)
+     *
+     * @param proxyConnection {@link ProxyConnection}
+     */
     public void releaseConnection(ProxyConnection proxyConnection) {
         try {
             if (!proxyConnection.getAutoCommit()) {
@@ -78,6 +94,9 @@ public class ConnectionPool {
         connections.offer(proxyConnection);
     }
 
+    /**
+     * Close all connections into {@link ConnectionPool}
+     */
     public void closeConnectionPool() {
         try {
             while (!connections.isEmpty()) {

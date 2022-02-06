@@ -17,6 +17,10 @@ public final class ConnectionManager {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * @return {@link ProxyConnection} is a connection wrapper to connect with database.
+     * @throws DataBaseException if database access error occurs while you try to get connection
+     */
     public static ProxyConnection getProxyConnection() {
         try {
             return new ProxyConnection

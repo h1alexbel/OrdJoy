@@ -12,7 +12,7 @@ import static com.ordjoy.util.JspPageConst.*;
 public class LogOutCommand implements FrontCommand {
 
     @Override
-    public FrontCommandResult process(HttpServletRequest httpServletRequest) {
+    public FrontCommandResult execute(HttpServletRequest httpServletRequest) {
         httpServletRequest.getSession().invalidate();
         String page = httpServletRequest.getContextPath() + JspFormatHelper.getUserPath(LOGIN_PAGE);
         return new FrontCommandResult(page, NavigationType.REDIRECT);

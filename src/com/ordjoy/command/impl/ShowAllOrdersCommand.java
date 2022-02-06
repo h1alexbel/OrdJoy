@@ -25,7 +25,7 @@ public class ShowAllOrdersCommand implements FrontCommand {
     private final OrderFilter filter = new OrderFilter(20, 0, null, OrderStatus.ACCEPTED);
 
     @Override
-    public FrontCommandResult process(HttpServletRequest httpServletRequest) throws ControllerException {
+    public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
         String page;
         FrontCommandResult frontCommandResult;
         try {

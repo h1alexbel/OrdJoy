@@ -24,7 +24,7 @@ public class ShowAllAlbumsCommand implements FrontCommand {
     private final AlbumFilter defaultAlbumFilter = new AlbumFilter(20, 0);
 
     @Override
-    public FrontCommandResult process(HttpServletRequest httpServletRequest) throws ControllerException {
+    public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
         String page;
         FrontCommandResult frontCommandResult;
         try {

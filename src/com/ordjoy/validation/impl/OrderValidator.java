@@ -18,6 +18,9 @@ public class OrderValidator implements Validator<Order> {
 
     }
 
+    /**
+     * @return {@link OrderValidator} instance
+     */
     public static OrderValidator getInstance() {
         return INSTANCE;
     }
@@ -35,6 +38,10 @@ public class OrderValidator implements Validator<Order> {
         return validationResult;
     }
 
+    /** Checks valid or not price is
+     * @param price price to validate
+     * @return boolean result based on not null check and matching to price regex
+     */
     public boolean isPriceValid(String price) {
         return price != null && price.matches(PRICE_REGEX);
     }

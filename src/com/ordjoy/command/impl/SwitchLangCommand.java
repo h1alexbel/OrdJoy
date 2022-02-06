@@ -19,7 +19,7 @@ public class SwitchLangCommand implements FrontCommand {
     public static final String RU = "ru";
 
     @Override
-    public FrontCommandResult process(HttpServletRequest httpServletRequest) throws ControllerException {
+    public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
         String page;
         FrontCommandResult frontCommandResult;
         String lang = httpServletRequest.getParameter(LANG);

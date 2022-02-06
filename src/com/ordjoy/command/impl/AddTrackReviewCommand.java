@@ -37,12 +37,12 @@ public class AddTrackReviewCommand implements FrontCommand {
     private final TrackReviewValidator reviewValidator = TrackReviewValidator.getInstance();
 
     @Override
-    public FrontCommandResult process(HttpServletRequest httpServletRequest) throws ControllerException {
+    public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
         String page;
         FrontCommandResult frontCommandResult;
         UserAccountDto user = (UserAccountDto) httpServletRequest.getSession().getAttribute(SESSION_USER);
         UserService userService = UserService.getInstance();
-        UserAccount userAccount = userService.buildUserWithoutPasswordAndAgeFromSession(user);
+        UserAccount userAccount = userService.buildUserAccountFromSession(user);
         String trackTitle = httpServletRequest.getParameter(TRACK_TITLE);
         String trackReviewText = httpServletRequest.getParameter(TRACK_REVIEW_TEXT);
         try {

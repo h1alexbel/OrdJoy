@@ -20,7 +20,7 @@ public class DeleteMixCommand implements FrontCommand {
     private final MixService mixService = MixService.getInstance();
 
     @Override
-    public FrontCommandResult process(HttpServletRequest httpServletRequest) throws ControllerException {
+    public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
         String page;
         FrontCommandResult frontCommandResult;
         Long id = Long.valueOf(httpServletRequest.getParameter(MIX_ID));

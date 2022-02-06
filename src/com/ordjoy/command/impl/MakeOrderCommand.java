@@ -38,7 +38,7 @@ public class MakeOrderCommand implements FrontCommand {
     private final TrackValidator trackValidator = TrackValidator.getInstance();
 
     @Override
-    public FrontCommandResult process(HttpServletRequest httpServletRequest) throws ControllerException {
+    public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
         String page;
         FrontCommandResult frontCommandResult;
         String price = httpServletRequest.getParameter(PRICE);
@@ -52,7 +52,7 @@ public class MakeOrderCommand implements FrontCommand {
                 String url = trackDto.getUrl();
                 String trackTitle = trackDto.getTitle();
                 Track track = trackService.buildTrack(url, trackTitle, trackDto.getAlbum().getTitle());
-                UserAccount userAccount = userService.buildUserWithoutPasswordAndAgeFromSession(user);
+                UserAccount userAccount = userService.buildUserAccountFromSession(user);
                 if (orderValidator.isPriceValid(price)) {
                     Order order = orderService.buildOrder(new BigDecimal(price), userAccount, track);
                     ValidationResult trackValidationResult = trackValidator.isValid(track);

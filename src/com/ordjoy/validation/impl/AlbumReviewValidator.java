@@ -16,6 +16,9 @@ public class AlbumReviewValidator implements Validator<AlbumReview> {
 
     }
 
+    /**
+     * @return {@link AlbumReviewValidator} instance
+     */
     public static AlbumReviewValidator getInstance() {
         return INSTANCE;
     }

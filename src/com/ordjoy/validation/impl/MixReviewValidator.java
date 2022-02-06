@@ -17,6 +17,9 @@ public class MixReviewValidator implements Validator<MixReview> {
 
     }
 
+    /**
+     * @return {@link MixReviewValidator} instance
+     */
     public static MixReviewValidator getInstance() {
         return INSTANCE;
     }

@@ -16,6 +16,9 @@ public class AlbumValidator implements Validator<Album> {
 
     }
 
+    /**
+     * @return {@link AlbumValidator} instance
+     */
     public static AlbumValidator getInstance() {
         return INSTANCE;
     }
@@ -33,6 +36,10 @@ public class AlbumValidator implements Validator<Album> {
         return validationResult;
     }
 
+    /** Checks valid or not title is
+     * @param title title to validate
+     * @return boolean result based on not null check and matching to title regex
+     */
     public boolean isTitleValid(String title) {
         return title != null && title.matches(TITLE_REGEX);
     }

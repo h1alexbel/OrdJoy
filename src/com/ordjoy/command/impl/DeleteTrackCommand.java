@@ -20,7 +20,7 @@ public class DeleteTrackCommand implements FrontCommand {
     private final TrackService trackService = TrackService.getInstance();
 
     @Override
-    public FrontCommandResult process(HttpServletRequest httpServletRequest) throws ControllerException {
+    public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
         String page;
         FrontCommandResult frontCommandResult;
         Long id = Long.valueOf(httpServletRequest.getParameter(TRACK_ID));

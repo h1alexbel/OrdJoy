@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 import static com.ordjoy.util.ExceptionMessageUtils.CONTROLLER_EXCEPTION_MESSAGE;
-import static com.ordjoy.util.JspPageConst.ALBUM_REVIEW_FORM_PAGE;
 import static com.ordjoy.util.JspPageConst.USER_MAIN_PAGE;
 
 public class AddAlbumReviewCommand implements FrontCommand {
@@ -40,7 +39,7 @@ public class AddAlbumReviewCommand implements FrontCommand {
     private final AlbumValidator albumValidator = AlbumValidator.getInstance();
 
     @Override
-    public FrontCommandResult process(HttpServletRequest httpServletRequest) throws ControllerException {
+    public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
         String page;
         FrontCommandResult frontCommandResult;
         UserAccountDto user = (UserAccountDto) httpServletRequest.getSession().getAttribute(SESSION_USER);
@@ -51,7 +50,7 @@ public class AddAlbumReviewCommand implements FrontCommand {
             if (albumValidator.isTitleValid(albumTitle)) {
                 Optional<AlbumDto> maybeAlbum = albumService.findAlbumByTitle(albumTitle);
                 if (maybeAlbum.isPresent()) {
-                    UserAccount userAccount = userService.buildUserWithoutPasswordAndAgeFromSession(user);
+                    UserAccount userAccount = userService.buildUserAccountFromSession(user);
                     Album album = albumService.buildAlbum(albumTitle);
                     AlbumReview albumReview = reviewService.buildAlbumReview(albumReviewText, userAccount, album);
                     ValidationResult validationResult = albumReviewValidator.isValid(albumReview);

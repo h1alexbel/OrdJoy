@@ -24,7 +24,7 @@ public class ShowAllMixesCommand implements FrontCommand {
     private final MixFilter defaultMixFilter = new MixFilter(20, 0);
 
     @Override
-    public FrontCommandResult process(HttpServletRequest httpServletRequest) throws ControllerException {
+    public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
         String page;
         FrontCommandResult frontCommandResult;
         try {

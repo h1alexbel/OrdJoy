@@ -17,6 +17,9 @@ public class MixValidator implements Validator<Mix> {
 
     }
 
+    /**
+     * @return {@link MixValidator} instance
+     */
     public static MixValidator getInstance() {
         return INSTANCE;
     }

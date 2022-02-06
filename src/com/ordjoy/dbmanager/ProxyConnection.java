@@ -13,6 +13,13 @@ public class ProxyConnection implements Connection {
         this.connection = connection;
     }
 
+    /**
+     * Wrapper of {@link Connection}
+     * return {@link ProxyConnection} into {@link ConnectionPool}
+     *
+     * @throws SQLException if database access error occurs,
+     * or setAutoCommit(true), or this method is called on a closed connection
+     */
     public void closeConnection() throws SQLException {
         connection.close();
     }

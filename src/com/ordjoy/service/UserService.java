@@ -246,7 +246,7 @@ public class UserService {
                 .build();
     }
 
-    public UserAccount buildUserWithoutPasswordAndAgeFromSession(UserAccountDto userAccountDto) {
+    public UserAccount buildUserAccountFromSession(UserAccountDto userAccountDto) {
         UserData data = UserData.builder()
                 .userRole(userAccountDto.getRole())
                 .firstName(userAccountDto.getFirstName())

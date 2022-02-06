@@ -12,6 +12,12 @@ public final class PasswordEncoder {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Encode incoming password
+     * @param passwordToEncode password that be encoded
+     * @return encoded password
+     * @see BCodec
+     */
     public static String encode(String passwordToEncode) {
         String encodedPassword = passwordToEncode;
         try {

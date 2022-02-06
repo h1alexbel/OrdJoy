@@ -26,7 +26,7 @@ public class AddMixCommand implements FrontCommand {
     private static final String MIX_DESCRIPTION = "mixDescription";
 
     @Override
-    public FrontCommandResult process(HttpServletRequest httpServletRequest) throws ControllerException {
+    public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
         String page;
         FrontCommandResult frontCommandResult;
         String mixName = httpServletRequest.getParameter(MIX_NAME);
