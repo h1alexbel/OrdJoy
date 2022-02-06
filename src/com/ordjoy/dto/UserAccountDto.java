@@ -24,6 +24,59 @@ public class UserAccountDto implements Serializable {
         this.lastName = lastName;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Long id;
+        private String login;
+        private String email;
+        private Integer discountPercentageLevel;
+        private UserRole role;
+        private String firstName;
+        private String lastName;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder login(String login) {
+            this.login = login;
+            return this;
+        }
+
+        public Builder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder discountPercentageLevel(Integer discountPercentageLevel) {
+            this.discountPercentageLevel = discountPercentageLevel;
+            return this;
+        }
+
+        public Builder userRole(UserRole role) {
+            this.role = role;
+            return this;
+        }
+
+        public Builder firstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public Builder lastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public UserAccountDto build() {
+            return new UserAccountDto(id, login, email, discountPercentageLevel, role, firstName, lastName);
+        }
+    }
+
     public Long getId() {
         return id;
     }

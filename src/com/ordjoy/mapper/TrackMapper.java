@@ -17,11 +17,11 @@ public class TrackMapper implements Mapper<Track, TrackDto> {
 
     @Override
     public TrackDto mapFrom(Track track) {
-        return new TrackDto(
-                track.getId(),
-                track.getSongUrl(),
-                track.getTitle(),
-                AlbumMapper.getInstance().mapFrom(track.getAlbum())
-        );
+        return TrackDto.builder()
+                .id(track.getId())
+                .url(track.getSongUrl())
+                .title(track.getTitle())
+                .album(AlbumMapper.getInstance().mapFrom(track.getAlbum()))
+                .build();
     }
 }

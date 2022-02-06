@@ -184,8 +184,11 @@ public class OrderService {
     }
 
     public Order buildOrder(BigDecimal price, UserAccount userAccount, Track track) {
-        return new Order(
-                price, userAccount, DEFAULT_STATUS_AFTER_ORDER_MAKE, track
-        );
+        return Order.builder()
+                .price(price)
+                .userAccount(userAccount)
+                .orderStatus(DEFAULT_STATUS_AFTER_ORDER_MAKE)
+                .track(track)
+                .build();
     }
 }

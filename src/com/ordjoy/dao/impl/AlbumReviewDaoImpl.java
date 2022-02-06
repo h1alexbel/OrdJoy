@@ -66,26 +66,26 @@ public class AlbumReviewDaoImpl implements AlbumReviewDao {
             """;
 
     private static final String SQL_FIND_ALL = """
-           SELECT al.id                          AS id,
-                  al.title                       AS title,
-                  raa.id                         AS raa_id,
-                  raa.review_text                AS raa_review_text,
-                  raa.user_account_id            AS raa_user_account_id,
-                  raa.album_id                   AS raa_album_id,
-                  data.id                        AS user_id,
-                  data.email                     AS email,
-                  data.login                     AS login,
-                  data.password                  AS password,
-                  data.discount_percentage_level AS discount_percentage_level,
-                  data.role                      AS role,
-                  data.first_name                AS first_name,
-                  data.last_name                 AS last_name,
-                  data.age                       AS age,
-                  data.card_number               AS card_number
-           FROM review_storage.review_about_album raa
-                    JOIN user_storage.user_account_data data ON raa.user_account_id = data.id
-                    JOIN audio_tracks_storage.album al ON raa.album_id = al.id
-            """;
+            SELECT al.id                          AS id,
+                   al.title                       AS title,
+                   raa.id                         AS raa_id,
+                   raa.review_text                AS raa_review_text,
+                   raa.user_account_id            AS raa_user_account_id,
+                   raa.album_id                   AS raa_album_id,
+                   data.id                        AS user_id,
+                   data.email                     AS email,
+                   data.login                     AS login,
+                   data.password                  AS password,
+                   data.discount_percentage_level AS discount_percentage_level,
+                   data.role                      AS role,
+                   data.first_name                AS first_name,
+                   data.last_name                 AS last_name,
+                   data.age                       AS age,
+                   data.card_number               AS card_number
+            FROM review_storage.review_about_album raa
+                     JOIN user_storage.user_account_data data ON raa.user_account_id = data.id
+                     JOIN audio_tracks_storage.album al ON raa.album_id = al.id
+             """;
 
     private static final String SQL_UPDATE_ALBUM_REVIEW = """
             UPDATE review_storage.review_about_album
@@ -287,40 +287,40 @@ public class AlbumReviewDaoImpl implements AlbumReviewDao {
     private AlbumReview buildAlbumReview(ResultSet resultSet) throws SQLException {
         UserAccount userAccount = buildUserAccount(resultSet);
         Album album = buildAlbum(resultSet);
-        return new AlbumReview(
-                resultSet.getLong("raa_id"),
-                resultSet.getString("raa_review_text"),
-                userAccount,
-                album
-        );
+        return AlbumReview.builder()
+                .id(resultSet.getLong("raa_id"))
+                .reviewText(resultSet.getString("raa_review_text"))
+                .userAccount(userAccount)
+                .album(album)
+                .build();
     }
 
     private Album buildAlbum(ResultSet resultSet) throws SQLException {
-        return new Album(
-                resultSet.getLong("id"),
-                resultSet.getString("title")
-        );
+        return Album.builder()
+                .id(resultSet.getLong("id"))
+                .title(resultSet.getString("title"))
+                .build();
     }
 
     private UserAccount buildUserAccount(ResultSet resultSet) throws SQLException {
         UserData data = buildUserData(resultSet);
-        return new UserAccount(
-                resultSet.getLong("user_id"),
-                resultSet.getString("email"),
-                resultSet.getString("login"),
-                resultSet.getString("password"),
-                resultSet.getInt("discount_percentage_level"),
-                data
-        );
+        return UserAccount.builder()
+                .id(resultSet.getLong("user_id"))
+                .email(resultSet.getString("email"))
+                .login(resultSet.getString("login"))
+                .password(resultSet.getString("password"))
+                .discountPercentageLevel(resultSet.getInt("discount_percentage_level"))
+                .userData(data)
+                .build();
     }
 
     private UserData buildUserData(ResultSet resultSet) throws SQLException {
-        return new UserData(
-                UserRole.valueOf(resultSet.getString("role")),
-                resultSet.getString("first_name"),
-                resultSet.getString("last_name"),
-                resultSet.getInt("age"),
-                resultSet.getString("card_number")
-        );
+        return UserData.builder()
+                .userRole(UserRole.valueOf(resultSet.getString("role")))
+                .firstName(resultSet.getString("first_name"))
+                .lastName(resultSet.getString("last_name"))
+                .age(resultSet.getInt("age"))
+                .cardNumber(resultSet.getString("card_number"))
+                .build();
     }
 }

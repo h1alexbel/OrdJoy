@@ -17,11 +17,11 @@ public class MixReviewMapper implements Mapper<MixReview, MixReviewDto> {
 
     @Override
     public MixReviewDto mapFrom(MixReview mixReview) {
-        return new MixReviewDto(
-                mixReview.getId(),
-                mixReview.getReviewText(),
-                MixMapper.getInstance().mapFrom(mixReview.getMix()),
-                UserAccountMapper.getInstance().mapFrom(mixReview.getUserAccount())
-        );
+        return MixReviewDto.builder()
+                .id(mixReview.getId())
+                .reviewText(mixReview.getReviewText())
+                .mix(MixMapper.getInstance().mapFrom(mixReview.getMix()))
+                .userAccount(UserAccountMapper.getInstance().mapFrom(mixReview.getUserAccount()))
+                .build();
     }
 }

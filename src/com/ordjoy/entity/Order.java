@@ -21,11 +21,45 @@ public class Order implements Entity {
         this.track = track;
     }
 
-    public Order(BigDecimal price, UserAccount userAccount, OrderStatus orderStatus, Track track) {
-        this.price = price;
-        this.userAccount = userAccount;
-        this.orderStatus = orderStatus;
-        this.track = track;
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Long id;
+        private BigDecimal price;
+        private UserAccount userAccount;
+        private OrderStatus orderStatus;
+        private Track track;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder price(BigDecimal price) {
+            this.price = price;
+            return this;
+        }
+
+        public Builder userAccount(UserAccount userAccount) {
+            this.userAccount = userAccount;
+            return this;
+        }
+
+        public Builder orderStatus(OrderStatus orderStatus) {
+            this.orderStatus = orderStatus;
+            return this;
+        }
+
+        public Builder track(Track track) {
+            this.track = track;
+            return this;
+        }
+
+        public Order build() {
+            return new Order(id, price, userAccount, orderStatus, track);
+        }
     }
 
     public Long getId() {

@@ -251,20 +251,26 @@ public class ReviewService {
     }
 
     public MixReview buildMixReview(String reviewText, UserAccount userAccount, Mix mix) {
-        return new MixReview(
-                reviewText, userAccount, mix
-        );
+        return MixReview.builder()
+                .reviewText(reviewText)
+                .userAccount(userAccount)
+                .mix(mix)
+                .build();
     }
 
     public TrackReview buildTrackReview(String reviewText, UserAccount userAccount, Track track) {
-        return new TrackReview(
-                reviewText, userAccount, track
-        );
+        return TrackReview.builder()
+                .reviewText(reviewText)
+                .userAccount(userAccount)
+                .track(track)
+                .build();
     }
 
     public AlbumReview buildAlbumReview(String reviewText, UserAccount userAccount, Album album) {
-        return new AlbumReview(
-                reviewText, userAccount, album
-        );
+        return AlbumReview.builder()
+                .reviewText(reviewText)
+                .userAccount(userAccount)
+                .album(album)
+                .build();
     }
 }

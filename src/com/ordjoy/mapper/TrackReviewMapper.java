@@ -17,11 +17,11 @@ public class TrackReviewMapper implements Mapper<TrackReview, TrackReviewDto> {
 
     @Override
     public TrackReviewDto mapFrom(TrackReview trackReview) {
-        return new TrackReviewDto(
-                trackReview.getId(),
-                trackReview.getReviewText(),
-                TrackMapper.getInstance().mapFrom(trackReview.getTrack()),
-                UserAccountMapper.getInstance().mapFrom(trackReview.getUserAccount())
-        );
+        return TrackReviewDto.builder()
+                .id(trackReview.getId())
+                .reviewText(trackReview.getReviewText())
+                .track(TrackMapper.getInstance().mapFrom(trackReview.getTrack()))
+                .userAccount(UserAccountMapper.getInstance().mapFrom(trackReview.getUserAccount()))
+                .build();
     }
 }

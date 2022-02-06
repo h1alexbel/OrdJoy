@@ -17,10 +17,10 @@ public class MixMapper implements Mapper<Mix, MixDto> {
 
     @Override
     public MixDto mapFrom(Mix mix) {
-        return new MixDto(
-                mix.getId(),
-                mix.getName(),
-                mix.getDescription()
-        );
+        return MixDto.builder()
+                .id(mix.getId())
+                .name(mix.getName())
+                .description(mix.getDescription())
+                .build();
     }
 }

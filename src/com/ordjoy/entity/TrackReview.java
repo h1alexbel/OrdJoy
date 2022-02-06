@@ -17,10 +17,39 @@ public class TrackReview implements Entity {
         this.track = track;
     }
 
-    public TrackReview(String reviewText, UserAccount userAccount, Track track) {
-        this.reviewText = reviewText;
-        this.userAccount = userAccount;
-        this.track = track;
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Long id;
+        private String reviewText;
+        private UserAccount userAccount;
+        private Track track;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder reviewText(String reviewText) {
+            this.reviewText = reviewText;
+            return this;
+        }
+
+        public Builder userAccount(UserAccount userAccount) {
+            this.userAccount = userAccount;
+            return this;
+        }
+
+        public Builder track(Track track) {
+            this.track= track;
+            return this;
+        }
+
+        public TrackReview build() {
+            return new TrackReview(id, reviewText, userAccount, track);
+        }
     }
 
     public Long getId() {

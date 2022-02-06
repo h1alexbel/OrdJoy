@@ -327,19 +327,19 @@ public class TrackDaoImpl implements TrackDao {
 
     private Track buildTrack(ResultSet resultSet) throws SQLException {
         Album album = buildAlbum(resultSet);
-        return new Track(
-                resultSet.getLong("id"),
-                resultSet.getString("song_url"),
-                resultSet.getString("title"),
-                album
-        );
+        return Track.builder()
+                .id(resultSet.getLong("id"))
+                .songUrl(resultSet.getString("song_url"))
+                .title(resultSet.getString("title"))
+                .album(album)
+                .build();
     }
 
     private Album buildAlbum(ResultSet resultSet) throws SQLException {
-        return new Album(
-                resultSet.getLong("a_id"),
-                resultSet.getString("a_title")
-        );
+        return Album.builder()
+                .id(resultSet.getLong("a_id"))
+                .title(resultSet.getString("a_title"))
+                .build();
     }
 
     private void rollbackTransaction(ProxyConnection connection) {

@@ -397,24 +397,24 @@ public class UserDaoImpl implements UserDao {
 
     private UserAccount buildUserAccount(ResultSet resultSet) throws SQLException {
         UserData data = buildUserData(resultSet);
-        return new UserAccount(
-                resultSet.getLong("id"),
-                resultSet.getString("email"),
-                resultSet.getString("login"),
-                resultSet.getString("password"),
-                resultSet.getInt(DISCOUNT_PERCENTAGE_LEVEL),
-                data
-        );
+        return UserAccount.builder()
+                .id(resultSet.getLong("id"))
+                .email(resultSet.getString("email"))
+                .login(resultSet.getString("login"))
+                .password(resultSet.getString("password"))
+                .discountPercentageLevel(resultSet.getInt(DISCOUNT_PERCENTAGE_LEVEL))
+                .userData(data)
+                .build();
     }
 
     private UserData buildUserData(ResultSet resultSet) throws SQLException {
-        return new UserData(
-                UserRole.valueOf(resultSet.getString("role")),
-                resultSet.getString("first_name"),
-                resultSet.getString("last_name"),
-                resultSet.getInt("age"),
-                resultSet.getString("card_number")
-        );
+        return UserData.builder()
+                .userRole(UserRole.valueOf(resultSet.getString("role")))
+                .firstName(resultSet.getString("first_name"))
+                .lastName(resultSet.getString("last_name"))
+                .age(resultSet.getInt("age"))
+                .cardNumber(resultSet.getString("card_number"))
+                .build();
     }
 
     private void rollbackTransaction(ProxyConnection connection) {

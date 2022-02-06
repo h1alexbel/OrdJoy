@@ -19,6 +19,47 @@ public class UserData {
         this.cardNumber = cardNumber;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private UserRole userRole;
+        private String firstName;
+        private String lastName;
+        private Integer age;
+        private String cardNumber;
+
+        public Builder userRole(UserRole userRole) {
+            this.userRole = userRole;
+            return this;
+        }
+
+        public Builder firstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public Builder lastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public Builder age(Integer age) {
+            this.age = age;
+            return this;
+        }
+
+        public Builder cardNumber(String cardNumber) {
+            this.cardNumber = cardNumber;
+            return this;
+        }
+
+        public UserData build() {
+            return new UserData(userRole, firstName, lastName ,age, cardNumber);
+        }
+    }
+
     public UserRole getUserRole() {
         return userRole;
     }

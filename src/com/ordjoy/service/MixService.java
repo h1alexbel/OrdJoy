@@ -58,11 +58,12 @@ public class MixService {
         Optional<MixDto> maybeMix;
         try {
             maybeMix = mixDao.findById(id).stream()
-                    .map(mix -> new MixDto(
-                            mix.getId(),
-                            mix.getName(),
-                            mix.getDescription()
-                    )).findFirst();
+                    .map(mix -> MixDto.builder()
+                            .id(mix.getId())
+                            .name(mix.getName())
+                            .description(mix.getDescription())
+                            .build())
+                    .findFirst();
             return maybeMix;
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
@@ -73,11 +74,12 @@ public class MixService {
         List<MixDto> mixes;
         try {
             mixes = mixDao.findAll(filter).stream()
-                    .map(mix -> new MixDto(
-                            mix.getId(),
-                            mix.getName(),
-                            mix.getDescription()
-                    )).collect(toList());
+                    .map(mix -> MixDto.builder()
+                            .id(mix.getId())
+                            .name(mix.getName())
+                            .description(mix.getDescription())
+                            .build())
+                    .collect(toList());
             return mixes;
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
@@ -104,11 +106,12 @@ public class MixService {
         Optional<MixDto> maybeMix;
         try {
             maybeMix = mixDao.findMixByMixName(mixName).stream()
-                    .map(mix -> new MixDto(
-                            mix.getId(),
-                            mix.getName(),
-                            mix.getDescription()
-                    )).findFirst();
+                    .map(mix -> MixDto.builder()
+                            .id(mix.getId())
+                            .name(mix.getName())
+                            .description(mix.getDescription())
+                            .build())
+                    .findFirst();
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
@@ -134,6 +137,9 @@ public class MixService {
     }
 
     public Mix buildMix(String name, String description) {
-        return new Mix(name, description);
+        return Mix.builder()
+                .name(name)
+                .description(description)
+                .build();
     }
 }

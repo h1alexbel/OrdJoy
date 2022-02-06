@@ -16,6 +16,41 @@ public class MixReviewDto implements Serializable {
         this.userAccount = userAccount;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Long id;
+        private String reviewText;
+        private MixDto mix;
+        private UserAccountDto userAccount;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder reviewText(String reviewText) {
+            this.reviewText = reviewText;
+            return this;
+        }
+
+        public Builder mix(MixDto mix) {
+            this.mix = mix;
+            return this;
+        }
+
+        public Builder userAccount(UserAccountDto userAccount) {
+            this.userAccount = userAccount;
+            return this;
+        }
+
+        public MixReviewDto build() {
+            return new MixReviewDto(id, reviewText, mix, userAccount);
+        }
+    }
+
     public Long getId() {
         return id;
     }

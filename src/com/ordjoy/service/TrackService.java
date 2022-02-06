@@ -140,8 +140,10 @@ public class TrackService {
 
     public Track buildTrack(String songUrl, String title, String albumTitle) {
         Album album = new Album(albumTitle);
-        return new Track(
-                songUrl, title, album
-        );
+        return Track.builder()
+                .songUrl(songUrl)
+                .title(title)
+                .album(album)
+                .build();
     }
 }

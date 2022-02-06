@@ -23,15 +23,39 @@ public class Album implements Entity {
         this.reviews = reviews;
     }
 
-    public Album(Long id, String title) {
-        this.id = id;
-        this.title = title;
+    public static Builder builder() {
+        return new Builder();
     }
 
-    public Album(String title, Set<Track> tracks, Set<AlbumReview> reviews) {
-        this.title = title;
-        this.tracks = tracks;
-        this.reviews = reviews;
+    public static class Builder {
+        private Long id;
+        private String title;
+        private Set<Track> tracks;
+        private Set<AlbumReview> reviews;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder tracks(Set<Track> tracks) {
+            this.tracks = tracks;
+            return this;
+        }
+
+        public Builder reviews(Set<AlbumReview> reviews) {
+            this.reviews = reviews;
+            return this;
+        }
+
+        public Album build() {
+            return new Album(id, title, tracks, reviews);
+        }
     }
 
     public Long getId() {

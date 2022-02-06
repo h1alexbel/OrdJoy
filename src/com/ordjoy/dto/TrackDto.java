@@ -16,6 +16,41 @@ public class TrackDto implements Serializable {
         this.album = album;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Long id;
+        private String url;
+        private String title;
+        private AlbumDto album;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder url(String url) {
+            this.url = url;
+            return this;
+        }
+
+        public Builder title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder album(AlbumDto album) {
+            this.album = album;
+            return this;
+        }
+
+        public TrackDto build() {
+            return new TrackDto(id, url, title, album);
+        }
+    }
+
     public Long getId() {
         return id;
     }

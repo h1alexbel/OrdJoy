@@ -17,10 +17,39 @@ public class AlbumReview implements Entity {
         this.album = album;
     }
 
-    public AlbumReview(String reviewText, UserAccount userAccount, Album album) {
-        this.reviewText = reviewText;
-        this.userAccount = userAccount;
-        this.album = album;
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Long id;
+        private String reviewText;
+        private UserAccount userAccount;
+        private Album album;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder reviewText(String reviewText) {
+            this.reviewText = reviewText;
+            return this;
+        }
+
+        public Builder userAccount(UserAccount userAccount) {
+            this.userAccount = userAccount;
+            return this;
+        }
+
+        public Builder album(Album album) {
+            this.album = album;
+            return this;
+        }
+
+        public AlbumReview build() {
+            return new AlbumReview(id, reviewText, userAccount, album);
+        }
     }
 
     public Long getId() {

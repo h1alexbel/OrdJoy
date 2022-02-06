@@ -595,51 +595,51 @@ public class OrderDaoImpl implements OrderDao {
     private Order buildOrder(ResultSet resultSet) throws SQLException {
         UserAccount userAccount = buildUserAccount(resultSet);
         Track track = buildTrack(resultSet);
-        return new Order(
-                resultSet.getLong("id"),
-                resultSet.getBigDecimal("price"),
-                userAccount,
-                OrderStatus.valueOf(resultSet.getString("order_status")),
-                track
-        );
+        return Order.builder()
+                .id(resultSet.getLong("id"))
+                .price(resultSet.getBigDecimal("price"))
+                .userAccount(userAccount)
+                .orderStatus(OrderStatus.valueOf(resultSet.getString("order_status")))
+                .track(track)
+                .build();
     }
 
     private Track buildTrack(ResultSet resultSet) throws SQLException {
         Album album = buildAlbum(resultSet);
-        return new Track(
-                resultSet.getLong("tr_id"),
-                resultSet.getString("song_url"),
-                resultSet.getString("title"),
-                album
-        );
+        return Track.builder()
+                .id(resultSet.getLong("tr_id"))
+                .songUrl(resultSet.getString("song_url"))
+                .title(resultSet.getString("title"))
+                .album(album)
+                .build();
     }
 
     private Album buildAlbum(ResultSet resultSet) throws SQLException {
-        return new Album(
-                resultSet.getLong("al_id"),
-                resultSet.getString("al_title")
-        );
+        return Album.builder()
+                .id(resultSet.getLong("al_id"))
+                .title(resultSet.getString("al_title"))
+                .build();
     }
 
     private UserAccount buildUserAccount(ResultSet resultSet) throws SQLException {
         UserData data = buildUserData(resultSet);
-        return new UserAccount(
-                resultSet.getLong("uad_id"),
-                resultSet.getString("email"),
-                resultSet.getString("uad_login"),
-                resultSet.getString("pass"),
-                resultSet.getInt("discount_percentage_level"),
-                data
-        );
+        return UserAccount.builder()
+                .id(resultSet.getLong("uad_id"))
+                .email(resultSet.getString("email"))
+                .login(resultSet.getString("uad_login"))
+                .password(resultSet.getString("pass"))
+                .discountPercentageLevel(resultSet.getInt("discount_percentage_level"))
+                .userData(data)
+                .build();
     }
 
     private UserData buildUserData(ResultSet resultSet) throws SQLException {
-        return new UserData(
-                UserRole.valueOf(resultSet.getString("role")),
-                resultSet.getString("uad_first_name"),
-                resultSet.getString("uad_last_name"),
-                resultSet.getInt("age"),
-                resultSet.getString("card_number")
-        );
+        return UserData.builder()
+                .userRole(UserRole.valueOf(resultSet.getString("role")))
+                .firstName(resultSet.getString("uad_first_name"))
+                .lastName(resultSet.getString("uad_last_name"))
+                .age(resultSet.getInt("age"))
+                .cardNumber(resultSet.getString("card_number"))
+                .build();
     }
 }

@@ -17,11 +17,11 @@ public class AlbumReviewMapper implements Mapper<AlbumReview, AlbumReviewDto> {
 
     @Override
     public AlbumReviewDto mapFrom(AlbumReview albumReview) {
-        return new AlbumReviewDto(
-                albumReview.getId(),
-                albumReview.getReviewText(),
-                AlbumMapper.getInstance().mapFrom(albumReview.getAlbum()),
-                UserAccountMapper.getInstance().mapFrom(albumReview.getUserAccount())
-        );
+        return AlbumReviewDto.builder()
+                .id(albumReview.getId())
+                .reviewText(albumReview.getReviewText())
+                .album(AlbumMapper.getInstance().mapFrom(albumReview.getAlbum()))
+                .userAccount(UserAccountMapper.getInstance().mapFrom(albumReview.getUserAccount()))
+                .build();
     }
 }

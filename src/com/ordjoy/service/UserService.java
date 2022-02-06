@@ -19,9 +19,6 @@ import static java.util.stream.Collectors.*;
 public class UserService {
 
     private static final Integer STARTER_DISCOUNT_PERCENTAGE_LEVEL = 0;
-    private static final int DEFAULT_AGE_FOR_COMPLETE_ORDER = 18;
-    private static final String DEFAULT_CARD_NUMBER = "";
-    private static final String NO_PASS_FOR_COMPLETE_ORDER = "";
     private final UserDaoImpl userDao = UserDaoImpl.getInstance();
     private static final UserService INSTANCE = new UserService();
     private final UserAccountMapper userAccountMapper = UserAccountMapper.getInstance();
@@ -38,26 +35,17 @@ public class UserService {
         List<UserAccountDto> users;
         try {
             users = userDao.findAll(filter).stream()
-                    .map(user -> new UserAccountDto(
-                            user.getId(),
-                            user.getLogin(),
-                            user.getEmail(),
-                            user.getDiscountPercentageLevel(),
-                            user.getUserData().getUserRole(),
-                            user.getUserData().getFirstName(),
-                            user.getUserData().getLastName()
-                    ))
+                    .map(userAccount -> UserAccountDto.builder()
+                            .id(userAccount.getId())
+                            .login(userAccount.getLogin())
+                            .email(userAccount.getEmail())
+                            .discountPercentageLevel(userAccount.getDiscountPercentageLevel())
+                            .userRole(userAccount.getUserData().getUserRole())
+                            .firstName(userAccount.getUserData().getFirstName())
+                            .lastName(userAccount.getUserData().getLastName())
+                            .build())
                     .collect(toList());
             return users;
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
-        }
-    }
-
-    public UserAccountDto addNewAdmin(UserAccount userAccount) throws ServiceException {
-        try {
-            UserAccount savedUser = userDao.save(userAccount);
-            return userAccountMapper.mapFrom(savedUser);
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
@@ -76,15 +64,16 @@ public class UserService {
         Optional<UserAccountDto> maybeUser;
         try {
             maybeUser = userDao.findUserAccountByLoginAndPassword(login, password).stream()
-                    .map(user -> new UserAccountDto(
-                            user.getId(),
-                            user.getLogin(),
-                            user.getEmail(),
-                            user.getDiscountPercentageLevel(),
-                            user.getUserData().getUserRole(),
-                            user.getUserData().getFirstName(),
-                            user.getUserData().getLastName()
-                    )).findFirst();
+                    .map(userAccount -> UserAccountDto.builder()
+                            .id(userAccount.getId())
+                            .login(userAccount.getLogin())
+                            .email(userAccount.getEmail())
+                            .discountPercentageLevel(userAccount.getDiscountPercentageLevel())
+                            .userRole(userAccount.getUserData().getUserRole())
+                            .firstName(userAccount.getUserData().getFirstName())
+                            .lastName(userAccount.getUserData().getLastName())
+                            .build())
+                    .findFirst();
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
@@ -135,15 +124,16 @@ public class UserService {
         Optional<UserAccountDto> maybeUser;
         try {
             maybeUser = userDao.findById(id).stream()
-                    .map(user -> new UserAccountDto(
-                            user.getId(),
-                            user.getLogin(),
-                            user.getEmail(),
-                            user.getDiscountPercentageLevel(),
-                            user.getUserData().getUserRole(),
-                            user.getUserData().getFirstName(),
-                            user.getUserData().getLastName()
-                    )).findFirst();
+                    .map(userAccount -> UserAccountDto.builder()
+                            .id(userAccount.getId())
+                            .login(userAccount.getLogin())
+                            .email(userAccount.getEmail())
+                            .discountPercentageLevel(userAccount.getDiscountPercentageLevel())
+                            .userRole(userAccount.getUserData().getUserRole())
+                            .firstName(userAccount.getUserData().getFirstName())
+                            .lastName(userAccount.getUserData().getLastName())
+                            .build())
+                    .findFirst();
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
@@ -196,15 +186,16 @@ public class UserService {
         Optional<UserAccountDto> maybeUser;
         try {
             maybeUser = userDao.findUserByLogin(login).stream()
-                    .map(user -> new UserAccountDto(
-                            user.getId(),
-                            user.getLogin(),
-                            user.getEmail(),
-                            user.getDiscountPercentageLevel(),
-                            user.getUserData().getUserRole(),
-                            user.getUserData().getFirstName(),
-                            user.getUserData().getLastName()
-                    )).findFirst();
+                    .map(userAccount -> UserAccountDto.builder()
+                            .id(userAccount.getId())
+                            .login(userAccount.getLogin())
+                            .email(userAccount.getEmail())
+                            .discountPercentageLevel(userAccount.getDiscountPercentageLevel())
+                            .userRole(userAccount.getUserData().getUserRole())
+                            .firstName(userAccount.getUserData().getFirstName())
+                            .lastName(userAccount.getUserData().getLastName())
+                            .build())
+                    .findFirst();
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
@@ -215,15 +206,16 @@ public class UserService {
         Optional<UserAccountDto> maybeUser;
         try {
             maybeUser = userDao.findUserByEmail(email).stream()
-                    .map(user -> new UserAccountDto(
-                            user.getId(),
-                            user.getLogin(),
-                            user.getEmail(),
-                            user.getDiscountPercentageLevel(),
-                            user.getUserData().getUserRole(),
-                            user.getUserData().getFirstName(),
-                            user.getUserData().getLastName()
-                    )).findFirst();
+                    .map(userAccount -> UserAccountDto.builder()
+                            .id(userAccount.getId())
+                            .login(userAccount.getLogin())
+                            .email(userAccount.getEmail())
+                            .discountPercentageLevel(userAccount.getDiscountPercentageLevel())
+                            .userRole(userAccount.getUserData().getUserRole())
+                            .firstName(userAccount.getUserData().getFirstName())
+                            .lastName(userAccount.getUserData().getLastName())
+                            .build())
+                    .findFirst();
             return maybeUser;
         } catch (DaoException e) {
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
@@ -238,17 +230,34 @@ public class UserService {
             String lastName,
             String ageToParse,
             String cardNumber) {
-        return new UserAccount(
-                email, login, password, UserService.STARTER_DISCOUNT_PERCENTAGE_LEVEL,
-                new UserData(UserRole.CLIENT_ROLE, firstName, lastName, Integer.parseInt(ageToParse), cardNumber)
-        );
+        UserData data = UserData.builder()
+                .userRole(UserRole.CLIENT_ROLE)
+                .firstName(firstName)
+                .lastName(lastName)
+                .age(Integer.parseInt(ageToParse))
+                .cardNumber(cardNumber)
+                .build();
+        return UserAccount.builder()
+                .email(email)
+                .login(login)
+                .password(password)
+                .discountPercentageLevel(STARTER_DISCOUNT_PERCENTAGE_LEVEL)
+                .userData(data)
+                .build();
     }
 
     public UserAccount buildUserWithoutPasswordAndAgeFromSession(UserAccountDto userAccountDto) {
-        return new UserAccount(userAccountDto.getEmail(), userAccountDto.getLogin(), NO_PASS_FOR_COMPLETE_ORDER,
-                userAccountDto.getDiscountPercentageLevel(), new UserData(userAccountDto.getRole(),
-                userAccountDto.getFirstName(), userAccountDto.getLastName(),
-                DEFAULT_AGE_FOR_COMPLETE_ORDER, DEFAULT_CARD_NUMBER));
+        UserData data = UserData.builder()
+                .userRole(userAccountDto.getRole())
+                .firstName(userAccountDto.getFirstName())
+                .lastName(userAccountDto.getLastName())
+                .build();
+        return UserAccount.builder()
+                .email(userAccountDto.getEmail())
+                .login(userAccountDto.getLogin())
+                .discountPercentageLevel(userAccountDto.getDiscountPercentageLevel())
+                .userData(data)
+                .build();
     }
 
     public UserAccount buildAdmin(
@@ -259,9 +268,19 @@ public class UserService {
             String lastName,
             String ageToParse,
             String cardNumber) {
-        return new UserAccount(
-                email, login, password, UserService.STARTER_DISCOUNT_PERCENTAGE_LEVEL,
-                new UserData(UserRole.ADMIN_ROLE, firstName, lastName, Integer.parseInt(ageToParse), cardNumber)
-        );
+        UserData data = UserData.builder()
+                .userRole(UserRole.ADMIN_ROLE)
+                .firstName(firstName)
+                .lastName(lastName)
+                .age(Integer.parseInt(ageToParse))
+                .cardNumber(cardNumber)
+                .build();
+        return UserAccount.builder()
+                .email(email)
+                .login(login)
+                .password(password)
+                .discountPercentageLevel(STARTER_DISCOUNT_PERCENTAGE_LEVEL)
+                .userData(data)
+                .build();
     }
 }

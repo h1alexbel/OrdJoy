@@ -16,6 +16,41 @@ public class TrackReviewDto implements Serializable {
         this.userAccount = userAccount;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Long id;
+        private String reviewText;
+        private TrackDto track;
+        private UserAccountDto userAccount;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder reviewText(String reviewText) {
+            this.reviewText = reviewText;
+            return this;
+        }
+
+        public Builder track(TrackDto track) {
+            this.track = track;
+            return this;
+        }
+
+        public Builder userAccount(UserAccountDto userAccount) {
+            this.userAccount = userAccount;
+            return this;
+        }
+
+        public TrackReviewDto build() {
+            return new TrackReviewDto(id, reviewText, track, userAccount);
+        }
+    }
+
     public Long getId() {
         return id;
     }

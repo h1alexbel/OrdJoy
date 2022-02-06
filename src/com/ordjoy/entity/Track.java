@@ -15,44 +15,60 @@ public class Track implements Entity {
     public Track() {
     }
 
-    public Track(String songUrl, String title, Album album) {
-        this.songUrl = songUrl;
-        this.title = title;
-        this.album = album;
-    }
-
-    public Track(String songUrl, String title, Album album, List<Mix> mixes) {
+    public Track(Long id, String songUrl, String title, Album album, List<Mix> mixes, Set<TrackReview> reviews) {
+        this.id = id;
         this.songUrl = songUrl;
         this.title = title;
         this.album = album;
         this.mixes = mixes;
-    }
-
-    public Track(String songUrl, String title, Album album, Set<TrackReview> reviews) {
-        this.songUrl = songUrl;
-        this.title = title;
-        this.album = album;
         this.reviews = reviews;
     }
 
-    public Track(String songUrl, String title) {
-        this.songUrl = songUrl;
-        this.title = title;
+    public static Builder builder() {
+        return new Builder();
     }
 
-    public Track(Long id, String songUrl, String title, Album album, Set<TrackReview> reviews) {
-        this.id = id;
-        this.songUrl = songUrl;
-        this.title = title;
-        this.album = album;
-        this.reviews = reviews;
-    }
+    public static class Builder {
+        private Long id;
+        private String songUrl;
+        private String title;
+        private Album album;
+        private List<Mix> mixes;
+        private Set<TrackReview> reviews;
 
-    public Track(Long id, String songUrl, String title, Album album) {
-        this.id = id;
-        this.songUrl = songUrl;
-        this.title = title;
-        this.album = album;
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder songUrl(String songUrl) {
+            this.songUrl = songUrl;
+            return this;
+        }
+
+        public Builder title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder album(Album album) {
+            this.album = album;
+            return this;
+        }
+
+        public Builder mixes(List<Mix> mixes) {
+            this.mixes = mixes;
+            return this;
+        }
+
+        public Builder reviews(Set<TrackReview> reviews) {
+            this.reviews = reviews;
+            return this;
+        }
+
+        public Track build() {
+            return new Track(id, songUrl, title, album, mixes, reviews);
+        }
     }
 
     public Long getId() {

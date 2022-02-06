@@ -17,12 +17,12 @@ public class OrderMapper implements Mapper<Order, OrderDto> {
 
     @Override
     public OrderDto mapFrom(Order order) {
-        return new OrderDto(
-                order.getId(),
-                order.getPrice(),
-                UserAccountMapper.getInstance().mapFrom(order.getUserAccount()),
-                TrackMapper.getInstance().mapFrom(order.getTrack()),
-                order.getOrderStatus()
-        );
+        return OrderDto.builder()
+                .id(order.getId())
+                .price(order.getPrice())
+                .userAccount(UserAccountMapper.getInstance().mapFrom(order.getUserAccount()))
+                .track(TrackMapper.getInstance().mapFrom(order.getTrack()))
+                .status(order.getOrderStatus())
+                .build();
     }
 }

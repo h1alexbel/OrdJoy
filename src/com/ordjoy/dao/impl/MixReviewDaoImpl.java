@@ -291,41 +291,41 @@ public class MixReviewDaoImpl implements MixReviewDao {
     private MixReview buildMixReview(ResultSet resultSet) throws SQLException {
         UserAccount userAccount = buildUserAccount(resultSet);
         Mix mix = buildMix(resultSet);
-        return new MixReview(
-                resultSet.getLong("rm_id"),
-                resultSet.getString("rm_review_text"),
-                userAccount,
-                mix
-        );
+        return MixReview.builder()
+                .id(resultSet.getLong("rm_id"))
+                .reviewText(resultSet.getString("rm_review_text"))
+                .userAccount(userAccount)
+                .mix(mix)
+                .build();
     }
 
     private Mix buildMix(ResultSet resultSet) throws SQLException {
-        return new Mix(
-                resultSet.getLong("id"),
-                resultSet.getString("name"),
-                resultSet.getString("description")
-        );
+        return Mix.builder()
+                .id(resultSet.getLong("id"))
+                .name(resultSet.getString("name"))
+                .description(resultSet.getString("description"))
+                .build();
     }
 
     private UserAccount buildUserAccount(ResultSet resultSet) throws SQLException {
         UserData data = buildUserData(resultSet);
-        return new UserAccount(
-                resultSet.getLong("user_id"),
-                resultSet.getString("email"),
-                resultSet.getString("login"),
-                resultSet.getString("password"),
-                resultSet.getInt("discount_percentage_level"),
-                data
-        );
+        return UserAccount.builder()
+                .id(resultSet.getLong("user_id"))
+                .email(resultSet.getString("email"))
+                .login(resultSet.getString("login"))
+                .password(resultSet.getString("password"))
+                .discountPercentageLevel(resultSet.getInt("discount_percentage_level"))
+                .userData(data)
+                .build();
     }
 
     private UserData buildUserData(ResultSet resultSet) throws SQLException {
-        return new UserData(
-                UserRole.valueOf(resultSet.getString("role")),
-                resultSet.getString("first_name"),
-                resultSet.getString("last_name"),
-                resultSet.getInt("age"),
-                resultSet.getString("card_number")
-        );
+        return UserData.builder()
+                .userRole(UserRole.valueOf(resultSet.getString("role")))
+                .firstName(resultSet.getString("first_name"))
+                .lastName(resultSet.getString("last_name"))
+                .age(resultSet.getInt("age"))
+                .cardNumber(resultSet.getString("card_number"))
+                .build();
     }
 }

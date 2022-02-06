@@ -21,6 +21,47 @@ public class OrderDto implements Serializable {
         this.status = status;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Long id;
+        private BigDecimal price;
+        private UserAccountDto userAccount;
+        private TrackDto track;
+        private OrderStatus status;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder price(BigDecimal price) {
+            this.price = price;
+            return this;
+        }
+
+        public Builder userAccount(UserAccountDto userAccount) {
+            this.userAccount = userAccount;
+            return this;
+        }
+
+        public Builder track(TrackDto track) {
+            this.track = track;
+            return this;
+        }
+
+        public Builder status(OrderStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        public OrderDto build() {
+            return new OrderDto(id, price, userAccount, track, status);
+        }
+    }
+
     public OrderStatus getStatus() {
         return status;
     }

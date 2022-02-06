@@ -16,6 +16,41 @@ public class AlbumReviewDto implements Serializable {
         this.userAccount = userAccount;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Long id;
+        private String reviewText;
+        private AlbumDto album;
+        private UserAccountDto userAccount;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder reviewText(String reviewText) {
+            this.reviewText = reviewText;
+            return this;
+        }
+
+        public Builder album(AlbumDto album) {
+            this.album = album;
+            return this;
+        }
+
+        public Builder userAccount(UserAccountDto userAccount) {
+            this.userAccount = userAccount;
+            return this;
+        }
+
+        public AlbumReviewDto build() {
+            return new AlbumReviewDto(id, reviewText, album, userAccount);
+        }
+    }
+
     public Long getId() {
         return id;
     }

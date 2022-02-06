@@ -17,14 +17,14 @@ public class UserAccountMapper implements Mapper<UserAccount, UserAccountDto> {
 
     @Override
     public UserAccountDto mapFrom(UserAccount userAccount) {
-        return new UserAccountDto(
-                userAccount.getId(),
-                userAccount.getLogin(),
-                userAccount.getEmail(),
-                userAccount.getDiscountPercentageLevel(),
-                userAccount.getUserData().getUserRole(),
-                userAccount.getUserData().getFirstName(),
-                userAccount.getUserData().getLastName()
-        );
+        return UserAccountDto.builder()
+                .id(userAccount.getId())
+                .login(userAccount.getLogin())
+                .email(userAccount.getEmail())
+                .discountPercentageLevel(userAccount.getDiscountPercentageLevel())
+                .userRole(userAccount.getUserData().getUserRole())
+                .firstName(userAccount.getUserData().getFirstName())
+                .lastName(userAccount.getUserData().getLastName())
+                .build();
     }
 }

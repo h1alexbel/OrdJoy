@@ -287,43 +287,43 @@ public class AlbumDaoImpl implements AlbumDao {
     }
 
     private Album buildAlbum(ResultSet resultSet) throws SQLException {
-        return new Album(
-                resultSet.getLong("id"),
-                resultSet.getString("title")
-        );
+        return Album.builder()
+                .id(resultSet.getLong("id"))
+                .title(resultSet.getString("title"))
+                .build();
     }
 
     private AlbumReview buildAlbumReview(ResultSet resultSet) throws SQLException {
         UserAccount userAccount = buildUserAccount(resultSet);
         Album album = buildAlbum(resultSet);
-        return new AlbumReview(
-                resultSet.getLong("ra_id"),
-                resultSet.getString("ra_review_text"),
-                userAccount,
-                album
-        );
+        return AlbumReview.builder()
+                .id(resultSet.getLong("ra_id"))
+                .reviewText(resultSet.getString("ra_review_text"))
+                .userAccount(userAccount)
+                .album(album)
+                .build();
     }
 
     private UserAccount buildUserAccount(ResultSet resultSet) throws SQLException {
         UserData data = buildUserData(resultSet);
-        return new UserAccount(
-                resultSet.getLong("user_id"),
-                resultSet.getString("email"),
-                resultSet.getString("login"),
-                resultSet.getString("password"),
-                resultSet.getInt("discount_percentage_level"),
-                data
-        );
+        return UserAccount.builder()
+                .id(resultSet.getLong("user_id"))
+                .email(resultSet.getString("email"))
+                .login(resultSet.getString("login"))
+                .password(resultSet.getString("password"))
+                .discountPercentageLevel(resultSet.getInt("discount_percentage_level"))
+                .userData(data)
+                .build();
     }
 
     private UserData buildUserData(ResultSet resultSet) throws SQLException {
-        return new UserData(
-                UserRole.valueOf(resultSet.getString("role")),
-                resultSet.getString("first_name"),
-                resultSet.getString("last_name"),
-                resultSet.getInt("age"),
-                resultSet.getString("card_number")
-        );
+        return UserData.builder()
+                .userRole(UserRole.valueOf(resultSet.getString("role")))
+                .firstName(resultSet.getString("first_name"))
+                .lastName(resultSet.getString("last_name"))
+                .age(resultSet.getInt("age"))
+                .cardNumber(resultSet.getString("card_number"))
+                .build();
     }
 
     private void rollbackTransaction(ProxyConnection connection) {

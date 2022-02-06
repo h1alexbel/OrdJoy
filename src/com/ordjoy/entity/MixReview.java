@@ -17,10 +17,39 @@ public class MixReview implements Entity {
         this.mix = mix;
     }
 
-    public MixReview(String reviewText, UserAccount userAccount, Mix mix) {
-        this.reviewText = reviewText;
-        this.userAccount = userAccount;
-        this.mix = mix;
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Long id;
+        private String reviewText;
+        private UserAccount userAccount;
+        private Mix mix;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder reviewText(String reviewText) {
+            this.reviewText = reviewText;
+            return this;
+        }
+
+        public Builder userAccount(UserAccount userAccount) {
+            this.userAccount = userAccount;
+            return this;
+        }
+
+        public Builder mix(Mix mix) {
+            this.mix = mix;
+            return this;
+        }
+
+        public MixReview build() {
+            return new MixReview(id, reviewText, userAccount, mix);
+        }
     }
 
     public Long getId() {

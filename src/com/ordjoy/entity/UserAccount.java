@@ -13,15 +13,6 @@ public class UserAccount implements Entity {
     public UserAccount() {
     }
 
-    public UserAccount(Long id, String email, String login, String password, Integer discountPercentageLevel, UserData userData) {
-        this.id = id;
-        this.email = email;
-        this.login = login;
-        this.password = password;
-        this.discountPercentageLevel = discountPercentageLevel;
-        this.userData = userData;
-    }
-
     public UserAccount(Long id, String email, String login, String password, Integer discountPercentageLevel, UserData userData, UserReviewData userReviewData) {
         this.id = id;
         this.email = email;
@@ -32,21 +23,57 @@ public class UserAccount implements Entity {
         this.userReviewData = userReviewData;
     }
 
-    public UserAccount(String email, String login, String password, Integer discountPercentageLevel, UserData userData, UserReviewData userReviewData) {
-        this.email = email;
-        this.login = login;
-        this.password = password;
-        this.discountPercentageLevel = discountPercentageLevel;
-        this.userData = userData;
-        this.userReviewData = userReviewData;
+    public static Builder builder() {
+        return new Builder();
     }
 
-    public UserAccount(String email, String login, String password, Integer discountPercentageLevel, UserData userData) {
-        this.email = email;
-        this.login = login;
-        this.password = password;
-        this.discountPercentageLevel = discountPercentageLevel;
-        this.userData = userData;
+    public static class Builder {
+        private Long id;
+        private String email;
+        private String login;
+        private String password;
+        private Integer discountPercentageLevel;
+        private UserData userData;
+        private UserReviewData userReviewData;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder login(String login) {
+            this.login = login;
+            return this;
+        }
+
+        public Builder password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public Builder discountPercentageLevel(Integer discountPercentageLevel) {
+            this.discountPercentageLevel = discountPercentageLevel;
+            return this;
+        }
+
+        public Builder userData(UserData userData) {
+            this.userData = userData;
+            return this;
+        }
+
+        public Builder reviewData(UserReviewData userReviewData) {
+            this.userReviewData = userReviewData;
+            return this;
+        }
+
+        public UserAccount build() {
+            return new UserAccount(id, email, login, password, discountPercentageLevel, userData, userReviewData);
+        }
     }
 
     public Long getId() {

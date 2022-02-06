@@ -13,15 +13,53 @@ public class Mix implements Entity {
     public Mix() {
     }
 
-    public Mix(Long id, String name, String description) {
+    public Mix(Long id, String name, String description, Set<Track> tracks, Set<MixReview> reviews) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.tracks = tracks;
+        this.reviews = reviews;
     }
 
-    public Mix(String name, String description) {
-        this.name = name;
-        this.description = description;
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Long id;
+        private String name;
+        private String description;
+        private Set<Track> tracks;
+        private Set<MixReview> reviews;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder tracks(Set<Track> tracks) {
+            this.tracks = tracks;
+            return this;
+        }
+
+        public Builder reviews(Set<MixReview> reviews) {
+            this.reviews = reviews;
+            return this;
+        }
+
+        public Mix build() {
+            return new Mix(id, name, description, tracks, reviews);
+        }
     }
 
     public Long getId() {
