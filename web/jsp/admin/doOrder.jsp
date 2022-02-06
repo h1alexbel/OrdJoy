@@ -29,7 +29,7 @@
                 <fmt:message key="order.text.id"/>
             </label>
         </div>
-        <input type="submit" value="<fmt:message key="orders.run.button"/>>
+        <input type="submit" value="<fmt:message key="orders.run.button"/>">
     </form>
 </div>
 </body>

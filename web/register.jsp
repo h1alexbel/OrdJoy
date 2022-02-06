@@ -69,7 +69,7 @@
             <input name="cardNumber" type="text" required pattern="^\d{16}$">
             <span></span>
             <label>
-                <fmt:message key="register.firstname"/>
+                <fmt:message key="register.card"/>
             </label>
         </div>
         <input type="submit" value="<fmt:message key="register.submit"/>">
