@@ -70,8 +70,9 @@
 
                 <p><ftm:message key="big.message"/></p>
                 <ul>
-                    <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_tracks">Track
-                        updates</a></li>
+                    <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_tracks">
+                        <fmt:message key="track.updates"/>
+                    </a></li>
                     <li>
                         <ftm:message key="big.message.info"/>
                     </li>
