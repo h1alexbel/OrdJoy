@@ -47,7 +47,7 @@ public class RegisterCommand implements FrontCommand {
             UserAccount userAccount = userService.buildUser
                     (email, login, encodedPassword, firstName, lastName, age, cardNumber);
             ValidationResult validationResult = userValidator.isValid(userAccount);
-            if (validationResult.isValid()) {
+            if (validationResult.isValid() && !userService.isUserAccountExists(login)) {
                 UserAccountDto userAccountDto = userService.saveNewUser(userAccount);
                 page = httpServletRequest.getContextPath() + JspFormatHelper.getUserPath(GREETING_PAGE);
                 httpServletRequest.getSession().setAttribute(SESSION_USER, userAccountDto);

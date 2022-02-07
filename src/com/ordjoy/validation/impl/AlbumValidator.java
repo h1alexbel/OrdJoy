@@ -9,7 +9,7 @@ import static com.ordjoy.util.ErrorConstUtils.*;
 
 public class AlbumValidator implements Validator<Album> {
 
-    private static final String TITLE_REGEX = "^\\w.{1,512}.$";
+    private static final String TITLE_REGEX = "^[A-Za-zА-Яа-я].{1,512}.$";
     private static final AlbumValidator INSTANCE = new AlbumValidator();
 
     private AlbumValidator() {

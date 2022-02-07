@@ -23,7 +23,7 @@
           enctype="application/x-www-form-urlencoded">
         <input type="hidden" name="frontCommand" value="login">
         <div class="txt_field">
-            <input name="login" type="text" required pattern="^\w{3,20}$">
+            <input name="login" type="text" required pattern="^[A-Za-zА-Яа-я1-9]{3,20}$">
             <span></span>
             <label>
                 <fmt:message key="login.username"/>

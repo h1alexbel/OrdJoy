@@ -9,7 +9,7 @@ import static com.ordjoy.util.ErrorConstUtils.*;
 
 public class TrackValidator implements Validator<Track> {
 
-    private static final String TITLE_REGEX = "^\\w.{1,512}.$";
+    private static final String TITLE_REGEX = "^[A-Za-zА-Яа-я].{1,512}.$";
     private static final String URL_REGEX = "^https://\\w.+$";
     private static final TrackValidator INSTANCE = new TrackValidator();
 

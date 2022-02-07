@@ -9,8 +9,8 @@ import static com.ordjoy.util.ErrorConstUtils.*;
 
 public class MixValidator implements Validator<Mix> {
 
-    private static final String NAME_REGEX = "^\\w.{1,512}.$";
-    private static final String DESCRIPTION_REGEX = "\\w.{2,512}";
+    private static final String NAME_REGEX = "^[A-Za-zА-Яа-я].{1,512}.$";
+    private static final String DESCRIPTION_REGEX = "[A-Za-zА-Яа-я].{2,512}";
     private static final MixValidator INSTANCE = new MixValidator();
 
     private MixValidator() {

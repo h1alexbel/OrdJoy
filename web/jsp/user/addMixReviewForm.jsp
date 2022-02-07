@@ -23,14 +23,14 @@
           enctype="application/x-www-form-urlencoded">
         <input type="hidden" name="frontCommand" value="add_mix_review">
         <div class="txt_field">
-            <input name="mixName" type="text" required pattern="^\w.{1,512}.$">
+            <input name="mixName" type="text" required pattern="^[A-Za-zА-Яа-я].{1,512}.$">
             <span></span>
             <label>
                 <fmt:message key="add.mix.review.mix.name"/>
             </label>
         </div>
         <div class="txt_field">
-            <input name="mixReviewText" type="text" required pattern="^\w.{2,512}">
+            <input name="mixReviewText" type="text" required pattern="^[A-Za-zА-Яа-я].{2,512}">
             <span></span>
             <label> <fmt:message key="review.text"/></label>
         </div>

@@ -31,21 +31,21 @@
             </label>
         </div>
         <div class="txt_field">
-            <input name="firstName" type="text" required pattern="^[A-Za-z]{2,20}$">
+            <input name="firstName" type="text" required pattern="^[A-Za-zА-Яа-я]{2,20}$">
             <span></span>
             <label>
                 <fmt:message key="register.firstname"/>
             </label>
         </div>
         <div class="txt_field">
-            <input name="lastName" type="text" required pattern="^[A-Za-z]{2,20}$">
+            <input name="lastName" type="text" required pattern="^[A-Za-zА-Яа-я]{2,20}$">
             <span></span>
             <label>
                 <fmt:message key="register.lastname"/>
             </label>
         </div>
         <div class="txt_field">
-            <input name="login" type="text" required pattern="^\w{3,20}$">
+            <input name="login" type="text" required pattern="^[A-Za-zА-Яа-я1-9]{3,20}$">
             <span></span>
             <label>
                 <fmt:message key="login.username"/>

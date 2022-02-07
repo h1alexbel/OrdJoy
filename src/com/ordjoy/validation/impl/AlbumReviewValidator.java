@@ -9,7 +9,7 @@ import static com.ordjoy.util.ErrorConstUtils.*;
 
 public class AlbumReviewValidator implements Validator<AlbumReview> {
 
-    private static final String REVIEW_REGEX = "^\\w.{2,512}";
+    private static final String REVIEW_REGEX = "^[A-Za-zА-Яа-я].{2,512}";
     private static final AlbumReviewValidator INSTANCE = new AlbumReviewValidator();
 
     private AlbumReviewValidator() {

@@ -22,7 +22,7 @@
           enctype="application/x-www-form-urlencoded">
         <input type="hidden" name="frontCommand" value="add_track">
         <div class="txt_field">
-            <input name="trackTitle" type="text" required pattern="^\w.{1,512}.$">
+            <input name="trackTitle" type="text" required pattern="^[A-Za-zА-Яа-я].{1,512}.$">
             <span></span>
             <label>
                 <fmt:message key="tracks.track.title"/>
@@ -36,7 +36,7 @@
             </label>
         </div>
         <div class="txt_field">
-            <input name="albumTitle" type="text" required pattern="^\w.{1,512}.$">
+            <input name="albumTitle" type="text" required pattern="^[A-Za-zА-Яа-я].{1,512}.$">
             <span></span>
             <label>
                 <fmt:message key="albums.album.title"/>

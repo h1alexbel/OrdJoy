@@ -10,7 +10,7 @@ import static com.ordjoy.util.ErrorConstUtils.MIX_REVIEW_INVALID_MESSAGE;
 
 public class MixReviewValidator implements Validator<MixReview> {
 
-    private static final String REVIEW_REGEX = "^\\w.{2,512}";
+    private static final String REVIEW_REGEX = "^[A-Za-zА-Яа-я].{2,512}";
     private static final MixReviewValidator INSTANCE = new MixReviewValidator();
 
     private MixReviewValidator() {

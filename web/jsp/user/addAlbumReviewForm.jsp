@@ -23,14 +23,14 @@
           enctype="application/x-www-form-urlencoded">
         <input type="hidden" name="frontCommand" value="add_album_review">
         <div class="txt_field">
-            <input name="albumTitle" type="text" required pattern="^\w.{1,512}.$">
+            <input name="albumTitle" type="text" required pattern="^[A-Za-zА-Яа-я].{1,512}.$">
             <span></span>
             <label>
                 <fmt:message key="add.album.review.album.title"/>
             </label>
         </div>
         <div class="txt_field">
-            <input name="albumReviewText" type="text" required pattern="^\w.{2,512}">
+            <input name="albumReviewText" type="text" required pattern="^[A-Za-zА-Яа-я].{2,512}">
             <span></span>
             <label>
                 <fmt:message key="review.text"/>
