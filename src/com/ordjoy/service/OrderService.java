@@ -32,10 +32,20 @@ public class OrderService {
 
     }
 
+    /**
+     * @return instance of {@link OrderService}
+     */
     public static OrderService getInstance() {
         return INSTANCE;
     }
 
+    /**
+     * Save {@link Order} in database
+     *
+     * @param order entity that be saved in database
+     * @return {@link OrderDto} that represents {@link Order} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public OrderDto makeOrder(Order order) throws ServiceException {
         try {
             Order savedOrder = orderDao.save(order);
@@ -45,6 +55,13 @@ public class OrderService {
         }
     }
 
+    /**
+     * Update Order's price in database
+     *
+     * @param price new value of {@link Order} price
+     * @param id    {@link Order} id in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public void updateOrderPrice(BigDecimal price, Long id) throws ServiceException {
         try {
             orderDao.updateOrderPrice(price, id);
@@ -53,6 +70,13 @@ public class OrderService {
         }
     }
 
+    /**
+     * Calculates order price by order id
+     *
+     * @param orderId {@link Order} id in database
+     * @return final price of {@link Order}
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public BigDecimal calculateOrderPrice(Long orderId) throws ServiceException {
         BigDecimal price = null;
         try {
@@ -73,6 +97,14 @@ public class OrderService {
         }
     }
 
+    /**
+     * Find {@link Order} in database by id
+     *
+     * @param id {@link Order} id in database
+     * @return {@link Optional} of {@link OrderDto} that represents
+     * {@link Order} in database if presents or {@link Optional} empty
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public Optional<OrderDto> findOrderById(Long id) throws ServiceException {
         try {
             Optional<Order> maybeOrder = orderDao.findById(id);
@@ -87,6 +119,13 @@ public class OrderService {
         }
     }
 
+    /**
+     * Finds all {@link OrderDto} that represents {@link Order} in database
+     *
+     * @param filter sets limit, offset and optional values (price ,status)
+     * @return List of {@link OrderDto} from database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<OrderDto> findAllOrdersWithLimitAndOffset(OrderFilter filter) throws ServiceException {
         try {
             return orderDao.findAll(filter).stream()
@@ -96,6 +135,12 @@ public class OrderService {
         }
     }
 
+    /**
+     * Update {@link Order} in database
+     *
+     * @param order new value of {@link Order}
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public void updateOrder(Order order) throws ServiceException {
         try {
             orderDao.update(order);
@@ -104,6 +149,13 @@ public class OrderService {
         }
     }
 
+    /**
+     * Delete {@link Order} from database
+     *
+     * @param id {@link Order} id in database
+     * @return boolean value {@code true} if successfully deleted or {@code false} if it failed
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public boolean deleteOrderById(Long id) throws ServiceException {
         try {
             return orderDao.deleteById(id);
@@ -112,6 +164,13 @@ public class OrderService {
         }
     }
 
+    /**
+     * Update Order's status by {@link Order} id
+     *
+     * @param newStatus new status to set
+     * @param orderId   {@link Order} id in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public void updateOrderStatus(OrderStatus newStatus, Long orderId) throws ServiceException {
         try {
             orderDao.updateOrderStatus(newStatus, orderId);
@@ -120,6 +179,13 @@ public class OrderService {
         }
     }
 
+    /**
+     * Finds all {@link OrderDto} by {@link Order} price
+     *
+     * @param price {@link Order} price in database
+     * @return List of {@link OrderDto} that represents {@link Order} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<OrderDto> findOrdersByPrice(BigDecimal price) throws ServiceException {
         try {
             return orderDao.findOrdersByPrice(price).stream()
@@ -129,6 +195,14 @@ public class OrderService {
         }
     }
 
+    /**
+     * Finds all {@link OrderDto} by {@link UserAccount} id
+     *
+     * @param userAccountId {@link UserAccount} id in database
+     * @param filter        sets limit/offset to query
+     * @return List of {@link OrderDto} that represents {@link Order} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<OrderDto> findOrdersByUserId(Long userAccountId, DefaultFilter filter) throws ServiceException {
         try {
             return orderDao.findOrdersByUserId(userAccountId, filter).stream()
@@ -138,6 +212,14 @@ public class OrderService {
         }
     }
 
+    /**
+     * Finds all {@link OrderDto} by {@link UserAccount} email
+     *
+     * @param email  {@link UserAccount} email in database
+     * @param filter sets limit/offset to query
+     * @return List of {@link OrderDto} that represents {@link Order} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<OrderDto> findOrdersByUserEmail(String email, DefaultFilter filter) throws ServiceException {
         try {
             return orderDao.findOrdersByUserEmail(email, filter).stream()
@@ -147,6 +229,14 @@ public class OrderService {
         }
     }
 
+    /**
+     * Finds all {@link OrderDto}by {@link UserAccount} login
+     *
+     * @param login {@link UserAccount} login in database
+     * @param filter sets limit/offset to query
+     * @return List of {@link OrderDto} that represents {@link Order} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<OrderDto> findOrdersByUserLogin(String login, DefaultFilter filter) throws ServiceException {
         try {
             return orderDao.findOrdersByUserLogin(login, filter).stream()
@@ -156,6 +246,14 @@ public class OrderService {
         }
     }
 
+    /**
+     * Finds all {@link OrderDto} by {@link Track} id
+     *
+     * @param trackId {@link Track} id in database
+     * @param filter sets limit/offset to query
+     * @return List of {@link OrderDto} that represents {@link Order} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<OrderDto> findOrdersByTrackId(Long trackId, DefaultFilter filter) throws ServiceException {
         try {
             return orderDao.findOrdersByTrackId(trackId, filter).stream()
@@ -165,6 +263,14 @@ public class OrderService {
         }
     }
 
+    /**
+     * Finds all {@link OrderDto} by {@link Track} title
+     *
+     * @param trackName {@link Track} trackName in database
+     * @param filter sets limit/offset to query
+     * @return List of {@link OrderDto} that represents {@link Order} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<OrderDto> findOrdersByTrackName(String trackName, DefaultFilter filter) throws ServiceException {
         try {
             return orderDao.findOrdersByTrackName(trackName, filter).stream()
@@ -174,6 +280,14 @@ public class OrderService {
         }
     }
 
+    /**
+     * Finds all {@link OrderDto} in database by {@link Order} status
+     *
+     * @param orderStatus {@link Order} status in database
+     * @param filter sets limit/offset to query
+     * @return List of {@link OrderDto} that represents {@link Order} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<OrderDto> findOrdersByOrderStatus(OrderStatus orderStatus, DefaultFilter filter) throws ServiceException {
         try {
             return orderDao.findOrdersByOrderStatus(orderStatus, filter).stream()
@@ -183,6 +297,13 @@ public class OrderService {
         }
     }
 
+    /**
+     * Make {@link Order} from data
+     * @param price Order's price
+     * @param userAccount Order's userAccount
+     * @param track Order's track
+     * @return {@link Order} entity from data
+     */
     public Order buildOrder(BigDecimal price, UserAccount userAccount, Track track) {
         return Order.builder()
                 .price(price)

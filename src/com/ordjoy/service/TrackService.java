@@ -30,10 +30,20 @@ public class TrackService {
 
     }
 
+    /**
+     * @return instance of {@link TrackService}
+     */
     public static TrackService getInstance() {
         return INSTANCE;
     }
 
+    /**
+     * Save {@link Track} in database
+     *
+     * @param track Track that be saved in database
+     * @return {@link TrackDto} that represents {@link Track} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public TrackDto addNewTrack(Track track) throws ServiceException {
         try {
             Track savedTrack = trackDao.save(track);
@@ -43,6 +53,13 @@ public class TrackService {
         }
     }
 
+    /**
+     * Check is Track with relevant title exists or not
+     *
+     * @param title {@link Track} title
+     * @return boolean value {@code true} if exist {@code false} if track not exist in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public boolean isTrackExists(String title) throws ServiceException {
         boolean result = false;
         try {
@@ -56,6 +73,13 @@ public class TrackService {
         return result;
     }
 
+    /**
+     * Find Track from database by it's id
+     *
+     * @param id {@link Track} id from database
+     * @return {@link TrackDto} that represents Track in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public Optional<TrackDto> findTrackById(Long id) throws ServiceException {
         try {
             Optional<Track> maybeTrack = trackDao.findById(id);
@@ -70,6 +94,13 @@ public class TrackService {
         }
     }
 
+    /**
+     * Finds all {@link TrackDto}
+     *
+     * @param filter that sets limit and offset, (albumTitle)
+     * @return List of {@link TrackDto} from database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<TrackDto> findAllTracksWithLimitOffset(TrackFilter filter) throws ServiceException {
         try {
             return trackDao.findAll(filter).stream()
@@ -79,6 +110,12 @@ public class TrackService {
         }
     }
 
+    /**
+     * Updates {@link Track} in database
+     *
+     * @param track new value of {@link Track}
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public void updateTrack(Track track) throws ServiceException {
         ValidationResult validationResult = trackValidator.isValid(track);
         if (validationResult.isValid()) {
@@ -90,6 +127,13 @@ public class TrackService {
         }
     }
 
+    /**
+     * Transactional Delete {@link Track} from database
+     *
+     * @param id {@link Track} id from database
+     * @return boolean value {@code true} if {@link Track} successfully deleted {@code false} if it failed
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public boolean deleteTrackById(Long id) throws ServiceException {
         try {
             return trackDao.deleteById(id);
@@ -98,6 +142,15 @@ public class TrackService {
         }
     }
 
+    /**
+     * Link {@link Track} with {@link Mix} in mutual table in database
+     *
+     * @param mixThatExists   {@link Mix} in database
+     * @param trackThatExists {@link Track} in database
+     * @return boolean value {@code true} if {@link Track} successfully linked with {@link Mix}
+     * {@code false} if it failed
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public boolean addExistingTrackToMix(Mix mixThatExists, Track trackThatExists) throws ServiceException {
         try {
             return trackDao.addExistingTrackToMix(mixThatExists, trackThatExists);
@@ -106,6 +159,13 @@ public class TrackService {
         }
     }
 
+    /**
+     * Find {@link Track} from database by title
+     *
+     * @param trackTitle {@link Track} title from database
+     * @return {@link Optional} of {@link TrackDto} if presents or {@link Optional} empty
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public Optional<TrackDto> findByTrackTitle(String trackTitle) throws ServiceException {
         try {
             Optional<Track> maybeTrack = trackDao.findByTrackTitle(trackTitle);
@@ -120,6 +180,14 @@ public class TrackService {
         }
     }
 
+    /**
+     * Find Tracks from database by {@link Album} id
+     *
+     * @param albumId {@link Album} id from database
+     * @param filter  sets limit offset
+     * @return List of {@link TrackDto} that represents Track in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<TrackDto> findTracksByAlbumId(Long albumId, DefaultFilter filter) throws ServiceException {
         try {
             return trackDao.findTracksByAlbumId(albumId, filter).stream()
@@ -129,6 +197,14 @@ public class TrackService {
         }
     }
 
+    /**
+     * Find Tracks from database by {@link Album} name
+     *
+     * @param albumName {@link Album} name from database
+     * @param filter  sets limit offset
+     * @return List of {@link TrackDto} that represents Track in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<TrackDto> findTracksByAlbumName(String albumName, DefaultFilter filter) throws ServiceException {
         try {
             return trackDao.findTracksByAlbumName(albumName, filter).stream()
@@ -138,6 +214,14 @@ public class TrackService {
         }
     }
 
+    /**
+     * Make {@link Track} from data
+     *
+     * @param songUrl    songUrl
+     * @param title      title
+     * @param albumTitle albumTitle
+     * @return {@link Track} that ready to use in database manipulations
+     */
     public Track buildTrack(String songUrl, String title, String albumTitle) {
         Album album = new Album(albumTitle);
         return Track.builder()

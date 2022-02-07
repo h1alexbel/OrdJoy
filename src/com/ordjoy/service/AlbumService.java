@@ -28,10 +28,20 @@ public class AlbumService {
 
     }
 
+    /**
+     * @return instance of {@link AlbumService}
+     */
     public static AlbumService getInstance() {
         return INSTANCE;
     }
 
+    /**
+     * Save {@link Album}
+     *
+     * @param album {@link Album} entity that be saved in database
+     * @return {@link AlbumDto} that represents {@link Album} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public AlbumDto saveAlbum(Album album) throws ServiceException {
         try {
             Album savedAlbum = albumDao.save(album);
@@ -41,6 +51,13 @@ public class AlbumService {
         }
     }
 
+    /**
+     * Check is {@link Album} exists in database or not
+     *
+     * @param title {@link Album} name
+     * @return boolean value {@code true} if exists {@code false} if not
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public boolean isAlbumExists(String title) throws ServiceException {
         boolean result = false;
         try {
@@ -54,6 +71,13 @@ public class AlbumService {
         return result;
     }
 
+    /**
+     * Find {@link AlbumDto} from database by {@link Album} id
+     *
+     * @param id {@link Album} id
+     * @return {@link Optional} of {@link AlbumDto} if present or {@link Optional} empty
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public Optional<AlbumDto> findAlbumById(Long id) throws ServiceException {
         Optional<AlbumDto> maybeAlbum;
         try {
@@ -68,6 +92,13 @@ public class AlbumService {
         return maybeAlbum;
     }
 
+    /**
+     * Finds all {@link AlbumDto}
+     *
+     * @param filter sets limit/offset
+     * @return List of {@link AlbumDto} that presents {@link Album} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<AlbumDto> findAllAlbums(AlbumFilter filter) throws ServiceException {
         List<AlbumDto> albums;
         try {
@@ -82,6 +113,12 @@ public class AlbumService {
         return albums;
     }
 
+    /**
+     * Update {@link Album} in database
+     *
+     * @param album new value of {@link Album}
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public void updateAlbum(Album album) throws ServiceException {
         try {
             albumDao.update(album);
@@ -90,6 +127,13 @@ public class AlbumService {
         }
     }
 
+    /**
+     * Transactional Delete {@link Album} from database
+     *
+     * @param id {@link Album} id from database
+     * @return boolean value {@code true} if {@link Album} successfully deleted {@code false} if it failed
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public boolean deleteAlbumById(Long id) throws ServiceException {
         try {
             return albumDao.deleteById(id);
@@ -98,6 +142,13 @@ public class AlbumService {
         }
     }
 
+    /**
+     * Find all {@link AlbumDto} by {@link Album} title
+     *
+     * @param albumTitle {@link Album} name
+     * @return {@link Optional} of {@link AlbumDto} if present or {@link Optional} empty
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public Optional<AlbumDto> findAlbumByTitle(String albumTitle) throws ServiceException {
         Optional<AlbumDto> maybeAlbum;
         try {
@@ -112,6 +163,14 @@ public class AlbumService {
         return maybeAlbum;
     }
 
+    /**
+     * Finds all {@link AlbumReviewDto} by {@link Album} name
+     *
+     * @param albumTitle {@link Album} name
+     * @param filter     sets limit/offset
+     * @return List {@link AlbumReviewDto} that represents {@link com.ordjoy.entity.AlbumReview} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<AlbumReviewDto> findAlbumReviewsByAlbumTitle(String albumTitle, DefaultFilter filter) throws ServiceException {
         try {
             return albumDao.findAlbumReviewsByAlbumTitle(albumTitle, filter).stream()
@@ -121,6 +180,14 @@ public class AlbumService {
         }
     }
 
+    /**
+     * Finds all {@link AlbumReviewDto} by {@link Album} id
+     *
+     * @param albumId {@link Album} id
+     * @param filter  sets limit/offset
+     * @return List {@link AlbumReviewDto} that represents {@link com.ordjoy.entity.AlbumReview} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<AlbumReviewDto> findAlbumReviewsByAlbumId(Long albumId, DefaultFilter filter) throws ServiceException {
         try {
             return albumDao.findAlbumReviewsByAlbumId(albumId, filter).stream()
@@ -130,6 +197,12 @@ public class AlbumService {
         }
     }
 
+    /**
+     * Make {@link Album} from data
+     *
+     * @param title {@link Album} title
+     * @return ready to use {@link Album} entity
+     */
     public Album buildAlbum(String title) {
         return new Album(title);
     }

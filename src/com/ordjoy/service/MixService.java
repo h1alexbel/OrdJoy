@@ -28,10 +28,20 @@ public class MixService {
 
     }
 
+    /**
+     * @return instance of {@link MixService}
+     */
     public static MixService getInstance() {
         return INSTANCE;
     }
 
+    /**
+     * Save {@link Mix} in database
+     *
+     * @param mix that be saved in database
+     * @return {@link MixDto} that represents {@link Mix} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public MixDto addNewMix(Mix mix) throws ServiceException {
         try {
             Mix savedMix = mixDao.save(mix);
@@ -41,6 +51,13 @@ public class MixService {
         }
     }
 
+    /**
+     * Check is Mix exists in database or not by mixName
+     *
+     * @param mixName {@link Mix} name
+     * @return boolean value {@code true} if exists or {@code false} if not exists in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public boolean isMixExists(String mixName) throws ServiceException {
         boolean result = false;
         try {
@@ -54,6 +71,13 @@ public class MixService {
         return result;
     }
 
+    /**
+     * Find {@link MixDto} from database {@link Mix} id
+     *
+     * @param id {@link Mix} id
+     * @return {@link Optional} of {@link MixDto} if present or {@link Optional} empty
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public Optional<MixDto> findMixById(Long id) throws ServiceException {
         Optional<MixDto> maybeMix;
         try {
@@ -70,6 +94,13 @@ public class MixService {
         }
     }
 
+    /**
+     * Finds all {@link MixDto}
+     *
+     * @param filter sets limit/offset
+     * @return List of {@link MixDto} that presents {@link Mix} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<MixDto> findAllMixes(MixFilter filter) throws ServiceException {
         List<MixDto> mixes;
         try {
@@ -86,6 +117,12 @@ public class MixService {
         }
     }
 
+    /**
+     * Update {@link Mix} in database
+     *
+     * @param mix new value of {@link Mix}
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public void updateMix(Mix mix) throws ServiceException {
         try {
             mixDao.update(mix);
@@ -94,6 +131,13 @@ public class MixService {
         }
     }
 
+    /**
+     * Transactional Delete {@link Mix} from database
+     *
+     * @param id {@link Mix} id from database
+     * @return boolean value {@code true} if {@link Mix} successfully deleted {@code false} if it failed
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public boolean deleteMixById(Long id) throws ServiceException {
         try {
             return mixDao.deleteById(id);
@@ -102,6 +146,13 @@ public class MixService {
         }
     }
 
+    /**
+     * Find {@link MixDto} by {@link Mix} name
+     *
+     * @param mixName {@link Mix} name in database
+     * @return {@link Optional} of {@link MixDto} if present or {@link Optional} empty
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public Optional<MixDto> findMixByMixName(String mixName) throws ServiceException {
         Optional<MixDto> maybeMix;
         try {
@@ -118,6 +169,14 @@ public class MixService {
         return maybeMix;
     }
 
+    /**
+     * Finds all {@link MixReviewDto} by {@link Mix} name
+     *
+     * @param mixName {@link Mix} mixName
+     * @param filter  sets limit/offset
+     * @return List {@link MixReviewDto} that represents {@link com.ordjoy.entity.MixReview} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<MixReviewDto> findMixReviewByMixName(String mixName, DefaultFilter filter) throws ServiceException {
         try {
             return mixDao.findMixReviewByMixName(mixName, filter).stream()
@@ -127,6 +186,14 @@ public class MixService {
         }
     }
 
+    /**
+     * Finds all {@link MixReviewDto} by {@link Mix} id
+     *
+     * @param mixId {@link Mix} id
+     * @param filter  sets limit/offset
+     * @return List {@link MixReviewDto} that represents {@link com.ordjoy.entity.MixReview} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<MixReviewDto> findMixReviewByMixId(Long mixId, DefaultFilter filter) throws ServiceException {
         try {
             return mixDao.findMixReviewsByMixId(mixId, filter).stream()
@@ -136,6 +203,13 @@ public class MixService {
         }
     }
 
+    /**
+     * Make {@link Mix} from data
+     *
+     * @param name        Mix's name
+     * @param description Mix's description
+     * @return {@link Mix} that ready to use entity in database manipulations
+     */
     public Mix buildMix(String name, String description) {
         return Mix.builder()
                 .name(name)

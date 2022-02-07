@@ -33,10 +33,20 @@ public class ReviewService {
 
     }
 
+    /**
+     * @return instance of {@link ReviewService}
+     */
     public static ReviewService getInstance() {
         return INSTANCE;
     }
 
+    /**
+     * Save {@link MixReview} in database
+     *
+     * @param mixReview {@link MixReview} entity that be saved
+     * @return {@link MixReviewDto} that represents {@link MixReview}
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public MixReviewDto addMixReview(MixReview mixReview) throws ServiceException {
         try {
             MixReview savedMixReview = mixReviewDao.save(mixReview);
@@ -46,6 +56,13 @@ public class ReviewService {
         }
     }
 
+    /**
+     * Save {@link TrackReview} in database
+     *
+     * @param trackReview {@link TrackReview} entity that be saved
+     * @return {@link TrackReviewDto} that represents {@link TrackReview}
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public TrackReviewDto addTrackReview(TrackReview trackReview) throws ServiceException {
         try {
             TrackReview savedTrackReview = trackReviewDao.save(trackReview);
@@ -55,6 +72,13 @@ public class ReviewService {
         }
     }
 
+    /**
+     * Save {@link AlbumReview} in database
+     *
+     * @param albumReview {@link AlbumReview} entity that be saved
+     * @return {@link AlbumReviewDto} that represents {@link AlbumReview}
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public AlbumReviewDto addAlbumReview(AlbumReview albumReview) throws ServiceException {
         try {
             AlbumReview saveAlbumReview = albumReviewDao.save(albumReview);
@@ -64,6 +88,13 @@ public class ReviewService {
         }
     }
 
+    /**
+     * Find {@link MixReviewDto} from database by {@link MixReview} id
+     *
+     * @param id {@link MixReview}
+     * @return {@link Optional} of {@link MixReview} if present or {@link Optional} empty
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public Optional<MixReviewDto> findMixReviewById(Long id) throws ServiceException {
         try {
             Optional<MixReview> maybeMixReview = mixReviewDao.findById(id);
@@ -77,6 +108,13 @@ public class ReviewService {
         }
     }
 
+    /**
+     * Find {@link TrackReviewDto} from database by {@link TrackReview} id
+     *
+     * @param id {@link TrackReview}
+     * @return {@link Optional} of {@link TrackReview} if present or {@link Optional} empty
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public Optional<TrackReviewDto> findTrackReviewById(Long id) throws ServiceException {
         try {
             Optional<TrackReview> maybeTrackReview = trackReviewDao.findById(id);
@@ -90,6 +128,13 @@ public class ReviewService {
         }
     }
 
+    /**
+     * Find {@link AlbumReviewDto} from database by {@link AlbumReview} id
+     *
+     * @param id {@link AlbumReview}
+     * @return {@link Optional} of {@link AlbumReview} if present or {@link Optional} empty
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public Optional<AlbumReviewDto> findAlbumReviewById(Long id) throws ServiceException {
         try {
             Optional<AlbumReview> maybeAlbumReview = albumReviewDao.findById(id);
@@ -103,6 +148,13 @@ public class ReviewService {
         }
     }
 
+    /**
+     * Finds all {@link MixReviewDto}
+     *
+     * @param filter sets limit/offset
+     * @return List of {@link MixReviewDto} if present or {@link Optional} empty
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<MixReviewDto> findAllMixReviewsWithLimitAndOffset(ReviewFilter filter) throws ServiceException {
         try {
             return mixReviewDao.findAll(filter).stream()
@@ -112,6 +164,13 @@ public class ReviewService {
         }
     }
 
+    /**
+     * Finds all {@link TrackReviewDto}
+     *
+     * @param filter sets limit/offset
+     * @return List of {@link TrackReview} if present or {@link Optional} empty
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<TrackReviewDto> findAllTrackReviewsWithLimitAndOffset(ReviewFilter filter) throws ServiceException {
         try {
             return trackReviewDao.findAll(filter).stream()
@@ -121,6 +180,13 @@ public class ReviewService {
         }
     }
 
+    /**
+     * Finds all {@link AlbumReviewDto}
+     *
+     * @param filter sets limit/offset
+     * @return List of {@link AlbumReview} if present or {@link Optional} empty
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<AlbumReviewDto> findAllAlbumReviewsWithLimitAndOffset(ReviewFilter filter) throws ServiceException {
         try {
             return albumReviewDao.findAll(filter).stream()
@@ -130,6 +196,12 @@ public class ReviewService {
         }
     }
 
+    /**
+     * Update {@link MixReview} from database
+     *
+     * @param mixReview new value of {@link  MixReview}
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public void updateMixReview(MixReview mixReview) throws ServiceException {
         try {
             mixReviewDao.update(mixReview);
@@ -138,6 +210,12 @@ public class ReviewService {
         }
     }
 
+    /**
+     * Update {@link TrackReview} from database
+     *
+     * @param trackReview new value of {@link  TrackReview}
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public void updateTrackReview(TrackReview trackReview) throws ServiceException {
         try {
             trackReviewDao.update(trackReview);
@@ -146,6 +224,12 @@ public class ReviewService {
         }
     }
 
+    /**
+     * Update {@link AlbumReview} from database
+     *
+     * @param albumReview new value of {@link  AlbumReview}
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public void updateAlbumReview(AlbumReview albumReview) throws ServiceException {
         try {
             albumReviewDao.update(albumReview);
@@ -154,6 +238,13 @@ public class ReviewService {
         }
     }
 
+    /**
+     * Delete {@link MixReview} from database
+     *
+     * @param id {@link MixReview} id in database
+     * @return boolean value {@code true} if successfully deleted or {@code false} if it failed
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public boolean deleteMixReviewById(Long id) throws ServiceException {
         try {
             return mixReviewDao.deleteById(id);
@@ -162,6 +253,13 @@ public class ReviewService {
         }
     }
 
+    /**
+     * Delete {@link TrackReview} from database
+     *
+     * @param id {@link TrackReview} id in database
+     * @return boolean value {@code true} if successfully deleted or {@code false} if it failed
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public boolean deleteTrackReviewById(Long id) throws ServiceException {
         try {
             return trackReviewDao.deleteById(id);
@@ -170,6 +268,13 @@ public class ReviewService {
         }
     }
 
+    /**
+     * Delete {@link AlbumReview} from database
+     *
+     * @param id {@link Album} id in database
+     * @return boolean value {@code true} if successfully deleted or {@code false} if it failed
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public boolean deleteAlbumReviewById(Long id) throws ServiceException {
         try {
             return albumReviewDao.deleteById(id);
@@ -178,6 +283,14 @@ public class ReviewService {
         }
     }
 
+    /**
+     * Finds all {@link MixReviewDto}
+     *
+     * @param login  {@link UserAccount} login in database
+     * @param filter sets limit/offset
+     * @return List of {@link MixReviewDto} that represents {@link MixReview} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<MixReviewDto> findMixReviewsByUserLogin(String login, DefaultFilter filter) throws ServiceException {
         try {
             return mixReviewDao.findMixReviewsByUserLogin(login, filter).stream()
@@ -187,6 +300,14 @@ public class ReviewService {
         }
     }
 
+    /**
+     * Finds all {@link TrackReviewDto}
+     *
+     * @param login  {@link UserAccount} login in database
+     * @param filter sets limit/offset
+     * @return List of {@link TrackReviewDto} that represents {@link TrackReview} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<TrackReviewDto> findTrackReviewsByUserLogin(String login, DefaultFilter filter) throws ServiceException {
         try {
             return trackReviewDao.findTrackReviewsByUserLogin(login, filter).stream()
@@ -196,6 +317,14 @@ public class ReviewService {
         }
     }
 
+    /**
+     * Finds all {@link AlbumReviewDto}
+     *
+     * @param login  {@link UserAccount} login in database
+     * @param filter sets limit/offset
+     * @return List of {@link AlbumReviewDto} that represents {@link AlbumReview} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<AlbumReviewDto> findAlbumReviewsByUserLogin(String login, DefaultFilter filter) throws ServiceException {
         try {
             return albumReviewDao.findAlbumReviewsByUserLogin(login, filter).stream()
@@ -205,6 +334,14 @@ public class ReviewService {
         }
     }
 
+    /**
+     * Finds all {@link MixReviewDto}
+     *
+     * @param id     {@link UserAccount} id in database
+     * @param filter sets limit/offset
+     * @return List of {@link MixReviewDto} that represents {@link MixReview} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<MixReviewDto> findMixReviewsByUserId(Long id, DefaultFilter filter) throws ServiceException {
         try {
             return mixReviewDao.findMixReviewsByUserId(id, filter).stream()
@@ -214,6 +351,14 @@ public class ReviewService {
         }
     }
 
+    /**
+     * Finds all {@link TrackReviewDto}
+     *
+     * @param id     {@link UserAccount} id in database
+     * @param filter sets limit/offset
+     * @return List of {@link TrackReviewDto} that represents {@link TrackReview} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<TrackReviewDto> findTrackReviewsByUserId(Long id, DefaultFilter filter) throws ServiceException {
         try {
             return trackReviewDao.findTrackReviewsByUserId(id, filter).stream()
@@ -223,6 +368,14 @@ public class ReviewService {
         }
     }
 
+    /**
+     * Finds all {@link AlbumReviewDto}
+     *
+     * @param id     {@link UserAccount} id in database
+     * @param filter sets limit/offset
+     * @return List of {@link AlbumReviewDto} that represents {@link AlbumReview} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<AlbumReviewDto> findAlbumReviewsByUserId(Long id, DefaultFilter filter) throws ServiceException {
         try {
             return albumReviewDao.findAlbumReviewsByUserId(id, filter).stream()
@@ -232,6 +385,14 @@ public class ReviewService {
         }
     }
 
+    /**
+     * Finds all {@link TrackReviewDto}
+     *
+     * @param trackId {@link Track} id in database
+     * @param filter  sets limit/offset
+     * @return List of {@link TrackReviewDto} that represents {@link TrackReview} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<TrackReviewDto> findTrackReviewsByTrackId(Long trackId, DefaultFilter filter) throws ServiceException {
         try {
             return trackReviewDao.findTrackReviewsByTrackId(trackId, filter).stream()
@@ -241,6 +402,14 @@ public class ReviewService {
         }
     }
 
+    /**
+     * Finds all {@link TrackReviewDto}
+     *
+     * @param trackTitle {@link Track} title in database
+     * @param filter     sets limit/offset
+     * @return List of {@link TrackReviewDto} that represents {@link TrackReview} in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
     public List<TrackReviewDto> findTrackReviewsByTrackTitle(String trackTitle, DefaultFilter filter) throws ServiceException {
         try {
             return trackReviewDao.findTrackReviewsByTrackTitle(trackTitle, filter).stream()
@@ -250,6 +419,14 @@ public class ReviewService {
         }
     }
 
+    /**
+     * Make {@link MixReview} from data
+     *
+     * @param reviewText  {@link MixReview} reviewText
+     * @param userAccount {@link MixReview} userAccount
+     * @param mix         {@link MixReview} mix
+     * @return {@link MixReview} ready to use in database manipulations
+     */
     public MixReview buildMixReview(String reviewText, UserAccount userAccount, Mix mix) {
         return MixReview.builder()
                 .reviewText(reviewText)
@@ -258,6 +435,14 @@ public class ReviewService {
                 .build();
     }
 
+    /**
+     * Make {@link TrackReview} from data
+     *
+     * @param reviewText  {@link TrackReview} reviewText
+     * @param userAccount {@link TrackReview} userAccount
+     * @param track       {@link TrackReview} track
+     * @return {@link TrackReview} ready to use in database manipulations
+     */
     public TrackReview buildTrackReview(String reviewText, UserAccount userAccount, Track track) {
         return TrackReview.builder()
                 .reviewText(reviewText)
@@ -266,6 +451,14 @@ public class ReviewService {
                 .build();
     }
 
+    /**
+     * Make {@link AlbumReview} from data
+     *
+     * @param reviewText  {@link AlbumReview} reviewText
+     * @param userAccount {@link AlbumReview} userAccount
+     * @param album       {@link AlbumReview} album
+     * @return {@link AlbumReview} ready to use in database manipulations
+     */
     public AlbumReview buildAlbumReview(String reviewText, UserAccount userAccount, Album album) {
         return AlbumReview.builder()
                 .reviewText(reviewText)
