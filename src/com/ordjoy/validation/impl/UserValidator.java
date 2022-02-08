@@ -2,6 +2,7 @@ package com.ordjoy.validation.impl;
 
 import com.ordjoy.entity.UserAccount;
 import com.ordjoy.validation.Error;
+import com.ordjoy.validation.RegexBase;
 import com.ordjoy.validation.ValidationResult;
 import com.ordjoy.validation.Validator;
 
@@ -9,12 +10,6 @@ import static com.ordjoy.util.ErrorConstUtils.*;
 
 public class UserValidator implements Validator<UserAccount> {
 
-    private static final String LOGIN_REGEX = "^[A-Za-zА-Яа-я1-9]{3,20}$";
-    private static final String EMAIL_REGEX = "^[A-Za-z.]+\\w+@[A-Za-z]{2,}\\.(com|org)$";
-    private static final String PASSWORD_REGEX = "^\\w{2,64}$";
-    private static final String FIRST_NAME_REGEX = "^[A-Za-zА-Яа-я]{2,20}$";
-    private static final String LAST_NAME_REGEX = "^[A-Za-zА-Яа-я]{2,20}$";
-    private static final String CARD_NUMBER_REGEX = "^\\d{16}$";
     private static final int MIN_AGE_TO_USE_APPLICATION = 13;
     private static final UserValidator INSTANCE = new UserValidator();
 
@@ -62,7 +57,7 @@ public class UserValidator implements Validator<UserAccount> {
      * @return boolean result based on not null check and matching to password regex
      */
     public boolean isPasswordValid(String password) {
-        return password != null && password.matches(PASSWORD_REGEX);
+        return password != null && password.matches(RegexBase.PASSWORD_REGEX);
     }
 
     /** Checks valid or not login is
@@ -70,27 +65,27 @@ public class UserValidator implements Validator<UserAccount> {
      * @return boolean result based on not null check and matching to login regex
      */
     public boolean isLoginValid(String login) {
-        return login != null && login.matches(LOGIN_REGEX);
+        return login != null && login.matches(RegexBase.LOGIN_REGEX);
     }
 
     private boolean isCardDataValid(String cardNumber) {
         boolean result = false;
         if (cardNumber != null) {
-            result = cardNumber.matches(CARD_NUMBER_REGEX);
+            result = cardNumber.matches(RegexBase.CARD_NUMBER_REGEX);
         }
         return result;
     }
 
     private boolean isEmailValid(String email) {
-        return email != null && email.matches(EMAIL_REGEX);
+        return email != null && email.matches(RegexBase.EMAIL_REGEX);
     }
 
     private boolean isFirstNameValid(String firstName) {
-        return firstName != null && firstName.matches(FIRST_NAME_REGEX);
+        return firstName != null && firstName.matches(RegexBase.FIRST_NAME_REGEX);
     }
 
     private boolean isLastNameValid(String lastName) {
-        return lastName != null && lastName.matches(LAST_NAME_REGEX);
+        return lastName != null && lastName.matches(RegexBase.LAST_NAME_REGEX);
     }
 
     private boolean isAgeValid(Integer age) {

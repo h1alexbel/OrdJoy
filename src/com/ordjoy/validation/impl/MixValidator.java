@@ -2,6 +2,7 @@ package com.ordjoy.validation.impl;
 
 import com.ordjoy.entity.Mix;
 import com.ordjoy.validation.Error;
+import com.ordjoy.validation.RegexBase;
 import com.ordjoy.validation.ValidationResult;
 import com.ordjoy.validation.Validator;
 
@@ -9,8 +10,6 @@ import static com.ordjoy.util.ErrorConstUtils.*;
 
 public class MixValidator implements Validator<Mix> {
 
-    private static final String NAME_REGEX = "^[A-Za-zА-Яа-я].{1,512}.$";
-    private static final String DESCRIPTION_REGEX = "[A-Za-zА-Яа-я].{2,512}";
     private static final MixValidator INSTANCE = new MixValidator();
 
     private MixValidator() {
@@ -41,10 +40,10 @@ public class MixValidator implements Validator<Mix> {
     }
 
     private boolean isNameValid(String title) {
-        return title != null && title.matches(NAME_REGEX);
+        return title != null && title.matches(RegexBase.TITLE_REGEX);
     }
 
     private boolean isDescriptionValid(String description) {
-        return description != null && description.matches(DESCRIPTION_REGEX);
+        return description != null && description.matches(RegexBase.DESCRIPTION_REGEX);
     }
 }

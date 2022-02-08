@@ -2,6 +2,7 @@ package com.ordjoy.validation.impl;
 
 import com.ordjoy.entity.Album;
 import com.ordjoy.validation.Error;
+import com.ordjoy.validation.RegexBase;
 import com.ordjoy.validation.ValidationResult;
 import com.ordjoy.validation.Validator;
 
@@ -9,7 +10,6 @@ import static com.ordjoy.util.ErrorConstUtils.*;
 
 public class AlbumValidator implements Validator<Album> {
 
-    private static final String TITLE_REGEX = "^[A-Za-zА-Яа-я].{1,512}.$";
     private static final AlbumValidator INSTANCE = new AlbumValidator();
 
     private AlbumValidator() {
@@ -41,6 +41,6 @@ public class AlbumValidator implements Validator<Album> {
      * @return boolean result based on not null check and matching to title regex
      */
     public boolean isTitleValid(String title) {
-        return title != null && title.matches(TITLE_REGEX);
+        return title != null && title.matches(RegexBase.TITLE_REGEX);
     }
 }

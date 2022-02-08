@@ -2,6 +2,7 @@ package com.ordjoy.validation.impl;
 
 import com.ordjoy.entity.MixReview;
 import com.ordjoy.validation.Error;
+import com.ordjoy.validation.RegexBase;
 import com.ordjoy.validation.ValidationResult;
 import com.ordjoy.validation.Validator;
 
@@ -10,7 +11,6 @@ import static com.ordjoy.util.ErrorConstUtils.MIX_REVIEW_INVALID_MESSAGE;
 
 public class MixReviewValidator implements Validator<MixReview> {
 
-    private static final String REVIEW_REGEX = "^[A-Za-zА-Яа-я].{2,512}";
     private static final MixReviewValidator INSTANCE = new MixReviewValidator();
 
     private MixReviewValidator() {
@@ -38,6 +38,6 @@ public class MixReviewValidator implements Validator<MixReview> {
     }
 
     private boolean isReviewTextValid(String reviewText) {
-        return reviewText != null && reviewText.matches(REVIEW_REGEX);
+        return reviewText != null && reviewText.matches(RegexBase.REVIEW_REGEX);
     }
 }

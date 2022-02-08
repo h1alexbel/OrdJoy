@@ -2,6 +2,7 @@ package com.ordjoy.validation.impl;
 
 import com.ordjoy.entity.Track;
 import com.ordjoy.validation.Error;
+import com.ordjoy.validation.RegexBase;
 import com.ordjoy.validation.ValidationResult;
 import com.ordjoy.validation.Validator;
 
@@ -9,8 +10,6 @@ import static com.ordjoy.util.ErrorConstUtils.*;
 
 public class TrackValidator implements Validator<Track> {
 
-    private static final String TITLE_REGEX = "^[A-Za-zА-Яа-я].{1,512}.$";
-    private static final String URL_REGEX = "^https://\\w.+$";
     private static final TrackValidator INSTANCE = new TrackValidator();
 
     private TrackValidator() {
@@ -41,10 +40,10 @@ public class TrackValidator implements Validator<Track> {
     }
 
     private boolean isTitleValid(String title) {
-        return title != null && title.matches(TITLE_REGEX);
+        return title != null && title.matches(RegexBase.TITLE_REGEX);
     }
 
     private boolean isURLValid(String url) {
-        return url != null && url.matches(URL_REGEX);
+        return url != null && url.matches(RegexBase.URL_REGEX);
     }
 }

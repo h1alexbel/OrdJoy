@@ -2,6 +2,7 @@ package com.ordjoy.validation.impl;
 
 import com.ordjoy.entity.Order;
 import com.ordjoy.validation.Error;
+import com.ordjoy.validation.RegexBase;
 import com.ordjoy.validation.ValidationResult;
 import com.ordjoy.validation.Validator;
 
@@ -12,7 +13,6 @@ import static com.ordjoy.util.ErrorConstUtils.*;
 public class OrderValidator implements Validator<Order> {
 
     private static final OrderValidator INSTANCE = new OrderValidator();
-    private static final String PRICE_REGEX = "^\\d{1,}$";
 
     private OrderValidator() {
 
@@ -43,7 +43,7 @@ public class OrderValidator implements Validator<Order> {
      * @return boolean result based on not null check and matching to price regex
      */
     public boolean isPriceValid(String price) {
-        return price != null && price.matches(PRICE_REGEX);
+        return price != null && price.matches(RegexBase.PRICE_REGEX);
     }
 
     private int isPriceBiggerThanZero(BigDecimal price) {
