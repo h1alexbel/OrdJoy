@@ -21,15 +21,22 @@ import static com.ordjoy.util.JspPageConst.SEPARATOR;
 public class ShowAllOrdersCommand implements FrontCommand {
 
     private static final String ORDERS_ATTRIBUTE = "orders";
+    private static final int DEFAULT_LIMIT = 20;
+    private static final String OFFSET = "offset";
+    private static final String NO_OF_PAGES = "noOfPages";
     private final OrderService orderService = OrderService.getInstance();
-    private final OrderFilter filter = new OrderFilter(20, 0, null, OrderStatus.ACCEPTED);
 
     @Override
     public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
         String page;
         FrontCommandResult frontCommandResult;
         try {
+            int offset = Integer.parseInt(httpServletRequest.getParameter(OFFSET));
+            Long records = orderService.getRecords();
+            OrderFilter filter = new OrderFilter(DEFAULT_LIMIT, offset, null, OrderStatus.ACCEPTED);
             List<OrderDto> orders = orderService.findAllOrdersWithLimitAndOffset(filter);
+            int noOfPages = (int) (records / DEFAULT_LIMIT);
+            httpServletRequest.setAttribute(NO_OF_PAGES, noOfPages);
             httpServletRequest.setAttribute(ORDERS_ATTRIBUTE, orders);
             page = SEPARATOR + JspFormatHelper.getAdminPath(ALL_ORDERS);
             frontCommandResult = new FrontCommandResult(page, NavigationType.FORWARD);

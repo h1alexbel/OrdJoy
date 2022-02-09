@@ -83,7 +83,7 @@
                     <a href="/"
                        class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
                     </a>
-                    <%@include file="/jsp/locale.jsp"%>
+                    <%@include file="/jsp/locale.jsp" %>
                     <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
                         <li>
                             <a href="${pageContext.request.contextPath}/jsp/admin/admin.jsp"
@@ -104,7 +104,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_orders"
+                            <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_orders&offset=0"
                                class="nav-link text-white">
                                 <svg class="bi d-block mx-auto mb-1" width="24" height="24">
                                     <use xlink:href="#table"></use>
@@ -113,7 +113,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_users"
+                            <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_users&offset=0"
                                class="nav-link text-white">
                                 <svg class="bi d-block mx-auto mb-1" width="24" height="24">
                                     <use xlink:href="#people-circle"></use>

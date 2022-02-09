@@ -67,7 +67,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="${pageContext.request.contextPath}/frontController?frontCommand=all_orders">
+                           href="${pageContext.request.contextPath}/frontController?frontCommand=all_orders&offset=0">
                             <span data-feather="shopping-cart"></span>
                             <fmt:message key="admin.orders"/>
                         </a>
@@ -95,14 +95,14 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="${pageContext.request.contextPath}/frontController?frontCommand=all_users">
+                           href="${pageContext.request.contextPath}/frontController?frontCommand=all_users&offset=0">
                             <span data-feather="users"></span>
                             <fmt:message key="admin.customers"/>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="${pageContext.request.contextPath}/frontController?frontCommand=all_admins">
+                           href="${pageContext.request.contextPath}/frontController?frontCommand=all_admins&offset=0">
                             <span data-feather="users"></span>
                             <fmt:message key="dashboard.admins"/>
                         </a>

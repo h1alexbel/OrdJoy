@@ -91,4 +91,11 @@ public interface OrderDao extends GenericDao<Long, Order, OrderFilter> {
      * @throws DaoException if {@link com.ordjoy.exception.DataBaseException} or any Database error be thrown
      */
     List<Order> findOrdersByOrderStatus(OrderStatus orderStatus, DefaultFilter filter) throws DaoException;
+
+    /**
+     * Gets all recorded fields from relevant table in database
+     * @return Long value that represents all records in table
+     * @throws DaoException if {@link com.ordjoy.exception.DataBaseException} or any Database error be thrown
+     */
+    Long getTableRecords() throws DaoException;
 }

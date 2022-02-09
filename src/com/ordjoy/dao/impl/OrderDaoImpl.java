@@ -325,6 +325,12 @@ public class OrderDaoImpl implements OrderDao {
             WHERE ord.order_status LIKE ?
             """;
 
+    private static final String SQL_GET_RECORDS = """
+            SELECT count(*)
+            FROM user_storage.order
+            WHERE order_status LIKE 'ACCEPTED'
+            """;
+
     @Override
     public Order save(Order order) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
@@ -362,6 +368,23 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
+    public Long getTableRecords() throws DaoException {
+        long totalRecords;
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement recordsStatement = connection.prepareStatement(SQL_GET_RECORDS)) {
+            ResultSet resultSet = recordsStatement.executeQuery();
+            if (resultSet.next()) {
+                totalRecords = resultSet.getLong("count");
+            } else {
+                totalRecords = 0;
+            }
+            return totalRecords;
+        } catch (SQLException e) {
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    @Override
     public List<Order> findAll(OrderFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
         List<String> whereSql = new ArrayList<>();
@@ -376,7 +399,7 @@ public class OrderDaoImpl implements OrderDao {
         parameters.add(filter.limit());
         parameters.add(filter.offset());
         String where = whereSql.stream()
-                .collect(joining(" AND ", " WHERE ", " LIMIT ? OFFSET ?"));
+                .collect(joining(" AND ", " WHERE ", " ORDER BY ord.id DESC LIMIT ? OFFSET ?"));
         String sql = SQL_FIND_ALL + where;
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findAllStatement = connection.prepareStatement(sql)) {

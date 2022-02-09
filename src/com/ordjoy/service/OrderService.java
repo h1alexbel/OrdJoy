@@ -213,6 +213,20 @@ public class OrderService {
     }
 
     /**
+     * Gets all recorded fields from relevant table in database
+     *
+     * @return Long value that represents all records in table
+     * @throws ServiceException if Dao layer can not execute method
+     */
+    public Long getRecords() throws ServiceException {
+        try {
+            return orderDao.getTableRecords();
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    /**
      * Finds all {@link OrderDto} by {@link UserAccount} email
      *
      * @param email  {@link UserAccount} email in database
@@ -232,7 +246,7 @@ public class OrderService {
     /**
      * Finds all {@link OrderDto}by {@link UserAccount} login
      *
-     * @param login {@link UserAccount} login in database
+     * @param login  {@link UserAccount} login in database
      * @param filter sets limit/offset to query
      * @return List of {@link OrderDto} that represents {@link Order} in database
      * @throws ServiceException if Dao layer can not execute method
@@ -250,7 +264,7 @@ public class OrderService {
      * Finds all {@link OrderDto} by {@link Track} id
      *
      * @param trackId {@link Track} id in database
-     * @param filter sets limit/offset to query
+     * @param filter  sets limit/offset to query
      * @return List of {@link OrderDto} that represents {@link Order} in database
      * @throws ServiceException if Dao layer can not execute method
      */
@@ -267,7 +281,7 @@ public class OrderService {
      * Finds all {@link OrderDto} by {@link Track} title
      *
      * @param trackName {@link Track} trackName in database
-     * @param filter sets limit/offset to query
+     * @param filter    sets limit/offset to query
      * @return List of {@link OrderDto} that represents {@link Order} in database
      * @throws ServiceException if Dao layer can not execute method
      */
@@ -284,7 +298,7 @@ public class OrderService {
      * Finds all {@link OrderDto} in database by {@link Order} status
      *
      * @param orderStatus {@link Order} status in database
-     * @param filter sets limit/offset to query
+     * @param filter      sets limit/offset to query
      * @return List of {@link OrderDto} that represents {@link Order} in database
      * @throws ServiceException if Dao layer can not execute method
      */
@@ -299,9 +313,10 @@ public class OrderService {
 
     /**
      * Make {@link Order} from data
-     * @param price Order's price
+     *
+     * @param price       Order's price
      * @param userAccount Order's userAccount
-     * @param track Order's track
+     * @param track       Order's track
      * @return {@link Order} entity from data
      */
     public Order buildOrder(BigDecimal price, UserAccount userAccount, Track track) {
