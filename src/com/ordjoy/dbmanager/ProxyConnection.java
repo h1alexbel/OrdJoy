@@ -20,7 +20,7 @@ public class ProxyConnection implements Connection {
      * @throws SQLException if database access error occurs,
      * or setAutoCommit(true), or this method is called on a closed connection
      */
-    public void closeConnection() throws SQLException {
+    protected void closeConnection() throws SQLException {
         connection.close();
     }
 
