@@ -22,7 +22,6 @@ public final class JspPageConst {
     public static final String ERROR_PAGE = "error";
     public static final String LOGIN_PAGE_FOR_FILTER = "/login.jsp";
     public static final String THANKS_FOR_ORDER_PAGE = "thanksForOrder";
-    public static final String ALBUM_REVIEW_FORM_PAGE = "addAlbumReviewForm";
 
     private JspPageConst() {
         throw new UnsupportedOperationException();
