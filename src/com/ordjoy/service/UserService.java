@@ -62,6 +62,34 @@ public class UserService {
     }
 
     /**
+     * Gets all records in database where role = CLIENT_ROLE
+     *
+     * @return Long value that represents table records in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
+    public Long getUserRoleRecords() throws ServiceException {
+        try {
+            return userDao.getUserRoleTableRecords();
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    /**
+     * Gets all records in database where role = ADMIN_ROLE
+     *
+     * @return Long value that represents table records in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
+    public Long getAdminRoleRecords() throws ServiceException {
+        try {
+            return userDao.getAdminRoleTableRecords();
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    /**
      * Saves new User with client role in database
      *
      * @param userAccount - entity to be saved in database
@@ -224,7 +252,9 @@ public class UserService {
         }
     }
 
-    /** Update discount percentage level by {@link UserAccount} email
+    /**
+     * Update discount percentage level by {@link UserAccount} email
+     *
      * @param discountPercentageLevel new value of discount level
      * @param userEmail               User's email by which it will be found in database
      * @throws ServiceException if Dao layer can not execute method
@@ -330,11 +360,11 @@ public class UserService {
     /**
      * Make user account with client role from data
      *
-     * @param email email
-     * @param login login
-     * @param password password
-     * @param firstName firstName
-     * @param lastName lastName
+     * @param email      email
+     * @param login      login
+     * @param password   password
+     * @param firstName  firstName
+     * @param lastName   lastName
      * @param ageToParse age that be parsed
      * @param cardNumber cardNumber
      * @return {@link UserAccount} with clien role
@@ -365,9 +395,10 @@ public class UserService {
 
     /**
      * Make {@link UserAccount} from {@link UserAccountDto} from session
+     *
      * @param userAccountDto session User
-     * @see javax.servlet.http.HttpSession
      * @return {@link UserAccount} from session
+     * @see javax.servlet.http.HttpSession
      */
     public UserAccount buildUserAccountFromSession(UserAccountDto userAccountDto) {
         UserData data = UserData.builder()
@@ -386,11 +417,11 @@ public class UserService {
     /**
      * Make admin account with admin role from data
      *
-     * @param email email
-     * @param login login
-     * @param password password
-     * @param firstName firstName
-     * @param lastName lastName
+     * @param email      email
+     * @param login      login
+     * @param password   password
+     * @param firstName  firstName
+     * @param lastName   lastName
      * @param ageToParse age that be parsed
      * @param cardNumber cardNumber
      * @return {@link UserAccount} with admin role

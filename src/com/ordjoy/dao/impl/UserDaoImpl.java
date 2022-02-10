@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.ordjoy.util.ExceptionMessageUtils.*;
+import static java.util.stream.Collectors.joining;
 
 public class UserDaoImpl implements UserDao {
 
@@ -178,6 +179,18 @@ public class UserDaoImpl implements UserDao {
             WHERE login = ? AND password = ?
             """;
 
+    private static final String SQL_GET_USER_ROLE_RECORDS = """
+            SELECT count(*)
+            FROM user_storage.user_account_data
+            WHERE role LIKE 'CLIENT_ROLE'
+            """;
+
+    private static final String SQL_GET_ADMIN_ROLE_RECORDS = """
+            SELECT count(*)
+            FROM user_storage.user_account_data
+            WHERE role LIKE 'ADMIN_ROLE'
+            """;
+
     @Override
     public UserAccount save(UserAccount userAccount) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
@@ -239,9 +252,16 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<UserAccount> findAll(UserAccountFilter filter) throws DaoException {
         List<Object> parameters = new ArrayList<>();
+        List<String> whereSql = new ArrayList<>();
+        if (filter.role() != null) {
+            whereSql.add("role LIKE ?");
+            parameters.add("%" + filter.role() + "%");
+        }
         parameters.add(filter.limit());
         parameters.add(filter.offset());
-        String sql = SQL_FIND_ALL + LIMIT_OFFSET;
+        String where = whereSql.stream()
+                .collect(joining(" AND ", " WHERE ", " ORDER BY id DESC LIMIT ? OFFSET ?"));
+        String sql = SQL_FIND_ALL + where;
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findAllStatement = connection.prepareStatement(sql)) {
             for (int i = 0; i < parameters.size(); i++) {
@@ -253,6 +273,40 @@ public class UserDaoImpl implements UserDao {
                 accounts.add(buildUserAccount(resultSet));
             }
             return accounts;
+        } catch (SQLException e) {
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    @Override
+    public Long getUserRoleTableRecords() throws DaoException {
+        long total;
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement allRecordsStatement = connection.prepareStatement(SQL_GET_USER_ROLE_RECORDS)) {
+            ResultSet resultSet = allRecordsStatement.executeQuery();
+            if (resultSet.next()) {
+                total = resultSet.getLong("count");
+            } else {
+                total = 0;
+            }
+            return total;
+        } catch (SQLException e) {
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    @Override
+    public Long getAdminRoleTableRecords() throws DaoException {
+        long total;
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement allRecordsStatement = connection.prepareStatement(SQL_GET_ADMIN_ROLE_RECORDS)) {
+            ResultSet resultSet = allRecordsStatement.executeQuery();
+            if (resultSet.next()) {
+                total = resultSet.getLong("count");
+            } else {
+                total = 0;
+            }
+            return total;
         } catch (SQLException e) {
             throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
         }

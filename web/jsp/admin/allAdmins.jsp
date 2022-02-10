@@ -30,7 +30,6 @@
         </th>
     </tr>
     <c:forEach var="user" items="${requestScope.users}">
-        <c:if test="${user.role eq 'ADMIN_ROLE'}">
             <tr>
                 <td>${user.id}</td>
                 <td>${user.login}</td>
@@ -43,10 +42,16 @@
                     </a></td>
                 </c:if>
             </tr>
-        </c:if>
     </c:forEach>
     </thead>
 </table>
+<div class="text-center">
+    <c:forEach var="pageNo" begin="0" end="${requestScope.noOfPages}">
+        <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_admins&pageNo=${pageNo}&offset=${20 * pageNo}"
+           role="button"
+           class="btn btn-primary">${pageNo + 1}</a>
+    </c:forEach>
+</div>
 <%@include file="adminFooter.jsp" %>
 <script src="${pageContext.request.contextPath}/resources/static/js/bootstrap.js"></script>
 </body>

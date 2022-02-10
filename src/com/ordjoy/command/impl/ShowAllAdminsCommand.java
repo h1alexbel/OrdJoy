@@ -5,6 +5,7 @@ import com.ordjoy.command.FrontCommandResult;
 import com.ordjoy.command.NavigationType;
 import com.ordjoy.dao.filter.UserAccountFilter;
 import com.ordjoy.dto.UserAccountDto;
+import com.ordjoy.entity.UserRole;
 import com.ordjoy.exception.ControllerException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.service.UserService;
@@ -18,16 +19,23 @@ import static com.ordjoy.util.JspPageConst.*;
 
 public class ShowAllAdminsCommand implements FrontCommand {
 
+    private static final int DEFAULT_LIMIT = 20;
+    private static final String OFFSET = "offset";
+    private static final String NO_OF_PAGES = "noOfPages";
     private final UserService userService = UserService.getInstance();
     private static final String USERS_ATTRIBUTE = "users";
-    private final UserAccountFilter defaultAccountFilterForAdmin = new UserAccountFilter(20, 0);
 
     @Override
     public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
         String page;
         FrontCommandResult frontCommandResult;
         try {
-            List<UserAccountDto> users = userService.findAllUsersWithLimitOffset(defaultAccountFilterForAdmin);
+            int offset = Integer.parseInt(httpServletRequest.getParameter(OFFSET));
+            Long records = userService.getAdminRoleRecords();
+            UserAccountFilter userAccountFilter = new UserAccountFilter(DEFAULT_LIMIT, offset, UserRole.ADMIN_ROLE);
+            List<UserAccountDto> users = userService.findAllUsersWithLimitOffset(userAccountFilter);
+            int noOfPages = (int) (records / DEFAULT_LIMIT);
+            httpServletRequest.setAttribute(NO_OF_PAGES, noOfPages);
             httpServletRequest.setAttribute(USERS_ATTRIBUTE, users);
             page = SEPARATOR + JspFormatHelper.getAdminPath(ALL_ADMINS_PAGE);
             frontCommandResult = new FrontCommandResult(page, NavigationType.FORWARD);

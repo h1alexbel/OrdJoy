@@ -67,4 +67,20 @@ public interface UserDao extends GenericDao<Long, UserAccount, UserAccountFilter
      * @throws DaoException if {@link com.ordjoy.exception.DataBaseException} or any Database error be thrown
      */
     Optional<UserAccount> findUserByEmail(String email) throws DaoException;
+
+    /**
+     * Gets all records in database where role = CLIENT_ROLE
+     * @return Long value that represents table records in database
+     * @throws DaoException if {@link com.ordjoy.exception.DataBaseException} or any Database error be thrown
+     * @see com.ordjoy.entity.UserRole
+     */
+    Long getUserRoleTableRecords() throws DaoException;
+
+    /**
+     * Gets all records in database where role = ADMIN_ROLE
+     * @return Long value that represents table records in database
+     * @throws DaoException if {@link com.ordjoy.exception.DataBaseException} or any Database error be thrown
+     * @see com.ordjoy.entity.UserRole
+     */
+    Long getAdminRoleTableRecords() throws DaoException;
 }
