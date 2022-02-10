@@ -114,6 +114,20 @@ public class AlbumService {
     }
 
     /**
+     * Gets all records from table in database
+     *
+     * @return Long value of table records
+     * @throws ServiceException if Dao layer can not execute method
+     */
+    public Long getRecords() throws ServiceException {
+        try {
+            return albumDao.getTableRecords();
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    /**
      * Update {@link Album} in database
      *
      * @param album new value of {@link Album}

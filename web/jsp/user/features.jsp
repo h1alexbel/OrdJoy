@@ -84,7 +84,7 @@
                 </div>
                 <h2><fmt:message key="about.album.repo"/></h2>
                 <p><fmt:message key="feature.albums.message"/></p>
-                <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_albums" class="icon-link">
+                <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_albums&offset=0" class="icon-link">
                     <fmt:message key="feature.find.albums.button"/>
                 </a>
             </div>

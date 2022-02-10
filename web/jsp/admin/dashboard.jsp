@@ -81,7 +81,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="${pageContext.request.contextPath}/frontController?frontCommand=all_albums">
+                           href="${pageContext.request.contextPath}/frontController?frontCommand=all_albums&offset=0">
                             <span data-feather="file"></span>
                             <fmt:message key="dashboard.albums"/>
                         </a>
@@ -160,12 +160,14 @@
                                 class="nav-link px-2 text-muted">
             <fmt:message key="admin.dashboard"/>
         </a></li>
-        <li class="nav-item"><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_orders"
-                                class="nav-link px-2 text-muted">
+        <li class="nav-item"><a
+                href="${pageContext.request.contextPath}/frontController?frontCommand=all_orders&offset=0"
+                class="nav-link px-2 text-muted">
             <fmt:message key="admin.orders"/>
         </a></li>
-        <li class="nav-item"><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_users"
-                                class="nav-link px-2 text-muted">
+        <li class="nav-item"><a
+                href="${pageContext.request.contextPath}/frontController?frontCommand=all_users&offset=0"
+                class="nav-link px-2 text-muted">
             <fmt:message key="admin.customers"/>
         </a></li>
     </ul>

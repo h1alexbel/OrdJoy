@@ -26,7 +26,8 @@ public class AlbumDaoImpl implements AlbumDao {
         return INSTANCE;
     }
 
-    private static final String LIMIT_OFFSET = """
+    private static final String ORDER_BY_LIMIT_OFFSET = """
+            ORDER BY id
             LIMIT ?
             OFFSET ?
             """;
@@ -123,6 +124,11 @@ public class AlbumDaoImpl implements AlbumDao {
             WHERE a.title LIKE ?
             """;
 
+    private static final String SQL_GET_RECORDS = """
+            SELECT count(*)
+            FROM audio_tracks_storage.album
+            """;
+
     @Override
     public Album save(Album album) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
@@ -161,7 +167,7 @@ public class AlbumDaoImpl implements AlbumDao {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
-        String sql = SQL_FIND_ALL + LIMIT_OFFSET;
+        String sql = SQL_FIND_ALL + ORDER_BY_LIMIT_OFFSET;
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findAllStatement = connection.prepareStatement(sql)) {
             for (int i = 0; i < parameters.size(); i++) {
@@ -177,6 +183,24 @@ public class AlbumDaoImpl implements AlbumDao {
             throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
+
+    @Override
+    public Long getTableRecords() throws DaoException {
+        long records;
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement allRecords = connection.prepareStatement(SQL_GET_RECORDS)) {
+            ResultSet resultSet = allRecords.executeQuery();
+            if (resultSet.next()) {
+                records = resultSet.getLong("count");
+            } else {
+                records = 0;
+            }
+            return records;
+        } catch (SQLException e) {
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
 
     @Override
     public void update(Album album) throws DaoException {
@@ -243,7 +267,7 @@ public class AlbumDaoImpl implements AlbumDao {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
-        String sql = SQL_FIND_REVIEWS_BY_ALBUM_TITLE + LIMIT_OFFSET;
+        String sql = SQL_FIND_REVIEWS_BY_ALBUM_TITLE + ORDER_BY_LIMIT_OFFSET;
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findReviewsByTitleStatement = connection.prepareStatement(sql)) {
             findReviewsByTitleStatement.setString(1, albumTitle);
@@ -267,7 +291,7 @@ public class AlbumDaoImpl implements AlbumDao {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
-        String sql = SQL_FIND_REVIEWS_BY_ALBUM_ID + LIMIT_OFFSET;
+        String sql = SQL_FIND_REVIEWS_BY_ALBUM_ID + ORDER_BY_LIMIT_OFFSET;
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findReviewsByTitleStatement = connection.prepareStatement(sql)) {
             findReviewsByTitleStatement.setLong(1, albumId);

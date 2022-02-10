@@ -20,15 +20,22 @@ import static com.ordjoy.util.JspPageConst.SEPARATOR;
 public class ShowAllAlbumsCommand implements FrontCommand {
 
     private static final String ALBUMS_ATTRIBUTE = "albums";
+    private static final String OFFSET = "offset";
+    private static final int DEFAULT_LIMIT = 20;
+    private static final String NO_OF_PAGES = "noOfPages";
     private final AlbumService albumService = AlbumService.getInstance();
-    private final AlbumFilter defaultAlbumFilter = new AlbumFilter(20, 0);
 
     @Override
     public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
         String page;
         FrontCommandResult frontCommandResult;
         try {
-            List<AlbumDto> allAlbums = albumService.findAllAlbums(defaultAlbumFilter);
+            int offset = Integer.parseInt(httpServletRequest.getParameter(OFFSET));
+            Long records = albumService.getRecords();
+            AlbumFilter albumFilter = new AlbumFilter(DEFAULT_LIMIT, offset);
+            List<AlbumDto> allAlbums = albumService.findAllAlbums(albumFilter);
+            int noOfPages = (int) (records / DEFAULT_LIMIT);
+            httpServletRequest.setAttribute(NO_OF_PAGES, noOfPages);
             httpServletRequest.setAttribute(ALBUMS_ATTRIBUTE, allAlbums);
             page = SEPARATOR + JspFormatHelper.getUserPath(ALBUMS_PAGE);
             frontCommandResult = new FrontCommandResult(page, NavigationType.FORWARD);

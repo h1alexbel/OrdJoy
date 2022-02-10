@@ -207,7 +207,8 @@
                     <fmt:message key="about.album.repo"/>
                     <span
                             class="text-muted"></span></h2>
-                <p class="lead"><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_albums">
+                <p class="lead"><a
+                        href="${pageContext.request.contextPath}/frontController?frontCommand=all_albums&offset=0">
                     <fmt:message key="about.album.repo.info"/>
                 </a></p>
             </div>
