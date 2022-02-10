@@ -1,10 +1,14 @@
 package com.ordjoy.validation.impl;
 
 import com.ordjoy.entity.Order;
+import com.ordjoy.util.LogginUtils;
 import com.ordjoy.validation.Error;
 import com.ordjoy.validation.RegexBase;
 import com.ordjoy.validation.ValidationResult;
 import com.ordjoy.validation.Validator;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 
@@ -12,6 +16,7 @@ import static com.ordjoy.util.ErrorConstUtils.*;
 
 public class OrderValidator implements Validator<Order> {
 
+    private static final Logger LOGGER = LogManager.getLogger(OrderValidator.class);
     private static final OrderValidator INSTANCE = new OrderValidator();
 
     private OrderValidator() {
@@ -31,14 +36,18 @@ public class OrderValidator implements Validator<Order> {
         if (order != null) {
             if (isPriceBiggerThanZero(order.getPrice()) != 1) {
                 validationResult.add(Error.of(PRICE_INVALID, PRICE_IS_INVALID_MESSAGE));
+                LOGGER.log(Level.INFO, LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
             }
         } else {
             validationResult.add(Error.of(ORDER_INVALID, ORDER_IS_INVALID_MESSAGE));
+            LOGGER.log(Level.INFO, LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
         }
         return validationResult;
     }
 
-    /** Checks valid or not price is
+    /**
+     * Checks valid or not price is
+     *
      * @param price price to validate
      * @return boolean result based on not null check and matching to price regex
      */

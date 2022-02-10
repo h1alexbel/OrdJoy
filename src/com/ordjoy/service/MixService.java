@@ -10,6 +10,10 @@ import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.mapper.MixMapper;
 import com.ordjoy.mapper.MixReviewMapper;
+import com.ordjoy.util.LogginUtils;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +23,7 @@ import static java.util.stream.Collectors.*;
 
 public class MixService {
 
+    private static final Logger LOGGER = LogManager.getLogger(MixService.class);
     private final MixDaoImpl mixDao = MixDaoImpl.getInstance();
     private static final MixService INSTANCE = new MixService();
     private final MixMapper mixMapper = MixMapper.getInstance();
@@ -47,6 +52,7 @@ public class MixService {
             Mix savedMix = mixDao.save(mix);
             return mixMapper.mapFrom(savedMix);
         } catch (DaoException e) {
+            LOGGER.log(Level.ERROR, LogginUtils.ENTITY_SAVE_ERROR, mix, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -127,6 +133,7 @@ public class MixService {
         try {
             return mixDao.getTableRecords();
         } catch (DaoException e) {
+            LOGGER.log(Level.ERROR, LogginUtils.FETCH_RECORDS_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -141,6 +148,7 @@ public class MixService {
         try {
             mixDao.update(mix);
         } catch (DaoException e) {
+            LOGGER.log(Level.ERROR, LogginUtils.ENTITY_UPDATE_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -156,6 +164,7 @@ public class MixService {
         try {
             return mixDao.deleteById(id);
         } catch (DaoException e) {
+            LOGGER.log(Level.WARN, LogginUtils.ENTITY_DELETE_WARN, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }

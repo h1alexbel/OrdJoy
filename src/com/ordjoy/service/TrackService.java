@@ -10,8 +10,12 @@ import com.ordjoy.entity.Track;
 import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.mapper.TrackMapper;
+import com.ordjoy.util.LogginUtils;
 import com.ordjoy.validation.ValidationResult;
 import com.ordjoy.validation.impl.TrackValidator;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +25,7 @@ import static java.util.stream.Collectors.*;
 
 public class TrackService {
 
+    private static final Logger LOGGER = LogManager.getLogger(TrackService.class);
     private final TrackDaoImpl trackDao = TrackDaoImpl.getInstance();
     private static final TrackService INSTANCE = new TrackService();
     private final TrackMapper trackMapper = TrackMapper.getInstance();
@@ -49,6 +54,7 @@ public class TrackService {
             Track savedTrack = trackDao.save(track);
             return trackMapper.mapFrom(savedTrack);
         } catch (DaoException e) {
+            LOGGER.log(Level.ERROR, LogginUtils.ENTITY_SAVE_ERROR, track, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -120,6 +126,7 @@ public class TrackService {
         try {
             return trackDao.getTableRecords();
         } catch (DaoException e) {
+            LOGGER.log(Level.ERROR, LogginUtils.FETCH_RECORDS_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -136,6 +143,7 @@ public class TrackService {
             try {
                 trackDao.update(track);
             } catch (DaoException e) {
+                LOGGER.log(Level.ERROR, LogginUtils.ENTITY_UPDATE_ERROR, e);
                 throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
             }
         }
@@ -152,6 +160,7 @@ public class TrackService {
         try {
             return trackDao.deleteById(id);
         } catch (DaoException e) {
+            LOGGER.log(Level.WARN, LogginUtils.DRIVER_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -169,6 +178,7 @@ public class TrackService {
         try {
             return trackDao.addExistingTrackToMix(mixThatExists, trackThatExists);
         } catch (DaoException e) {
+            LOGGER.log(Level.WARN, LogginUtils.LINKED_ENTITY_ERROR, mixThatExists, trackThatExists, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }

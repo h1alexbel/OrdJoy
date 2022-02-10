@@ -2,6 +2,10 @@ package com.ordjoy.filter;
 
 import com.ordjoy.dto.UserAccountDto;
 import com.ordjoy.entity.UserRole;
+import com.ordjoy.util.LogginUtils;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -14,6 +18,7 @@ import static com.ordjoy.util.JspPageConst.*;
 @WebFilter(urlPatterns = {"/jsp/admin/*"})
 public class AdminAuthorizationFilter implements Filter {
 
+    private static final Logger LOGGER = LogManager.getLogger(AdminAuthorizationFilter.class);
     private static final String USER_ATTRIBUTE = "user";
 
     @Override
@@ -39,6 +44,7 @@ public class AdminAuthorizationFilter implements Filter {
         UserAccountDto userAccount = (UserAccountDto) httpServletRequest.getSession().getAttribute(USER_ATTRIBUTE);
         if (userAccount != null && userAccount.getRole() == UserRole.ADMIN_ROLE) {
             result = true;
+            LOGGER.log(Level.INFO, LogginUtils.USER_ROLE_INFO, userAccount.getRole());
         }
         return result;
     }

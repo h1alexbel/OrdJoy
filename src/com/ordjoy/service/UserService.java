@@ -9,6 +9,10 @@ import com.ordjoy.entity.UserRole;
 import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.mapper.UserAccountMapper;
+import com.ordjoy.util.LogginUtils;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +22,7 @@ import static java.util.stream.Collectors.*;
 
 public class UserService {
 
+    private static final Logger LOGGER = LogManager.getLogger(UserService.class);
     private static final Integer STARTER_DISCOUNT_PERCENTAGE_LEVEL = 0;
     private final UserDaoImpl userDao = UserDaoImpl.getInstance();
     private static final UserService INSTANCE = new UserService();
@@ -71,6 +76,7 @@ public class UserService {
         try {
             return userDao.getUserRoleTableRecords();
         } catch (DaoException e) {
+            LOGGER.log(Level.ERROR, LogginUtils.FETCH_RECORDS_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -85,6 +91,7 @@ public class UserService {
         try {
             return userDao.getAdminRoleTableRecords();
         } catch (DaoException e) {
+            LOGGER.log(Level.ERROR, LogginUtils.FETCH_RECORDS_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -101,6 +108,7 @@ public class UserService {
             UserAccount savedUser = userDao.save(userAccount);
             return userAccountMapper.mapFrom(savedUser);
         } catch (DaoException e) {
+            LOGGER.log(Level.ERROR, LogginUtils.ENTITY_SAVE_ERROR, userAccount, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -233,6 +241,7 @@ public class UserService {
         try {
             userDao.update(userAccount);
         } catch (DaoException e) {
+            LOGGER.log(Level.ERROR, LogginUtils.ENTITY_UPDATE_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -248,6 +257,7 @@ public class UserService {
         try {
             return userDao.deleteById(id);
         } catch (DaoException e) {
+            LOGGER.log(Level.WARN, LogginUtils.ENTITY_DELETE_WARN, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -263,6 +273,7 @@ public class UserService {
         try {
             userDao.addDiscountPercentageLevel(discountPercentageLevel, userEmail);
         } catch (DaoException e) {
+            LOGGER.log(Level.ERROR, LogginUtils.ENTITY_UPDATE_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }

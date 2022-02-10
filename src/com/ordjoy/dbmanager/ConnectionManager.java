@@ -1,6 +1,10 @@
 package com.ordjoy.dbmanager;
 
 import com.ordjoy.exception.DataBaseException;
+import com.ordjoy.util.LogginUtils;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -9,6 +13,7 @@ import static com.ordjoy.util.ExceptionMessageUtils.*;
 
 public final class ConnectionManager {
 
+    private static final Logger LOGGER = LogManager.getLogger(ConnectionManager.class);
     private static final String URL_KEY = "db.url";
     private static final String USERNAME_KEY = "db.username";
     private static final String PASSWORD_KEY = "db.password";
@@ -28,6 +33,7 @@ public final class ConnectionManager {
                             PropertiesManager.getPropertyByKey(USERNAME_KEY),
                             PropertiesManager.getPropertyByKey(PASSWORD_KEY)));
         } catch (SQLException e) {
+            LOGGER.log(Level.FATAL, LogginUtils.CONNECTION_MANAGER_ERROR, e);
             throw new DataBaseException(DATABASE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }

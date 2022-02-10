@@ -5,6 +5,10 @@ import com.ordjoy.command.FrontCommandFactory;
 import com.ordjoy.command.FrontCommandResult;
 import com.ordjoy.dbmanager.ConnectionPool;
 import com.ordjoy.exception.ControllerException;
+import com.ordjoy.util.LogginUtils;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +20,7 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/frontController")
 public class MainServlet extends HttpServlet {
 
+    private static final Logger LOGGER = LogManager.getLogger(MainServlet.class);
     private static final String FRONT_COMMAND_PARAM = "frontCommand";
 
     @Override
@@ -43,9 +48,13 @@ public class MainServlet extends HttpServlet {
     private void processFrontCommand(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
             throws ServletException, IOException {
         String frontCommand = httpServletRequest.getParameter(FRONT_COMMAND_PARAM);
+        LOGGER.log(Level.INFO, LogginUtils.REQUEST_PARAMS, httpServletRequest.getParameterMap());
         FrontCommand command = FrontCommandFactory.getCommand(frontCommand);
         try {
             FrontCommandResult result = command.execute(httpServletRequest);
+            LOGGER.log(
+                    Level.INFO, LogginUtils.FRONT_COMMAND_RESULT_INFO,
+                    result.getPage() + result.getNavigationType());
             switch (result.getNavigationType()) {
                 case FORWARD -> getServletContext().getRequestDispatcher(result.getPage()).forward(httpServletRequest, httpServletResponse);
                 case REDIRECT -> httpServletResponse.sendRedirect(result.getPage());

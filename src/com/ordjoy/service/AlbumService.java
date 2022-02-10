@@ -10,6 +10,10 @@ import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.mapper.AlbumMapper;
 import com.ordjoy.mapper.AlbumReviewMapper;
+import com.ordjoy.util.LogginUtils;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +23,7 @@ import static java.util.stream.Collectors.*;
 
 public class AlbumService {
 
+    private static final Logger LOGGER = LogManager.getLogger(AlbumService.class);
     private final AlbumDaoImpl albumDao = AlbumDaoImpl.getInstance();
     private static final AlbumService INSTANCE = new AlbumService();
     private final AlbumMapper albumMapper = AlbumMapper.getInstance();
@@ -47,6 +52,7 @@ public class AlbumService {
             Album savedAlbum = albumDao.save(album);
             return albumMapper.mapFrom(savedAlbum);
         } catch (DaoException e) {
+            LOGGER.log(Level.WARN, LogginUtils.ENTITY_SAVE_ERROR, album, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -123,6 +129,7 @@ public class AlbumService {
         try {
             return albumDao.getTableRecords();
         } catch (DaoException e) {
+            LOGGER.log(Level.ERROR, LogginUtils.FETCH_RECORDS_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -137,6 +144,7 @@ public class AlbumService {
         try {
             albumDao.update(album);
         } catch (DaoException e) {
+            LOGGER.log(Level.ERROR, LogginUtils.ENTITY_UPDATE_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -152,6 +160,7 @@ public class AlbumService {
         try {
             return albumDao.deleteById(id);
         } catch (DaoException e) {
+            LOGGER.log(Level.WARN, LogginUtils.ENTITY_DELETE_WARN, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }

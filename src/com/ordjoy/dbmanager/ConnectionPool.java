@@ -1,6 +1,10 @@
 package com.ordjoy.dbmanager;
 
 import com.ordjoy.exception.DataBaseException;
+import com.ordjoy.util.LogginUtils;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -13,6 +17,7 @@ import static com.ordjoy.util.ExceptionMessageUtils.DATABASE_LAYER_EXCEPTION_MES
 
 public class ConnectionPool {
 
+    private static final Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
     private static final String DRIVER_KEY = "db.postgres.driver";
     private static final String POOL_SIZE_KEY = "db.pool.size";
     private static ConnectionPool instance = new ConnectionPool();
@@ -60,6 +65,7 @@ public class ConnectionPool {
         try {
             Class.forName(PropertiesManager.getPropertyByKey(DRIVER_KEY));
         } catch (ClassNotFoundException e) {
+            LOGGER.log(Level.FATAL, LogginUtils.DRIVER_ERROR, e);
             throw new DataBaseException(DATABASE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -89,7 +95,7 @@ public class ConnectionPool {
                 proxyConnection.setAutoCommit(true);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.ERROR, LogginUtils.AUTO_COMMIT_ERROR, e);
         }
         connections.offer(proxyConnection);
     }
@@ -103,6 +109,7 @@ public class ConnectionPool {
                 connections.poll().closeConnection();
             }
         } catch (SQLException e) {
+            LOGGER.log(Level.FATAL, LogginUtils.CLOSE_CONNECTION_POOL_ERROR, e);
             throw new DataBaseException(DATABASE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
