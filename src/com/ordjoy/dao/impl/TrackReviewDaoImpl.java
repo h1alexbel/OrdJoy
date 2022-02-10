@@ -223,6 +223,11 @@ public class TrackReviewDaoImpl implements TrackReviewDao {
             WHERE track.id = ?
             """;
 
+    public static final String SQL_GET_RECORDS = """
+            SELECT count(*)
+            FROM review_storage.review_about_track
+            """;
+
     @Override
     public TrackReview save(TrackReview trackReview) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
@@ -273,7 +278,7 @@ public class TrackReviewDaoImpl implements TrackReviewDao {
         parameters.add(filter.limit());
         parameters.add(filter.offset());
         String where = whereSql.stream()
-                .collect(joining(" AND ", " WHERE ", " LIMIT ? OFFSET ?"));
+                .collect(joining(" AND ", " WHERE ", " ORDER BY rat.id DESC LIMIT ? OFFSET ?"));
         String sql = SQL_FIND_ALL + where;
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findAllStatement = connection.prepareStatement(sql)) {
@@ -286,6 +291,23 @@ public class TrackReviewDaoImpl implements TrackReviewDao {
                 trackReviews.add(buildTrackReview(resultSet));
             }
             return trackReviews;
+        } catch (SQLException e) {
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    @Override
+    public Long getTableRecords() throws DaoException {
+        long records;
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement allRecords = connection.prepareStatement(SQL_GET_RECORDS)) {
+            ResultSet resultSet = allRecords.executeQuery();
+            if (resultSet.next()) {
+                records = resultSet.getLong("count");
+            } else {
+                records = 0;
+            }
+            return records;
         } catch (SQLException e) {
             throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
         }

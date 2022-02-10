@@ -117,21 +117,21 @@
                 <ul class="nav flex-column mb-2">
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="${pageContext.request.contextPath}/frontController?frontCommand=all_mix_reviews">
+                           href="${pageContext.request.contextPath}/frontController?frontCommand=all_mix_reviews&offset=0">
                             <span data-feather="file-text"></span>
                             <fmt:message key="dashboard.mix.reviews"/>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="${pageContext.request.contextPath}/frontController?frontCommand=all_track_reviews">
+                           href="${pageContext.request.contextPath}/frontController?frontCommand=all_track_reviews&offset=0">
                             <span data-feather="file-text"></span>
                             <fmt:message key="dashboard.track.reviews"/>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="${pageContext.request.contextPath}/frontController?frontCommand=all_album_reviews">
+                           href="${pageContext.request.contextPath}/frontController?frontCommand=all_album_reviews&offset=0">
                             <span data-feather="file-text"></span>
                             <fmt:message key="dashboard.album.reviews"/>
                         </a>

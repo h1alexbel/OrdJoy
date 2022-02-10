@@ -103,12 +103,14 @@
                             <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_tracks&offset=0">
                                 <ftm:message key="user.content.tracks"/>
                             </a></li>
-                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_mixes&offset=0">
-                            <ftm:message key="user.content.mixes"/>
-                        </a></li>
-                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_albums&offset=0">
-                            <ftm:message key="user.content.albums"/>
-                        </a></li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_mixes&offset=0">
+                                <ftm:message key="user.content.mixes"/>
+                            </a></li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_albums&offset=0">
+                                <ftm:message key="user.content.albums"/>
+                            </a></li>
                     </ol>
                 </div>
 
@@ -117,15 +119,16 @@
                         <ftm:message key="user.content.reviews"/>
                     </h4>
                     <ol class="list-unstyled mb-0">
-                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_track_reviews">
+                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_track_reviews&offset=0">
                             <ftm:message key="user.content.track.reviews"/>
                         </a></li>
-                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_mix_reviews">
+                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_mix_reviews&offset=0">
                             <ftm:message key="user.content.mix.reviews"/>
                         </a></li>
-                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_album_reviews">
-                            <ftm:message key="user.content.album.reviews"/>
-                        </a></li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_album_reviews&offset=0">
+                                <ftm:message key="user.content.album.reviews"/>
+                            </a></li>
                     </ol>
                 </div>
 

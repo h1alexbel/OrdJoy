@@ -151,6 +151,11 @@ public class MixReviewDaoImpl implements MixReviewDao {
             WHERE data.id = ?
             """;
 
+    private static final String SQL_GET_RECORDS = """
+            SELECT count(*)
+            FROM review_storage.review_about_mix
+            """;
+
     @Override
     public MixReview save(MixReview review) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
@@ -201,7 +206,7 @@ public class MixReviewDaoImpl implements MixReviewDao {
         parameters.add(filter.limit());
         parameters.add(filter.offset());
         String where = whereSql.stream()
-                .collect(joining(" AND ", " WHERE ", " LIMIT ? OFFSET ?"));
+                .collect(joining(" AND ", " WHERE ", " ORDER BY rm.id DESC LIMIT ? OFFSET ?"));
         String sql = SQL_FIND_ALL + where;
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findAllStatement = connection.prepareStatement(sql)) {
@@ -214,6 +219,23 @@ public class MixReviewDaoImpl implements MixReviewDao {
                 mixReviews.add(buildMixReview(resultSet));
             }
             return mixReviews;
+        } catch (SQLException e) {
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    @Override
+    public Long getTableRecords() throws DaoException {
+        long records;
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement allRecords = connection.prepareStatement(SQL_GET_RECORDS)) {
+            ResultSet resultSet = allRecords.executeQuery();
+            if (resultSet.next()) {
+                records = resultSet.getLong("count");
+            } else {
+                records = 0;
+            }
+            return records;
         } catch (SQLException e) {
             throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
         }

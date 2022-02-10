@@ -145,14 +145,14 @@
                     <fmt:message key="about.reviews.message"/>
                 </p>
                 <p><a class="btn btn-success"
-                      href="${pageContext.request.contextPath}/frontController?frontCommand=all_track_reviews">
+                      href="${pageContext.request.contextPath}/frontController?frontCommand=all_track_reviews&offset=0">
                     <fmt:message key="user.content.track.reviews"/> &raquo;
                 </a></p>
                 <p><a class="btn btn-success"
-                      href="${pageContext.request.contextPath}/frontController?frontCommand=all_album_reviews">
+                      href="${pageContext.request.contextPath}/frontController?frontCommand=all_album_reviews&offset=0">
                     <fmt:message key="user.content.album.reviews"/> &raquo;</a></p>
                 <p><a class="btn btn-success"
-                      href="${pageContext.request.contextPath}/frontController?frontCommand=all_mix_reviews">
+                      href="${pageContext.request.contextPath}/frontController?frontCommand=all_mix_reviews&offset=0">
                     <fmt:message key="user.content.mix.reviews"/> &raquo;</a></p>
             </div>
             <div class="col-lg-4">

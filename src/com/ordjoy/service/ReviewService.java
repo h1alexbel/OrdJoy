@@ -197,6 +197,48 @@ public class ReviewService {
     }
 
     /**
+     * Gets all {@link AlbumReview} table records from database
+     *
+     * @return Long value that represents all table records from database
+     * @throws ServiceException if Dao layer can not execute method
+     */
+    public Long getAlbumReviewRecords() throws ServiceException {
+        try {
+            return albumReviewDao.getTableRecords();
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    /**
+     * Gets all {@link MixReview} table records from database
+     *
+     * @return Long value that represents all table records from database
+     * @throws ServiceException if Dao layer can not execute method
+     */
+    public Long getMixReviewRecords() throws ServiceException {
+        try {
+            return mixReviewDao.getTableRecords();
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    /**
+     * Gets all {@link TrackReview} table records from database
+     *
+     * @return Long value that represents all table records from database
+     * @throws ServiceException if Dao layer can not execute method
+     */
+    public Long getTrackReviewRecords() throws ServiceException {
+        try {
+            return trackReviewDao.getTableRecords();
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    /**
      * Update {@link MixReview} from database
      *
      * @param mixReview new value of {@link  MixReview}

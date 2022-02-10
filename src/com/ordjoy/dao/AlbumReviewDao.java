@@ -26,4 +26,12 @@ public interface AlbumReviewDao extends GenericDao<Long, AlbumReview, ReviewFilt
      * @throws DaoException if {@link com.ordjoy.exception.DataBaseException} or any Database error be thrown
      */
     List<AlbumReview> findAlbumReviewsByUserId(Long userId, DefaultFilter filter) throws DaoException;
+
+    /**
+     * Gets all table records from database
+     *
+     * @return Long value that represents all table records from database
+     * @throws DaoException if {@link com.ordjoy.exception.DataBaseException} or any Database error be thrown
+     */
+    Long getTableRecords() throws DaoException;
 }

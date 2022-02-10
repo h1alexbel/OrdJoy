@@ -44,4 +44,12 @@ public interface TrackReviewDao extends GenericDao<Long, TrackReview, ReviewFilt
      * @throws DaoException if {@link com.ordjoy.exception.DataBaseException} or any Database error be thrown
      */
     List<TrackReview> findTrackReviewsByTrackTitle(String title, DefaultFilter filter) throws DaoException;
+
+    /**
+     * Gets all table records from database
+     *
+     * @return Long value that represents all table records
+     * @throws DaoException if {@link com.ordjoy.exception.DataBaseException} or any Database error be thrown
+     */
+    Long getTableRecords() throws DaoException;
 }
