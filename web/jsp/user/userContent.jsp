@@ -103,7 +103,7 @@
                             <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_tracks&offset=0">
                                 <ftm:message key="user.content.tracks"/>
                             </a></li>
-                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_mixes">
+                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_mixes&offset=0">
                             <ftm:message key="user.content.mixes"/>
                         </a></li>
                         <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_albums">

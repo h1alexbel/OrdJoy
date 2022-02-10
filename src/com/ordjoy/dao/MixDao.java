@@ -37,4 +37,12 @@ public interface MixDao extends GenericDao<Long, Mix, MixFilter> {
      * @throws DaoException if {@link com.ordjoy.exception.DataBaseException} or any Database error be thrown
      */
     List<MixReview> findMixReviewsByMixId(Long mixId, DefaultFilter filter) throws DaoException;
+
+    /**
+     * Gets all table records from database
+     *
+     * @return Long value that represents table records
+     * @throws DaoException if {@link com.ordjoy.exception.DataBaseException} or any Database error be thrown
+     */
+    Long getTableRecords() throws DaoException;
 }

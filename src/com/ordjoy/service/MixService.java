@@ -118,6 +118,20 @@ public class MixService {
     }
 
     /**
+     * Gets all table records from database
+     *
+     * @return Long value that represents table records
+     * @throws ServiceException if Dao layer can not execute method
+     */
+    public Long getRecords() throws ServiceException {
+        try {
+            return mixDao.getTableRecords();
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    /**
      * Update {@link Mix} in database
      *
      * @param mix new value of {@link Mix}
@@ -189,8 +203,8 @@ public class MixService {
     /**
      * Finds all {@link MixReviewDto} by {@link Mix} id
      *
-     * @param mixId {@link Mix} id
-     * @param filter  sets limit/offset
+     * @param mixId  {@link Mix} id
+     * @param filter sets limit/offset
      * @return List {@link MixReviewDto} that represents {@link com.ordjoy.entity.MixReview} in database
      * @throws ServiceException if Dao layer can not execute method
      */

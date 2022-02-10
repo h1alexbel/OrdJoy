@@ -227,7 +227,8 @@
                     <fmt:message key="about.mix.repo"/>
                     <span
                             class="text-muted"><fmt:message key="about.mix.repo.info"/></span></h2>
-                <p class="lead"><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_mixes">
+                <p class="lead"><a
+                        href="${pageContext.request.contextPath}/frontController?frontCommand=all_mixes&offset=0">
                     <fmt:message key="about.mix.repo"/>
                 </a></p>
             </div>

@@ -88,7 +88,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="${pageContext.request.contextPath}/frontController?frontCommand=all_mixes">
+                           href="${pageContext.request.contextPath}/frontController?frontCommand=all_mixes&offset=0">
                             <span data-feather="file"></span>
                             <fmt:message key="dashboard.mixes"/>
                         </a>

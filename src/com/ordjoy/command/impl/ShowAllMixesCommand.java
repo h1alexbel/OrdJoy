@@ -20,15 +20,22 @@ import static com.ordjoy.util.JspPageConst.SEPARATOR;
 public class ShowAllMixesCommand implements FrontCommand {
 
     private static final String MIXES_ATTRIBUTE = "mixes";
+    private static final String OFFSET = "offset";
+    private static final int DEFAULT_LIMIT = 20;
+    private static final String NO_OF_PAGES = "noOfPages";
     private final MixService mixService = MixService.getInstance();
-    private final MixFilter defaultMixFilter = new MixFilter(20, 0);
 
     @Override
     public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
         String page;
         FrontCommandResult frontCommandResult;
         try {
-            List<MixDto> mixes = mixService.findAllMixes(defaultMixFilter);
+            int offset = Integer.parseInt(httpServletRequest.getParameter(OFFSET));
+            Long records = mixService.getRecords();
+            MixFilter mixFilter = new MixFilter(DEFAULT_LIMIT, offset);
+            int noOfPages = (int) (records / DEFAULT_LIMIT);
+            httpServletRequest.setAttribute(NO_OF_PAGES, noOfPages);
+            List<MixDto> mixes = mixService.findAllMixes(mixFilter);
             httpServletRequest.setAttribute(MIXES_ATTRIBUTE, mixes);
             page = SEPARATOR + JspFormatHelper.getUserPath(MIXES_PAGE);
             frontCommandResult = new FrontCommandResult(page, NavigationType.FORWARD);

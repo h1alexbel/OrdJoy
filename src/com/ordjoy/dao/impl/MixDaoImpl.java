@@ -26,7 +26,8 @@ public class MixDaoImpl implements MixDao {
         return INSTANCE;
     }
 
-    private static final String LIMIT_OFFSET = """
+    private static final String ORDER_BY_LIMIT_OFFSET = """
+            ORDER BY id DESC
             LIMIT ?
             OFFSET ?
             """;
@@ -126,6 +127,11 @@ public class MixDaoImpl implements MixDao {
             WHERE mix.name = ?      
             """;
 
+    private static final String SQL_GET_RECORDS = """
+            SELECT count(*)
+            FROM audio_tracks_storage.mix
+            """;
+
     @Override
     public Mix save(Mix mix) throws DaoException {
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
@@ -165,7 +171,7 @@ public class MixDaoImpl implements MixDao {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
-        String sql = SQL_FIND_ALL + LIMIT_OFFSET;
+        String sql = SQL_FIND_ALL + ORDER_BY_LIMIT_OFFSET;
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findAllStatement = connection.prepareStatement(sql)) {
             for (int i = 0; i < parameters.size(); i++) {
@@ -177,6 +183,23 @@ public class MixDaoImpl implements MixDao {
                 mixes.add(buildMix(resultSet));
             }
             return mixes;
+        } catch (SQLException e) {
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    @Override
+    public Long getTableRecords() throws DaoException {
+        long records;
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement allRecords = connection.prepareStatement(SQL_GET_RECORDS)) {
+            ResultSet resultSet = allRecords.executeQuery();
+            if (resultSet.next()) {
+                records = resultSet.getLong("count");
+            } else {
+                records = 0;
+            }
+            return records;
         } catch (SQLException e) {
             throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
         }
@@ -249,7 +272,7 @@ public class MixDaoImpl implements MixDao {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
-        String sql = SQL_FIND_REVIEWS_BY_MIX_NAME + LIMIT_OFFSET;
+        String sql = SQL_FIND_REVIEWS_BY_MIX_NAME + ORDER_BY_LIMIT_OFFSET;
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findReviewsByMixName = connection.prepareStatement(sql)) {
             findReviewsByMixName.setString(1, mixName);
@@ -273,7 +296,7 @@ public class MixDaoImpl implements MixDao {
         List<Object> parameters = new ArrayList<>();
         parameters.add(filter.limit());
         parameters.add(filter.offset());
-        String sql = SQL_FIND_REVIEWS_BY_MIX_ID + LIMIT_OFFSET;
+        String sql = SQL_FIND_REVIEWS_BY_MIX_ID + ORDER_BY_LIMIT_OFFSET;
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findReviewsByMixName = connection.prepareStatement(sql)) {
             findReviewsByMixName.setLong(1, mixId);

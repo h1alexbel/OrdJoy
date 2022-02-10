@@ -68,6 +68,13 @@
     </c:forEach>
     </thead>
 </table>
+<div class="text-center">
+    <c:forEach var="pageNo" begin="0" end="${requestScope.noOfPages}">
+        <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_mixes&pageNo=${pageNo}&offset=${20 * pageNo}"
+           role="button"
+           class="btn btn-primary">${pageNo + 1}</a>
+    </c:forEach>
+</div>
 <c:if test="${sessionScope.user.role eq 'ADMIN_ROLE'}">
     <div class="container fixed-bottom">
         <footer class="py-3 my-4">

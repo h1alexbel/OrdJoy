@@ -104,7 +104,7 @@
                 </div>
                 <h2><fmt:message key="about.mix.repo"/></h2>
                 <p><fmt:message key="feature.mixes.message"/></p>
-                <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_mixes" class="icon-link">
+                <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_mixes&offset=0" class="icon-link">
                     <fmt:message key="feature.find.mixes.button"/>
                     <svg class="bi" width="1em" height="1em">
                         <use xlink:href="#chevron-right"></use>
