@@ -46,4 +46,12 @@ public interface TrackDao extends GenericDao<Long, Track, TrackFilter> {
      * @throws DaoException if {@link com.ordjoy.exception.DataBaseException} or any Database error be thrown
      */
     List<Track> findTracksByAlbumName(String albumName, DefaultFilter filter) throws DaoException;
+
+    /**
+     * Gets table records from database
+     *
+     * @return Long value that represents table records in database
+     * @throws DaoException if {@link com.ordjoy.exception.DataBaseException} or any Database error be thrown
+     */
+    Long getTableRecords() throws DaoException;
 }

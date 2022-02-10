@@ -70,7 +70,7 @@
 
                 <p><ftm:message key="big.message"/></p>
                 <ul>
-                    <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_tracks">
+                    <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_tracks&offset=0">
                         <fmt:message key="track.updates"/>
                     </a></li>
                     <li>
@@ -99,9 +99,10 @@
                         <ftm:message key="user.content.goods"/>
                     </h4>
                     <ol class="list-unstyled mb-0">
-                        <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_tracks">
-                            <ftm:message key="user.content.tracks"/>
-                        </a></li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_tracks&offset=0">
+                                <ftm:message key="user.content.tracks"/>
+                            </a></li>
                         <li><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_mixes">
                             <ftm:message key="user.content.mixes"/>
                         </a></li>

@@ -111,6 +111,20 @@ public class TrackService {
     }
 
     /**
+     * Gets table records from database
+     *
+     * @return Long value that represents table records in database
+     * @throws ServiceException if Dao layer can not execute method
+     */
+    public Long getRecords() throws ServiceException {
+        try {
+            return trackDao.getTableRecords();
+        } catch (DaoException e) {
+            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    /**
      * Updates {@link Track} in database
      *
      * @param track new value of {@link Track}
@@ -201,7 +215,7 @@ public class TrackService {
      * Find Tracks from database by {@link Album} name
      *
      * @param albumName {@link Album} name from database
-     * @param filter  sets limit offset
+     * @param filter    sets limit offset
      * @return List of {@link TrackDto} that represents Track in database
      * @throws ServiceException if Dao layer can not execute method
      */

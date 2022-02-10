@@ -45,7 +45,7 @@ public class TrackDaoImpl implements TrackDao {
                    a.id        AS a_id,
                    a.title     AS a_title
             FROM audio_tracks_storage.track tr
-                     JOIN audio_tracks_storage.album a on a.id = tr.album_id
+                     JOIN audio_tracks_storage.album a ON a.id = tr.album_id
             WHERE tr.id = ?
             """;
 
@@ -57,7 +57,7 @@ public class TrackDaoImpl implements TrackDao {
                    a.id        AS a_id,
                    a.title     AS a_title
             FROM audio_tracks_storage.track tr
-                     JOIN audio_tracks_storage.album a on a.id = tr.album_id
+                     JOIN audio_tracks_storage.album a ON a.id = tr.album_id
             WHERE tr.title = ?
             """;
 
@@ -69,7 +69,7 @@ public class TrackDaoImpl implements TrackDao {
                    a.id        AS a_id,
                    a.title     AS a_title
             FROM audio_tracks_storage.track tr
-                     JOIN audio_tracks_storage.album a on a.id = tr.album_id
+                     JOIN audio_tracks_storage.album a ON a.id = tr.album_id
             """;
 
     private static final String SQL_UPDATE_TRACK = """
@@ -118,7 +118,7 @@ public class TrackDaoImpl implements TrackDao {
                    a.id        AS a_id,
                    a.title     AS a_title
             FROM audio_tracks_storage.track tr
-                     JOIN audio_tracks_storage.album a on a.id = tr.album_id
+                     JOIN audio_tracks_storage.album a ON a.id = tr.album_id
             WHERE a.id = ?
             """;
 
@@ -130,8 +130,13 @@ public class TrackDaoImpl implements TrackDao {
                    a.id        AS a_id,
                    a.title     AS a_title
             FROM audio_tracks_storage.track tr
-                     JOIN audio_tracks_storage.album a on a.id = tr.album_id
+                     JOIN audio_tracks_storage.album a ON a.id = tr.album_id
             WHERE a.title = ?
+            """;
+
+    private static final String SQL_GET_RECORDS = """
+            SELECT count(*)
+            FROM audio_tracks_storage.track
             """;
 
     @Override
@@ -180,7 +185,7 @@ public class TrackDaoImpl implements TrackDao {
         parameters.add(filter.limit());
         parameters.add(filter.offset());
         String where = whereSql.stream()
-                .collect(joining(" AND ", " WHERE ", " LIMIT ? OFFSET ?"));
+                .collect(joining(" AND ", " WHERE ", " ORDER BY tr.id DESC LIMIT ? OFFSET ?"));
         String sql = SQL_FIND_ALL_TRACKS + where;
         try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement findAllStatement = connection.prepareStatement(sql)) {
@@ -193,6 +198,23 @@ public class TrackDaoImpl implements TrackDao {
                 tracks.add(buildTrack(resultSet));
             }
             return tracks;
+        } catch (SQLException e) {
+            throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
+        }
+    }
+
+    @Override
+    public Long getTableRecords() throws DaoException {
+        long records;
+        try (ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement allRecordsStatement = connection.prepareStatement(SQL_GET_RECORDS)) {
+            ResultSet resultSet = allRecordsStatement.executeQuery();
+            if (resultSet.next()) {
+                records = resultSet.getLong("count");
+            } else {
+                records = 0;
+            }
+            return records;
         } catch (SQLException e) {
             throw new DaoException(DAO_LAYER_EXCEPTION_MESSAGE, e);
         }

@@ -66,7 +66,8 @@
                     <fmt:message key="about.track.repo"/>
                 </h2>
                 <p><fmt:message key="feature.tracks.message"/></p>
-                <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_tracks" class="icon-link">
+                <a href="${pageContext.request.contextPath}/frontController?frontCommand=all_tracks&offset=0"
+                   class="icon-link">
                     <fmt:message key="feature.find.track.button"/>
                 </a>
             </div>

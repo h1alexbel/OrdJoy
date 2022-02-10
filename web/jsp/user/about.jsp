@@ -187,7 +187,8 @@
                             class="text-muted">
                          <fmt:message key="about.track.repo.info"/>
                     </span></h2>
-                <p class="lead"><a href="${pageContext.request.contextPath}/frontController?frontCommand=all_tracks">
+                <p class="lead"><a
+                        href="${pageContext.request.contextPath}/frontController?frontCommand=all_tracks&offset=0">
                     <fmt:message key="about.track.repo"/> </a></p>
             </div>
             <div class="col-md-5">

@@ -19,15 +19,23 @@ import static com.ordjoy.util.JspPageConst.*;
 public class ShowAllTracksCommand implements FrontCommand {
 
     private static final String TRACKS_ATTRIBUTE = "tracks";
+    private static final String OFFSET = "offset";
+    private static final int DEFAULT_LIMIT = 20;
+    private static final String NO_OF_PAGES = "noOfPages";
+    private static final String ALBUM_TITLE = "";
     private final TrackService trackService = TrackService.getInstance();
-    private final TrackFilter defaultTrackFilter = new TrackFilter(20, 0, "");
 
     @Override
     public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
         String page;
         FrontCommandResult frontCommandResult;
         try {
-            List<TrackDto> tracks = trackService.findAllTracksWithLimitOffset(defaultTrackFilter);
+            int offset = Integer.parseInt(httpServletRequest.getParameter(OFFSET));
+            Long records = trackService.getRecords();
+            TrackFilter trackFilter = new TrackFilter(DEFAULT_LIMIT, offset, ALBUM_TITLE);
+            List<TrackDto> tracks = trackService.findAllTracksWithLimitOffset(trackFilter);
+            int noOfPages = (int) (records / DEFAULT_LIMIT);
+            httpServletRequest.setAttribute(NO_OF_PAGES, noOfPages);
             httpServletRequest.setAttribute(TRACKS_ATTRIBUTE, tracks);
             page = SEPARATOR + JspFormatHelper.getUserPath(TRACK_PAGE);
             frontCommandResult = new FrontCommandResult(page, NavigationType.FORWARD);
