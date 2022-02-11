@@ -64,7 +64,7 @@
                             <label for="login" class="form-label">
                                 <fmt:message key="make.order.username"/>
                             </label>
-                            <input type="text" class="form-control" id="login" value="${sessionScope.user.login}"
+                            <input readonly type="text" class="form-control" id="login" value="${sessionScope.user.login}"
                                    required pattern="^\w{3,20}$">
                         </div>
 
@@ -72,7 +72,7 @@
                             <label for="email" class="form-label">
                                 <fmt:message key="account.email"/>
                             </label>
-                            <input type="text" class="form-control" id="email" value="${sessionScope.user.email}"
+                            <input readonly type="text" class="form-control" id="email" value="${sessionScope.user.email}"
                                    required pattern="^[A-Za-z.]+\w+@[A-Za-z]{2,}\.(com|org)$">
                         </div>
 
