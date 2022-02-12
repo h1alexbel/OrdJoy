@@ -1,5 +1,7 @@
 package com.ordjoy.command;
 
+import com.ordjoy.command.impl.GotoIndexPageCommand;
+
 public final class FrontCommandFactory {
 
     private FrontCommandFactory() {
@@ -14,6 +16,9 @@ public final class FrontCommandFactory {
      * @see FrontCommandType
      */
     public static FrontCommand getCommand(String commandName) {
-        return FrontCommandType.valueOf(commandName.toUpperCase()).getFrontCommand();
+        if (commandName != null) {
+            return FrontCommandType.valueOf(commandName.toUpperCase()).getFrontCommand();
+        }
+        return new GotoIndexPageCommand();
     }
 }

@@ -36,7 +36,8 @@ public enum FrontCommandType {
     DELETE_ADMIN(new DeleteAdminCommand()),
     DELETE_ORDER(new DeleteOrderCommand()),
     ALL_ORDERS(new ShowAllOrdersCommand()),
-    SWITCH_LANG(new SwitchLangCommand());
+    SWITCH_LANG(new SwitchLangCommand()),
+    INDEX_PAGE(new GotoIndexPageCommand());
 
     private FrontCommand frontCommand;
 
