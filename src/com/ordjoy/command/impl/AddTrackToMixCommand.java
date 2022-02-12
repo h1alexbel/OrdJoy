@@ -12,9 +12,12 @@ import com.ordjoy.exception.ServiceException;
 import com.ordjoy.service.MixService;
 import com.ordjoy.service.TrackService;
 import com.ordjoy.util.JspFormatHelper;
+import com.ordjoy.util.LogginUtils;
 import com.ordjoy.validation.ValidationResult;
 import com.ordjoy.validation.impl.MixValidator;
 import com.ordjoy.validation.impl.TrackValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,12 +28,13 @@ import static com.ordjoy.util.JspPageConst.*;
 
 public class AddTrackToMixCommand implements FrontCommand {
 
-    private static final String MIX_NAME = "mixName";
-    private static final String TRACK_TITLE = "trackTitle";
+    private static final Logger LOGGER = LogManager.getLogger(AddTrackToMixCommand.class);
     private final TrackService trackService = TrackService.getInstance();
     private final TrackValidator trackValidator = TrackValidator.getInstance();
     private final MixService mixService = MixService.getInstance();
     private final MixValidator mixValidator = MixValidator.getInstance();
+    private static final String MIX_NAME = "mixName";
+    private static final String TRACK_TITLE = "trackTitle";
 
     @Override
     public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
@@ -68,6 +72,7 @@ public class AddTrackToMixCommand implements FrontCommand {
             frontCommandResult = new FrontCommandResult(page, NavigationType.REDIRECT);
             return frontCommandResult;
         } catch (ServiceException e) {
+            LOGGER.warn(LogginUtils.ADD_WARN, e);
             throw new ControllerException(CONTROLLER_EXCEPTION_MESSAGE, e);
         }
     }

@@ -10,7 +10,6 @@ import com.ordjoy.exception.DaoException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.mapper.UserAccountMapper;
 import com.ordjoy.util.LogginUtils;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -76,7 +75,7 @@ public class UserService {
         try {
             return userDao.getUserRoleTableRecords();
         } catch (DaoException e) {
-            LOGGER.log(Level.ERROR, LogginUtils.FETCH_RECORDS_ERROR, e);
+            LOGGER.error(LogginUtils.FETCH_RECORDS_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -91,7 +90,7 @@ public class UserService {
         try {
             return userDao.getAdminRoleTableRecords();
         } catch (DaoException e) {
-            LOGGER.log(Level.ERROR, LogginUtils.FETCH_RECORDS_ERROR, e);
+            LOGGER.error(LogginUtils.FETCH_RECORDS_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -108,7 +107,6 @@ public class UserService {
             UserAccount savedUser = userDao.save(userAccount);
             return userAccountMapper.mapFrom(savedUser);
         } catch (DaoException e) {
-            LOGGER.log(Level.ERROR, LogginUtils.ENTITY_SAVE_ERROR, userAccount, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -142,27 +140,6 @@ public class UserService {
     }
 
     /**
-     * Check User by relevant login exists or not in database
-     *
-     * @param login User's login in database
-     * @return boolean value {@code true} if {@link UserAccount}
-     * by this login exists in database or {@code false} if not exists
-     * @throws ServiceException if Dao layer can not execute method
-     */
-    public boolean isUserAccountExists(String login) throws ServiceException {
-        boolean result = false;
-        try {
-            Optional<UserAccount> maybeUserByLogin = userDao.findUserByLogin(login);
-            if (maybeUserByLogin.isPresent()) {
-                result = true;
-            }
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
-        }
-        return result;
-    }
-
-    /**
      * Check User by relevant email exists or not in database
      *
      * @param email User's email in database
@@ -178,6 +155,7 @@ public class UserService {
                 result = true;
             }
         } catch (DaoException e) {
+            LOGGER.debug(LogginUtils.EMAIL_EXISTS, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
         return result;
@@ -198,6 +176,7 @@ public class UserService {
                 result = true;
             }
         } catch (DaoException e) {
+            LOGGER.debug(LogginUtils.USERNAME_EXISTS, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
         return result;
@@ -241,7 +220,6 @@ public class UserService {
         try {
             userDao.update(userAccount);
         } catch (DaoException e) {
-            LOGGER.log(Level.ERROR, LogginUtils.ENTITY_UPDATE_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -257,7 +235,6 @@ public class UserService {
         try {
             return userDao.deleteById(id);
         } catch (DaoException e) {
-            LOGGER.log(Level.WARN, LogginUtils.ENTITY_DELETE_WARN, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -273,7 +250,6 @@ public class UserService {
         try {
             userDao.addDiscountPercentageLevel(discountPercentageLevel, userEmail);
         } catch (DaoException e) {
-            LOGGER.log(Level.ERROR, LogginUtils.ENTITY_UPDATE_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }

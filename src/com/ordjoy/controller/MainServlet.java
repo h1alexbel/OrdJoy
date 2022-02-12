@@ -6,7 +6,6 @@ import com.ordjoy.command.FrontCommandResult;
 import com.ordjoy.dbmanager.ConnectionPool;
 import com.ordjoy.exception.ControllerException;
 import com.ordjoy.util.LogginUtils;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -48,12 +47,12 @@ public class MainServlet extends HttpServlet {
     private void processFrontCommand(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
             throws ServletException, IOException {
         String frontCommand = httpServletRequest.getParameter(FRONT_COMMAND_PARAM);
-        LOGGER.log(Level.INFO, LogginUtils.REQUEST_PARAMS, httpServletRequest.getParameterMap());
+        LOGGER.info(LogginUtils.REQUEST_PARAMS, httpServletRequest.getParameterMap());
         FrontCommand command = FrontCommandFactory.getCommand(frontCommand);
         try {
             FrontCommandResult result = command.execute(httpServletRequest);
-            LOGGER.log(
-                    Level.INFO, LogginUtils.FRONT_COMMAND_RESULT_INFO,
+            LOGGER.info(
+                    LogginUtils.FRONT_COMMAND_RESULT_INFO,
                     result.getPage() + result.getNavigationType());
             switch (result.getNavigationType()) {
                 case FORWARD -> getServletContext().getRequestDispatcher(result.getPage()).forward(httpServletRequest, httpServletResponse);
@@ -61,7 +60,7 @@ public class MainServlet extends HttpServlet {
                 default -> throw new IllegalStateException("Unexpected value: " + result.getNavigationType());
             }
         } catch (ControllerException e) {
-            throw new ServletException(e);
+            LOGGER.warn(LogginUtils.CONTROLLER_WARN, e);
         }
     }
 }

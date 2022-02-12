@@ -9,6 +9,9 @@ import com.ordjoy.exception.ControllerException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.service.AlbumService;
 import com.ordjoy.util.JspFormatHelper;
+import com.ordjoy.util.LogginUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -19,11 +22,12 @@ import static com.ordjoy.util.JspPageConst.SEPARATOR;
 
 public class ShowAllAlbumsCommand implements FrontCommand {
 
+    private static final Logger LOGGER = LogManager.getLogger(ShowAllAlbumsCommand.class);
+    private final AlbumService albumService = AlbumService.getInstance();
     private static final String ALBUMS_ATTRIBUTE = "albums";
     private static final String OFFSET = "offset";
     private static final int DEFAULT_LIMIT = 20;
     private static final String NO_OF_PAGES = "noOfPages";
-    private final AlbumService albumService = AlbumService.getInstance();
 
     @Override
     public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
@@ -40,6 +44,7 @@ public class ShowAllAlbumsCommand implements FrontCommand {
             page = SEPARATOR + JspFormatHelper.getUserPath(ALBUMS_PAGE);
             frontCommandResult = new FrontCommandResult(page, NavigationType.FORWARD);
         } catch (ServiceException e) {
+            LOGGER.warn(LogginUtils.SHOW_ALL_WARN, e);
             throw new ControllerException(CONTROLLER_EXCEPTION_MESSAGE, e);
         }
         return frontCommandResult;

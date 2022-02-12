@@ -2,7 +2,6 @@ package com.ordjoy.dbmanager;
 
 import com.ordjoy.exception.DataBaseException;
 import com.ordjoy.util.LogginUtils;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,7 +29,7 @@ public final class PropertiesManager {
                 .getResourceAsStream(ROOT)) {
             PROPERTIES.load(stream);
         } catch (IOException e) {
-            LOGGER.log(Level.FATAL, LogginUtils.PROPERTIES_ERROR, e);
+            LOGGER.fatal(LogginUtils.PROPERTIES_FATAL, e);
             throw new DataBaseException(e);
         }
     }

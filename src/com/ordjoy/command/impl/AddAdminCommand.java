@@ -9,9 +9,12 @@ import com.ordjoy.exception.ControllerException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.service.UserService;
 import com.ordjoy.util.JspFormatHelper;
+import com.ordjoy.util.LogginUtils;
 import com.ordjoy.util.PasswordEncoder;
 import com.ordjoy.validation.ValidationResult;
 import com.ordjoy.validation.impl.UserValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,6 +23,9 @@ import static com.ordjoy.util.JspPageConst.*;
 
 public class AddAdminCommand implements FrontCommand {
 
+    private static final Logger LOGGER = LogManager.getLogger(AddAdminCommand.class);
+    private final UserValidator userValidator = UserValidator.getInstance();
+    private final UserService userService = UserService.getInstance();
     private static final String EMAIL = "email";
     private static final String FIRST_NAME = "firstName";
     private static final String LAST_NAME = "lastName";
@@ -28,8 +34,6 @@ public class AddAdminCommand implements FrontCommand {
     private static final String AGE = "age";
     private static final String CARD_NUMBER = "cardNumber";
     private static final String SESSION_USER = "user";
-    private final UserValidator userValidator = UserValidator.getInstance();
-    private final UserService userService = UserService.getInstance();
 
     @Override
     public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
@@ -56,6 +60,7 @@ public class AddAdminCommand implements FrontCommand {
             }
             frontCommandResult = new FrontCommandResult(page, NavigationType.REDIRECT);
         } catch (ServiceException e) {
+            LOGGER.warn(LogginUtils.ADD_WARN, e);
             throw new ControllerException(CONTROLLER_EXCEPTION_MESSAGE, e);
         }
         return frontCommandResult;

@@ -6,7 +6,6 @@ import com.ordjoy.validation.Error;
 import com.ordjoy.validation.RegexBase;
 import com.ordjoy.validation.ValidationResult;
 import com.ordjoy.validation.Validator;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,11 +34,11 @@ public class MixReviewValidator implements Validator<MixReview> {
         if (mixReview != null) {
             if (!isReviewTextValid(mixReview.getReviewText())) {
                 validationResult.add(Error.of(REVIEW_TEXT_INVALID, REVIEW_TEXT_INVALID_MESSAGE));
-                LOGGER.log(Level.INFO, LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
+                LOGGER.info(LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
             }
         } else {
             validationResult.add(Error.of(MIX_REVIEW_INVALID, MIX_REVIEW_INVALID_MESSAGE));
-            LOGGER.log(Level.INFO, LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
+            LOGGER.info(LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
         }
         return validationResult;
     }

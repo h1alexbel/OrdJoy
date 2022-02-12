@@ -6,7 +6,6 @@ import com.ordjoy.validation.Error;
 import com.ordjoy.validation.RegexBase;
 import com.ordjoy.validation.ValidationResult;
 import com.ordjoy.validation.Validator;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,15 +33,15 @@ public class TrackValidator implements Validator<Track> {
         if (track != null) {
             if (!isTitleValid(track.getTitle())) {
                 validationResult.add(Error.of(TITLE_INVALID, TRACK_TITLE_INVALID_MESSAGE));
-                LOGGER.log(Level.INFO, LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
+                LOGGER.info(LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
             }
             if (!isURLValid(track.getSongUrl())) {
                 validationResult.add(Error.of(URL_INVALID, URL_INVALID_MESSAGE));
-                LOGGER.log(Level.INFO, LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
+                LOGGER.info(LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
             }
         } else {
             validationResult.add(Error.of(TRACK_INVALID, TRACK_IS_INVALID_MESSAGE));
-            LOGGER.log(Level.INFO, LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
+            LOGGER.info(LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
         }
         return validationResult;
     }

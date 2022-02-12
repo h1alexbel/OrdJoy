@@ -2,7 +2,6 @@ package com.ordjoy.dbmanager;
 
 import com.ordjoy.exception.DataBaseException;
 import com.ordjoy.util.LogginUtils;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,7 +32,7 @@ public final class ConnectionManager {
                             PropertiesManager.getPropertyByKey(USERNAME_KEY),
                             PropertiesManager.getPropertyByKey(PASSWORD_KEY)));
         } catch (SQLException e) {
-            LOGGER.log(Level.FATAL, LogginUtils.CONNECTION_MANAGER_ERROR, e);
+            LOGGER.fatal(LogginUtils.CONNECTION_MANAGER_FATAL, e);
             throw new DataBaseException(DATABASE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }

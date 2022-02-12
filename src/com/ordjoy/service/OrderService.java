@@ -56,7 +56,6 @@ public class OrderService {
             Order savedOrder = orderDao.save(order);
             return orderMapper.mapFrom(savedOrder);
         } catch (DaoException e) {
-            LOGGER.log(Level.ERROR, LogginUtils.ENTITY_SAVE_ERROR, order, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -72,7 +71,6 @@ public class OrderService {
         try {
             orderDao.updateOrderPrice(price, id);
         } catch (DaoException e) {
-            LOGGER.log(Level.ERROR, LogginUtils.ENTITY_UPDATE_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -100,7 +98,6 @@ public class OrderService {
             }
             return price;
         } catch (DaoException e) {
-            LOGGER.log(Level.WARN, LogginUtils.CALCULATE_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -153,7 +150,6 @@ public class OrderService {
         try {
             orderDao.update(order);
         } catch (DaoException e) {
-            LOGGER.log(Level.ERROR, LogginUtils.ENTITY_UPDATE_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -169,7 +165,6 @@ public class OrderService {
         try {
             return orderDao.deleteById(id);
         } catch (DaoException e) {
-            LOGGER.log(Level.WARN, LogginUtils.ENTITY_DELETE_WARN, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -185,7 +180,6 @@ public class OrderService {
         try {
             orderDao.updateOrderStatus(newStatus, orderId);
         } catch (DaoException e) {
-            LOGGER.log(Level.WARN, LogginUtils.ENTITY_UPDATE_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }

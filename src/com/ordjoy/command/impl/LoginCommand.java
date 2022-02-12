@@ -9,8 +9,11 @@ import com.ordjoy.exception.ControllerException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.service.UserService;
 import com.ordjoy.util.JspFormatHelper;
+import com.ordjoy.util.LogginUtils;
 import com.ordjoy.util.PasswordEncoder;
 import com.ordjoy.validation.impl.UserValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,11 +24,12 @@ import static com.ordjoy.util.JspPageConst.*;
 
 public class LoginCommand implements FrontCommand {
 
+    private static final Logger LOGGER = LogManager.getLogger(LoginCommand.class);
+    private final UserValidator userValidator = UserValidator.getInstance();
+    private final UserService userService = UserService.getInstance();
     private static final String LOGIN_USERNAME = "login";
     private static final String PASSWORD = "password";
     private static final String SESSION_USER = "user";
-    private final UserValidator userValidator = UserValidator.getInstance();
-    private final UserService userService = UserService.getInstance();
 
     @Override
     public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
@@ -46,12 +50,12 @@ public class LoginCommand implements FrontCommand {
                         case ADMIN_ROLE -> page = httpServletRequest.getContextPath() + JspFormatHelper.getAdminPath(ADMIN_MAIN_PAGE);
                         default -> throw new IllegalStateException("Unexpected value: " + role);
                     }
-                    frontCommandResult = new FrontCommandResult(page, NavigationType.REDIRECT);
                 } else {
                     page = JspFormatHelper.getPublicPath(LOGIN_PAGE);
-                    frontCommandResult = new FrontCommandResult(page, NavigationType.REDIRECT);
                 }
+                frontCommandResult = new FrontCommandResult(page, NavigationType.REDIRECT);
             } catch (ServiceException e) {
+                LOGGER.error(LogginUtils.LOGIN_ERROR, e);
                 throw new ControllerException(CONTROLLER_EXCEPTION_MESSAGE, e);
             }
         } else {

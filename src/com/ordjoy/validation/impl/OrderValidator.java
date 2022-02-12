@@ -6,7 +6,6 @@ import com.ordjoy.validation.Error;
 import com.ordjoy.validation.RegexBase;
 import com.ordjoy.validation.ValidationResult;
 import com.ordjoy.validation.Validator;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,11 +35,11 @@ public class OrderValidator implements Validator<Order> {
         if (order != null) {
             if (isPriceBiggerThanZero(order.getPrice()) != 1) {
                 validationResult.add(Error.of(PRICE_INVALID, PRICE_IS_INVALID_MESSAGE));
-                LOGGER.log(Level.INFO, LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
+                LOGGER.info(LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
             }
         } else {
             validationResult.add(Error.of(ORDER_INVALID, ORDER_IS_INVALID_MESSAGE));
-            LOGGER.log(Level.INFO, LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
+            LOGGER.info(LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
         }
         return validationResult;
     }

@@ -2,7 +2,6 @@ package com.ordjoy.dbmanager;
 
 import com.ordjoy.exception.DataBaseException;
 import com.ordjoy.util.LogginUtils;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -65,7 +64,7 @@ public class ConnectionPool {
         try {
             Class.forName(PropertiesManager.getPropertyByKey(DRIVER_KEY));
         } catch (ClassNotFoundException e) {
-            LOGGER.log(Level.FATAL, LogginUtils.DRIVER_ERROR, e);
+            LOGGER.fatal(LogginUtils.DRIVER_FATAL, e);
             throw new DataBaseException(DATABASE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -95,7 +94,7 @@ public class ConnectionPool {
                 proxyConnection.setAutoCommit(true);
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, LogginUtils.AUTO_COMMIT_ERROR, e);
+            LOGGER.error(LogginUtils.AUTO_COMMIT_ERROR, e);
         }
         connections.offer(proxyConnection);
     }
@@ -109,7 +108,7 @@ public class ConnectionPool {
                 connections.poll().closeConnection();
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.FATAL, LogginUtils.CLOSE_CONNECTION_POOL_ERROR, e);
+            LOGGER.fatal(LogginUtils.CLOSE_CONNECTION_POOL_FATAL, e);
             throw new DataBaseException(DATABASE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }

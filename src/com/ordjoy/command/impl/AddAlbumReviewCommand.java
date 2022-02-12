@@ -15,9 +15,12 @@ import com.ordjoy.service.AlbumService;
 import com.ordjoy.service.ReviewService;
 import com.ordjoy.service.UserService;
 import com.ordjoy.util.JspFormatHelper;
+import com.ordjoy.util.LogginUtils;
 import com.ordjoy.validation.ValidationResult;
 import com.ordjoy.validation.impl.AlbumReviewValidator;
 import com.ordjoy.validation.impl.AlbumValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,15 +31,16 @@ import static com.ordjoy.util.JspPageConst.USER_MAIN_PAGE;
 
 public class AddAlbumReviewCommand implements FrontCommand {
 
+    private static final Logger LOGGER = LogManager.getLogger(AddAlbumReviewCommand.class);
+    private final ReviewService reviewService = ReviewService.getInstance();
+    private final AlbumReviewValidator albumReviewValidator = AlbumReviewValidator.getInstance();
+    private final AlbumService albumService = AlbumService.getInstance();
+    private final AlbumValidator albumValidator = AlbumValidator.getInstance();
     private static final String SESSION_USER = "user";
     private static final String ALBUM_TITLE = "albumTitle";
     private static final String ALBUM_REVIEW_TEXT = "albumReviewText";
     private static final String ALBUM_REVIEW_ATTRIBUTE = "albumReview";
     private static final String REFERER_HEADER = "Referer";
-    private final ReviewService reviewService = ReviewService.getInstance();
-    private final AlbumReviewValidator albumReviewValidator = AlbumReviewValidator.getInstance();
-    private final AlbumService albumService = AlbumService.getInstance();
-    private final AlbumValidator albumValidator = AlbumValidator.getInstance();
 
     @Override
     public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
@@ -70,6 +74,7 @@ public class AddAlbumReviewCommand implements FrontCommand {
             frontCommandResult = new FrontCommandResult(page, NavigationType.REDIRECT);
             return frontCommandResult;
         } catch (ServiceException e) {
+            LOGGER.warn(LogginUtils.ADD_WARN, e);
             throw new ControllerException(CONTROLLER_EXCEPTION_MESSAGE, e);
         }
     }

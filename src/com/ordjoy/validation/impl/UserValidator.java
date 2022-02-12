@@ -6,7 +6,6 @@ import com.ordjoy.validation.Error;
 import com.ordjoy.validation.RegexBase;
 import com.ordjoy.validation.ValidationResult;
 import com.ordjoy.validation.Validator;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,36 +34,38 @@ public class UserValidator implements Validator<UserAccount> {
         if (userAccount != null) {
             if (!isLoginValid(userAccount.getLogin())) {
                 validationResult.add(Error.of(LOGIN_INVALID, INVALID_LOGIN_MESSAGE));
-                LOGGER.log(Level.INFO, LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
+                LOGGER.info(LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
             }
             if (!isEmailValid(userAccount.getEmail())) {
                 validationResult.add(Error.of(EMAIL_INVALID, INVALID_EMAIL_MESSAGE));
-                LOGGER.log(Level.INFO, LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
+                LOGGER.info(LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
             }
             if (!isFirstNameValid(userAccount.getUserData().getFirstName())) {
                 validationResult.add(Error.of(FIRST_NAME_INVALID, INVALID_FIRST_NAME_MESSAGE));
-                LOGGER.log(Level.INFO, LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
+                LOGGER.info(LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
             }
             if (!isLastNameValid(userAccount.getUserData().getLastName())) {
                 validationResult.add(Error.of(LAST_NAME_INVALID, INVALID_LAST_NAME_MESSAGE));
-                LOGGER.log(Level.INFO, LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
+                LOGGER.info(LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
             }
             if (!isAgeValid(userAccount.getUserData().getAge())) {
                 validationResult.add(Error.of(AGE_INVALID, INVALID_AGE_MESSAGE));
-                LOGGER.log(Level.INFO, LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
+                LOGGER.info(LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
             }
             if (!isCardDataValid(userAccount.getUserData().getCardNumber())) {
                 validationResult.add(Error.of(CARD_NUMBER_INVALID, CARD_NUMBER_INVALID_MESSAGE));
-                LOGGER.log(Level.INFO, LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
+                LOGGER.info(LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
             }
         } else {
             validationResult.add(Error.of(USER_INVALID, USER_CANNOT_BE_NULL_MESSAGE));
-            LOGGER.log(Level.INFO, LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
+            LOGGER.info(LogginUtils.VALIDATION_FAILED, validationResult.getErrors());
         }
         return validationResult;
     }
 
-    /** Checks valid or not password is
+    /**
+     * Checks valid or not password is
+     *
      * @param password password to validate
      * @return boolean result based on not null check and matching to password regex
      */
@@ -72,7 +73,9 @@ public class UserValidator implements Validator<UserAccount> {
         return password != null && password.matches(RegexBase.PASSWORD_REGEX);
     }
 
-    /** Checks valid or not login is
+    /**
+     * Checks valid or not login is
+     *
      * @param login login to validate
      * @return boolean result based on not null check and matching to login regex
      */

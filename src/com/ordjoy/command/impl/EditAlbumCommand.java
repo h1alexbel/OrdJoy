@@ -8,8 +8,11 @@ import com.ordjoy.exception.ControllerException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.service.AlbumService;
 import com.ordjoy.util.JspFormatHelper;
+import com.ordjoy.util.LogginUtils;
 import com.ordjoy.validation.ValidationResult;
 import com.ordjoy.validation.impl.AlbumValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,10 +21,11 @@ import static com.ordjoy.util.JspPageConst.*;
 
 public class EditAlbumCommand implements FrontCommand {
 
-    private static final String ALBUM_TITLE = "albumTitle";
-    private static final String ALBUM_ID = "albumId";
+    private static final Logger LOGGER = LogManager.getLogger(EditAlbumCommand.class);
     private final AlbumService albumService = AlbumService.getInstance();
     private final AlbumValidator albumValidator = AlbumValidator.getInstance();
+    private static final String ALBUM_TITLE = "albumTitle";
+    private static final String ALBUM_ID = "albumId";
 
     @Override
     public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
@@ -42,6 +46,7 @@ public class EditAlbumCommand implements FrontCommand {
             frontCommandResult = new FrontCommandResult(page, NavigationType.REDIRECT);
             return frontCommandResult;
         } catch (ServiceException e) {
+            LOGGER.warn(LogginUtils.EDIT_WARN, e);
             throw new ControllerException(CONTROLLER_EXCEPTION_MESSAGE, e);
         }
     }

@@ -13,7 +13,6 @@ import com.ordjoy.mapper.TrackMapper;
 import com.ordjoy.util.LogginUtils;
 import com.ordjoy.validation.ValidationResult;
 import com.ordjoy.validation.impl.TrackValidator;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -54,7 +53,6 @@ public class TrackService {
             Track savedTrack = trackDao.save(track);
             return trackMapper.mapFrom(savedTrack);
         } catch (DaoException e) {
-            LOGGER.log(Level.ERROR, LogginUtils.ENTITY_SAVE_ERROR, track, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -74,6 +72,7 @@ public class TrackService {
                 result = true;
             }
         } catch (DaoException e) {
+            LOGGER.debug(LogginUtils.TRACK_EXISTS, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
         return result;
@@ -126,7 +125,7 @@ public class TrackService {
         try {
             return trackDao.getTableRecords();
         } catch (DaoException e) {
-            LOGGER.log(Level.ERROR, LogginUtils.FETCH_RECORDS_ERROR, e);
+            LOGGER.error(LogginUtils.FETCH_RECORDS_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -143,7 +142,6 @@ public class TrackService {
             try {
                 trackDao.update(track);
             } catch (DaoException e) {
-                LOGGER.log(Level.ERROR, LogginUtils.ENTITY_UPDATE_ERROR, e);
                 throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
             }
         }
@@ -160,7 +158,6 @@ public class TrackService {
         try {
             return trackDao.deleteById(id);
         } catch (DaoException e) {
-            LOGGER.log(Level.WARN, LogginUtils.DRIVER_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -178,7 +175,6 @@ public class TrackService {
         try {
             return trackDao.addExistingTrackToMix(mixThatExists, trackThatExists);
         } catch (DaoException e) {
-            LOGGER.log(Level.WARN, LogginUtils.LINKED_ENTITY_ERROR, mixThatExists, trackThatExists, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }

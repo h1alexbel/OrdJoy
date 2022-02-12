@@ -13,7 +13,6 @@ import com.ordjoy.mapper.AlbumReviewMapper;
 import com.ordjoy.mapper.MixReviewMapper;
 import com.ordjoy.mapper.TrackReviewMapper;
 import com.ordjoy.util.LogginUtils;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -57,7 +56,6 @@ public class ReviewService {
             MixReview savedMixReview = mixReviewDao.save(mixReview);
             return mixReviewMapper.mapFrom(savedMixReview);
         } catch (DaoException e) {
-            LOGGER.log(Level.ERROR, LogginUtils.ENTITY_SAVE_ERROR, mixReview, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -74,7 +72,6 @@ public class ReviewService {
             TrackReview savedTrackReview = trackReviewDao.save(trackReview);
             return trackReviewMapper.mapFrom(savedTrackReview);
         } catch (DaoException e) {
-            LOGGER.log(Level.ERROR, LogginUtils.ENTITY_SAVE_ERROR, trackReview, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -91,7 +88,6 @@ public class ReviewService {
             AlbumReview saveAlbumReview = albumReviewDao.save(albumReview);
             return albumReviewMapper.mapFrom(saveAlbumReview);
         } catch (DaoException e) {
-            LOGGER.log(Level.ERROR, LogginUtils.ENTITY_SAVE_ERROR, albumReview, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -214,7 +210,7 @@ public class ReviewService {
         try {
             return albumReviewDao.getTableRecords();
         } catch (DaoException e) {
-            LOGGER.log(Level.ERROR, LogginUtils.FETCH_RECORDS_ERROR, e);
+            LOGGER.error(LogginUtils.FETCH_RECORDS_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -229,7 +225,7 @@ public class ReviewService {
         try {
             return mixReviewDao.getTableRecords();
         } catch (DaoException e) {
-            LOGGER.log(Level.ERROR, LogginUtils.FETCH_RECORDS_ERROR, e);
+            LOGGER.error(LogginUtils.FETCH_RECORDS_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -244,7 +240,7 @@ public class ReviewService {
         try {
             return trackReviewDao.getTableRecords();
         } catch (DaoException e) {
-            LOGGER.log(Level.ERROR, LogginUtils.FETCH_RECORDS_ERROR, e);
+            LOGGER.error(LogginUtils.FETCH_RECORDS_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -259,7 +255,6 @@ public class ReviewService {
         try {
             mixReviewDao.update(mixReview);
         } catch (DaoException e) {
-            LOGGER.log(Level.ERROR, LogginUtils.ENTITY_UPDATE_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -274,7 +269,6 @@ public class ReviewService {
         try {
             trackReviewDao.update(trackReview);
         } catch (DaoException e) {
-            LOGGER.log(Level.ERROR, LogginUtils.ENTITY_UPDATE_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -289,7 +283,6 @@ public class ReviewService {
         try {
             albumReviewDao.update(albumReview);
         } catch (DaoException e) {
-            LOGGER.log(Level.ERROR, LogginUtils.ENTITY_UPDATE_ERROR, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -305,7 +298,6 @@ public class ReviewService {
         try {
             return mixReviewDao.deleteById(id);
         } catch (DaoException e) {
-            LOGGER.log(Level.WARN, LogginUtils.ENTITY_DELETE_WARN, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -321,7 +313,6 @@ public class ReviewService {
         try {
             return trackReviewDao.deleteById(id);
         } catch (DaoException e) {
-            LOGGER.log(Level.WARN, LogginUtils.ENTITY_DELETE_WARN, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }
@@ -337,7 +328,6 @@ public class ReviewService {
         try {
             return albumReviewDao.deleteById(id);
         } catch (DaoException e) {
-            LOGGER.log(Level.WARN, LogginUtils.ENTITY_DELETE_WARN, e);
             throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
     }

@@ -3,7 +3,6 @@ package com.ordjoy.filter;
 import com.ordjoy.dto.UserAccountDto;
 import com.ordjoy.entity.UserRole;
 import com.ordjoy.util.LogginUtils;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,7 +43,7 @@ public class AdminAuthorizationFilter implements Filter {
         UserAccountDto userAccount = (UserAccountDto) httpServletRequest.getSession().getAttribute(USER_ATTRIBUTE);
         if (userAccount != null && userAccount.getRole() == UserRole.ADMIN_ROLE) {
             result = true;
-            LOGGER.log(Level.INFO, LogginUtils.USER_ROLE_INFO, userAccount.getRole());
+            LOGGER.info(LogginUtils.USER_ROLE_INFO, userAccount.getRole());
         }
         return result;
     }

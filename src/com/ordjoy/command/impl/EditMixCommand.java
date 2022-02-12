@@ -8,8 +8,11 @@ import com.ordjoy.exception.ControllerException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.service.MixService;
 import com.ordjoy.util.JspFormatHelper;
+import com.ordjoy.util.LogginUtils;
 import com.ordjoy.validation.ValidationResult;
 import com.ordjoy.validation.impl.MixValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,11 +22,12 @@ import static com.ordjoy.util.JspPageConst.ADMIN_DASHBOARD_PAGE;
 
 public class EditMixCommand implements FrontCommand {
 
+    private static final Logger LOGGER = LogManager.getLogger(EditMixCommand.class);
+    private final MixService mixService = MixService.getInstance();
+    private final MixValidator mixValidator = MixValidator.getInstance();
     private static final String MIX_NAME = "mixName";
     private static final String MIX_DESCRIPTION = "mixDescription";
     private static final String MIX_ID = "mixId";
-    private final MixService mixService = MixService.getInstance();
-    private final MixValidator mixValidator = MixValidator.getInstance();
 
     @Override
     public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
@@ -45,6 +49,7 @@ public class EditMixCommand implements FrontCommand {
             frontCommandResult = new FrontCommandResult(page, NavigationType.REDIRECT);
             return frontCommandResult;
         } catch (ServiceException e) {
+            LOGGER.warn(LogginUtils.EDIT_WARN, e);
             throw new ControllerException(CONTROLLER_EXCEPTION_MESSAGE, e);
         }
     }

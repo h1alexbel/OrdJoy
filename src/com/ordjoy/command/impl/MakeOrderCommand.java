@@ -15,9 +15,12 @@ import com.ordjoy.service.OrderService;
 import com.ordjoy.service.TrackService;
 import com.ordjoy.service.UserService;
 import com.ordjoy.util.JspFormatHelper;
+import com.ordjoy.util.LogginUtils;
 import com.ordjoy.validation.ValidationResult;
 import com.ordjoy.validation.impl.OrderValidator;
 import com.ordjoy.validation.impl.TrackValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -28,14 +31,15 @@ import static com.ordjoy.util.JspPageConst.*;
 
 public class MakeOrderCommand implements FrontCommand {
 
-    private static final String SESSION_USER = "user";
-    private static final String SESSION_ORDER = "order";
-    private static final String TRACK_TITLE = "trackTitle";
-    private static final String PRICE = "price";
+    private static final Logger LOGGER = LogManager.getLogger(MakeOrderCommand.class);
     private final OrderValidator orderValidator = OrderValidator.getInstance();
     private final OrderService orderService = OrderService.getInstance();
     private final TrackService trackService = TrackService.getInstance();
     private final TrackValidator trackValidator = TrackValidator.getInstance();
+    private static final String SESSION_USER = "user";
+    private static final String SESSION_ORDER = "order";
+    private static final String TRACK_TITLE = "trackTitle";
+    private static final String PRICE = "price";
 
     @Override
     public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
@@ -79,6 +83,7 @@ public class MakeOrderCommand implements FrontCommand {
             frontCommandResult = new FrontCommandResult(page, NavigationType.REDIRECT);
             return frontCommandResult;
         } catch (ServiceException e) {
+            LOGGER.warn(LogginUtils.MAKE_ORDER_WARN, e);
             throw new ControllerException(CONTROLLER_EXCEPTION_MESSAGE, e);
         }
     }

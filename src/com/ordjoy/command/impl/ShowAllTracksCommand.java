@@ -9,6 +9,9 @@ import com.ordjoy.exception.ControllerException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.service.TrackService;
 import com.ordjoy.util.JspFormatHelper;
+import com.ordjoy.util.LogginUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -18,12 +21,13 @@ import static com.ordjoy.util.JspPageConst.*;
 
 public class ShowAllTracksCommand implements FrontCommand {
 
+    private static final Logger LOGGER = LogManager.getLogger(ShowAllTracksCommand.class);
+    private final TrackService trackService = TrackService.getInstance();
     private static final String TRACKS_ATTRIBUTE = "tracks";
     private static final String OFFSET = "offset";
     private static final int DEFAULT_LIMIT = 20;
     private static final String NO_OF_PAGES = "noOfPages";
     private static final String ALBUM_TITLE = "";
-    private final TrackService trackService = TrackService.getInstance();
 
     @Override
     public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
@@ -40,6 +44,7 @@ public class ShowAllTracksCommand implements FrontCommand {
             page = SEPARATOR + JspFormatHelper.getUserPath(TRACK_PAGE);
             frontCommandResult = new FrontCommandResult(page, NavigationType.FORWARD);
         } catch (ServiceException e) {
+            LOGGER.warn(LogginUtils.SHOW_ALL_WARN, e);
             throw new ControllerException(CONTROLLER_EXCEPTION_MESSAGE, e);
         }
         return frontCommandResult;

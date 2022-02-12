@@ -7,6 +7,9 @@ import com.ordjoy.exception.ControllerException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.service.UserService;
 import com.ordjoy.util.JspFormatHelper;
+import com.ordjoy.util.LogginUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,8 +18,9 @@ import static com.ordjoy.util.JspPageConst.*;
 
 public class DeleteAdminCommand implements FrontCommand {
 
-    private static final String USER_ID = "userId";
+    private static final Logger LOGGER = LogManager.getLogger(DeleteAdminCommand.class);
     private final UserService userService = UserService.getInstance();
+    private static final String USER_ID = "userId";
 
     @Override
     public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
@@ -33,6 +37,7 @@ public class DeleteAdminCommand implements FrontCommand {
             frontCommandResult = new FrontCommandResult(page, NavigationType.REDIRECT);
             return frontCommandResult;
         } catch (ServiceException e) {
+            LOGGER.warn(LogginUtils.DELETE_WARN, e);
             throw new ControllerException(CONTROLLER_EXCEPTION_MESSAGE, e);
         }
     }

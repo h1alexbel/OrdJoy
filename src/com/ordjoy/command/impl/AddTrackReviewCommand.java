@@ -15,9 +15,12 @@ import com.ordjoy.service.ReviewService;
 import com.ordjoy.service.TrackService;
 import com.ordjoy.service.UserService;
 import com.ordjoy.util.JspFormatHelper;
+import com.ordjoy.util.LogginUtils;
 import com.ordjoy.validation.ValidationResult;
 import com.ordjoy.validation.impl.TrackReviewValidator;
 import com.ordjoy.validation.impl.TrackValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
@@ -27,14 +30,15 @@ import static com.ordjoy.util.JspPageConst.*;
 
 public class AddTrackReviewCommand implements FrontCommand {
 
-    private static final String SESSION_USER = "user";
-    private static final String TRACK_REVIEW_ATTRIBUTE = "trackReview";
-    private static final String TRACK_TITLE = "trackTitle";
-    private static final String TRACK_REVIEW_TEXT = "trackReviewText";
+    private static final Logger LOGGER = LogManager.getLogger(AddTrackReviewCommand.class);
     private final TrackService trackService = TrackService.getInstance();
     private final TrackValidator trackValidator = TrackValidator.getInstance();
     private final ReviewService reviewService = ReviewService.getInstance();
     private final TrackReviewValidator reviewValidator = TrackReviewValidator.getInstance();
+    private static final String SESSION_USER = "user";
+    private static final String TRACK_REVIEW_ATTRIBUTE = "trackReview";
+    private static final String TRACK_TITLE = "trackTitle";
+    private static final String TRACK_REVIEW_TEXT = "trackReviewText";
 
     @Override
     public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
@@ -71,6 +75,7 @@ public class AddTrackReviewCommand implements FrontCommand {
             frontCommandResult = new FrontCommandResult(page, NavigationType.REDIRECT);
             return frontCommandResult;
         } catch (ServiceException e) {
+            LOGGER.warn(LogginUtils.ADD_WARN, e);
             throw new ControllerException(CONTROLLER_EXCEPTION_MESSAGE, e);
         }
     }

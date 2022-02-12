@@ -15,9 +15,12 @@ import com.ordjoy.service.MixService;
 import com.ordjoy.service.ReviewService;
 import com.ordjoy.service.UserService;
 import com.ordjoy.util.JspFormatHelper;
+import com.ordjoy.util.LogginUtils;
 import com.ordjoy.validation.ValidationResult;
 import com.ordjoy.validation.impl.MixReviewValidator;
 import com.ordjoy.validation.impl.MixValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
@@ -27,14 +30,15 @@ import static com.ordjoy.util.JspPageConst.*;
 
 public class AddMixReviewCommand implements FrontCommand {
 
-    private static final String MIX_REVIEW_ATTRIBUTE = "mixReview";
-    private static final String SESSION_USER = "user";
-    private static final String MIX_NAME = "mixName";
-    private static final String MIX_REVIEW_TEXT = "mixReviewText";
+    private static final Logger LOGGER = LogManager.getLogger(AddMixReviewCommand.class);
     private final MixValidator mixValidator = MixValidator.getInstance();
     private final MixService mixService = MixService.getInstance();
     private final ReviewService reviewService = ReviewService.getInstance();
     private final MixReviewValidator mixReviewValidator = MixReviewValidator.getInstance();
+    private static final String MIX_REVIEW_ATTRIBUTE = "mixReview";
+    private static final String SESSION_USER = "user";
+    private static final String MIX_NAME = "mixName";
+    private static final String MIX_REVIEW_TEXT = "mixReviewText";
 
     @Override
     public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
@@ -70,6 +74,7 @@ public class AddMixReviewCommand implements FrontCommand {
             frontCommandResult = new FrontCommandResult(page, NavigationType.REDIRECT);
             return frontCommandResult;
         } catch (ServiceException e) {
+            LOGGER.warn(LogginUtils.ADD_WARN, e);
             throw new ControllerException(CONTROLLER_EXCEPTION_MESSAGE, e);
         }
     }

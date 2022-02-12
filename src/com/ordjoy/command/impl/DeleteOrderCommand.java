@@ -6,9 +6,10 @@ import com.ordjoy.command.NavigationType;
 import com.ordjoy.exception.ControllerException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.service.OrderService;
-import com.ordjoy.util.ExceptionMessageUtils;
 import com.ordjoy.util.JspFormatHelper;
-import com.ordjoy.util.JspPageConst;
+import com.ordjoy.util.LogginUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,8 +18,10 @@ import static com.ordjoy.util.JspPageConst.*;
 
 public class DeleteOrderCommand implements FrontCommand {
 
-    private static final String ORDER_ID = "orderId";
+
+    private static final Logger LOGGER = LogManager.getLogger(DeleteOrderCommand.class);
     private final OrderService orderService = OrderService.getInstance();
+    private static final String ORDER_ID = "orderId";
 
     @Override
     public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
@@ -35,6 +38,7 @@ public class DeleteOrderCommand implements FrontCommand {
             frontCommandResult = new FrontCommandResult(page, NavigationType.REDIRECT);
             return frontCommandResult;
         } catch (ServiceException e) {
+            LOGGER.warn(LogginUtils.DELETE_WARN, e);
             throw new ControllerException(CONTROLLER_EXCEPTION_MESSAGE, e);
         }
     }

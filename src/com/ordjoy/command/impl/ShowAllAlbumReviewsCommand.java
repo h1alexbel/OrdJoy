@@ -9,6 +9,9 @@ import com.ordjoy.exception.ControllerException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.service.ReviewService;
 import com.ordjoy.util.JspFormatHelper;
+import com.ordjoy.util.LogginUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,13 +22,14 @@ import static com.ordjoy.util.JspPageConst.*;
 
 public class ShowAllAlbumReviewsCommand implements FrontCommand {
 
+    private static final Logger LOGGER = LogManager.getLogger(ShowAllAlbumReviewsCommand.class);
+    private final ReviewService reviewService = ReviewService.getInstance();
     private static final String ALBUM_REVIEWS_ATTRIBUTE = "albumReviews";
     private static final String OFFSET = "offset";
     private static final int DEFAULT_LIMIT = 20;
     private static final String NO_OF_PAGES = "noOfPages";
     private static final String DEFAULT_REVIEW_TEXT = "";
     private static final String DEFAULT_USER_ACCOUNT_LOGIN = "";
-    private final ReviewService reviewService = ReviewService.getInstance();
 
     @Override
     public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
@@ -47,6 +51,7 @@ public class ShowAllAlbumReviewsCommand implements FrontCommand {
             frontCommandResult = new FrontCommandResult(page, NavigationType.FORWARD);
             return frontCommandResult;
         } catch (ServiceException e) {
+            LOGGER.warn(LogginUtils.SHOW_ALL_WARN, e);
             throw new ControllerException(CONTROLLER_EXCEPTION_MESSAGE, e);
         }
     }

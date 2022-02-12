@@ -7,6 +7,9 @@ import com.ordjoy.exception.ControllerException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.service.MixService;
 import com.ordjoy.util.JspFormatHelper;
+import com.ordjoy.util.LogginUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,8 +19,9 @@ import static com.ordjoy.util.JspPageConst.REFERER_HEADER;
 
 public class DeleteMixCommand implements FrontCommand {
 
-    private static final String MIX_ID = "mixId";
+    private static final Logger LOGGER = LogManager.getLogger(DeleteMixCommand.class);
     private final MixService mixService = MixService.getInstance();
+    private static final String MIX_ID = "mixId";
 
     @Override
     public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
@@ -34,6 +38,7 @@ public class DeleteMixCommand implements FrontCommand {
             frontCommandResult = new FrontCommandResult(page, NavigationType.REDIRECT);
             return frontCommandResult;
         } catch (ServiceException e) {
+            LOGGER.warn(LogginUtils.DELETE_WARN, e);
             throw new ControllerException(CONTROLLER_EXCEPTION_MESSAGE, e);
         }
     }

@@ -3,7 +3,6 @@ package com.ordjoy.util;
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.StringEncoder;
 import org.apache.commons.codec.net.BCodec;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,7 +27,7 @@ public final class PasswordEncoder {
         try {
             encodedPassword = ENC.encode(passwordToEncode);
         } catch (EncoderException e) {
-            LOGGER.log(Level.ERROR, LogginUtils.PASSWORD_ENCODING_ERROR, e);
+            LOGGER.error(LogginUtils.PASSWORD_ENCODING_ERROR, e);
         }
         return encodedPassword;
     }

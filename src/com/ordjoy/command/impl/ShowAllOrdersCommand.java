@@ -10,6 +10,9 @@ import com.ordjoy.exception.ControllerException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.service.OrderService;
 import com.ordjoy.util.JspFormatHelper;
+import com.ordjoy.util.LogginUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -20,11 +23,12 @@ import static com.ordjoy.util.JspPageConst.SEPARATOR;
 
 public class ShowAllOrdersCommand implements FrontCommand {
 
+    private static final Logger LOGGER = LogManager.getLogger(ShowAllOrdersCommand.class);
+    private final OrderService orderService = OrderService.getInstance();
     private static final String ORDERS_ATTRIBUTE = "orders";
     private static final int DEFAULT_LIMIT = 20;
     private static final String OFFSET = "offset";
     private static final String NO_OF_PAGES = "noOfPages";
-    private final OrderService orderService = OrderService.getInstance();
 
     @Override
     public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
@@ -41,6 +45,7 @@ public class ShowAllOrdersCommand implements FrontCommand {
             page = SEPARATOR + JspFormatHelper.getAdminPath(ALL_ORDERS);
             frontCommandResult = new FrontCommandResult(page, NavigationType.FORWARD);
         } catch (ServiceException e) {
+            LOGGER.warn(LogginUtils.SHOW_ALL_WARN, e);
             throw new ControllerException(CONTROLLER_EXCEPTION_MESSAGE, e);
         }
         return frontCommandResult;

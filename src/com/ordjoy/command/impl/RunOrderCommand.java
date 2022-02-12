@@ -7,6 +7,9 @@ import com.ordjoy.entity.OrderStatus;
 import com.ordjoy.exception.ControllerException;
 import com.ordjoy.exception.ServiceException;
 import com.ordjoy.service.OrderService;
+import com.ordjoy.util.LogginUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,8 +18,9 @@ import static com.ordjoy.util.JspPageConst.REFERER_HEADER;
 
 public class RunOrderCommand implements FrontCommand {
 
-    private static final String ORDER_ID = "orderId";
+    private static final Logger LOGGER = LogManager.getLogger(RunOrderCommand.class);
     private final OrderService orderService = OrderService.getInstance();
+    private static final String ORDER_ID = "orderId";
 
     @Override
     public FrontCommandResult execute(HttpServletRequest httpServletRequest) throws ControllerException {
@@ -29,6 +33,7 @@ public class RunOrderCommand implements FrontCommand {
             frontCommandResult = new FrontCommandResult(page, NavigationType.REDIRECT);
             return frontCommandResult;
         } catch (ServiceException e) {
+            LOGGER.warn(LogginUtils.RUN_ORDER_WARN, e);
             throw new ControllerException(CONTROLLER_EXCEPTION_MESSAGE, e);
         }
     }
