@@ -16,6 +16,7 @@ import com.ordjoy.validation.impl.TrackValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,14 +67,16 @@ public class TrackService {
      */
     public boolean isTrackExists(String title) throws ServiceException {
         boolean result = false;
-        try {
-            Optional<Track> maybeTrack = trackDao.findByTrackTitle(title);
-            if (maybeTrack.isPresent()) {
-                result = true;
+        if (title != null) {
+            try {
+                Optional<Track> maybeTrack = trackDao.findByTrackTitle(title);
+                if (maybeTrack.isPresent()) {
+                    result = true;
+                }
+            } catch (DaoException e) {
+                LOGGER.debug(LogginUtils.TRACK_EXISTS, e);
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
             }
-        } catch (DaoException e) {
-            LOGGER.debug(LogginUtils.TRACK_EXISTS, e);
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
         return result;
     }
@@ -86,17 +89,20 @@ public class TrackService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public Optional<TrackDto> findTrackById(Long id) throws ServiceException {
-        try {
-            Optional<Track> maybeTrack = trackDao.findById(id);
-            if (maybeTrack.isPresent()) {
-                Track track = maybeTrack.get();
-                TrackDto trackDto = trackMapper.mapFrom(track);
-                return Optional.of(trackDto);
+        if (id != null) {
+            try {
+                Optional<Track> maybeTrack = trackDao.findById(id);
+                if (maybeTrack.isPresent()) {
+                    Track track = maybeTrack.get();
+                    TrackDto trackDto = trackMapper.mapFrom(track);
+                    return Optional.of(trackDto);
+                }
+                return Optional.empty();
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
             }
-            return Optional.empty();
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
+        return Optional.empty();
     }
 
     /**
@@ -107,12 +113,15 @@ public class TrackService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public List<TrackDto> findAllTracksWithLimitOffset(TrackFilter filter) throws ServiceException {
-        try {
-            return trackDao.findAll(filter).stream()
-                    .map(trackMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (filter != null) {
+            try {
+                return trackDao.findAll(filter).stream()
+                        .map(trackMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
@@ -137,12 +146,14 @@ public class TrackService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public void updateTrack(Track track) throws ServiceException {
-        ValidationResult validationResult = trackValidator.isValid(track);
-        if (validationResult.isValid()) {
-            try {
-                trackDao.update(track);
-            } catch (DaoException e) {
-                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (track != null) {
+            ValidationResult validationResult = trackValidator.isValid(track);
+            if (validationResult.isValid()) {
+                try {
+                    trackDao.update(track);
+                } catch (DaoException e) {
+                    throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+                }
             }
         }
     }
@@ -155,11 +166,15 @@ public class TrackService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public boolean deleteTrackById(Long id) throws ServiceException {
-        try {
-            return trackDao.deleteById(id);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        boolean result = false;
+        if (id != null) {
+            try {
+                result = trackDao.deleteById(id);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return result;
     }
 
     /**
@@ -172,11 +187,15 @@ public class TrackService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public boolean addExistingTrackToMix(Mix mixThatExists, Track trackThatExists) throws ServiceException {
-        try {
-            return trackDao.addExistingTrackToMix(mixThatExists, trackThatExists);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        boolean result = false;
+        if (mixThatExists != null && trackThatExists != null) {
+            try {
+                result = trackDao.addExistingTrackToMix(mixThatExists, trackThatExists);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return result;
     }
 
     /**
@@ -187,17 +206,20 @@ public class TrackService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public Optional<TrackDto> findByTrackTitle(String trackTitle) throws ServiceException {
-        try {
-            Optional<Track> maybeTrack = trackDao.findByTrackTitle(trackTitle);
-            if (maybeTrack.isPresent()) {
-                Track track = maybeTrack.get();
-                TrackDto trackDto = trackMapper.mapFrom(track);
-                return Optional.of(trackDto);
+        if (trackTitle != null) {
+            try {
+                Optional<Track> maybeTrack = trackDao.findByTrackTitle(trackTitle);
+                if (maybeTrack.isPresent()) {
+                    Track track = maybeTrack.get();
+                    TrackDto trackDto = trackMapper.mapFrom(track);
+                    return Optional.of(trackDto);
+                }
+                return Optional.empty();
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
             }
-            return Optional.empty();
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
+        return Optional.empty();
     }
 
     /**
@@ -209,12 +231,15 @@ public class TrackService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public List<TrackDto> findTracksByAlbumId(Long albumId, DefaultFilter filter) throws ServiceException {
-        try {
-            return trackDao.findTracksByAlbumId(albumId, filter).stream()
-                    .map(trackMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (albumId != null && filter != null) {
+            try {
+                return trackDao.findTracksByAlbumId(albumId, filter).stream()
+                        .map(trackMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
@@ -226,12 +251,15 @@ public class TrackService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public List<TrackDto> findTracksByAlbumName(String albumName, DefaultFilter filter) throws ServiceException {
-        try {
-            return trackDao.findTracksByAlbumName(albumName, filter).stream()
-                    .map(trackMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (albumName != null && filter != null) {
+            try {
+                return trackDao.findTracksByAlbumName(albumName, filter).stream()
+                        .map(trackMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**

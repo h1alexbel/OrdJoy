@@ -16,6 +16,7 @@ import com.ordjoy.util.LogginUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -100,16 +101,19 @@ public class ReviewService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public Optional<MixReviewDto> findMixReviewById(Long id) throws ServiceException {
-        try {
-            Optional<MixReview> maybeMixReview = mixReviewDao.findById(id);
-            if (maybeMixReview.isPresent()) {
-                MixReview mixReview = maybeMixReview.get();
-                return Optional.of(mixReviewMapper.mapFrom(mixReview));
+        if (id != null) {
+            try {
+                Optional<MixReview> maybeMixReview = mixReviewDao.findById(id);
+                if (maybeMixReview.isPresent()) {
+                    MixReview mixReview = maybeMixReview.get();
+                    return Optional.of(mixReviewMapper.mapFrom(mixReview));
+                }
+                return Optional.empty();
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
             }
-            return Optional.empty();
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
+        return Optional.empty();
     }
 
     /**
@@ -120,16 +124,19 @@ public class ReviewService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public Optional<TrackReviewDto> findTrackReviewById(Long id) throws ServiceException {
-        try {
-            Optional<TrackReview> maybeTrackReview = trackReviewDao.findById(id);
-            if (maybeTrackReview.isPresent()) {
-                TrackReview trackReview = maybeTrackReview.get();
-                return Optional.of(trackReviewMapper.mapFrom(trackReview));
+        if (id != null) {
+            try {
+                Optional<TrackReview> maybeTrackReview = trackReviewDao.findById(id);
+                if (maybeTrackReview.isPresent()) {
+                    TrackReview trackReview = maybeTrackReview.get();
+                    return Optional.of(trackReviewMapper.mapFrom(trackReview));
+                }
+                return Optional.empty();
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
             }
-            return Optional.empty();
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
+        return Optional.empty();
     }
 
     /**
@@ -140,16 +147,19 @@ public class ReviewService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public Optional<AlbumReviewDto> findAlbumReviewById(Long id) throws ServiceException {
-        try {
-            Optional<AlbumReview> maybeAlbumReview = albumReviewDao.findById(id);
-            if (maybeAlbumReview.isPresent()) {
-                AlbumReview albumReview = maybeAlbumReview.get();
-                return Optional.of(albumReviewMapper.mapFrom(albumReview));
+        if (id != null) {
+            try {
+                Optional<AlbumReview> maybeAlbumReview = albumReviewDao.findById(id);
+                if (maybeAlbumReview.isPresent()) {
+                    AlbumReview albumReview = maybeAlbumReview.get();
+                    return Optional.of(albumReviewMapper.mapFrom(albumReview));
+                }
+                return Optional.empty();
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
             }
-            return Optional.empty();
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
+        return Optional.empty();
     }
 
     /**
@@ -160,12 +170,15 @@ public class ReviewService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public List<MixReviewDto> findAllMixReviewsWithLimitAndOffset(ReviewFilter filter) throws ServiceException {
-        try {
-            return mixReviewDao.findAll(filter).stream()
-                    .map(mixReviewMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (filter != null) {
+            try {
+                return mixReviewDao.findAll(filter).stream()
+                        .map(mixReviewMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
@@ -176,12 +189,15 @@ public class ReviewService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public List<TrackReviewDto> findAllTrackReviewsWithLimitAndOffset(ReviewFilter filter) throws ServiceException {
-        try {
-            return trackReviewDao.findAll(filter).stream()
-                    .map(trackReviewMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (filter != null) {
+            try {
+                return trackReviewDao.findAll(filter).stream()
+                        .map(trackReviewMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
@@ -192,12 +208,15 @@ public class ReviewService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public List<AlbumReviewDto> findAllAlbumReviewsWithLimitAndOffset(ReviewFilter filter) throws ServiceException {
-        try {
-            return albumReviewDao.findAll(filter).stream()
-                    .map(albumReviewMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (filter != null) {
+            try {
+                return albumReviewDao.findAll(filter).stream()
+                        .map(albumReviewMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
@@ -252,10 +271,12 @@ public class ReviewService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public void updateMixReview(MixReview mixReview) throws ServiceException {
-        try {
-            mixReviewDao.update(mixReview);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (mixReview != null) {
+            try {
+                mixReviewDao.update(mixReview);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
     }
 
@@ -266,10 +287,12 @@ public class ReviewService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public void updateTrackReview(TrackReview trackReview) throws ServiceException {
-        try {
-            trackReviewDao.update(trackReview);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (trackReview != null) {
+            try {
+                trackReviewDao.update(trackReview);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
     }
 
@@ -280,10 +303,12 @@ public class ReviewService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public void updateAlbumReview(AlbumReview albumReview) throws ServiceException {
-        try {
-            albumReviewDao.update(albumReview);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (albumReview != null) {
+            try {
+                albumReviewDao.update(albumReview);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
     }
 
@@ -295,11 +320,15 @@ public class ReviewService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public boolean deleteMixReviewById(Long id) throws ServiceException {
-        try {
-            return mixReviewDao.deleteById(id);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        boolean result = false;
+        if (id != null) {
+            try {
+                result = mixReviewDao.deleteById(id);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return result;
     }
 
     /**
@@ -310,11 +339,15 @@ public class ReviewService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public boolean deleteTrackReviewById(Long id) throws ServiceException {
-        try {
-            return trackReviewDao.deleteById(id);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        boolean result = false;
+        if (id != null) {
+            try {
+                result = trackReviewDao.deleteById(id);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return result;
     }
 
     /**
@@ -325,11 +358,15 @@ public class ReviewService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public boolean deleteAlbumReviewById(Long id) throws ServiceException {
-        try {
-            return albumReviewDao.deleteById(id);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        boolean result = false;
+        if (id != null) {
+            try {
+                result = albumReviewDao.deleteById(id);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return result;
     }
 
     /**
@@ -341,12 +378,15 @@ public class ReviewService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public List<MixReviewDto> findMixReviewsByUserLogin(String login, DefaultFilter filter) throws ServiceException {
-        try {
-            return mixReviewDao.findMixReviewsByUserLogin(login, filter).stream()
-                    .map(mixReviewMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (login != null && filter != null) {
+            try {
+                return mixReviewDao.findMixReviewsByUserLogin(login, filter).stream()
+                        .map(mixReviewMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
@@ -357,13 +397,17 @@ public class ReviewService {
      * @return List of {@link TrackReviewDto} that represents {@link TrackReview} in database
      * @throws ServiceException if Dao layer can not execute method
      */
-    public List<TrackReviewDto> findTrackReviewsByUserLogin(String login, DefaultFilter filter) throws ServiceException {
-        try {
-            return trackReviewDao.findTrackReviewsByUserLogin(login, filter).stream()
-                    .map(trackReviewMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+    public List<TrackReviewDto> findTrackReviewsByUserLogin(String login, DefaultFilter filter)
+            throws ServiceException {
+        if (login != null && filter != null) {
+            try {
+                return trackReviewDao.findTrackReviewsByUserLogin(login, filter).stream()
+                        .map(trackReviewMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
@@ -374,13 +418,17 @@ public class ReviewService {
      * @return List of {@link AlbumReviewDto} that represents {@link AlbumReview} in database
      * @throws ServiceException if Dao layer can not execute method
      */
-    public List<AlbumReviewDto> findAlbumReviewsByUserLogin(String login, DefaultFilter filter) throws ServiceException {
-        try {
-            return albumReviewDao.findAlbumReviewsByUserLogin(login, filter).stream()
-                    .map(albumReviewMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+    public List<AlbumReviewDto> findAlbumReviewsByUserLogin(String login, DefaultFilter filter)
+            throws ServiceException {
+        if (login != null && filter != null) {
+            try {
+                return albumReviewDao.findAlbumReviewsByUserLogin(login, filter).stream()
+                        .map(albumReviewMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
@@ -392,12 +440,15 @@ public class ReviewService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public List<MixReviewDto> findMixReviewsByUserId(Long id, DefaultFilter filter) throws ServiceException {
-        try {
-            return mixReviewDao.findMixReviewsByUserId(id, filter).stream()
-                    .map(mixReviewMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (id != null && filter != null) {
+            try {
+                return mixReviewDao.findMixReviewsByUserId(id, filter).stream()
+                        .map(mixReviewMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
@@ -409,12 +460,15 @@ public class ReviewService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public List<TrackReviewDto> findTrackReviewsByUserId(Long id, DefaultFilter filter) throws ServiceException {
-        try {
-            return trackReviewDao.findTrackReviewsByUserId(id, filter).stream()
-                    .map(trackReviewMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (id != null && filter != null) {
+            try {
+                return trackReviewDao.findTrackReviewsByUserId(id, filter).stream()
+                        .map(trackReviewMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
@@ -426,12 +480,15 @@ public class ReviewService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public List<AlbumReviewDto> findAlbumReviewsByUserId(Long id, DefaultFilter filter) throws ServiceException {
-        try {
-            return albumReviewDao.findAlbumReviewsByUserId(id, filter).stream()
-                    .map(albumReviewMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (id != null && filter != null) {
+            try {
+                return albumReviewDao.findAlbumReviewsByUserId(id, filter).stream()
+                        .map(albumReviewMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
@@ -442,13 +499,17 @@ public class ReviewService {
      * @return List of {@link TrackReviewDto} that represents {@link TrackReview} in database
      * @throws ServiceException if Dao layer can not execute method
      */
-    public List<TrackReviewDto> findTrackReviewsByTrackId(Long trackId, DefaultFilter filter) throws ServiceException {
-        try {
-            return trackReviewDao.findTrackReviewsByTrackId(trackId, filter).stream()
-                    .map(trackReviewMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+    public List<TrackReviewDto> findTrackReviewsByTrackId(Long trackId, DefaultFilter filter)
+            throws ServiceException {
+        if (trackId != null && filter != null) {
+            try {
+                return trackReviewDao.findTrackReviewsByTrackId(trackId, filter).stream()
+                        .map(trackReviewMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
@@ -459,13 +520,17 @@ public class ReviewService {
      * @return List of {@link TrackReviewDto} that represents {@link TrackReview} in database
      * @throws ServiceException if Dao layer can not execute method
      */
-    public List<TrackReviewDto> findTrackReviewsByTrackTitle(String trackTitle, DefaultFilter filter) throws ServiceException {
-        try {
-            return trackReviewDao.findTrackReviewsByTrackTitle(trackTitle, filter).stream()
-                    .map(trackReviewMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+    public List<TrackReviewDto> findTrackReviewsByTrackTitle(String trackTitle, DefaultFilter filter)
+            throws ServiceException {
+        if (trackTitle != null && filter != null) {
+            try {
+                return trackReviewDao.findTrackReviewsByTrackTitle(trackTitle, filter).stream()
+                        .map(trackReviewMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**

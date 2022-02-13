@@ -14,6 +14,7 @@ import com.ordjoy.util.LogginUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,14 +65,16 @@ public class AlbumService {
      */
     public boolean isAlbumExists(String title) throws ServiceException {
         boolean result = false;
-        try {
-            Optional<Album> maybeAlbum = albumDao.findAlbumByTitle(title);
-            if (maybeAlbum.isPresent()) {
-                result = true;
+        if (title != null) {
+            try {
+                Optional<Album> maybeAlbum = albumDao.findAlbumByTitle(title);
+                if (maybeAlbum.isPresent()) {
+                    result = true;
+                }
+            } catch (DaoException e) {
+                LOGGER.debug(LogginUtils.ALBUM_EXISTS, e);
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
             }
-        } catch (DaoException e) {
-            LOGGER.debug(LogginUtils.ALBUM_EXISTS, e);
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
         return result;
     }
@@ -84,15 +87,17 @@ public class AlbumService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public Optional<AlbumDto> findAlbumById(Long id) throws ServiceException {
-        Optional<AlbumDto> maybeAlbum;
-        try {
-            maybeAlbum = albumDao.findById(id).stream()
-                    .map(album -> new AlbumDto(
-                            album.getId(),
-                            album.getTitle()
-                    )).findFirst();
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        Optional<AlbumDto> maybeAlbum = Optional.empty();
+        if (id != null) {
+            try {
+                maybeAlbum = albumDao.findById(id).stream()
+                        .map(album -> new AlbumDto(
+                                album.getId(),
+                                album.getTitle()
+                        )).findFirst();
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
         return maybeAlbum;
     }
@@ -105,17 +110,18 @@ public class AlbumService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public List<AlbumDto> findAllAlbums(AlbumFilter filter) throws ServiceException {
-        List<AlbumDto> albums;
-        try {
-            albums = albumDao.findAll(filter).stream()
-                    .map(album -> new AlbumDto(
-                            album.getId(),
-                            album.getTitle()
-                    )).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (filter != null) {
+            try {
+                return albumDao.findAll(filter).stream()
+                        .map(album -> new AlbumDto(
+                                album.getId(),
+                                album.getTitle()
+                        )).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
-        return albums;
+        return Collections.emptyList();
     }
 
     /**
@@ -140,10 +146,12 @@ public class AlbumService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public void updateAlbum(Album album) throws ServiceException {
-        try {
-            albumDao.update(album);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (album != null) {
+            try {
+                albumDao.update(album);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
     }
 
@@ -155,11 +163,15 @@ public class AlbumService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public boolean deleteAlbumById(Long id) throws ServiceException {
-        try {
-            return albumDao.deleteById(id);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        boolean result = false;
+        if (id != null) {
+            try {
+                result = albumDao.deleteById(id);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return result;
     }
 
     /**
@@ -170,15 +182,17 @@ public class AlbumService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public Optional<AlbumDto> findAlbumByTitle(String albumTitle) throws ServiceException {
-        Optional<AlbumDto> maybeAlbum;
-        try {
-            maybeAlbum = albumDao.findAlbumByTitle(albumTitle).stream()
-                    .map(album -> new AlbumDto(
-                            album.getId(),
-                            album.getTitle()
-                    )).findFirst();
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        Optional<AlbumDto> maybeAlbum = Optional.empty();
+        if (albumTitle != null) {
+            try {
+                maybeAlbum = albumDao.findAlbumByTitle(albumTitle).stream()
+                        .map(album -> new AlbumDto(
+                                album.getId(),
+                                album.getTitle()
+                        )).findFirst();
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
         return maybeAlbum;
     }
@@ -191,13 +205,17 @@ public class AlbumService {
      * @return List {@link AlbumReviewDto} that represents {@link com.ordjoy.entity.AlbumReview} in database
      * @throws ServiceException if Dao layer can not execute method
      */
-    public List<AlbumReviewDto> findAlbumReviewsByAlbumTitle(String albumTitle, DefaultFilter filter) throws ServiceException {
-        try {
-            return albumDao.findAlbumReviewsByAlbumTitle(albumTitle, filter).stream()
-                    .map(albumReviewMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+    public List<AlbumReviewDto> findAlbumReviewsByAlbumTitle(String albumTitle, DefaultFilter filter)
+            throws ServiceException {
+        if (albumTitle != null && filter != null) {
+            try {
+                return albumDao.findAlbumReviewsByAlbumTitle(albumTitle, filter).stream()
+                        .map(albumReviewMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
@@ -208,13 +226,17 @@ public class AlbumService {
      * @return List {@link AlbumReviewDto} that represents {@link com.ordjoy.entity.AlbumReview} in database
      * @throws ServiceException if Dao layer can not execute method
      */
-    public List<AlbumReviewDto> findAlbumReviewsByAlbumId(Long albumId, DefaultFilter filter) throws ServiceException {
-        try {
-            return albumDao.findAlbumReviewsByAlbumId(albumId, filter).stream()
-                    .map(albumReviewMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+    public List<AlbumReviewDto> findAlbumReviewsByAlbumId(Long albumId, DefaultFilter filter)
+            throws ServiceException {
+        if (albumId != null && filter != null) {
+            try {
+                return albumDao.findAlbumReviewsByAlbumId(albumId, filter).stream()
+                        .map(albumReviewMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**

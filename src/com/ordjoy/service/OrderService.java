@@ -17,6 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,10 +69,12 @@ public class OrderService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public void updateOrderPrice(BigDecimal price, Long id) throws ServiceException {
-        try {
-            orderDao.updateOrderPrice(price, id);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (price != null && id != null) {
+            try {
+                orderDao.updateOrderPrice(price, id);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
     }
 
@@ -84,22 +87,24 @@ public class OrderService {
      */
     public BigDecimal calculateOrderPrice(Long orderId) throws ServiceException {
         BigDecimal price = null;
-        try {
-            Optional<Order> maybeOrder = orderDao.findById(orderId);
-            if (maybeOrder.isPresent()) {
-                Order order = maybeOrder.get();
-                price = order.getPrice();
-                int value = price.intValue();
-                Integer discountPercentageLevel = order.getUserAccount().getDiscountPercentageLevel();
-                if (discountPercentageLevel > STANDART_DISCOUNT_PERCENTAGE_LEVEL) {
-                    int discount = (value * discountPercentageLevel / PERCENTAGE_AMOUNT);
-                    price = new BigDecimal(value - discount);
+        if (orderId != null) {
+            try {
+                Optional<Order> maybeOrder = orderDao.findById(orderId);
+                if (maybeOrder.isPresent()) {
+                    Order order = maybeOrder.get();
+                    price = order.getPrice();
+                    int value = price.intValue();
+                    Integer discountPercentageLevel = order.getUserAccount().getDiscountPercentageLevel();
+                    if (discountPercentageLevel > STANDART_DISCOUNT_PERCENTAGE_LEVEL) {
+                        int discount = (value * discountPercentageLevel / PERCENTAGE_AMOUNT);
+                        price = new BigDecimal(value - discount);
+                    }
                 }
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
             }
-            return price;
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
+        return price;
     }
 
     /**
@@ -111,17 +116,20 @@ public class OrderService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public Optional<OrderDto> findOrderById(Long id) throws ServiceException {
-        try {
-            Optional<Order> maybeOrder = orderDao.findById(id);
-            if (maybeOrder.isPresent()) {
-                Order order = maybeOrder.get();
-                OrderDto orderDto = orderMapper.mapFrom(order);
-                return Optional.of(orderDto);
+        if (id != null) {
+            try {
+                Optional<Order> maybeOrder = orderDao.findById(id);
+                if (maybeOrder.isPresent()) {
+                    Order order = maybeOrder.get();
+                    OrderDto orderDto = orderMapper.mapFrom(order);
+                    return Optional.of(orderDto);
+                }
+                return Optional.empty();
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
             }
-            return Optional.empty();
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
+        return Optional.empty();
     }
 
     /**
@@ -132,12 +140,15 @@ public class OrderService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public List<OrderDto> findAllOrdersWithLimitAndOffset(OrderFilter filter) throws ServiceException {
-        try {
-            return orderDao.findAll(filter).stream()
-                    .map(orderMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (filter != null) {
+            try {
+                return orderDao.findAll(filter).stream()
+                        .map(orderMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
@@ -147,10 +158,12 @@ public class OrderService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public void updateOrder(Order order) throws ServiceException {
-        try {
-            orderDao.update(order);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (order != null) {
+            try {
+                orderDao.update(order);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
     }
 
@@ -162,11 +175,15 @@ public class OrderService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public boolean deleteOrderById(Long id) throws ServiceException {
-        try {
-            return orderDao.deleteById(id);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        boolean result = false;
+        if (id != null) {
+            try {
+                result = orderDao.deleteById(id);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return result;
     }
 
     /**
@@ -177,10 +194,12 @@ public class OrderService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public void updateOrderStatus(OrderStatus newStatus, Long orderId) throws ServiceException {
-        try {
-            orderDao.updateOrderStatus(newStatus, orderId);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (newStatus != null && orderId != null) {
+            try {
+                orderDao.updateOrderStatus(newStatus, orderId);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
     }
 
@@ -192,12 +211,15 @@ public class OrderService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public List<OrderDto> findOrdersByPrice(BigDecimal price) throws ServiceException {
-        try {
-            return orderDao.findOrdersByPrice(price).stream()
-                    .map(orderMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (price != null) {
+            try {
+                return orderDao.findOrdersByPrice(price).stream()
+                        .map(orderMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
@@ -209,12 +231,15 @@ public class OrderService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public List<OrderDto> findOrdersByUserId(Long userAccountId, DefaultFilter filter) throws ServiceException {
-        try {
-            return orderDao.findOrdersByUserId(userAccountId, filter).stream()
-                    .map(orderMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (userAccountId != null && filter != null) {
+            try {
+                return orderDao.findOrdersByUserId(userAccountId, filter).stream()
+                        .map(orderMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
@@ -241,12 +266,15 @@ public class OrderService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public List<OrderDto> findOrdersByUserEmail(String email, DefaultFilter filter) throws ServiceException {
-        try {
-            return orderDao.findOrdersByUserEmail(email, filter).stream()
-                    .map(orderMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (email != null && filter != null) {
+            try {
+                return orderDao.findOrdersByUserEmail(email, filter).stream()
+                        .map(orderMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
@@ -258,12 +286,15 @@ public class OrderService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public List<OrderDto> findOrdersByUserLogin(String login, DefaultFilter filter) throws ServiceException {
-        try {
-            return orderDao.findOrdersByUserLogin(login, filter).stream()
-                    .map(orderMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (login != null && filter != null) {
+            try {
+                return orderDao.findOrdersByUserLogin(login, filter).stream()
+                        .map(orderMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
@@ -275,12 +306,15 @@ public class OrderService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public List<OrderDto> findOrdersByTrackId(Long trackId, DefaultFilter filter) throws ServiceException {
-        try {
-            return orderDao.findOrdersByTrackId(trackId, filter).stream()
-                    .map(orderMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (trackId != null && filter != null) {
+            try {
+                return orderDao.findOrdersByTrackId(trackId, filter).stream()
+                        .map(orderMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
@@ -291,13 +325,17 @@ public class OrderService {
      * @return List of {@link OrderDto} that represents {@link Order} in database
      * @throws ServiceException if Dao layer can not execute method
      */
-    public List<OrderDto> findOrdersByTrackName(String trackName, DefaultFilter filter) throws ServiceException {
-        try {
-            return orderDao.findOrdersByTrackName(trackName, filter).stream()
-                    .map(orderMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+    public List<OrderDto> findOrdersByTrackName(String trackName, DefaultFilter filter)
+            throws ServiceException {
+        if (trackName != null && filter != null) {
+            try {
+                return orderDao.findOrdersByTrackName(trackName, filter).stream()
+                        .map(orderMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
@@ -308,13 +346,17 @@ public class OrderService {
      * @return List of {@link OrderDto} that represents {@link Order} in database
      * @throws ServiceException if Dao layer can not execute method
      */
-    public List<OrderDto> findOrdersByOrderStatus(OrderStatus orderStatus, DefaultFilter filter) throws ServiceException {
-        try {
-            return orderDao.findOrdersByOrderStatus(orderStatus, filter).stream()
-                    .map(orderMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+    public List<OrderDto> findOrdersByOrderStatus(OrderStatus orderStatus, DefaultFilter filter)
+            throws ServiceException {
+        if (orderStatus != null && filter != null) {
+            try {
+                return orderDao.findOrdersByOrderStatus(orderStatus, filter).stream()
+                        .map(orderMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**

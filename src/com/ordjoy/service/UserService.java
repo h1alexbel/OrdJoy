@@ -13,6 +13,7 @@ import com.ordjoy.util.LogginUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,23 +47,26 @@ public class UserService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public List<UserAccountDto> findAllUsersWithLimitOffset(UserAccountFilter filter) throws ServiceException {
-        List<UserAccountDto> users;
-        try {
-            users = userDao.findAll(filter).stream()
-                    .map(userAccount -> UserAccountDto.builder()
-                            .id(userAccount.getId())
-                            .login(userAccount.getLogin())
-                            .email(userAccount.getEmail())
-                            .discountPercentageLevel(userAccount.getDiscountPercentageLevel())
-                            .userRole(userAccount.getUserData().getUserRole())
-                            .firstName(userAccount.getUserData().getFirstName())
-                            .lastName(userAccount.getUserData().getLastName())
-                            .build())
-                    .collect(toList());
-            return users;
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (filter != null) {
+            List<UserAccountDto> users;
+            try {
+                users = userDao.findAll(filter).stream()
+                        .map(userAccount -> UserAccountDto.builder()
+                                .id(userAccount.getId())
+                                .login(userAccount.getLogin())
+                                .email(userAccount.getEmail())
+                                .discountPercentageLevel(userAccount.getDiscountPercentageLevel())
+                                .userRole(userAccount.getUserData().getUserRole())
+                                .firstName(userAccount.getUserData().getFirstName())
+                                .lastName(userAccount.getUserData().getLastName())
+                                .build())
+                        .collect(toList());
+                return users;
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
@@ -120,21 +124,23 @@ public class UserService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public Optional<UserAccountDto> findUserByLoginAndPassword(String login, String password) throws ServiceException {
-        Optional<UserAccountDto> maybeUser;
-        try {
-            maybeUser = userDao.findUserAccountByLoginAndPassword(login, password).stream()
-                    .map(userAccount -> UserAccountDto.builder()
-                            .id(userAccount.getId())
-                            .login(userAccount.getLogin())
-                            .email(userAccount.getEmail())
-                            .discountPercentageLevel(userAccount.getDiscountPercentageLevel())
-                            .userRole(userAccount.getUserData().getUserRole())
-                            .firstName(userAccount.getUserData().getFirstName())
-                            .lastName(userAccount.getUserData().getLastName())
-                            .build())
-                    .findFirst();
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        Optional<UserAccountDto> maybeUser = Optional.empty();
+        if (login != null && password != null) {
+            try {
+                maybeUser = userDao.findUserAccountByLoginAndPassword(login, password).stream()
+                        .map(userAccount -> UserAccountDto.builder()
+                                .id(userAccount.getId())
+                                .login(userAccount.getLogin())
+                                .email(userAccount.getEmail())
+                                .discountPercentageLevel(userAccount.getDiscountPercentageLevel())
+                                .userRole(userAccount.getUserData().getUserRole())
+                                .firstName(userAccount.getUserData().getFirstName())
+                                .lastName(userAccount.getUserData().getLastName())
+                                .build())
+                        .findFirst();
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
         return maybeUser;
     }
@@ -170,14 +176,16 @@ public class UserService {
      */
     public boolean isLoginExists(String login) throws ServiceException {
         boolean result = false;
-        try {
-            Optional<UserAccount> maybeUser = userDao.findUserByLogin(login);
-            if (maybeUser.isPresent()) {
-                result = true;
+        if (login != null) {
+            try {
+                Optional<UserAccount> maybeUser = userDao.findUserByLogin(login);
+                if (maybeUser.isPresent()) {
+                    result = true;
+                }
+            } catch (DaoException e) {
+                LOGGER.debug(LogginUtils.USERNAME_EXISTS, e);
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
             }
-        } catch (DaoException e) {
-            LOGGER.debug(LogginUtils.USERNAME_EXISTS, e);
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
         return result;
     }
@@ -191,21 +199,23 @@ public class UserService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public Optional<UserAccountDto> findUserById(Long id) throws ServiceException {
-        Optional<UserAccountDto> maybeUser;
-        try {
-            maybeUser = userDao.findById(id).stream()
-                    .map(userAccount -> UserAccountDto.builder()
-                            .id(userAccount.getId())
-                            .login(userAccount.getLogin())
-                            .email(userAccount.getEmail())
-                            .discountPercentageLevel(userAccount.getDiscountPercentageLevel())
-                            .userRole(userAccount.getUserData().getUserRole())
-                            .firstName(userAccount.getUserData().getFirstName())
-                            .lastName(userAccount.getUserData().getLastName())
-                            .build())
-                    .findFirst();
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        Optional<UserAccountDto> maybeUser = Optional.empty();
+        if (id != null) {
+            try {
+                maybeUser = userDao.findById(id).stream()
+                        .map(userAccount -> UserAccountDto.builder()
+                                .id(userAccount.getId())
+                                .login(userAccount.getLogin())
+                                .email(userAccount.getEmail())
+                                .discountPercentageLevel(userAccount.getDiscountPercentageLevel())
+                                .userRole(userAccount.getUserData().getUserRole())
+                                .firstName(userAccount.getUserData().getFirstName())
+                                .lastName(userAccount.getUserData().getLastName())
+                                .build())
+                        .findFirst();
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
         return maybeUser;
     }
@@ -217,10 +227,12 @@ public class UserService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public void updateUserData(UserAccount userAccount) throws ServiceException {
-        try {
-            userDao.update(userAccount);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (userAccount != null) {
+            try {
+                userDao.update(userAccount);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
     }
 
@@ -232,11 +244,15 @@ public class UserService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public boolean deleteUserById(Long id) throws ServiceException {
-        try {
-            return userDao.deleteById(id);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        boolean result = false;
+        if (id != null) {
+            try {
+                result = userDao.deleteById(id);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return result;
     }
 
     /**
@@ -247,10 +263,12 @@ public class UserService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public void addDiscountPercentageLevel(Integer discountPercentageLevel, String userEmail) throws ServiceException {
-        try {
-            userDao.addDiscountPercentageLevel(discountPercentageLevel, userEmail);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (discountPercentageLevel != null && userEmail != null) {
+            try {
+                userDao.addDiscountPercentageLevel(discountPercentageLevel, userEmail);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
     }
 
@@ -263,11 +281,15 @@ public class UserService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public Optional<Integer> findDiscountPercentageLevelByUserId(Long userId) throws ServiceException {
-        try {
-            return userDao.findDiscountPercentageLevelByUserId(userId);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        Optional<Integer> discountPercentageLevelMaybe = Optional.empty();
+        if (userId != null) {
+            try {
+                discountPercentageLevelMaybe = userDao.findDiscountPercentageLevelByUserId(userId);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return discountPercentageLevelMaybe;
     }
 
     /**
@@ -279,11 +301,13 @@ public class UserService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public Optional<Integer> findDiscountPercentageLevelByEmail(String email) throws ServiceException {
-        Optional<Integer> maybeDiscountPercentageLevel;
-        try {
-            maybeDiscountPercentageLevel = userDao.findDiscountPercentageLevelByEmail(email);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        Optional<Integer> maybeDiscountPercentageLevel = Optional.empty();
+        if (email != null) {
+            try {
+                maybeDiscountPercentageLevel = userDao.findDiscountPercentageLevelByEmail(email);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
         return maybeDiscountPercentageLevel;
     }
@@ -297,21 +321,23 @@ public class UserService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public Optional<UserAccountDto> findUserByLogin(String login) throws ServiceException {
-        Optional<UserAccountDto> maybeUser;
-        try {
-            maybeUser = userDao.findUserByLogin(login).stream()
-                    .map(userAccount -> UserAccountDto.builder()
-                            .id(userAccount.getId())
-                            .login(userAccount.getLogin())
-                            .email(userAccount.getEmail())
-                            .discountPercentageLevel(userAccount.getDiscountPercentageLevel())
-                            .userRole(userAccount.getUserData().getUserRole())
-                            .firstName(userAccount.getUserData().getFirstName())
-                            .lastName(userAccount.getUserData().getLastName())
-                            .build())
-                    .findFirst();
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        Optional<UserAccountDto> maybeUser = Optional.empty();
+        if (login != null) {
+            try {
+                maybeUser = userDao.findUserByLogin(login).stream()
+                        .map(userAccount -> UserAccountDto.builder()
+                                .id(userAccount.getId())
+                                .login(userAccount.getLogin())
+                                .email(userAccount.getEmail())
+                                .discountPercentageLevel(userAccount.getDiscountPercentageLevel())
+                                .userRole(userAccount.getUserData().getUserRole())
+                                .firstName(userAccount.getUserData().getFirstName())
+                                .lastName(userAccount.getUserData().getLastName())
+                                .build())
+                        .findFirst();
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
         return maybeUser;
     }
@@ -325,23 +351,26 @@ public class UserService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public Optional<UserAccountDto> findUserByEmail(String email) throws ServiceException {
-        Optional<UserAccountDto> maybeUser;
-        try {
-            maybeUser = userDao.findUserByEmail(email).stream()
-                    .map(userAccount -> UserAccountDto.builder()
-                            .id(userAccount.getId())
-                            .login(userAccount.getLogin())
-                            .email(userAccount.getEmail())
-                            .discountPercentageLevel(userAccount.getDiscountPercentageLevel())
-                            .userRole(userAccount.getUserData().getUserRole())
-                            .firstName(userAccount.getUserData().getFirstName())
-                            .lastName(userAccount.getUserData().getLastName())
-                            .build())
-                    .findFirst();
-            return maybeUser;
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        Optional<UserAccountDto> maybeUser = Optional.empty();
+        if (email != null) {
+            try {
+                maybeUser = userDao.findUserByEmail(email).stream()
+                        .map(userAccount -> UserAccountDto.builder()
+                                .id(userAccount.getId())
+                                .login(userAccount.getLogin())
+                                .email(userAccount.getEmail())
+                                .discountPercentageLevel(userAccount.getDiscountPercentageLevel())
+                                .userRole(userAccount.getUserData().getUserRole())
+                                .firstName(userAccount.getUserData().getFirstName())
+                                .lastName(userAccount.getUserData().getLastName())
+                                .build())
+                        .findFirst();
+                return maybeUser;
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return maybeUser;
     }
 
     /**

@@ -14,6 +14,7 @@ import com.ordjoy.util.LogginUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,14 +65,16 @@ public class MixService {
      */
     public boolean isMixExists(String mixName) throws ServiceException {
         boolean result = false;
-        try {
-            Optional<Mix> maybeMix = mixDao.findMixByMixName(mixName);
-            if (maybeMix.isPresent()) {
-                result = true;
+        if (mixName != null) {
+            try {
+                Optional<Mix> maybeMix = mixDao.findMixByMixName(mixName);
+                if (maybeMix.isPresent()) {
+                    result = true;
+                }
+            } catch (DaoException e) {
+                LOGGER.debug(LogginUtils.MIX_EXISTS, e);
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
             }
-        } catch (DaoException e) {
-            LOGGER.debug(LogginUtils.MIX_EXISTS, e);
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
         }
         return result;
     }
@@ -84,19 +87,22 @@ public class MixService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public Optional<MixDto> findMixById(Long id) throws ServiceException {
-        Optional<MixDto> maybeMix;
-        try {
-            maybeMix = mixDao.findById(id).stream()
-                    .map(mix -> MixDto.builder()
-                            .id(mix.getId())
-                            .name(mix.getName())
-                            .description(mix.getDescription())
-                            .build())
-                    .findFirst();
-            return maybeMix;
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        Optional<MixDto> maybeMix = Optional.empty();
+        if (id != null) {
+            try {
+                maybeMix = mixDao.findById(id).stream()
+                        .map(mix -> MixDto.builder()
+                                .id(mix.getId())
+                                .name(mix.getName())
+                                .description(mix.getDescription())
+                                .build())
+                        .findFirst();
+                return maybeMix;
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return maybeMix;
     }
 
     /**
@@ -108,18 +114,21 @@ public class MixService {
      */
     public List<MixDto> findAllMixes(MixFilter filter) throws ServiceException {
         List<MixDto> mixes;
-        try {
-            mixes = mixDao.findAll(filter).stream()
-                    .map(mix -> MixDto.builder()
-                            .id(mix.getId())
-                            .name(mix.getName())
-                            .description(mix.getDescription())
-                            .build())
-                    .collect(toList());
-            return mixes;
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (filter != null) {
+            try {
+                mixes = mixDao.findAll(filter).stream()
+                        .map(mix -> MixDto.builder()
+                                .id(mix.getId())
+                                .name(mix.getName())
+                                .description(mix.getDescription())
+                                .build())
+                        .collect(toList());
+                return mixes;
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
@@ -144,10 +153,12 @@ public class MixService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public void updateMix(Mix mix) throws ServiceException {
-        try {
-            mixDao.update(mix);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        if (mix != null) {
+            try {
+                mixDao.update(mix);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
     }
 
@@ -159,11 +170,15 @@ public class MixService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public boolean deleteMixById(Long id) throws ServiceException {
-        try {
-            return mixDao.deleteById(id);
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        boolean result = false;
+        if (id != null) {
+            try {
+                result = mixDao.deleteById(id);
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return result;
     }
 
     /**
@@ -174,17 +189,19 @@ public class MixService {
      * @throws ServiceException if Dao layer can not execute method
      */
     public Optional<MixDto> findMixByMixName(String mixName) throws ServiceException {
-        Optional<MixDto> maybeMix;
-        try {
-            maybeMix = mixDao.findMixByMixName(mixName).stream()
-                    .map(mix -> MixDto.builder()
-                            .id(mix.getId())
-                            .name(mix.getName())
-                            .description(mix.getDescription())
-                            .build())
-                    .findFirst();
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+        Optional<MixDto> maybeMix = Optional.empty();
+        if (mixName != null) {
+            try {
+                maybeMix = mixDao.findMixByMixName(mixName).stream()
+                        .map(mix -> MixDto.builder()
+                                .id(mix.getId())
+                                .name(mix.getName())
+                                .description(mix.getDescription())
+                                .build())
+                        .findFirst();
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
         return maybeMix;
     }
@@ -197,13 +214,17 @@ public class MixService {
      * @return List {@link MixReviewDto} that represents {@link com.ordjoy.entity.MixReview} in database
      * @throws ServiceException if Dao layer can not execute method
      */
-    public List<MixReviewDto> findMixReviewByMixName(String mixName, DefaultFilter filter) throws ServiceException {
-        try {
-            return mixDao.findMixReviewByMixName(mixName, filter).stream()
-                    .map(mixReviewMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+    public List<MixReviewDto> findMixReviewByMixName(String mixName, DefaultFilter filter)
+            throws ServiceException {
+        if (mixName != null && filter != null) {
+            try {
+                return mixDao.findMixReviewByMixName(mixName, filter).stream()
+                        .map(mixReviewMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
@@ -214,13 +235,17 @@ public class MixService {
      * @return List {@link MixReviewDto} that represents {@link com.ordjoy.entity.MixReview} in database
      * @throws ServiceException if Dao layer can not execute method
      */
-    public List<MixReviewDto> findMixReviewByMixId(Long mixId, DefaultFilter filter) throws ServiceException {
-        try {
-            return mixDao.findMixReviewsByMixId(mixId, filter).stream()
-                    .map(mixReviewMapper::mapFrom).collect(toList());
-        } catch (DaoException e) {
-            throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+    public List<MixReviewDto> findMixReviewByMixId(Long mixId, DefaultFilter filter)
+            throws ServiceException {
+        if (mixId != null && filter != null) {
+            try {
+                return mixDao.findMixReviewsByMixId(mixId, filter).stream()
+                        .map(mixReviewMapper::mapFrom).collect(toList());
+            } catch (DaoException e) {
+                throw new ServiceException(SERVICE_LAYER_EXCEPTION_MESSAGE, e);
+            }
         }
+        return Collections.emptyList();
     }
 
     /**
