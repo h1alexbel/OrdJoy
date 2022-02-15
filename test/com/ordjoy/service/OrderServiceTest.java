@@ -6,7 +6,10 @@ import com.ordjoy.dto.TrackDto;
 import com.ordjoy.dto.UserAccountDto;
 import com.ordjoy.entity.*;
 import com.ordjoy.exception.ServiceException;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
 
 import java.math.BigDecimal;
 
@@ -15,7 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class OrderServiceTest {
 
     @Test
-    public void makeOrder() {
+    @DisplayName("save order test")
+    void makeOrder() {
         OrderService orderService = OrderService.getInstance();
         Order order = Order.builder()
                 .price(new BigDecimal(35))
@@ -68,7 +72,7 @@ class OrderServiceTest {
     }
 
     @Test
-    public void updateOrderPriceNullCase() {
+    void updateOrderPriceNullCase() {
         OrderService orderService = OrderService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() -> orderService.updateOrderPrice(new BigDecimal(35), null)),
@@ -77,32 +81,40 @@ class OrderServiceTest {
         );
     }
 
-    @Test
-    public void calculateOrderPriceNullCase() {
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("calculate order price by orderId null case test")
+    void calculateOrderPriceNullCase(Long orderId) {
         OrderService orderService = OrderService.getInstance();
-        assertDoesNotThrow(() -> orderService.calculateOrderPrice(null));
+        assertDoesNotThrow(() -> orderService.calculateOrderPrice(orderId));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("find order by id null case test")
+    void findOrderByIdNullCase(Long orderId) {
+        OrderService orderService = OrderService.getInstance();
+        assertDoesNotThrow(() -> orderService.findOrderById(orderId));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("update order null case test")
+    void updateOrderNullCase(Order order) {
+        OrderService orderService = OrderService.getInstance();
+        assertDoesNotThrow(() -> orderService.updateOrder(order));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("delete order null case test")
+    void deleteOrderByIdNullCase(Long id) {
+        OrderService orderService = OrderService.getInstance();
+        assertDoesNotThrow(() -> orderService.deleteOrderById(id));
     }
 
     @Test
-    public void findOrderByIdNullCase() {
-        OrderService orderService = OrderService.getInstance();
-        assertDoesNotThrow(() -> orderService.findOrderById(null));
-    }
-
-    @Test
-    public void updateOrderNullCase() {
-        OrderService orderService = OrderService.getInstance();
-        assertDoesNotThrow(() -> orderService.updateOrder(null));
-    }
-
-    @Test
-    public void deleteOrderByIdNullCase() {
-        OrderService orderService = OrderService.getInstance();
-        assertDoesNotThrow(() -> orderService.deleteOrderById(null));
-    }
-
-    @Test
-    public void updateOrderStatusNullCase() {
+    void updateOrderStatusNullCase() {
         OrderService orderService = OrderService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() -> orderService.updateOrderStatus(OrderStatus.IN_PROGRESS, null)),
@@ -111,14 +123,16 @@ class OrderServiceTest {
         );
     }
 
-    @Test
-    public void findOrdersByPriceNullCase() {
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("find orders by price null case")
+    void findOrdersByPriceNullCase(BigDecimal price) {
         OrderService orderService = OrderService.getInstance();
-        assertDoesNotThrow(() -> orderService.findOrdersByPrice(null));
+        assertDoesNotThrow(() -> orderService.findOrdersByPrice(price));
     }
 
     @Test
-    public void findOrdersByUserIdNullCase() {
+    void findOrdersByUserIdNullCase() {
         OrderService orderService = OrderService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() -> orderService.findOrdersByUserId(1L, null)),
@@ -129,7 +143,7 @@ class OrderServiceTest {
     }
 
     @Test
-    public void findOrdersByUserEmailNullCase() {
+    void findOrdersByUserEmailNullCase() {
         OrderService orderService = OrderService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() -> orderService.findOrdersByUserEmail("test@gmail.com", null)),
@@ -140,7 +154,7 @@ class OrderServiceTest {
     }
 
     @Test
-    public void findOrdersByUserLoginNullCase() {
+    void findOrdersByUserLoginNullCase() {
         OrderService orderService = OrderService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() -> orderService.findOrdersByUserLogin("test", null)),
@@ -151,7 +165,7 @@ class OrderServiceTest {
     }
 
     @Test
-    public void findOrdersByTrackIdNullCase() {
+    void findOrdersByTrackIdNullCase() {
         OrderService orderService = OrderService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() -> orderService.findOrdersByTrackId(1L, null)),
@@ -162,7 +176,7 @@ class OrderServiceTest {
     }
 
     @Test
-    public void findOrdersByTrackNameNullCase() {
+    void findOrdersByTrackNameNullCase() {
         OrderService orderService = OrderService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() -> orderService.findOrdersByTrackName("Test", null)),
@@ -173,7 +187,7 @@ class OrderServiceTest {
     }
 
     @Test
-    public void findOrdersByOrderStatusNullCase() {
+    void findOrdersByOrderStatusNullCase() {
         OrderService orderService = OrderService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() -> orderService.findOrdersByOrderStatus(OrderStatus.ACCEPTED, null)),

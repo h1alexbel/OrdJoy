@@ -6,14 +6,18 @@ import com.ordjoy.entity.Album;
 import com.ordjoy.entity.Mix;
 import com.ordjoy.entity.Track;
 import com.ordjoy.exception.ServiceException;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TrackServiceTest {
 
     @Test
-    public void addNewTrack() {
+    @DisplayName("save track test")
+    void addNewTrack() {
         TrackService trackService = TrackService.getInstance();
         Track track = Track.builder()
                 .title("Test")
@@ -35,26 +39,33 @@ class TrackServiceTest {
         }
     }
 
-    @Test
-   public void findTrackByIdNullCase() {
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("find track by id null case test")
+    void findTrackByIdNullCase(Long id) {
         TrackService trackService = TrackService.getInstance();
-        assertDoesNotThrow(() -> trackService.findTrackById(null));
+        assertDoesNotThrow(() -> trackService.findTrackById(id));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("update track null case")
+    void updateTrackNullCase(Track track) {
+        TrackService trackService = TrackService.getInstance();
+        assertDoesNotThrow(() -> trackService.updateTrack(track));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("delete track null case test")
+    void deleteTrackByIdNullCase(Long id) {
+        TrackService trackService = TrackService.getInstance();
+        assertDoesNotThrow(() -> trackService.deleteTrackById(id));
     }
 
     @Test
-   public void updateTrackNullCase() {
-        TrackService trackService = TrackService.getInstance();
-        assertDoesNotThrow(() -> trackService.updateTrack(null));
-    }
-
-    @Test
-   public void deleteTrackByIdNullCase() {
-        TrackService trackService = TrackService.getInstance();
-        assertDoesNotThrow(() -> trackService.deleteTrackById(null));
-    }
-
-    @Test
-   public void addExistingTrackToMix() {
+    @DisplayName("add track to mix test")
+    void addExistingTrackToMix() {
         TrackService trackService = TrackService.getInstance();
         Mix mix = Mix.builder()
                 .name("Best of Metalica2")
@@ -76,14 +87,16 @@ class TrackServiceTest {
         }
     }
 
-    @Test
-   public void findByTrackTitleNullCase() {
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("find track by title null case test")
+    void findByTrackTitleNullCase(String title) {
         TrackService trackService = TrackService.getInstance();
-        assertDoesNotThrow(() -> trackService.findByTrackTitle(null));
+        assertDoesNotThrow(() -> trackService.findByTrackTitle(title));
     }
 
     @Test
-   public void findTracksByAlbumIdNullCase() {
+    void findTracksByAlbumIdNullCase() {
         TrackService trackService = TrackService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() ->
@@ -96,7 +109,7 @@ class TrackServiceTest {
     }
 
     @Test
-   public void findTracksByAlbumName() {
+    void findTracksByAlbumName() {
         TrackService trackService = TrackService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() ->

@@ -3,22 +3,29 @@ package com.ordjoy.validation;
 import com.ordjoy.entity.Track;
 import com.ordjoy.entity.TrackReview;
 import com.ordjoy.validation.impl.TrackReviewValidator;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EmptySource;
+import org.junit.jupiter.params.provider.NullSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TrackReviewValidatorTest {
+class TrackReviewValidatorTest {
 
-    @Test
-    public void isTrackReviewValidatorDoesntThrowException() {
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("track review null case test")
+    void isTrackReviewValidatorDoesntThrowException(TrackReview trackReview) {
         TrackReviewValidator trackReviewValidator = TrackReviewValidator.getInstance();
-        assertDoesNotThrow(() -> trackReviewValidator.isValid(null),
+        assertDoesNotThrow(() -> trackReviewValidator.isValid(trackReview),
                 "Track Review can be not null!");
     }
 
-    @Test
-    public void reviewTextIsEmptyCase() {
-        String reviewText = "";
+    @ParameterizedTest
+    @NullSource
+    @EmptySource
+    @DisplayName("review text null and empty case test")
+    void reviewTextIsEmptyAndNullCase(String reviewText) {
         TrackReviewValidator trackReviewValidator = TrackReviewValidator.getInstance();
         TrackReview trackReview = TrackReview.builder()
                 .track(Track.builder()
@@ -28,20 +35,6 @@ public class TrackReviewValidatorTest {
                 .reviewText(reviewText)
                 .build();
         ValidationResult validationResult = trackReviewValidator.isValid(trackReview);
-        assertFalse(validationResult.isValid(), "Review Text can not be empty!");
-    }
-
-    @Test
-    public void reviewTextIsNullCase() {
-        TrackReviewValidator trackReviewValidator = TrackReviewValidator.getInstance();
-        TrackReview trackReview = TrackReview.builder()
-                .track(Track.builder()
-                        .songUrl("https://www.youtube.com/watch?v=m4racJaB-h4&list=RDm4racJaB-h4&start_radio=1")
-                        .title("Test")
-                        .build())
-                .reviewText(null)
-                .build();
-        ValidationResult validationResult = trackReviewValidator.isValid(trackReview);
-        assertFalse(validationResult.isValid(), "Review Text can not be null!");
+        assertFalse(validationResult.isValid(), "Review Text can not be empty or null!");
     }
 }

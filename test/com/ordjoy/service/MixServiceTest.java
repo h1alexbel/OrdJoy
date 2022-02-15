@@ -4,14 +4,18 @@ import com.ordjoy.dao.filter.DefaultFilter;
 import com.ordjoy.dto.MixDto;
 import com.ordjoy.entity.Mix;
 import com.ordjoy.exception.ServiceException;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class MixServiceTest {
 
     @Test
-    public void addNewMix() {
+    @DisplayName("save mix test")
+    void addNewMix() {
         MixService mixService = MixService.getInstance();
         Mix mix = Mix.builder()
                 .name("NameForTest")
@@ -30,32 +34,40 @@ class MixServiceTest {
         }
     }
 
-    @Test
-    public void findMixByIdNullCase() {
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("find mix by id null case test")
+    void findMixByIdNullCase(Long id) {
         MixService mixService = MixService.getInstance();
-        assertDoesNotThrow(() -> mixService.findMixById(null));
+        assertDoesNotThrow(() -> mixService.findMixById(id));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("update mix null case test")
+    void updateMixNullCase(Mix mix) {
+        MixService mixService = MixService.getInstance();
+        assertDoesNotThrow(() -> mixService.updateMix(mix));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("delete mix null case test")
+    void deleteMixByIdNullCase(Long id) {
+        MixService mixService = MixService.getInstance();
+        assertDoesNotThrow(() -> mixService.deleteMixById(id));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("find mix by name null case test")
+    void findMixByMixNameNullCase(String name) {
+        MixService mixService = MixService.getInstance();
+        assertDoesNotThrow(() -> mixService.findMixByMixName(name));
     }
 
     @Test
-    public void updateMixNullCase() {
-        MixService mixService = MixService.getInstance();
-        assertDoesNotThrow(() -> mixService.updateMix(null));
-    }
-
-    @Test
-    public void deleteMixByIdNullCase() {
-        MixService mixService = MixService.getInstance();
-        assertDoesNotThrow(() -> mixService.deleteMixById(null));
-    }
-
-    @Test
-    public void findMixByMixNameNullCase() {
-        MixService mixService = MixService.getInstance();
-        assertDoesNotThrow(() -> mixService.findMixByMixName(null));
-    }
-
-    @Test
-    public void findMixReviewByMixNameNullCase() {
+    void findMixReviewByMixNameNullCase() {
         MixService mixService = MixService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() ->
@@ -69,7 +81,7 @@ class MixServiceTest {
     }
 
     @Test
-    public void findMixReviewByMixIdNullCase() {
+    void findMixReviewByMixIdNullCase() {
         MixService mixService = MixService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() ->

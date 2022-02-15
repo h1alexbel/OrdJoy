@@ -3,14 +3,19 @@ package com.ordjoy.validation;
 import com.ordjoy.entity.Album;
 import com.ordjoy.entity.Track;
 import com.ordjoy.validation.impl.TrackValidator;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EmptySource;
+import org.junit.jupiter.params.provider.NullSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TrackValidatorTest {
+class TrackValidatorTest {
 
     @Test
-    public void isTrackValid() {
+    @DisplayName("track validation test")
+    void isTrackValid() {
         TrackValidator trackValidator = TrackValidator.getInstance();
         Track track = Track.builder()
                 .title("Test Title")
@@ -23,16 +28,19 @@ public class TrackValidatorTest {
         assertTrue(validationResult.isValid());
     }
 
-    @Test
-    public void isTrackValidatorDoesntThrowException() {
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("track null case test")
+    void isTrackValidatorDoesntThrowException(Track track) {
         TrackValidator trackValidator = TrackValidator.getInstance();
-        assertDoesNotThrow(() -> trackValidator.isValid(null),
+        assertDoesNotThrow(() -> trackValidator.isValid(track),
                 "Track can not be null!");
     }
 
-    @Test
-    public void emptyTrackTitleCase() {
-        String trackTitle = "";
+    @ParameterizedTest
+    @NullSource
+    @EmptySource
+    void emptyAndNullTrackTitleCase(String trackTitle) {
         TrackValidator trackValidator = TrackValidator.getInstance();
         Track track = Track.builder()
                 .title(trackTitle)
@@ -42,35 +50,14 @@ public class TrackValidatorTest {
         assertFalse(validationResult.isValid());
     }
 
-    @Test
-    public void emptyTrackURLCase() {
-        String trackURL = "";
+    @ParameterizedTest
+    @NullSource
+    @EmptySource
+    void emptyAndNullTrackURLCase(String trackURL) {
         TrackValidator trackValidator = TrackValidator.getInstance();
         Track track = Track.builder()
                 .title("Title")
                 .songUrl(trackURL)
-                .build();
-        ValidationResult validationResult = trackValidator.isValid(track);
-        assertFalse(validationResult.isValid());
-    }
-
-    @Test
-    public void nullTrackTitleCase() {
-        TrackValidator trackValidator = TrackValidator.getInstance();
-        Track track = Track.builder()
-                .title(null)
-                .songUrl("https://www.youtube.com/watch?v=m4racJaB-h4&list=RDm4racJaB-h4&start_radio=1")
-                .build();
-        ValidationResult validationResult = trackValidator.isValid(track);
-        assertFalse(validationResult.isValid());
-    }
-
-    @Test
-    public void nullTrackURLCase() {
-        TrackValidator trackValidator = TrackValidator.getInstance();
-        Track track = Track.builder()
-                .title("Title")
-                .songUrl(null)
                 .build();
         ValidationResult validationResult = trackValidator.isValid(track);
         assertFalse(validationResult.isValid());

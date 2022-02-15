@@ -5,14 +5,18 @@ import com.ordjoy.entity.UserAccount;
 import com.ordjoy.entity.UserData;
 import com.ordjoy.entity.UserRole;
 import com.ordjoy.exception.ServiceException;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserServiceTest {
 
     @Test
-    public void saveNewUserCompareByEmail() {
+    @DisplayName("save user and compare by email test")
+    void saveNewUserCompareByEmail() {
         UserService userService = UserService.getInstance();
         UserAccount user = UserAccount.builder()
                 .email("test@gmail.com")
@@ -52,7 +56,8 @@ class UserServiceTest {
     }
 
     @Test
-    public void saveNewUserCompareByLogin() {
+    @DisplayName("save user and compare by login test")
+    void saveNewUserCompareByLogin() {
         UserService userService = UserService.getInstance();
         UserAccount user = UserAccount.builder()
                 .email("test@gmail.com")
@@ -79,7 +84,7 @@ class UserServiceTest {
     }
 
     @Test
-    public void findUserByLoginAndPasswordNullCase() {
+    void findUserByLoginAndPasswordNullCase() {
         UserService userService = UserService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() -> userService.findUserByLoginAndPassword("test", null)),
@@ -88,26 +93,32 @@ class UserServiceTest {
         );
     }
 
-    @Test
-    public void findUserByIdNullCase() {
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("find user by id null case test")
+    void findUserByIdNullCase(Long id) {
         UserService userService = UserService.getInstance();
-        assertDoesNotThrow(() -> userService.findUserById(null));
+        assertDoesNotThrow(() -> userService.findUserById(id));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("update user null case test")
+    void updateUserData(UserAccount user) {
+        UserService userService = UserService.getInstance();
+        assertDoesNotThrow(() -> userService.updateUserData(user));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("delete user null case test")
+    void deleteUserByIdNullCase(Long id) {
+        UserService userService = UserService.getInstance();
+        assertDoesNotThrow(() -> userService.deleteUserById(id));
     }
 
     @Test
-    public void updateUserData() {
-        UserService userService = UserService.getInstance();
-        assertDoesNotThrow(() -> userService.updateUserData(null));
-    }
-
-    @Test
-    public void deleteUserByIdNullCase() {
-        UserService userService = UserService.getInstance();
-        assertDoesNotThrow(() -> userService.deleteUserById(null));
-    }
-
-    @Test
-    public void addDiscountPercentageLevelNullCase() {
+    void addDiscountPercentageLevelNullCase() {
         UserService userService = UserService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() ->
@@ -117,27 +128,35 @@ class UserServiceTest {
         );
     }
 
-    @Test
-    public void findDiscountPercentageLevelByUserIdNullCase() {
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("find discount percentage level by id null case test")
+    void findDiscountPercentageLevelByUserIdNullCase(Long id) {
         UserService userService = UserService.getInstance();
-        assertDoesNotThrow(() -> userService.findDiscountPercentageLevelByUserId(null));
+        assertDoesNotThrow(() -> userService.findDiscountPercentageLevelByUserId(id));
     }
 
-    @Test
-    public void findDiscountPercentageLevelByEmailNullCase() {
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("find discount percentage level by email null case test")
+    void findDiscountPercentageLevelByEmailNullCase(String email) {
         UserService userService = UserService.getInstance();
-        assertDoesNotThrow(() -> userService.findDiscountPercentageLevelByEmail(null));
+        assertDoesNotThrow(() -> userService.findDiscountPercentageLevelByEmail(email));
     }
 
-    @Test
-    public void findUserByLoginNullCase() {
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("find user by login null case test")
+    void findUserByLoginNullCase(String login) {
         UserService userService = UserService.getInstance();
-        assertDoesNotThrow(() -> userService.findUserByLogin(null));
+        assertDoesNotThrow(() -> userService.findUserByLogin(login));
     }
 
-    @Test
-    public void findUserByEmailNullCase() {
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("find user by email case test")
+    void findUserByEmailNullCase(String email) {
         UserService userService = UserService.getInstance();
-        assertDoesNotThrow(() -> userService.findUserByEmail(null));
+        assertDoesNotThrow(() -> userService.findUserByEmail(email));
     }
 }

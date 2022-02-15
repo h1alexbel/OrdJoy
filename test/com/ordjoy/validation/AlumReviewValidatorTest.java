@@ -3,22 +3,29 @@ package com.ordjoy.validation;
 import com.ordjoy.entity.Album;
 import com.ordjoy.entity.AlbumReview;
 import com.ordjoy.validation.impl.AlbumReviewValidator;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EmptySource;
+import org.junit.jupiter.params.provider.NullSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AlumReviewValidatorTest {
+class AlumReviewValidatorTest {
 
-    @Test
-    public void isAlbumReviewValidatorDoesntThrowException() {
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("album review null case")
+    void isAlbumReviewValidatorDoesntThrowException(AlbumReview albumReview) {
         AlbumReviewValidator albumReviewValidator = AlbumReviewValidator.getInstance();
-        assertDoesNotThrow(() -> albumReviewValidator.isValid(null),
+        assertDoesNotThrow(() -> albumReviewValidator.isValid(albumReview),
                 "Album Review can be not null!");
     }
 
-    @Test
-    public void reviewTextIsEmptyCase() {
-        String reviewText = "";
+    @ParameterizedTest
+    @NullSource
+    @EmptySource
+    @DisplayName("review text empty and null case test")
+    void reviewTextIsEmptyAndNullCase(String reviewText) {
         AlbumReviewValidator albumReviewValidator = AlbumReviewValidator.getInstance();
         AlbumReview albumReview = AlbumReview.builder()
                 .album(Album.builder()
@@ -27,19 +34,6 @@ public class AlumReviewValidatorTest {
                 .reviewText(reviewText)
                 .build();
         ValidationResult validationResult = albumReviewValidator.isValid(albumReview);
-        assertFalse(validationResult.isValid(), "Review Text can not be empty!");
-    }
-
-    @Test
-    public void reviewTextIsNullCase() {
-        AlbumReviewValidator albumReviewValidator = AlbumReviewValidator.getInstance();
-        AlbumReview albumReview = AlbumReview.builder()
-                .album(Album.builder()
-                        .title("title")
-                        .build())
-                .reviewText(null)
-                .build();
-        ValidationResult validationResult = albumReviewValidator.isValid(albumReview);
-        assertFalse(validationResult.isValid(), "Review Text can not be null!");
+        assertFalse(validationResult.isValid(), "Review Text can not be empty or null!");
     }
 }

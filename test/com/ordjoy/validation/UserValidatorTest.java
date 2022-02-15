@@ -4,14 +4,20 @@ import com.ordjoy.entity.UserAccount;
 import com.ordjoy.entity.UserData;
 import com.ordjoy.entity.UserRole;
 import com.ordjoy.validation.impl.UserValidator;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EmptySource;
+import org.junit.jupiter.params.provider.NullSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class UserValidatorTest {
+class UserValidatorTest {
 
     @Test
-    public void isUserValid() {
+    @DisplayName("user validation test")
+    void isUserValid() {
         UserValidator userValidator = UserValidator.getInstance();
         UserAccount user = UserAccount.builder()
                 .login("test")
@@ -30,7 +36,7 @@ public class UserValidatorTest {
     }
 
     @Test
-    public void isUsernameNotEmpty() {
+    void isUsernameNotEmpty() {
         String login = "test";
         UserValidator userValidator = UserValidator.getInstance();
         boolean actual = userValidator.isLoginValid(login);
@@ -39,9 +45,11 @@ public class UserValidatorTest {
         assertTrue(actual, "Username can not be empty!");
     }
 
-    @Test
-    public void isUserNameEmpty() {
-        String login = "";
+    @ParameterizedTest
+    @NullSource
+    @EmptySource
+    @DisplayName("login null or empty case test")
+    void isLoginEmptyAndNullCase(String login) {
         UserValidator userValidator = UserValidator.getInstance();
         boolean actual = userValidator.isLoginValid(login);
         boolean expected = false;
@@ -49,9 +57,11 @@ public class UserValidatorTest {
         assertFalse(actual, "Username can not be empty!");
     }
 
-    @Test
-    public void isPasswordEmpty() {
-        String password = "";
+    @ParameterizedTest
+    @NullSource
+    @EmptySource
+    @DisplayName("password null or empty case test")
+    void isPasswordEmptyAndNullCase(String password) {
         UserValidator userValidator = UserValidator.getInstance();
         boolean actual = userValidator.isPasswordValid(password);
         boolean expected = false;
@@ -60,19 +70,7 @@ public class UserValidatorTest {
     }
 
     @Test
-    public void isUserValidatorPasswordMethodDoesntThrowException() {
-        UserValidator userValidator = UserValidator.getInstance();
-        assertDoesNotThrow(() -> userValidator.isPasswordValid(null), "Password can not be null!");
-    }
-
-    @Test
-    public void isUserValidatorLoginMethodDoesntThrowException() {
-        UserValidator userValidator = UserValidator.getInstance();
-        assertDoesNotThrow(() -> userValidator.isLoginValid(null), "Login can not be null!");
-    }
-
-    @Test
-    public void isPasswordNotEmpty() {
+    void isPasswordNotEmpty() {
         String password = "pass";
         UserValidator userValidator = UserValidator.getInstance();
         boolean actual = userValidator.isPasswordValid(password);
@@ -81,14 +79,17 @@ public class UserValidatorTest {
         assertTrue(actual, "Password can not be empty!");
     }
 
-    @Test
-    public void isUserValidatorDoesntThrowException() {
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("user null case test")
+    void isUserValidatorDoesntThrowException(UserAccount userAccount) {
         UserValidator userValidator = UserValidator.getInstance();
-        assertDoesNotThrow(() -> userValidator.isValid(null), "User can not be null!");
+        assertDoesNotThrow(() -> userValidator.isValid(userAccount), "User can not be null!");
     }
 
     @Test
-    public void ageUnder13Test() {
+    @DisplayName("13 age and under test")
+    void ageUnder13Test() {
         UserValidator userValidator = UserValidator.getInstance();
         UserAccount user = UserAccount.builder()
                 .login("example")
@@ -107,7 +108,8 @@ public class UserValidatorTest {
     }
 
     @Test
-    public void ageGrater13Test() {
+    @DisplayName("grater than 13 age test")
+    void ageGrater13Test() {
         UserValidator userValidator = UserValidator.getInstance();
         UserAccount user = UserAccount.builder()
                 .login("example")

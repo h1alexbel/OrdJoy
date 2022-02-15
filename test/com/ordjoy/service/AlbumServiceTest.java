@@ -4,14 +4,18 @@ import com.ordjoy.dao.filter.DefaultFilter;
 import com.ordjoy.dto.AlbumDto;
 import com.ordjoy.entity.Album;
 import com.ordjoy.exception.ServiceException;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class AlbumServiceTest {
 
     @Test
-    public void saveAlbum() {
+    @DisplayName("Save album test")
+    void saveAlbum() {
         AlbumService albumService = AlbumService.getInstance();
         Album album = Album.builder()
                 .title("New")
@@ -25,32 +29,40 @@ class AlbumServiceTest {
         }
     }
 
-    @Test
-    public void findAlbumByIdNullCase() {
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("find album by id null case")
+    void findAlbumByIdNullCase(Long id) {
         AlbumService albumService = AlbumService.getInstance();
-        assertDoesNotThrow(() -> albumService.findAlbumById(null));
+        assertDoesNotThrow(() -> albumService.findAlbumById(id));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("Update album null case")
+    void updateAlbumNullCase(Album album) {
+        AlbumService albumService = AlbumService.getInstance();
+        assertDoesNotThrow(() -> albumService.updateAlbum(album));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("delete album null case")
+    void deleteAlbumByIdNullCase(Long id) {
+        AlbumService albumService = AlbumService.getInstance();
+        assertDoesNotThrow(() -> albumService.deleteAlbumById(id));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("find album by id null case")
+    void findAlbumByTitleNullCase(String albumTitle) {
+        AlbumService albumService = AlbumService.getInstance();
+        assertDoesNotThrow(() -> albumService.findAlbumByTitle(albumTitle));
     }
 
     @Test
-    public void updateAlbumNullCase() {
-        AlbumService albumService = AlbumService.getInstance();
-        assertDoesNotThrow(() -> albumService.updateAlbum(null));
-    }
-
-    @Test
-    public void deleteAlbumByIdNullCase() {
-        AlbumService albumService = AlbumService.getInstance();
-        assertDoesNotThrow(() -> albumService.deleteAlbumById(null));
-    }
-
-    @Test
-    public void findAlbumByTitleNullCase() {
-        AlbumService albumService = AlbumService.getInstance();
-        assertDoesNotThrow(() -> albumService.findAlbumByTitle(null));
-    }
-
-    @Test
-    public void findAlbumReviewsByAlbumTitle() {
+    void findAlbumReviewsByAlbumTitle() {
         AlbumService albumService = AlbumService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() ->
@@ -64,7 +76,7 @@ class AlbumServiceTest {
     }
 
     @Test
-    public void findAlbumReviewsByAlbumIdNullCase() {
+    void findAlbumReviewsByAlbumIdNullCase() {
         AlbumService albumService = AlbumService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() ->

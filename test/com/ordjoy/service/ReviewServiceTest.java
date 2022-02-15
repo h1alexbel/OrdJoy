@@ -4,14 +4,18 @@ import com.ordjoy.dao.filter.DefaultFilter;
 import com.ordjoy.dto.*;
 import com.ordjoy.entity.*;
 import com.ordjoy.exception.ServiceException;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ReviewServiceTest {
 
     @Test
-    public void addMixReview() {
+    @DisplayName("save mix review test")
+    void addMixReview() {
         ReviewService reviewService = ReviewService.getInstance();
         MixReview mixReview = MixReview.builder()
                 .mix(Mix.builder()
@@ -59,7 +63,8 @@ class ReviewServiceTest {
     }
 
     @Test
-    public void addTrackReview() {
+    @DisplayName("save track review test")
+    void addTrackReview() {
         ReviewService reviewService = ReviewService.getInstance();
         TrackReview trackReview = TrackReview.builder()
                 .track(Track.builder()
@@ -110,7 +115,8 @@ class ReviewServiceTest {
     }
 
     @Test
-    public void addAlbumReview() {
+    @DisplayName("save album review test")
+    void addAlbumReview() {
         ReviewService reviewService = ReviewService.getInstance();
         AlbumReview albumReview = AlbumReview.builder()
                 .album(Album.builder()
@@ -151,62 +157,80 @@ class ReviewServiceTest {
         }
     }
 
-    @Test
-    public void findMixReviewByIdNullCase() {
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("find mix review by id null case test")
+    void findMixReviewByIdNullCase(Long id) {
         ReviewService reviewService = ReviewService.getInstance();
-        assertDoesNotThrow(() -> reviewService.findMixReviewById(null));
+        assertDoesNotThrow(() -> reviewService.findMixReviewById(id));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("find track review by id null case test")
+    void findTrackReviewByIdNullCase(Long id) {
+        ReviewService reviewService = ReviewService.getInstance();
+        assertDoesNotThrow(() -> reviewService.findTrackReviewById(id));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("find album review by id null case test")
+    void findAlbumReviewByIdNullCase(Long id) {
+        ReviewService reviewService = ReviewService.getInstance();
+        assertDoesNotThrow(() -> reviewService.findAlbumReviewById(id));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("update mix review null case test")
+    void updateMixReviewNullCase(MixReview mixReview) {
+        ReviewService reviewService = ReviewService.getInstance();
+        assertDoesNotThrow(() -> reviewService.updateMixReview(mixReview));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("update track review null case test")
+    void updateTrackReviewNullCase(TrackReview trackReview) {
+        ReviewService reviewService = ReviewService.getInstance();
+        assertDoesNotThrow(() -> reviewService.updateTrackReview(trackReview));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("update album review null case test")
+    void updateAlbumReviewNullCase(AlbumReview albumReview) {
+        ReviewService reviewService = ReviewService.getInstance();
+        assertDoesNotThrow(() -> reviewService.updateAlbumReview(albumReview));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("delete mix review null case test")
+    void deleteMixReviewByIdNullCase(Long id) {
+        ReviewService reviewService = ReviewService.getInstance();
+        assertDoesNotThrow(() -> reviewService.deleteMixReviewById(id));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("delete track review null case test")
+    void deleteTrackReviewByIdNullCase(Long id) {
+        ReviewService reviewService = ReviewService.getInstance();
+        assertDoesNotThrow(() -> reviewService.deleteTrackReviewById(id));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @DisplayName("delete album review null case test")
+    void deleteAlbumReviewByIdNullCase(Long id) {
+        ReviewService reviewService = ReviewService.getInstance();
+        assertDoesNotThrow(() -> reviewService.deleteAlbumReviewById(id));
     }
 
     @Test
-    public void findTrackReviewByIdNullCase() {
-        ReviewService reviewService = ReviewService.getInstance();
-        assertDoesNotThrow(() -> reviewService.findTrackReviewById(null));
-    }
-
-    @Test
-    public void findAlbumReviewByIdNullCase() {
-        ReviewService reviewService = ReviewService.getInstance();
-        assertDoesNotThrow(() -> reviewService.findAlbumReviewById(null));
-    }
-
-    @Test
-    public void updateMixReviewNullCase() {
-        ReviewService reviewService = ReviewService.getInstance();
-        assertDoesNotThrow(() -> reviewService.updateMixReview(null));
-    }
-
-    @Test
-    public void updateTrackReviewNullCase() {
-        ReviewService reviewService = ReviewService.getInstance();
-        assertDoesNotThrow(() -> reviewService.updateTrackReview(null));
-    }
-
-    @Test
-    public void updateAlbumReviewNullCase() {
-        ReviewService reviewService = ReviewService.getInstance();
-        assertDoesNotThrow(() -> reviewService.updateAlbumReview(null));
-    }
-
-    @Test
-    public void deleteMixReviewByIdNullCase() {
-        ReviewService reviewService = ReviewService.getInstance();
-        assertDoesNotThrow(() -> reviewService.deleteMixReviewById(null));
-    }
-
-    @Test
-    public void deleteTrackReviewByIdNullCase() {
-        ReviewService reviewService = ReviewService.getInstance();
-        assertDoesNotThrow(() -> reviewService.deleteTrackReviewById(null));
-    }
-
-    @Test
-    public void deleteAlbumReviewByIdNullCase() {
-        ReviewService reviewService = ReviewService.getInstance();
-        assertDoesNotThrow(() -> reviewService.deleteAlbumReviewById(null));
-    }
-
-    @Test
-    public void findMixReviewsByUserLoginNullCase() {
+    void findMixReviewsByUserLoginNullCase() {
         ReviewService reviewService = ReviewService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() -> reviewService.findMixReviewsByUserLogin("test", null)),
@@ -217,7 +241,7 @@ class ReviewServiceTest {
     }
 
     @Test
-    public void findTrackReviewsByUserLoginNullCase() {
+    void findTrackReviewsByUserLoginNullCase() {
         ReviewService reviewService = ReviewService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() -> reviewService.findTrackReviewsByUserLogin("test", null)),
@@ -228,7 +252,7 @@ class ReviewServiceTest {
     }
 
     @Test
-    public void findAlbumReviewsByUserLoginNullCase() {
+    void findAlbumReviewsByUserLoginNullCase() {
         ReviewService reviewService = ReviewService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() -> reviewService.findAlbumReviewsByUserLogin("test", null)),
@@ -239,7 +263,7 @@ class ReviewServiceTest {
     }
 
     @Test
-    public void findMixReviewsByUserIdNullCase() {
+    void findMixReviewsByUserIdNullCase() {
         ReviewService reviewService = ReviewService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() -> reviewService.findMixReviewsByUserId(1L, null)),
@@ -250,7 +274,7 @@ class ReviewServiceTest {
     }
 
     @Test
-    public void findTrackReviewsByUserIdNullCase() {
+    void findTrackReviewsByUserIdNullCase() {
         ReviewService reviewService = ReviewService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() -> reviewService.findTrackReviewsByUserId(1L, null)),
@@ -261,7 +285,7 @@ class ReviewServiceTest {
     }
 
     @Test
-    public void findAlbumReviewsByUserIdNullCase() {
+    void findAlbumReviewsByUserIdNullCase() {
         ReviewService reviewService = ReviewService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() -> reviewService.findAlbumReviewsByUserId(1L, null)),
@@ -272,7 +296,7 @@ class ReviewServiceTest {
     }
 
     @Test
-    public void findTrackReviewsByTrackIdNullCase() {
+    void findTrackReviewsByTrackIdNullCase() {
         ReviewService reviewService = ReviewService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() -> reviewService.findTrackReviewsByTrackId(1L, null)),
@@ -283,7 +307,7 @@ class ReviewServiceTest {
     }
 
     @Test
-    public void findTrackReviewsByTrackTitleNullCase() {
+    void findTrackReviewsByTrackTitleNullCase() {
         ReviewService reviewService = ReviewService.getInstance();
         assertAll(
                 () -> assertDoesNotThrow(() -> reviewService.findTrackReviewsByTrackTitle("test", null)),
