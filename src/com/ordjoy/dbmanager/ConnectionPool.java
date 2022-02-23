@@ -36,7 +36,7 @@ public class ConnectionPool {
         if (!isInstanced.get()) {
             try {
                 LOCK.lock();
-                if (instance == null) {
+                if (instance == null && !isInstanced.get()) {
                     instance = new ConnectionPool();
                     isInstanced.set(true);
                 }
